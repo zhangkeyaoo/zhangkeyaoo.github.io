@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>1.十进制二进制浮点数转换 | Universal Hamster</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、十进制整数-&gt;二进制补码1. 用2整除的方式（正数） 用2整除十进制整数，得到一个商和余数； 再用2去除商，又会得到一个商和余 如此重复，直到商为小于1时为止， 然后把先得到余数作为二进制数的低位有效位，后得到的余数作为二进制数的高位有效位，以此排列起来。  2. 负数转化为其补码——（其绝对值转化成二进制后）逐位取反+加一 将负数的绝对值转换为二进制。 对二进制数进行逐位取反（0变1，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.十进制二进制浮点数转换">
+<meta property="og:url" content="http://example.com/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="一、十进制整数-&gt;二进制补码1. 用2整除的方式（正数） 用2整除十进制整数，得到一个商和余数； 再用2去除商，又会得到一个商和余 如此重复，直到商为小于1时为止， 然后把先得到余数作为二进制数的低位有效位，后得到的余数作为二进制数的高位有效位，以此排列起来。  2. 负数转化为其补码——（其绝对值转化成二进制后）逐位取反+加一 将负数的绝对值转换为二进制。 对二进制数进行逐位取反（0变1，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-20T08:34:22.000Z">
+<meta property="article:modified_time" content="2025-02-20T09:15:12.241Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Universal Hamster" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Universal Hamster</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">happy everyday</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-1-十进制二进制浮点数转换" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/" class="article-date">
+  <time class="dt-published" datetime="2025-02-20T08:34:22.000Z" itemprop="datePublished">2025-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      1.十进制二进制浮点数转换
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、十进制整数-二进制补码"><a href="#一、十进制整数-二进制补码" class="headerlink" title="一、十进制整数-&gt;二进制补码"></a>一、十进制整数-&gt;二进制补码</h2><h3 id="1-用2整除的方式（正数）"><a href="#1-用2整除的方式（正数）" class="headerlink" title="1. 用2整除的方式（正数）"></a>1. 用2整除的方式（正数）</h3><ol>
+<li>用2整除十进制整数，得到一个<strong>商</strong>和<strong>余数</strong>；</li>
+<li>再<strong>用2去除商</strong>，又会得到一个商和余</li>
+<li>如此重复，直到<strong>商为小于1</strong>时为止，</li>
+<li>然后把<strong>先得到余数</strong>作为二进制数的<strong>低位有效位</strong>，<strong>后得到的余数</strong>作为二进制数的<strong>高位有效位</strong>，以此排列起来。</li>
+</ol>
+<h3 id="2-负数转化为其补码——（其绝对值转化成二进制后）逐位取反-加一"><a href="#2-负数转化为其补码——（其绝对值转化成二进制后）逐位取反-加一" class="headerlink" title="2. 负数转化为其补码——（其绝对值转化成二进制后）逐位取反+加一"></a>2. 负数转化为其补码——（其绝对值转化成二进制后）逐位取反+加一</h3><ol>
+<li>将负数的<strong>绝对值</strong>转换为二进制。</li>
+<li>对二进制数进行<strong>逐位取反</strong>（0变1，1变0）。</li>
+<li>对<strong>取反后的二进制数加1</strong>。</li>
+</ol>
+<h3 id="3-将字符数组转换为字符串"><a href="#3-将字符数组转换为字符串" class="headerlink" title="3. 将字符数组转换为字符串"></a>3. 将字符数组转换为字符串</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">binary</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(binaryStr);</span><br></pre></td></tr></table></figure>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>将字符串转换为整数：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">numInt</span> <span class="operator">=</span> Integer.parseInt(numStr);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>初始化一个长度为32的字符数组</strong>，用于存储二进制表示：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span>[] binaryStr = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">32</span>];</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>设置符号位</li>
+<li>处理正数：使用除2取余法。从数组的末尾开始填充二进制位。</li>
+<li>处理负数：<ul>
+<li>先将负数转换为其<strong>绝对值</strong>。</li>
+<li>使用<strong>除2取余法</strong>，将绝对值转换为二进制表示。</li>
+<li>对二进制表示<strong>逐位取反</strong>。</li>
+<li>对<strong>取反后的二进制数加一</strong>。注意<code>ifplus</code></li>
+</ul>
+</li>
+<li>将<strong>字符数组转换为字符串</strong>并返回</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">binary</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(binaryStr);</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码："><a href="#完整代码：" class="headerlink" title="完整代码："></a>完整代码：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">intToBinary</span><span class="params">(String numStr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> numInt=Integer.parseInt(numStr);<span class="comment">//转成int</span></span><br><span class="line">    <span class="type">char</span> []binaryStr = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">if</span>(numInt&gt;=<span class="number">0</span>)&#123;<span class="comment">//符号位</span></span><br><span class="line">        binaryStr[<span class="number">0</span>]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        binaryStr[<span class="number">0</span>]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (numInt&gt;=<span class="number">0</span>)&#123;<span class="comment">//正数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(numInt%<span class="number">2</span>==<span class="number">1</span>)&#123;<span class="comment">//余数是1</span></span><br><span class="line">                binaryStr[<span class="number">32</span>-i]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//余数是0</span></span><br><span class="line">                binaryStr[<span class="number">32</span>-i]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            numInt=numInt/<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;<span class="comment">//负数，等于其正数的二进制数，逐位取反，再加一</span></span><br><span class="line">        numInt = -numInt;<span class="comment">//转正</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (numInt % <span class="number">2</span> == <span class="number">1</span>) &#123;<span class="comment">//余数是1</span></span><br><span class="line">                binaryStr[<span class="number">32</span> - i] = <span class="string">&#x27;0&#x27;</span>;<span class="comment">//取反</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;<span class="comment">//余数是0</span></span><br><span class="line">                binaryStr[<span class="number">32</span> - i] = <span class="string">&#x27;1&#x27;</span>;<span class="comment">//取反</span></span><br><span class="line">            &#125;</span><br><span class="line">            numInt = numInt / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//加一</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">ifplus</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">31</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">                <span class="keyword">if</span> (binaryStr[i] == <span class="string">&#x27;0&#x27;</span> &amp;&amp; ifplus) &#123;</span><br><span class="line">                    binaryStr[i] = <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">                    ifplus = <span class="literal">false</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (binaryStr[i] == <span class="string">&#x27;1&#x27;</span> &amp;&amp; ifplus) &#123;</span><br><span class="line">                    binaryStr[i] = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">String</span> <span class="variable">binary</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(binaryStr);</span><br><span class="line">  <span class="keyword">return</span> binary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、二进制补码-十进制整数"><a href="#二、二进制补码-十进制整数" class="headerlink" title="二、二进制补码-&gt;十进制整数"></a>二、二进制补码-&gt;十进制整数</h2><h3 id="错误方法-无法通过最大-最小值测试"><a href="#错误方法-无法通过最大-最小值测试" class="headerlink" title="错误方法-无法通过最大&#x2F;最小值测试"></a>错误方法-无法通过最大&#x2F;最小值测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">binaryToInt</span><span class="params">(String binStr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(binStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>)&#123;<span class="comment">//正数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">31</span>;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="type">int</span> temp=Integer.parseInt(String.valueOf(binStr.charAt(i)));</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">32</span>-i;j++)&#123;</span><br><span class="line">                temp*=<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">           temp/=<span class="number">2</span>;</span><br><span class="line">            num+=temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;<span class="comment">//负数</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="type">int</span> temp=Integer.parseInt(String.valueOf(binStr.charAt(i)));</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">32</span>-i;j++)&#123;</span><br><span class="line">                temp*=<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp/=<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(i!=<span class="number">0</span>) &#123;</span><br><span class="line">                num += temp;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                num-=temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    String numStr=String.valueOf(num);</span><br><span class="line">    <span class="keyword">return</span> numStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-逐位累加（！！从左边开始！！）"><a href="#1-逐位累加（！！从左边开始！！）" class="headerlink" title="1.逐位累加（！！从左边开始！！）"></a>1.逐位累加（！！从左边开始！！）</h3><ul>
+<li>逐位累加实现二进制转十进制的过程就是将二进制字符串中的每一位数字（<strong>从左到右</strong>）根据其所在的位置转换为相应的十进制值，并累加到最终结果中。</li>
+</ul>
+<ol>
+<li>从二进制字符串的<strong>左边</strong>开始，对每个字符进行处理。</li>
+<li>对每个字符，计算其<strong>对应的二进制值(1&#x2F;0)</strong>，然后将其加到累积结果中。</li>
+<li>在处理每个字符时，将<strong>当前的累积值乘以 2</strong>，并<strong>加上当前字符所表示的数字（0 或 1）</strong>。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num = num * <span class="number">2</span> + (binStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>这样，最终的结果就是二进制转换成的十进制数。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (binStr.charAt(<span class="number">0</span>) == <span class="string">&#x27;0&#x27;</span>) &#123; <span class="comment">// 正数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        num = num * <span class="number">2</span> + (binStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-char转int"><a href="#2-char转int" class="headerlink" title="2. char转int"></a>2. char转int</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num = num * <span class="number">2</span> + (binStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="3-处理负数"><a href="#3-处理负数" class="headerlink" title="3. 处理负数"></a>3. 处理负数</h3><ol>
+<li><strong>逐位取反</strong>：将二进制字符串逐位取反。</li>
+<li><strong>加一</strong>：对取反后的二进制数加一。</li>
+<li>累加计算：从第0位到第31位，逐位计算二进制数对应的十进制值。</li>
+<li>取反：将结果取负。</li>
+</ol>
+<ul>
+<li>注意：<strong>二进制负数取反后加一</strong>等价于相当于<strong>二进制负数先减一，再取反</strong></li>
+</ul>
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ol>
+<li>正数处理：<ul>
+<li>从第0位到第31位，逐位计算二进制数对应的十进制值。</li>
+<li>num*2+(dinStr.charAt(i)-‘0’);</li>
+</ul>
+</li>
+<li>负数处理：<ul>
+<li>取反：将二进制字符串逐位取反。</li>
+<li>加一：对取反后的二进制数加一。</li>
+<li>累加计算：从第0位到第31位，逐位计算二进制数对应的十进制值。</li>
+<li>取反：将结果取负。</li>
+</ul>
+</li>
+<li>返回结果：<ul>
+<li>将计算得到的十进制整数转换为字符串并返回。</li>
+</ul>
+</li>
+</ol>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">binaryToInt</span><span class="params">(String binStr)</span> &#123;</span><br><span class="line">       <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">if</span>(binStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>)&#123;<span class="comment">//正数</span></span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;<span class="comment">//从0或者1开始都行，没影响</span></span><br><span class="line">               num=num*<span class="number">2</span>+(binStr.charAt(i)-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;<span class="keyword">else</span> &#123;<span class="comment">//负数</span></span><br><span class="line">          <span class="comment">//1. 取反</span></span><br><span class="line">           <span class="type">char</span>[]binstr=<span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">32</span>];</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">               <span class="keyword">if</span> (binStr.charAt(i)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">                   binstr[i]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">               &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                   binstr[i]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">//2. 加一</span></span><br><span class="line">           <span class="type">boolean</span> is_plus=<span class="literal">true</span>;</span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">               <span class="keyword">if</span>(binstr[i]==<span class="string">&#x27;0&#x27;</span>&amp;&amp;is_plus)&#123;</span><br><span class="line">                   binstr[i]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">                   is_plus=<span class="literal">false</span>;</span><br><span class="line">               &#125;<span class="keyword">else</span> <span class="keyword">if</span>(binstr[i]==<span class="string">&#x27;1&#x27;</span>&amp;&amp;is_plus)&#123;</span><br><span class="line">                   binstr[i]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">//3. 累加计算</span></span><br><span class="line">           <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;<span class="comment">//从0或者1开始都行，没影响</span></span><br><span class="line">               num=num*<span class="number">2</span>+(binstr[i]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="comment">//4. 取反</span></span><br><span class="line">           num=-num;</span><br><span class="line">       &#125;</span><br><span class="line">       String numStr=String.valueOf(num);</span><br><span class="line">       <span class="keyword">return</span> numStr;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结：二进制补码和十进制整数相互转换："><a href="#总结：二进制补码和十进制整数相互转换：" class="headerlink" title="总结：二进制补码和十进制整数相互转换："></a>总结：二进制补码和十进制整数相互转换：</h2><ol>
+<li>负数补码和对应正数补码转换<ul>
+<li><strong>负数转补码</strong>：<ol>
+<li>将负数的<strong>绝对值转换为二进制</strong>。</li>
+<li>对二进制数<em><strong>逐位取反</strong></em>（0变1，1变0）。</li>
+<li>对取反后的<strong>二进制数加1</strong>。</li>
+</ol>
+</li>
+<li><strong>补码转负数</strong>：<ol>
+<li>对<strong>补码逐位取反</strong>（0变1，1变0）。</li>
+<li>对取反后的<strong>二进制数加1</strong>。</li>
+<li>将结果int<strong>取负</strong>。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>十进制整数转二进制补码：<ul>
+<li>正数：<ol>
+<li>使用<strong>除2取余法</strong>，从<strong>低位到高位依次填充</strong>二进制位。</li>
+<li>符号位为0。</li>
+</ol>
+</li>
+<li>负数：<ol>
+<li>将负数的<strong>绝对值</strong>转换为二进制。</li>
+<li>对二进制数逐位取反（0变1，1变0）。</li>
+<li>对取反后的二进制数加1。</li>
+<li>符号位为1。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>二进制补码转十进制整数：<ul>
+<li>正数：<ul>
+<li>从<strong>第0位到第31位（从左开始！！）</strong>，<strong>逐位计算</strong>二进制数对应的十进制值。</li>
+</ul>
+</li>
+<li>负数：<ol>
+<li>对二进制数逐位取反（0变1，1变0）。</li>
+<li>对取反后的二进制数加1。</li>
+<li>从第0位到第31位，逐位计算二进制数对应的十进制值。</li>
+<li>将结果取负。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="三、十进制整数的真值转化成NBCD"><a href="#三、十进制整数的真值转化成NBCD" class="headerlink" title="三、十进制整数的真值转化成NBCD"></a>三、十进制整数的真值转化成NBCD</h2><h3 id="1-NBCD"><a href="#1-NBCD" class="headerlink" title="1. NBCD"></a>1. NBCD</h3><ol>
+<li>NBCD格式：<ol>
+<li>符号位<ul>
+<li><strong>正数：1100</strong></li>
+<li><strong>负数：1101</strong></li>
+</ul>
+</li>
+<li>每个十进制数字用4位二进制数表示。</li>
+<li>确保NBCD表示一定是32位。<ul>
+<li>在<strong>符号位和有效位之间</strong>填充<strong>0</strong>!</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-将单位十进制数字转化为4位二进制形式"><a href="#2-将单位十进制数字转化为4位二进制形式" class="headerlink" title="2.将单位十进制数字转化为4位二进制形式"></a>2.将单位十进制数字转化为4位二进制形式</h3><ul>
+<li>除2取余法<ul>
+<li><strong>先得到的余数</strong>作为<strong>低位有效位</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">CharTo4bit</span><span class="params">(Character character)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> character-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    <span class="type">char</span>[] stringOf4=<span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">        stringOf4[i] = <span class="string">&#x27;0&#x27;</span>; <span class="comment">// 初始化字符数组为&#x27;0&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &gt;= <span class="number">0</span>; i--) &#123;<span class="comment">//转换为二进制[除二取余法]</span></span><br><span class="line">        <span class="keyword">if</span> (a % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            stringOf4[i] = <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        a /= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>(stringOf4);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-步骤"><a href="#3-步骤" class="headerlink" title="3. 步骤"></a>3. 步骤</h3><ol>
+<li>将字符串转换为<strong>整数</strong>。</li>
+<li>初始化一个 StringBuilder 用于构建NBCD字符串。</li>
+<li>根据整数的符号设置<strong>符号位</strong>：<ul>
+<li>正数：1100</li>
+<li>负数：1101</li>
+</ul>
+</li>
+<li>计算需要<strong>填充的零</strong>的数量，以确保NBCD表示是<strong>32位</strong>。</li>
+<li>将<strong>每个十进制数字转换为4位二进制形式</strong>，并<strong>添加</strong>到 StringBuilder 中。</li>
+<li>返回NBCD字符串。</li>
+</ol>
+<h3 id="4-【注意】语法"><a href="#4-【注意】语法" class="headerlink" title="4. 【注意】语法"></a>4. 【注意】语法</h3><ol>
+<li>return <strong>new String(stringOf4)</strong>;<ul>
+<li>适用于将<strong>字符数组char[]转换为字符串</strong>的场景</li>
+</ul>
+</li>
+<li>return <strong>nbcdStr.toString()</strong>;<ul>
+<li>适用于将<strong>StringBuilder对象转换为字符串</strong>的场景</li>
+</ul>
+</li>
+</ol>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">decimalToNBCD</span><span class="params">(String decimalStr)</span> &#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">nbcdStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> Integer.parseInt(decimalStr);</span><br><span class="line">    <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> decimalStr.length();</span><br><span class="line">    <span class="type">int</span> <span class="variable">zero_length</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (num&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">        zero_length=<span class="number">28</span>-<span class="number">4</span>*length;</span><br><span class="line">        nbcdStr.append(<span class="number">1100</span>);<span class="comment">//符号位</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;zero_length;i++)&#123;<span class="comment">//填充零</span></span><br><span class="line">            nbcdStr.append(<span class="number">0000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">            nbcdStr.append(CharTo4bit(decimalStr.charAt(i)));<span class="comment">//转换每个十进制数字,并添加到 StringBuilder 中</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        zero_length=<span class="number">28</span>-<span class="number">4</span>*(length-<span class="number">1</span>);</span><br><span class="line">        nbcdStr.append(<span class="number">1101</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;zero_length;i++)&#123;</span><br><span class="line">            nbcdStr.append(<span class="number">0000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;length;i++)&#123;<span class="comment">//把负号跳过</span></span><br><span class="line">            nbcdStr.append(CharTo4bit(decimalStr.charAt(i)));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nbcdStr.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、-NBCD（符号位用4位表示）转化成十进制整数的真值"><a href="#四、-NBCD（符号位用4位表示）转化成十进制整数的真值" class="headerlink" title="四、 NBCD（符号位用4位表示）转化成十进制整数的真值"></a>四、 NBCD（符号位用4位表示）转化成十进制整数的真值</h2><h3 id="1-4位二进制-转-1位十进制：bit4ToChar"><a href="#1-4位二进制-转-1位十进制：bit4ToChar" class="headerlink" title="1. 4位二进制 转 1位十进制：bit4ToChar"></a>1. 4位二进制 转 1位十进制：bit4ToChar</h3><ul>
+<li>从左到右，累加</li>
+<li>num&#x3D;num*2+(<strong>bit4.charAt(i)-‘0’</strong>);</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">bit4ToChar</span><span class="params">(String bit4)</span>&#123;</span><br><span class="line">    <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">        num=num*<span class="number">2</span>+(bit4.charAt(i)-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> String.valueOf(num);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>初始化一个 StringBuilder 用于构建十进制字符串。</li>
+<li>从第4位开始，<strong>每4位表示一个十进制数字</strong>，使用 <strong>bit4ToChar</strong> 方法将其转换为<strong>对应的十进制字符</strong>，并添加到 StringBuilder 中。</li>
+<li><strong>去除前面多余的0</strong>（<strong>保留至少一位，以满足数为0</strong>）。</li>
+<li>将 StringBuilder 转换为字符串，并解析为整数。</li>
+<li>根据符号位确定结果<strong>是否为负数</strong>。</li>
+<li>返回十进制字符串。</li>
+</ol>
+<h3 id="完整代码-2"><a href="#完整代码-2" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">NBCDToDecimal</span><span class="params">(String NBCDStr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">    StringBuilder num_sb=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>();   <span class="comment">//初始化 StringBuilder</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">4</span>;i&lt;<span class="number">32</span>;i+=<span class="number">4</span>)&#123;       <span class="comment">//转换每个4位二进制数字</span></span><br><span class="line">        num_sb.append(bit4ToChar(NBCDStr.substring(i,i+<span class="number">4</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//去除前面多余的0（留一位，以满足数为0）</span></span><br><span class="line">    <span class="type">int</span> length=num_sb.length();</span><br><span class="line">    <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (num_sb.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>&amp;&amp;length!=<span class="number">1</span>)&#123;       <span class="comment">//去除前面多余的0(留1位)</span></span><br><span class="line">        num_sb.deleteCharAt(<span class="number">0</span>);</span><br><span class="line">        length=num_sb.length();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">String</span> <span class="variable">demical</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(num_sb);</span><br><span class="line">    num=Integer.parseInt(demical);      <span class="comment">//解析为整数</span></span><br><span class="line">    <span class="keyword">if</span> (NBCDStr.substring(<span class="number">0</span>, <span class="number">4</span>).equals(<span class="string">&quot;1101&quot;</span>))&#123;    <span class="comment">//负数判断</span></span><br><span class="line">        num=-num;</span><br><span class="line">    &#125;</span><br><span class="line">    demical=String.valueOf(num);        <span class="comment">//转为字符串</span></span><br><span class="line">    <span class="keyword">return</span> demical;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将4位二进制字符串转换为对应的十进制字符</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">char</span> <span class="title function_">bit4ToChar</span><span class="params">(String binStr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">        num = num * <span class="number">2</span> + (binStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">char</span>) (num + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="五、将浮点数真值转化成32位单精度浮点数表示"><a href="#五、将浮点数真值转化成32位单精度浮点数表示" class="headerlink" title="五、将浮点数真值转化成32位单精度浮点数表示"></a>五、将浮点数真值转化成32位单精度浮点数表示</h2><h3 id="特殊"><a href="#特殊" class="headerlink" title="特殊"></a>特殊</h3><ul>
+<li>如果<strong>8位指数位全为0</strong>, 就代表当前数是个<strong>非规格数</strong>. 或者说, 形如 * 00000000 *********************** 格式的数就是非规格数.<ul>
+<li>用于表示0, 以及非常靠近0的数, 比如1E-38.</li>
+<li><strong>非规格数的实际指数固定为-126</strong></li>
+</ul>
+</li>
+<li>如果<strong>8位指数位全为1</strong>, 就代表当前数是个<strong>特殊数</strong>. 或者说, 形如 * 11111111 *********************** 格式的数就是特殊数.<ul>
+<li><strong>无穷大</strong>和<strong>NaN</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-0"><a href="#1-0" class="headerlink" title="1. 0"></a>1. 0</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (num == <span class="number">0.0f</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h3 id="2-NaN"><a href="#2-NaN" class="headerlink" title="2.NaN"></a>2.NaN</h3><ol>
+<li>符号位：0或1</li>
+<li>指数位：<strong>11111111</strong></li>
+<li>尾数位：任意非零值（通常为<strong>10000000000000000000000</strong>）</li>
+</ol>
+<ul>
+<li>一般表示用：<strong>0 11111111 10000000000000000000000</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Float.isNaN(num)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;01111111110000000000000000000000&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-无穷大"><a href="#3-无穷大" class="headerlink" title="3. 无穷大"></a>3. 无穷大</h3><ol>
+<li>8位指数位全为1：<strong>11111111</strong></li>
+<li>23位尾数位全为0：<strong>00000000000000000000000</strong></li>
+</ol>
+<ul>
+<li>正无穷：01111111100000000000000000000000</li>
+<li>负无穷：11111111100000000000000000000000</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (num == Float.POSITIVE_INFINITY)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;+Inf&quot;</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(num&lt;=Float.NEGATIVE_INFINITY)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;-Inf&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-非规格数"><a href="#4-非规格数" class="headerlink" title="4. 非规格数"></a>4. 非规格数</h3><h3 id="步骤：-1"><a href="#步骤：-1" class="headerlink" title="步骤："></a>步骤：</h3><ol>
+<li>特殊情况处理<ol>
+<li>零</li>
+<li>正负无穷：num &#x3D;&#x3D; <strong>Float.POSITIVE_INFINITY</strong></li>
+<li>NaN: <strong>if (Float.isNaN(num))</strong></li>
+</ol>
+</li>
+<li>正常情况处理<ol>
+<li>正负</li>
+<li>调整尾数到1.f~2.f范围：（指数初始为0）<ul>
+<li>尾数偏大时，除以2，指数加1。<code>while (num &gt;= 2.0f)</code></li>
+<li>尾数偏小时，乘以2，指数减1。<code>while (num &lt; 1.0f &amp;&amp; exponent &gt; -126)</code><ul>
+<li>如果指数减小到了<code>-126</code>，则<strong>非规格化数</strong>！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>规格化判断<ul>
+<li>非规格化数：如果<strong>实际指数为-126，则指数部分全为0</strong>，<strong>尾数不变</strong>（已经小于1.0f了）。</li>
+<li>规格化数：尾数<strong>减去1.0f</strong>，指数<strong>加偏移量127</strong>。</li>
+</ul>
+</li>
+<li>构建IEEE 754二进制字符串：<ul>
+<li>符号位：1位</li>
+<li>指数位：8位——<strong>除二取余法</strong></li>
+<li><strong>尾数位</strong>：23位——<strong>乘二减一法</strong>：<ul>
+<li>如果乘二之后大于1.0f，则1；否则0。</li>
+<li>先出现的在左！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="完整代码-3"><a href="#完整代码-3" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">floatToBinary</span><span class="params">(String floatStr)</span> &#123;</span><br><span class="line">       <span class="type">float</span> <span class="variable">num</span> <span class="operator">=</span> Float.parseFloat(floatStr);</span><br><span class="line">       <span class="comment">//1、0</span></span><br><span class="line">       <span class="keyword">if</span>(num==<span class="number">0</span>)&#123;</span><br><span class="line">           String zeroStr=<span class="string">&quot;00000000000000000000000000000000&quot;</span>;</span><br><span class="line">           <span class="keyword">return</span> zeroStr;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//2.+Inf和-Inf（正负无穷）</span></span><br><span class="line">       <span class="keyword">if</span> (num == Float.POSITIVE_INFINITY)&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;+Inf&quot;</span>;</span><br><span class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num&lt;=Float.NEGATIVE_INFINITY)&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;-Inf&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//3.NaN</span></span><br><span class="line">       <span class="keyword">if</span>(Float.isNaN(num))&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;01111111110000000000000000000000&quot;</span>;</span><br><span class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span>(Float.isNaN(-num))&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;11111111110000000000000000000000&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//4. 正常情况</span></span><br><span class="line">       <span class="comment">//4.1判断正负</span></span><br><span class="line">       <span class="type">boolean</span> is_neg=<span class="literal">false</span>;</span><br><span class="line">       <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">           is_neg=<span class="literal">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="type">int</span> exponent=<span class="number">0</span>;<span class="comment">//指数</span></span><br><span class="line">       <span class="comment">//尾数</span></span><br><span class="line">       <span class="type">int</span> offset=<span class="number">127</span>;;<span class="comment">//偏移量</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">//4.2 调整尾数到1.f~2.f范围</span></span><br><span class="line">       <span class="keyword">if</span>(num&lt;<span class="number">0</span>)&#123;</span><br><span class="line">           num=-num;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">while</span> (num&gt;=<span class="number">2.0f</span>)&#123;   <span class="comment">//尾数偏大</span></span><br><span class="line">           num/=<span class="number">2.0f</span>;</span><br><span class="line">           exponent++;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">while</span> (num&lt;<span class="number">1.0f</span>&amp;&amp;exponent&gt;-<span class="number">126</span>)&#123;    <span class="comment">//尾数偏小</span></span><br><span class="line">           num*=<span class="number">2.0f</span>;</span><br><span class="line">           exponent--;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//4.3 规格化判断</span></span><br><span class="line">       <span class="keyword">if</span> (exponent &lt;=-<span class="number">126</span>) &#123;</span><br><span class="line">           exponent = <span class="number">0</span>; <span class="comment">// 非规格化数，指数部分全为0(实际指数固定为-126)</span></span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           num -= <span class="number">1.0f</span>; <span class="comment">// 规格化数，尾数减去1</span></span><br><span class="line">           exponent += offset; <span class="comment">// 加偏移量</span></span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//4.4 化为IEEE</span></span><br><span class="line">       StringBuilder binFloat=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">       <span class="comment">//符号位</span></span><br><span class="line">       <span class="keyword">if</span> (is_neg)&#123;</span><br><span class="line">           binFloat.append(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">       &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">           binFloat.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//指数位</span></span><br><span class="line">       <span class="type">char</span>[] exp = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">8</span>];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">7</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">           <span class="keyword">if</span>(exponent%<span class="number">2</span>==<span class="number">1</span>)&#123;</span><br><span class="line">               exp[i]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               exp[i]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           exponent/=<span class="number">2</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//尾数位</span></span><br><span class="line">       <span class="type">char</span>[]wei=<span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">23</span>];</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">23</span>;i++)&#123;</span><br><span class="line">           num*=<span class="number">2.0f</span>;</span><br><span class="line">           <span class="keyword">if</span>(num&gt;=<span class="number">1.0f</span>)&#123;</span><br><span class="line">               wei[i]=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">               num-=<span class="number">1.0f</span>;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               wei[i]=<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="type">String</span> <span class="variable">expStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(exp);</span><br><span class="line">       String weiStr=<span class="keyword">new</span> <span class="title class_">String</span>(wei);</span><br><span class="line">       binFloat.append(expStr);</span><br><span class="line">       binFloat.append(weiStr);</span><br><span class="line">       <span class="keyword">return</span> binFloat.toString();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="六、32位单精度浮点数表示转化成浮点数真值"><a href="#六、32位单精度浮点数表示转化成浮点数真值" class="headerlink" title="六、32位单精度浮点数表示转化成浮点数真值"></a>六、32位单精度浮点数表示转化成浮点数真值</h2><h3 id="1-特殊情况"><a href="#1-特殊情况" class="headerlink" title="1. 特殊情况"></a>1. 特殊情况</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. 0</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;00000000000000000000000000000000&quot;</span>)&#123;</span><br><span class="line">            <span class="type">Float</span> <span class="variable">zero</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line">            <span class="keyword">return</span> String.valueOf(zero);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//2. NaN</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;01111111110000000000000000000000&quot;</span>)&#123;</span><br><span class="line">           <span class="type">Float</span> <span class="variable">nan</span> <span class="operator">=</span> Float.NaN;</span><br><span class="line">           <span class="keyword">return</span> String.valueOf(nan);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//3. 正负无穷</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;01111111100000000000000000000000&quot;</span>)&#123;</span><br><span class="line">           Float pos_inf=Float.POSITIVE_INFINITY;</span><br><span class="line">           <span class="keyword">return</span> String.valueOf(pos_inf);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(binStr==<span class="string">&quot;11111111100000000000000000000000&quot;</span>)&#123;</span><br><span class="line">            Float neg_inf=Float.NEGATIVE_INFINITY;</span><br><span class="line">            <span class="keyword">return</span> String.valueOf(neg_inf);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-正常情况（规格化数-非规格化数）"><a href="#2-正常情况（规格化数-非规格化数）" class="headerlink" title="2. 正常情况（规格化数+非规格化数）"></a>2. 正常情况（规格化数+非规格化数）</h3><ol>
+<li>符号位</li>
+<li>指数位<ul>
+<li>提取指数位的8位二进制数，并转换为整数。</li>
+<li>对于<strong>规格化数</strong>，<strong>减去偏移量127</strong>。</li>
+<li>对于<strong>非规格化数（指数位等于0）</strong>，<strong>实际指数为-126</strong>。</li>
+</ul>
+</li>
+<li>尾数位：<ul>
+<li>提取尾数位的23位二进制数，并转换为浮点数。</li>
+<li>对于规格化数，尾数部分隐含一个1。<strong>规格化数，加1.0f</strong></li>
+</ul>
+</li>
+<li>计算浮点数值：<ul>
+<li>根据指数调整尾数的值&#x2F;直接算（注意<strong>double和float的转换</strong>）<ul>
+<li><em><em>float num&#x3D;weishu</em>(float)Math.pow(2,exponent);</em>*</li>
+</ul>
+</li>
+<li>如果符号位为1，则结果为负数。</li>
+</ul>
+</li>
+</ol>
+<h3 id="完整代码-4"><a href="#完整代码-4" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">binaryToFloat</span><span class="params">(String binStr)</span> &#123;</span><br><span class="line">        <span class="comment">//1. 0</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;00000000000000000000000000000000&quot;</span>)&#123;</span><br><span class="line">            <span class="type">Float</span> <span class="variable">zero</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line">            <span class="keyword">return</span> String.valueOf(zero);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//2. NaN</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;01111111110000000000000000000000&quot;</span>)&#123;</span><br><span class="line">           <span class="type">Float</span> <span class="variable">nan</span> <span class="operator">=</span> Float.NaN;</span><br><span class="line">           <span class="keyword">return</span> String.valueOf(nan);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//3. 正负无穷</span></span><br><span class="line">        <span class="keyword">if</span>(binStr==<span class="string">&quot;01111111100000000000000000000000&quot;</span>)&#123;</span><br><span class="line">           Float pos_inf=Float.POSITIVE_INFINITY;</span><br><span class="line">           <span class="keyword">return</span> String.valueOf(pos_inf);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(binStr==<span class="string">&quot;11111111100000000000000000000000&quot;</span>)&#123;</span><br><span class="line">            Float neg_inf=Float.NEGATIVE_INFINITY;</span><br><span class="line">            <span class="keyword">return</span> String.valueOf(neg_inf);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//4. 正常情况</span></span><br><span class="line">        <span class="comment">//4.1 正负</span></span><br><span class="line">        <span class="type">boolean</span> is_neg=<span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(binStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">            is_neg=<span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//4.2指数</span></span><br><span class="line">        <span class="type">int</span> exponent=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)&#123;</span><br><span class="line">            exponent=exponent*<span class="number">2</span>+(binStr.charAt(i+<span class="number">1</span>)-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(exponent!=<span class="number">0</span>)&#123;</span><br><span class="line">            exponent-=<span class="number">127</span>;<span class="comment">//规格数</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            exponent=-<span class="number">126</span>;<span class="comment">//非规格数</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//4.3 尾数</span></span><br><span class="line">        <span class="type">float</span> weishu=<span class="number">0.0f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">Add</span> <span class="operator">=</span> <span class="number">0.5f</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">9</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(binStr.charAt(i)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">                weishu+=Add;</span><br><span class="line">            &#125;</span><br><span class="line">            Add/=<span class="number">2.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (exponent!=-<span class="number">126</span>)&#123;<span class="comment">//规格化数，加1.0f</span></span><br><span class="line">            weishu+=<span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//5.计算</span></span><br><span class="line">        <span class="keyword">while</span> (exponent&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            weishu*=<span class="number">2.0f</span>;</span><br><span class="line">            exponent--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (exponent&lt;<span class="number">0</span>)&#123;</span><br><span class="line">            weishu/=<span class="number">2.0f</span>;</span><br><span class="line">            exponent++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(is_neg)&#123;</span><br><span class="line">            weishu=-weishu;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//法2：直接算</span></span><br><span class="line"><span class="comment">//        float num=weishu*(float)Math.pow(2,exponent);</span></span><br><span class="line"><span class="comment">//        if (is_neg)&#123;</span></span><br><span class="line"><span class="comment">//            num=-num;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        <span class="keyword">return</span> String.valueOf(weishu);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/" data-id="cm7d388l00000zstrdewhcoci" data-title="1.十进制二进制浮点数转换" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/02/20/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/">1.十进制二进制浮点数转换</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/20/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Zhang Keyao<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
