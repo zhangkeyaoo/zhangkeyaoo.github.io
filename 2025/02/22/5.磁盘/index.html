@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="COA5 磁盘 外部存储器——磁盘的模拟。 工作主要集中在模拟磁头结构 Disk.java		# 磁盘类，需要修改 Scheduler.java	# 磁盘调度算法类，需要修改 注：磁盘存储容量 ＝ 磁头数 × 磁道(柱面)数 × 每道扇区数 × 每扇区字节数 读写方法中接收的addr参数，是二进制表示的该数据起始位置在虚拟磁盘文件中的字节数 seek方法表示每次数据读写之前将磁头移动到指定位置，a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5-磁盘">
+<meta property="og:url" content="http://example.com/2025/02/22/5.%E7%A3%81%E7%9B%98/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="COA5 磁盘 外部存储器——磁盘的模拟。 工作主要集中在模拟磁头结构 Disk.java		# 磁盘类，需要修改 Scheduler.java	# 磁盘调度算法类，需要修改 注：磁盘存储容量 ＝ 磁头数 × 磁道(柱面)数 × 每道扇区数 × 每扇区字节数 读写方法中接收的addr参数，是二进制表示的该数据起始位置在虚拟磁盘文件中的字节数 seek方法表示每次数据读写之前将磁头移动到指定位置，a">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-22T07:45:00.000Z">
+<meta property="article:modified_time" content="2025-02-22T07:45:34.305Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+
+
+<title >5-磁盘</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyao","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-22 15:45:34"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            5-磁盘
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="Bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fab icon-bilibili"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                1652046628@qq.com
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/22
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:45
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyao
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="COA5-磁盘"><a href="#COA5-磁盘" class="headerlink" title="COA5 磁盘"></a>COA5 磁盘</h1><ul>
+<li>外部存储器——磁盘的模拟。</li>
+<li>工作主要集中在模拟磁头结构</li>
+<li>Disk.java		# 磁盘类，需要修改</li>
+<li>Scheduler.java	# 磁盘调度算法类，需要修改</li>
+<li>注：磁盘存储容量 ＝ 磁头数 × 磁道(柱面)数 × 每道扇区数 × 每扇区字节数</li>
+<li>读写方法中接收的addr参数，是<em>二进制</em>表示的<em>该数据起始位置</em>在<em>虚拟磁盘文件中的字节数</em></li>
+<li>seek方法表示每次数据读写之前将磁头移动到指定位置，addPoint表示将磁头往后移动一个字节</li>
+</ul>
+<h1 id="一、-Disk"><a href="#一、-Disk" class="headerlink" title="一、 Disk"></a>一、 Disk</h1><ul>
+<li>结合read和write方法的源码，理解seek方法和addPoint方法在其中起到什么作用，然后实现这两个方法。</li>
+<li>注意，由于我们规定该磁盘有8个磁头即8个盘面，所以每个盘面的大小为8MB。<strong>在不同盘面上，磁头的位置都是相同的</strong>（具体可以看ppt上的图）。因此，在我们的模拟规则下，<em>第0个字节、第8MB个字节、第16MB个字节（以此类推），它们的磁头位置都应该是相同的</em>。</li>
+</ul>
+<h2 id="1-seek"><a href="#1-seek" class="headerlink" title="1. seek"></a>1. seek</h2><ul>
+<li>用来将<strong>磁盘的指针移动到指定的 addr 地址</strong></li>
+</ul>
+<ol>
+<li>将指针<strong>point移动到start位置</strong></li>
+<li>计算start所在的<strong>扇区数——指针sector</strong><ul>
+<li><strong>当前字节数 &#x2F; 每扇区字节数</strong></li>
+</ul>
+</li>
+<li>计算start所在的<strong>磁道数——指针track</strong><ul>
+<li><strong>当前扇区数 &#x2F; 每磁道扇区数</strong></li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.point=start;</span><br><span class="line"><span class="built_in">this</span>.sector=start/BYTE_PER_SECTOR;<span class="comment">//起始点/每扇区字节数，得start对应的总扇区数</span></span><br><span class="line"><span class="built_in">this</span>.track=<span class="built_in">this</span>.sector/SECTOR_PER_TRACK;<span class="comment">//总扇区数/每磁道扇区数，得到磁道数</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-addPoint"><a href="#2-addPoint" class="headerlink" title="2. addPoint"></a>2. addPoint</h2><ol>
+<li>将磁头<strong>往后移动一个字节</strong>,<code>point++</code>。</li>
+<li>如果指针移动到<strong>当前扇区的末尾（512字节）</strong>，则<strong>重置point为0，并移动到下一个扇区</strong>。<ul>
+<li>point&#x3D;0</li>
+<li>sector++</li>
+</ul>
+</li>
+<li>如果扇区移动到<strong>当前磁道的末尾（64个扇区）</strong>，则<strong>重置扇区并移动到下一个磁道</strong>。<ul>
+<li>sector&#x3D;0</li>
+<li>track++</li>
+</ul>
+</li>
+<li>如果磁道移动到<strong>磁盘的末尾（磁道数）</strong>，则<strong>重置磁道号为0</strong>，即<em>磁头回到磁盘的起始位置</em>。<ul>
+<li>track&#x3D;0;</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">this</span>.point++;</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">this</span>.point==<span class="number">512</span>)&#123;</span><br><span class="line">    <span class="built_in">this</span>.point=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">this</span>.sector++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">this</span>.sector==<span class="number">64</span>)&#123;</span><br><span class="line">    <span class="built_in">this</span>.sector=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">this</span>.track++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">this</span>.track == TRACK_NUM) &#123;<span class="comment">//如果磁道号等于【磁道数】，则重置磁道号为0，即磁头回到磁盘的起始位置</span></span><br><span class="line">    <span class="built_in">this</span>.track = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="二、Scheduler"><a href="#二、Scheduler" class="headerlink" title="二、Scheduler"></a>二、Scheduler</h1><ul>
+<li>每个方法都会传入<strong>磁头初始磁道号</strong>与<strong>请求访问的磁道号数组</strong></li>
+<li>需要计算出<strong>平均寻道长度</strong>并返回</li>
+</ul>
+<h2 id="1-先来先服务算法FCFS"><a href="#1-先来先服务算法FCFS" class="headerlink" title="1.先来先服务算法FCFS"></a>1.先来先服务算法FCFS</h2><ul>
+<li>先请求的先进行</li>
+</ul>
+<ol>
+<li>初始化<ul>
+<li>总路程为0</li>
+<li>当前磁道号为start</li>
+</ul>
+</li>
+<li>遍历整个request<ul>
+<li>总路程累加</li>
+<li>当前磁道号变化</li>
+</ul>
+</li>
+<li>最后返回 总路程 &#x2F; 请求length</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">FCFS</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span>[] request)</span> &#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> sumdistance=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> currentTrack=start;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;request.length;i++)&#123;</span><br><span class="line">        sumdistance+=Math.abs(request[i]-currentTrack);</span><br><span class="line">        currentTrack=request[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumdistance/request.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-最短寻道时间优先算法-SSTF"><a href="#2-最短寻道时间优先算法-SSTF" class="headerlink" title="2.最短寻道时间优先算法 SSTF"></a>2.最短寻道时间优先算法 SSTF</h2><ul>
+<li>优先处理<strong>起始位置与当前磁头位置最接近</strong>的读写任务</li>
+</ul>
+<ol>
+<li>初始化<ul>
+<li>sumDistance：总寻道距离，初始为0。</li>
+<li>currentTrack：当前磁头所在的磁道号，初始为 start。</li>
+<li>n：请求数组的长度。</li>
+<li><strong>visited</strong>：记录每个请求<strong>是否被访问过</strong>，初始为 false。</li>
+</ul>
+</li>
+<li>遍历请求：<ul>
+<li><strong>外层循环</strong>：遍历 n 次，每次<strong>找到一个最接近当前磁头位置的请求</strong>。</li>
+<li><strong>内层循环</strong>：<strong>遍历所有请求</strong>，找到<strong>距离当前磁头位置最近</strong>且<strong>未被访问过</strong>的请求。</li>
+</ul>
+</li>
+<li>更新状态：<ul>
+<li><strong>标记</strong>找到的请求visited为<strong>true</strong>。</li>
+<li><strong>累加</strong>最短距离到 sumDistance。</li>
+<li><strong>更新 currentTrack</strong> 为找到的请求位置。</li>
+</ul>
+</li>
+<li>返回平均寻道长度：<ul>
+<li>返回 sumDistance 除以请求数组的长度。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">SSTF</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span>[] request)</span> &#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">currentTrack</span> <span class="operator">=</span> start;<span class="comment">//当前磁头所在的磁道号</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    <span class="type">boolean</span>[] visited=<span class="keyword">new</span> <span class="title class_">boolean</span>[n];<span class="comment">//是否访问过</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">closest</span> <span class="operator">=</span> -<span class="number">1</span>;<span class="comment">//最接近当前磁头位置的请求 下标</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">minDistance</span> <span class="operator">=</span> Integer.MAX_VALUE;<span class="comment">//每一次先初始化为最大值</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;<span class="comment">//遍历找最短距离</span></span><br><span class="line">            <span class="keyword">if</span>(!visited[j]&amp;&amp;Math.abs(currentTrack-request[j])&lt;minDistance)&#123;<span class="comment">//没被访问过+距离最近</span></span><br><span class="line">                minDistance=Math.abs(currentTrack-request[j]);</span><br><span class="line">                closest=j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//找到，更新</span></span><br><span class="line">        visited[closest]=<span class="literal">true</span>;</span><br><span class="line">        sumDistance+=minDistance;</span><br><span class="line">        currentTrack=request[closest];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/request.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-扫描算法-SCAN"><a href="#3-扫描算法-SCAN" class="headerlink" title="3. 扫描算法 SCAN"></a>3. 扫描算法 SCAN</h2><ul>
+<li>总是按照<strong>一个方向</strong>进行磁盘调度，直到该方向上的<strong>边缘</strong>，然后<strong>改变方向</strong></li>
+<li>磁道总数，这个数字需要与Disk类中的TRACK_NUM保持一致。（256）</li>
+<li><code>Arrays.sort(request);</code> 对请求数组进行<strong>升序排序</strong></li>
+</ul>
+<ol>
+<li>初始化：<ul>
+<li>sumDistance：总寻道距离，初始为0。</li>
+<li>n：请求数组的长度。</li>
+<li><strong>对请求数组进行升序排序</strong>：Arrays.sort(request);。</li>
+</ul>
+</li>
+<li>判断初始移动方向：(题上说了true是增大方向)<ol>
+<li>如果 <code>direction</code> 为 true，表示初始移动方向是<em>增大</em>方向。<ul>
+<li>start &lt;&#x3D; request[0]，表示磁头在<strong>最小请求之前</strong>，直接移动到<strong>最大请求位置</strong>。<ul>
+<li>易错：不是直接移动到磁道最后！</li>
+</ul>
+</li>
+<li>start <strong>在请求数组中间</strong>，先移动到<strong>磁道最大</strong>位置(<code>255</code>)，再返回到<strong>最小请求</strong>位置。</li>
+</ul>
+</li>
+<li>如果 direction 为 false，表示初始移动方向是<em>减小</em>方向。<ul>
+<li>start &gt;&#x3D; request[n - 1]，表示磁头在<strong>最大请求之后</strong>，直接移动到<strong>最小请求位置</strong>。</li>
+<li>start 在请求数组中间，先移动到<strong>磁道最小</strong>位置，再返回到<em>最大请求</em>位置。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>返回平均寻道长度：<ul>
+<li>返回 sumDistance 除以请求数组的长度。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">SCAN</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span>[] request, <span class="type">boolean</span> direction)</span> &#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    Arrays.sort(request);<span class="comment">//升序</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(direction)&#123;<span class="comment">//初始移动方向是增大方向</span></span><br><span class="line">        <span class="keyword">if</span>(start&lt;=request[<span class="number">0</span>])&#123;</span><br><span class="line">            sumDistance+=request[n-<span class="number">1</span>]-start;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">//在中间</span></span><br><span class="line">            sumDistance+=(<span class="number">255</span>-start)+(<span class="number">255</span>-request[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment">//初始移动方向是减小方向</span></span><br><span class="line">        <span class="keyword">if</span>(start&gt;=request[n-<span class="number">1</span>])&#123;</span><br><span class="line">            sumDistance+=start-request[<span class="number">0</span>];</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            sumDistance+=start+request[n-<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-C-SCAN算法：默认磁头向磁道号增大方向移动"><a href="#4-C-SCAN算法：默认磁头向磁道号增大方向移动" class="headerlink" title="4. C-SCAN算法：默认磁头向磁道号增大方向移动"></a>4. C-SCAN算法：默认磁头向磁道号增大方向移动</h2><ul>
+<li>只有磁头朝某个方向移动时才会响应请求，<strong>移动到边缘后立即让磁头返回起点</strong>，返回途中不做任何处理</li>
+</ul>
+<ol>
+<li>初始化<ul>
+<li>sumDistance：总寻道距离，初始为0。</li>
+<li>currentTrack：当前磁头所在的磁道号，初始为 start。</li>
+<li>n：请求数组的长度。</li>
+<li>对请求数组进行升序排序：Arrays.sort(request);。</li>
+</ul>
+</li>
+<li><strong>查找当前磁头位置</strong>：<ul>
+<li>使用 <strong>Arrays.binarySearch(request, currentTrack)</strong> 查找<strong>当前磁头位置在请求数组中的索引</strong>。</li>
+<li>如果未找到，计算当前磁头位置应该插入的位置：index &#x3D; -index - 1。</li>
+</ul>
+</li>
+<li>初始移动方向是增大方向：<ul>
+<li>如果 start &lt;&#x3D; request[0]，表示磁头<strong>在最小请求之前</strong>，直接移动到<strong>最大请求</strong>位置。</li>
+<li>如果 start <strong>在请求数组中间或者右边</strong>，先移动到<strong>磁道最大</strong>位置，再<strong>返回到起点</strong>，然后<strong>移动到start前一个位置</strong>。<ul>
+<li>易错：路径记得<strong>加上磁道最右到最左距离</strong>！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>返回平均寻道长度</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">CSCAN</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span>[] request)</span>&#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">currentTrack</span> <span class="operator">=</span> start;<span class="comment">//当前磁头所在的磁道号</span></span><br><span class="line">    Arrays.sort(request);<span class="comment">//升序</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Arrays.binarySearch(request, currentTrack);<span class="comment">//查找当前磁头位置在请求中的索引</span></span><br><span class="line">    <span class="keyword">if</span>(index&lt;<span class="number">0</span>)&#123;<span class="comment">//如果当前磁头位置不在请求中</span></span><br><span class="line">        index = -index-<span class="number">1</span>;<span class="comment">//计算当前磁头位置应该插入的位置</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始移动方向是增大方向</span></span><br><span class="line">        <span class="keyword">if</span>(start&lt;=request[<span class="number">0</span>])&#123;</span><br><span class="line">            sumDistance+=request[n-<span class="number">1</span>]-start;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">//在中间 或者 右边</span></span><br><span class="line">            sumDistance+=(<span class="number">255</span>-start)+<span class="number">255</span>+(request[index-<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-LOOK算法"><a href="#5-LOOK算法" class="headerlink" title="5.LOOK算法"></a>5.LOOK算法</h2><ul>
+<li>SCAN算法的升级，只要磁头移动方向上不再有请求就<strong>立即改变磁头的方向</strong></li>
+</ul>
+<ol>
+<li>初始化：<ul>
+<li>sumDistance：总寻道距离，初始为0。</li>
+<li>n：请求数组的长度。</li>
+<li><strong>对请求数组进行升序排序：Arrays.sort(request);</strong></li>
+</ul>
+</li>
+<li>查找当前磁头位置：<ul>
+<li>使用 <strong>Arrays.binarySearch(request, start)</strong> 查找当前磁头位置在请求数组中的索引。</li>
+<li>如果<strong>未找到，返回一个负数</strong>，该负数的<strong>绝对值减一</strong>即为<strong>start 应该插入的位置</strong>。<ul>
+<li>计算当前磁头位置应该插入的位置：<code>index = -index - 1。</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>判断初始移动方向：<ol>
+<li>如果 direction 为 true，表示初始移动方向是<strong>增大</strong>方向。<ul>
+<li>从 <strong>index</strong> 开始向右遍历请求数组，累加距离。<ul>
+<li><code>sumDistance += Math.abs(currentTrack - request[i])</code>;</li>
+</ul>
+</li>
+<li>然后从 <strong>index - 1</strong> 开始向左遍历请求数组，累加距离。</li>
+</ul>
+</li>
+<li>如果 direction 为 false，表示初始移动方向是<strong>减小</strong>方向。<ul>
+<li>从 <strong>index - 1</strong> 开始向左遍历请求数组，累加距离。</li>
+<li>然后从 <strong>index</strong> 开始向右遍历请求数组，累加距离。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>返回平均寻道长度</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">LOOK</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span>[] request,<span class="type">boolean</span> direction)</span>&#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    Arrays.sort(request);<span class="comment">//升序</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Arrays.binarySearch(request, start);<span class="comment">//查找当前磁头位置在请求中的索引</span></span><br><span class="line">    <span class="keyword">if</span>(index&lt;<span class="number">0</span>)&#123;<span class="comment">//如果当前磁头位置不在请求中</span></span><br><span class="line">        index = -index-<span class="number">1</span>;<span class="comment">//计算当前磁头位置应该插入的位置</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(direction)&#123;<span class="comment">//初始移动方向是增大方向</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index; i &lt; n; i++) &#123;</span><br><span class="line">            sumDistance += Math.abs(start - request[i]);</span><br><span class="line">            start = request[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            sumDistance += Math.abs(start - request[i]);</span><br><span class="line">            start = request[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;<span class="comment">//初始移动方向是减小方向</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index-<span class="number">1</span>; i &gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">            sumDistance += Math.abs(start - request[i]);</span><br><span class="line">            start = request[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> index;  i &lt;n; i++) &#123;</span><br><span class="line">            sumDistance += Math.abs(start - request[i]);</span><br><span class="line">            start = request[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-C-LOOK算法"><a href="#6-C-LOOK算法" class="headerlink" title="6.C-LOOK算法"></a>6.C-LOOK算法</h2><ul>
+<li><strong>默认</strong>磁头向磁道号<strong>增大方向</strong>移动</li>
+<li>C-SCAN算法的改进，只要在磁头移动方向上<strong>不再有请求</strong>，就立即让磁头<strong>返回起点</strong></li>
+</ul>
+<ol>
+<li>初始化<ul>
+<li>sumDistance：总寻道距离，初始为0。</li>
+<li>currentTrack：当前磁头所在的磁道号，初始为 start。</li>
+<li>n：请求数组的长度。</li>
+<li>对请求数组进行<strong>升序排序：Arrays.sort(request);</strong>。</li>
+</ul>
+</li>
+<li><strong>查找当前磁头位置</strong>：<ul>
+<li>使用 <strong>Arrays.binarySearch(request, currentTrack)</strong> 查找<strong>当前磁头位置在请求数组中的索引</strong>。</li>
+<li>如果未找到，计算当前磁头位置应该插入的位置：<strong>index &#x3D; -index - 1。</strong></li>
+</ul>
+</li>
+<li>初始移动方向是增大方向：<ul>
+<li>从 index 开始向右遍历请求数组，累加距离。</li>
+<li>然后从 0 开始向右遍历到 index - 1，累加距离。</li>
+</ul>
+</li>
+<li>返回平均寻道长度</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">CLOOK</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span>[] request)</span>&#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">currentTrack</span> <span class="operator">=</span> start;<span class="comment">//当前磁头所在的磁道号</span></span><br><span class="line">    Arrays.sort(request);<span class="comment">//升序</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Arrays.binarySearch(request, currentTrack);<span class="comment">//查找当前磁头位置在请求中的索引</span></span><br><span class="line">    <span class="keyword">if</span>(index&lt;<span class="number">0</span>)&#123;<span class="comment">//如果当前磁头位置不在请求中</span></span><br><span class="line">        index = -index-<span class="number">1</span>;<span class="comment">//计算当前磁头位置应该插入的位置</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始移动方向是增大方向</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=index;i&lt;n;i++)&#123;</span><br><span class="line">        sumDistance+=Math.abs(currentTrack-request[i]);</span><br><span class="line">        currentTrack=request[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">0</span>;i&lt;=index-<span class="number">1</span>;i++)&#123;</span><br><span class="line">        sumDistance+=Math.abs(currentTrack-request[i]);</span><br><span class="line">        currentTrack=request[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/6.%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/6.%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/" class="trm-anima-link">
+                    6-虚拟存储器
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:45</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/4.cache/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/4.cache/" class="trm-anima-link">
+                    4-cache
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:44</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="COA5 磁盘"><a rel="nofollow" class="trm-toc-link" href="#COA5-磁盘"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">COA5 磁盘</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、 Disk"><a rel="nofollow" class="trm-toc-link" href="#一、-Disk"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、 Disk</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. seek"><a rel="nofollow" class="trm-toc-link" href="#1-seek"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">1. seek</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. addPoint"><a rel="nofollow" class="trm-toc-link" href="#2-addPoint"><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">2. addPoint</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="二、Scheduler"><a rel="nofollow" class="trm-toc-link" href="#二、Scheduler"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">二、Scheduler</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1.先来先服务算法FCFS"><a rel="nofollow" class="trm-toc-link" href="#1-先来先服务算法FCFS"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1.先来先服务算法FCFS</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2.最短寻道时间优先算法 SSTF"><a rel="nofollow" class="trm-toc-link" href="#2-最短寻道时间优先算法-SSTF"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2.最短寻道时间优先算法 SSTF</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. 扫描算法 SCAN"><a rel="nofollow" class="trm-toc-link" href="#3-扫描算法-SCAN"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">3. 扫描算法 SCAN</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. C-SCAN算法：默认磁头向磁道号增大方向移动"><a rel="nofollow" class="trm-toc-link" href="#4-C-SCAN算法：默认磁头向磁道号增大方向移动"><span class="trm-toc-number">3.4.</span> <span class="trm-toc-text">4. C-SCAN算法：默认磁头向磁道号增大方向移动</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5.LOOK算法"><a rel="nofollow" class="trm-toc-link" href="#5-LOOK算法"><span class="trm-toc-number">3.5.</span> <span class="trm-toc-text">5.LOOK算法</span></a></li><li class="trm-toc-item trm-toc-level-2" title="6.C-LOOK算法"><a rel="nofollow" class="trm-toc-link" href="#6-C-LOOK算法"><span class="trm-toc-number">3.6.</span> <span class="trm-toc-text">6.C-LOOK算法</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

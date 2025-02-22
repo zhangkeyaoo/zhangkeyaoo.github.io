@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="虚拟存储器 分别实现实模式、分段式、段页式三种内存的地址转换与数据加载功能。   地址转换 在MMU类中，实现三个地址转换的方法，将逻辑地址转换为线性地址再转换为物理地址。 private String toRealLinearAddr(String logicAddr) private String toSegLinearAddr(String logicAddr) private String">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6-虚拟存储器">
+<meta property="og:url" content="http://example.com/2025/02/22/6.%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="虚拟存储器 分别实现实模式、分段式、段页式三种内存的地址转换与数据加载功能。   地址转换 在MMU类中，实现三个地址转换的方法，将逻辑地址转换为线性地址再转换为物理地址。 private String toRealLinearAddr(String logicAddr) private String toSegLinearAddr(String logicAddr) private String">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-22T07:45:45.105Z">
+<meta property="article:modified_time" content="2025-02-22T07:46:51.847Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+
+
+<title >6-虚拟存储器</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyao","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-22 15:46:51"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            6-虚拟存储器
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="Bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fab icon-bilibili"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                1652046628@qq.com
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/22
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:45
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyao
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h1><ul>
+<li>分别实现<strong>实模式、分段式、段页式</strong>三种内存的地址转换与数据加载功能。</li>
+</ul>
+<ol>
+<li>地址转换<ul>
+<li>在MMU类中，实现三个地址转换的方法，将逻辑地址转换为线性地址再转换为物理地址。</li>
+<li>private String toRealLinearAddr(String logicAddr)</li>
+<li>private String toSegLinearAddr(String logicAddr)</li>
+<li>private String toPagePhysicalAddr(String linearAddr)</li>
+</ul>
+</li>
+<li>数据加载<ul>
+<li>在Memory类中，实现三个数据加载方法。</li>
+<li>public void real_load(String pAddr, int len)</li>
+<li>public void seg_load(int segIndex)</li>
+<li>public void page_load(int vPageNo)</li>
+</ul>
+</li>
+<li>融合cache与TLB<ul>
+<li>将cache与TLB融合到MMU中。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>逻辑地址：<strong>指令</strong>中给出的地址， 48 位(16位段寄存器 + 32位段内偏移量)。<ul>
+<li>CPU在运行指令时，如果想要访问内存，它并不是用直接使用内存的地址访问，而是给出一个由 16 位段寄存器和 32 位段内偏移量拼起来的 48 位的逻辑地址。<ul>
+<li>比如，如果CPU想知道当前指令的地址，他给出的逻辑地址应该是(CS:EIP)。</li>
+<li>其中，CS是 16 位代码段寄存器，EIP是 32 位指令指针寄存器（也就是程序计数器PC）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>线性地址：逻辑地址到物理地址的中间层， 32 位。<ul>
+<li>如果<strong>没有启用分页机制</strong>，那么线性地址就<strong>等于物理地址</strong>。</li>
+<li>如果启用了分页机制，那么线性地址需要通过再一次变换才能得到物理地址。</li>
+</ul>
+</li>
+<li>物理地址：<strong>内存</strong>中的地址， 32 位。</li>
+</ul>
+<h1 id="实模式"><a href="#实模式" class="headerlink" title="实模式"></a>实模式</h1><h2 id="Memory的real-load方法"><a href="#Memory的real-load方法" class="headerlink" title="Memory的real_load方法"></a>Memory的<code>real_load</code>方法</h2><ul>
+<li>SEGMENT和PAGE均为false时，为实模式</li>
+<li>变量：<code>pAddr</code>与<code>len</code></li>
+</ul>
+<ol>
+<li>直接用地址和长度从磁盘disk.read加载data</li>
+<li>把data再写进内存(注意实模式下，内存地址对应磁盘地址，即pAddr)</li>
+</ol>
+<ul>
+<li><code>System.arraycopy(data, 0, memory, start, len);</code><ul>
+<li>将<strong>原数组</strong>data从<strong>起始位置</strong>0，复制到<strong>目标数组</strong>memory的start<strong>位置开始</strong>，复制的<strong>元素数量</strong>为len</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实模式下从磁盘中加载数据</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pAddr 实模式下，内存地址对应磁盘地址</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> len   数据段长度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">real_load</span><span class="params">(String pAddr, <span class="type">int</span> len)</span> &#123;</span><br><span class="line">    <span class="type">byte</span>[] data = disk.read(pAddr, len);<span class="comment">//从磁盘中读取数据(方法在Disk.java中）</span></span><br><span class="line">    <span class="comment">//更新数据</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(pAddr));<span class="comment">//start,为内存地址</span></span><br><span class="line">    System.arraycopy(data, <span class="number">0</span>, memory, start, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MMU"><a href="#MMU" class="headerlink" title="MMU"></a>MMU</h2><ul>
+<li>&#96;&#96;toRealLinearAddr&#96;方法: 逻辑地址转线性地址。<ul>
+<li>段寄存器左移4位 + 段内偏移量的低16位 再补齐32位</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><strong>截取前16位段寄存器</strong>；再<strong>截取offset低16位（实际截取32位）</strong>，转成int。<ul>
+<li>在实际计算中，我们把高 16 位看作基址，低 32 位看作偏移量（实际有用的只有低 16 位）</li>
+</ul>
+</li>
+<li>将段寄存器和偏移量<strong>化为整数</strong></li>
+<li><strong>段寄存器左移4位</strong><ul>
+<li>可以直接使用Java中的&lt;&lt;运算符将整数左移4位</li>
+</ul>
+</li>
+<li>两个数字相加，转成二进制，高位补0到32位</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 实模式下的逻辑地址转线性地址</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> logicAddr 48位 = 16位段寄存器 + 32位offset，计算公式为：①(16-bits段寄存器左移4位 + offset的低16-bits) = 20-bits物理地址 ②高位补0到32-bits</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> 32-bits实模式线性地址</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> String <span class="title function_">toRealLinearAddr</span><span class="params">(String logicAddr)</span> &#123;</span><br><span class="line">       <span class="type">String</span> <span class="variable">segReg</span> <span class="operator">=</span> logicAddr.substring(<span class="number">0</span>, <span class="number">16</span>);<span class="comment">//取逻辑地址的前16位作为段寄存器</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">offset</span> <span class="operator">=</span> logicAddr.substring(<span class="number">16</span>, <span class="number">48</span>);<span class="comment">//取逻辑地址的后32位作为偏移量</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">//将段寄存器和偏移量化为整数</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">segRegInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(segReg));</span><br><span class="line">       <span class="type">int</span> <span class="variable">offsetLow16</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(offset));</span><br><span class="line"></span><br><span class="line">       <span class="comment">//计算20位物理地址</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">physicalAddr</span> <span class="operator">=</span> (segRegInt &lt;&lt; <span class="number">4</span>) + offsetLow16;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 将20位物理地址转换为32位</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">linearAddr</span> <span class="operator">=</span> String.format(<span class="string">&quot;%32s&quot;</span>, Integer.toBinaryString(physicalAddr)).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;0&#x27;</span>);<span class="comment">//转换为32位，并用0填充高位</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> linearAddr;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="分段式"><a href="#分段式" class="headerlink" title="分段式"></a>分段式</h1><h2 id="Memory类：实现seg-load段加载方法"><a href="#Memory类：实现seg-load段加载方法" class="headerlink" title="Memory类：实现seg_load段加载方法"></a>Memory类：实现seg_load段加载方法</h2><ol>
+<li>从磁盘上加载该段的数据到内存。<ul>
+<li>如何从磁盘上<strong>读取一整段</strong>呢？你应该使用<strong>段基址</strong>作为访问磁盘的地址，用**段限长（即段大小）**作为读取的长度。</li>
+<li>至于段基址和段限长是多少，参考我们3.2.3的规定。<ul>
+<li>private char[] base &#x3D; new char[32];  &#x2F;&#x2F; 32位基地址</li>
+<li>private char[] limit &#x3D; new char[20]; &#x2F;&#x2F; 20位限长</li>
+</ul>
+</li>
+<li>那么加载过来之后<strong>写到内存的哪里</strong>呢？由于分段式下每个段大小只有1MB，不会超出内存大小，所以我们<strong>默认把数据放在物理地址为 0 的地方</strong>。</li>
+</ul>
+</li>
+<li>除了加载数据，你还需要<strong>填好全局描述符表GDT</strong>，需要填入的内容还是按照3.2.3的规定进行填写。下面为该规定的原文。<ul>
+<li>每个由MMU装载进入GDT的段，<strong>其段基址均为全 0 ，其限长均为全 1</strong> ，<strong>未开启分页时粒度为false，开启分页后粒度为true</strong>。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>变量：segIndex段索引</li>
+</ul>
+<ol>
+<li>获取段描述符：<ul>
+<li>(有方法)通过 segIndex 获取对应的段描述符 segDes</li>
+</ul>
+</li>
+<li>获取段基址和段限长：<ul>
+<li><strong>段基址：32位全0</strong></li>
+<li><strong>段限长：20位全1</strong></li>
+</ul>
+</li>
+<li>判断是否开启分页<ul>
+<li>如果<strong>未开启分页模式</strong>（PAGE 为 false），</li>
+<li>则<strong>从磁盘中读取数据</strong>，并将数据<strong>写入内存</strong>的<strong>物理地址为0</strong>的地方。</li>
+<li>注意，<strong>段限长</strong><em>是从0开始计数</em>，因此<strong>读取长度需要加1</strong>。</li>
+</ul>
+</li>
+<li>更新段描述符：<ul>
+<li>基址</li>
+<li>限长</li>
+<li>有效位：validBit 设置为 true 表示段已在内存中</li>
+<li>粒度：granularity 设置为 PAGE（未开启分页时粒度为false，开启分页后粒度为true）</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 段式存储模式下，从磁盘中加载数据.段页式存储中，不用从磁盘中加载数据</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> segIndex 段索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//在段页式存储管理下，从磁盘加载数据应该是以页为单位的，不再是以段为单位。</span></span><br><span class="line"><span class="comment">// 开启分页之后，一个段应该是4GB。因此开启分页之后，seg_load应该跳过加载数据这一步，它的作用在开启分页之后仅仅是填写GDT，加载数据的任务应该交给page_load来完成。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">seg_load</span><span class="params">(<span class="type">int</span> segIndex)</span> &#123;</span><br><span class="line">    <span class="comment">//获取段描述符</span></span><br><span class="line">    <span class="type">SegDescriptor</span> <span class="variable">segDes</span> <span class="operator">=</span> getSegDescriptor(segIndex);</span><br><span class="line">   <span class="comment">//获取段基址(访问磁盘的地址)</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">segBase</span> <span class="operator">=</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span>; <span class="comment">// 32位基址，全0</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">baseInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(segBase));</span><br><span class="line">    <span class="comment">//获取段限长(读取的长度)</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">limit</span> <span class="operator">=</span> <span class="string">&quot;11111111111111111111&quot;</span>; <span class="comment">// 20位限长，全1</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">limitInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(limit));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!PAGE) &#123;<span class="comment">//未开启分页,段式存储，要从磁盘中加载数据，并且写到内存的物理地址为0的地方</span></span><br><span class="line">        <span class="comment">//从磁盘中加载数据</span></span><br><span class="line">        <span class="type">byte</span>[] data = disk.read(segBase, limitInt + <span class="number">1</span>);<span class="comment">//注：段限长是一个从 0 开始的计数，因此需要+1才能表示实际的字节数</span></span><br><span class="line">        <span class="comment">//更新数据,写到内存的物理地址(destPost)为0的地方</span></span><br><span class="line">        System.arraycopy(data, <span class="number">0</span>, memory, <span class="number">0</span>, limitInt);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填好全局描述符表GDT</span></span><br><span class="line">    segDes.base = segBase.toCharArray();</span><br><span class="line">    segDes.limit = limit.toCharArray();</span><br><span class="line">    segDes.validBit = <span class="literal">true</span>;<span class="comment">//有效位,为true表示被占用（段已在内存中）</span></span><br><span class="line">    segDes.granularity = PAGE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MMU类：​​​​toSegLinearAddr​​​​-逻辑地址转线性地址。"><a href="#MMU类：​​​​toSegLinearAddr​​​​-逻辑地址转线性地址。" class="headerlink" title="MMU类：​​​​toSegLinearAddr​​​​ 逻辑地址转线性地址。"></a>MMU类：​​​​toSegLinearAddr​​​​ 逻辑地址转线性地址。</h2><ul>
+<li>在分段式下，逻辑地址转线性地址应该要查全局描述符表GDT，按照2.3.4的流程进行计算。<ul>
+<li>48 位的逻辑地址包含 16 位的段选择符和 32 位的段内偏移量。</li>
+<li>MMU首先通过段选择符内的 13 位<strong>索引值</strong>，</li>
+<li>从段描述符表中找到对应的段描述符，从中取出 32 位的<strong>基地址</strong>，与逻辑地址中 32 位的<strong>段内偏移量</strong>相加，就得到 32 位线性地址。</li>
+</ul>
+</li>
+<li>注意，不要以为可以偷懒直接把逻辑地址的前 16 位去掉</li>
+</ul>
+<ol>
+<li>直接调用已有的函数获得<strong>段索引</strong>​​​​segIndex​​​​</li>
+<li>根据段索引获得<strong>段基址</strong>，也是直接调用函数。将段基址<strong>转成int</strong></li>
+<li>截取32位段内偏移​​​​offset​​​​，<strong>转成int</strong></li>
+<li>段基址与段内偏移<strong>相加</strong>，<strong>转成32位二进制</strong>，得到线性地址</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 分段模式下的逻辑地址转线性地址</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> logicAddr 48位 = 16位段选择符(高13位index选择段表项) + 32位段内偏移</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> 32-bits 线性地址</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> String <span class="title function_">toSegLinearAddr</span><span class="params">(String logicAddr)</span> &#123;</span><br><span class="line">       <span class="comment">//获取段索引(高13位index选择段表项)</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">segIndex</span> <span class="operator">=</span> getSegIndex(logicAddr);</span><br><span class="line">       <span class="comment">//从全局描述符表GDT中获取段描述符中的段基址base</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">segBaseAddr</span> <span class="operator">=</span> String.valueOf(Memory.getMemory().getBaseOfSegDes(segIndex));</span><br><span class="line">       <span class="comment">//提取段内偏移（32位）</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">offset</span> <span class="operator">=</span> logicAddr.substring(<span class="number">16</span>, <span class="number">48</span>);</span><br><span class="line">       <span class="comment">//将段基址和段内偏移转换为整数</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">segBaseAddrInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(segBaseAddr));</span><br><span class="line">       <span class="type">int</span> <span class="variable">offsetInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(offset));</span><br><span class="line">       <span class="comment">//计算线性地址</span></span><br><span class="line">       <span class="type">int</span> <span class="variable">linearAddr</span> <span class="operator">=</span> segBaseAddrInt + offsetInt;</span><br><span class="line">       <span class="comment">//将线性地址转换为32位</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">linearAddrStr</span> <span class="operator">=</span> String.format(<span class="string">&quot;%32s&quot;</span>, Integer.toBinaryString(linearAddr)).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">       <span class="keyword">return</span> linearAddrStr;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h1><h2 id="Memory类：page-load页加载方法。"><a href="#Memory类：page-load页加载方法。" class="headerlink" title="Memory类：page_load页加载方法。"></a>Memory类：page_load页加载方法。</h2><ol>
+<li>从磁盘上加载该页数据到内存。<ul>
+<li>如何在磁盘上读取该页数据呢？你应该使用<strong>该虚页的起始地址</strong>作为作为访问磁盘的地址，用<strong>页大小</strong>作为读取的长度。</li>
+<li>至于<strong>该虚页的起始地址</strong>是多少，可以直接根据<strong>虚页号</strong>得到。</li>
+<li>那么加载过来之后写到内存的哪里呢？这就需要你找出一个<strong>空闲的物理页框</strong>然后放下去啦。</li>
+</ul>
+</li>
+<li>除了加载数据，你还需要<strong>填好页表</strong>，如果你使用有效位数组的话还需要<strong>填好有效位数组</strong>。</li>
+</ol>
+<ul>
+<li>变量：​​​​vPageNo​​​​ 虚拟页号</li>
+</ul>
+<h3 id="1-加载页数据"><a href="#1-加载页数据" class="headerlink" title="1. 加载页数据"></a>1. 加载页数据</h3><ol>
+<li>使用<strong>该虚页的起始地址</strong>作为访问磁盘的地址，<strong>起始地址&#x3D;虚页号×一页大小</strong></li>
+<li>由于<strong>一页的大小是4KB</strong>，需要把虚拟页号乘以<strong>2的12次方</strong>，<ul>
+<li>即转为二进制作为地址，<strong>二进制后面加12个0</strong></li>
+</ul>
+</li>
+<li>从<strong>磁盘读</strong>出一页数据data。（长度为​​​​PAGE_SIZE_B​​​​页长）</li>
+</ol>
+<h3 id="2-写入内存"><a href="#2-写入内存" class="headerlink" title="2. 写入内存"></a>2. 写入内存</h3><ol>
+<li>寻找<strong>空闲内存的物理页框</strong>——遍历valid找false。</li>
+</ol>
+<ul>
+<li>范围<code>​​​​0 ~ pageValid.length​​​</code>​，<ul>
+<li>当​​​pageValid[i]​​​​<strong>为​false​​​​，说明不在内存中，即空闲</strong>，将其<strong>改为占用</strong>，并<strong>记录页框号​​​​frameNO</strong>​​​​。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>接着将<em>数据装入页框</em>。将<strong>页框号×页大小</strong>，获得<strong>物理地址</strong>，将数据写入内存。（长度为​​​​PAGE_SIZE_B​​​​页长）</li>
+</ol>
+<h3 id="3-填页表"><a href="#3-填页表" class="headerlink" title="3. 填页表"></a>3. 填页表</h3><ol>
+<li>由虚拟页号获得该页（​​​​getPageItem(vPageNo)​​​​），</li>
+</ol>
+<ul>
+<li>将​​​​pageFrame​​​​设为页框号二进制的低20位转成的数组（物理页框号）</li>
+<li>将​​​​isInMem​​​​设为true。（装入了内存）</li>
+</ul>
+<ol start="2">
+<li>填好有效位（刚刚占用的设为true）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 段页式存储下，从磁盘中加载数据</span></span><br><span class="line"><span class="comment"> * 不考虑16MB内存用满的情况</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> vPageNo 虚拟页号</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">page_load</span><span class="params">(<span class="type">int</span> vPageNo)</span> &#123;</span><br><span class="line">    <span class="comment">//虚拟页号的起始地址</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">vPageStartAddr</span> <span class="operator">=</span> Transformer.intToBinary(String.valueOf(vPageNo)).substring(<span class="number">12</span>) + <span class="string">&quot;000000000000&quot;</span>;</span><br><span class="line">    <span class="comment">//页大小作为读取的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> PAGE_SIZE_B;</span><br><span class="line">    <span class="comment">//从磁盘中加载数据</span></span><br><span class="line">    <span class="type">byte</span>[] data = disk.read(vPageStartAddr, size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//找出一个空闲的物理页框</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">freePageFrame</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i&lt;pageValid.length; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (!pageValid[i])&#123;<span class="comment">//如果该页不在内存中,即valid=false</span></span><br><span class="line">            freePageFrame = i;<span class="comment">//找到空闲的物理页框i</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (freePageFrame == -<span class="number">1</span>)&#123;<span class="comment">//无空闲</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;No free page frame&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//数据写到内存的物理地址为freePageFrame的地方</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">phyAddr</span> <span class="operator">=</span> freePageFrame * PAGE_SIZE_B;<span class="comment">//物理地址，即物理页框号*页大小</span></span><br><span class="line">    System.arraycopy(data, <span class="number">0</span>, memory, phyAddr, size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填好页表</span></span><br><span class="line">    <span class="type">PageItem</span> <span class="variable">pageItem</span> <span class="operator">=</span> getPageItem(vPageNo);</span><br><span class="line">    pageItem.pageFrame = Transformer.intToBinary(String.valueOf(freePageFrame)).substring(<span class="number">12</span>).toCharArray();<span class="comment">//物理页框号</span></span><br><span class="line">    pageItem.isInMem = <span class="literal">true</span>;<span class="comment">//装入位</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//填好有效位数组</span></span><br><span class="line">    pageValid[freePageFrame] = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="修改seg-load方法。"><a href="#修改seg-load方法。" class="headerlink" title="修改seg_load方法。"></a>修改seg_load方法。</h2><ul>
+<li>因此开启分页之后，seg_load应该跳过加载数据这一步，它的作用在开启分页之后仅仅是填写GDT，加载数据的任务应该交给page_load来完成。</li>
+<li>即<strong>if(!PAGE)</strong> {加载数据}</li>
+</ul>
+<h2 id="MMU类：toPagePhysicalAddr页级地址转换方法"><a href="#MMU类：toPagePhysicalAddr页级地址转换方法" class="headerlink" title="MMU类：toPagePhysicalAddr页级地址转换方法"></a>MMU类：toPagePhysicalAddr页级地址转换方法</h2><ul>
+<li>在段页式下，线性地址转物理地址需要查页表，然后进行虚拟页号到物理页号的替换，具体流程可以参考课件。</li>
+</ul>
+<ol>
+<li>从<strong>线性地址</strong>中<strong>提取前 20 位作为虚拟页号</strong>，<strong>后 12 位作为页内偏移</strong>。</li>
+<li><strong>物理页号的获取</strong>（TLB是否可用）：都是使用 <code>getFrameOfPage</code> 函数，区别在于类不同<ol>
+<li>如果开启了tlb，TLB<ul>
+<li>调用<strong>tlb类的函数</strong>，由虚拟页号获取</li>
+</ul>
+</li>
+<li>未开启，内存<ul>
+<li>调用<strong>Memory类的函数</strong>，由虚拟页号获取</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>最后，将<strong>物理页号与页内偏移拼接</strong>获得物理地址。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 段页式下的线性地址转物理地址</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> linearAddr 32位</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 32-bits 物理地址</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">toPagePhysicalAddr</span><span class="params">(String linearAddr)</span> &#123;</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">    <span class="comment">//获取虚拟页号（线性地址的高20位）+获取页内偏移（线性地址的低12位）</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">vPageNo</span> <span class="operator">=</span> linearAddr.substring(<span class="number">0</span>, <span class="number">20</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">offset</span> <span class="operator">=</span> linearAddr.substring(<span class="number">20</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">vPageNoInt</span> <span class="operator">=</span> Integer.parseInt(Transformer.binaryToInt(vPageNo));</span><br><span class="line">    <span class="comment">//查页表，获取物理页号</span></span><br><span class="line">    <span class="type">char</span>[] pageFrame;</span><br><span class="line">    <span class="keyword">if</span>(TLB.isAvailable)&#123;</span><br><span class="line">        <span class="comment">//如果TLB可用，从TLB中获取物理页号</span></span><br><span class="line">        pageFrame = TLB.getTLB().getFrameOfPage(vPageNoInt);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//如果TLB不可用，从内存中获取物理页号</span></span><br><span class="line">        pageFrame = Memory.getMemory().getFrameOfPage(vPageNoInt);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">String</span> <span class="variable">pageFrameStr</span> <span class="operator">=</span> String.valueOf(pageFrame);</span><br><span class="line">    <span class="comment">//将物理页号和页内偏移拼接为物理地址</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">physicalAddr</span> <span class="operator">=</span> pageFrameStr + offset;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> physicalAddr;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> add tlb here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="4-cache与TLB的融合"><a href="#4-cache与TLB的融合" class="headerlink" title="4. cache与TLB的融合"></a>4. cache与TLB的融合</h1><h2 id="a-将cache融合进MMU中"><a href="#a-将cache融合进MMU中" class="headerlink" title="a. 将cache融合进MMU中"></a>a. 将cache融合进MMU中</h2><ul>
+<li>这一步相对简单。需要注意，由于cache是memory的缓存，所以任何涉及到访问主存数据的地方都要添加对cache的调用。</li>
+<li>只有两个标了todo的地方需要改，MMU类的read和write。直接加入<strong>当cache有效时，通过cache读&#x2F;写</strong>即可。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] read(String logicAddr, <span class="type">int</span> length) &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">physicalAddr</span> <span class="operator">=</span> addressTranslation(logicAddr, length);</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> add cache here</span></span><br><span class="line">    <span class="keyword">if</span> (Cache.isAvailable) &#123;<span class="comment">//如果cache可用</span></span><br><span class="line">        <span class="keyword">return</span> cache.read(physicalAddr, length);<span class="comment">//从cache中读取数据</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果cache不可用,直接从内存中读取数据</span></span><br><span class="line">    <span class="keyword">return</span> memory.read(physicalAddr, length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">write</span><span class="params">(String logicAddr, <span class="type">int</span> length, <span class="type">byte</span>[] data)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">physicalAddr</span> <span class="operator">=</span> addressTranslation(logicAddr, length);</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> add cache here</span></span><br><span class="line">    <span class="keyword">if</span> (Cache.isAvailable) &#123;<span class="comment">//如果cache可用</span></span><br><span class="line">        cache.write(physicalAddr, length, data);<span class="comment">//将数据写入cache</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//无论cache是否可用，都要将数据写入内存</span></span><br><span class="line">    memory.write(physicalAddr, length, data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="b-将TLB融合进MMU中"><a href="#b-将TLB融合进MMU中" class="headerlink" title="b. 将TLB融合进MMU中"></a>b. 将TLB融合进MMU中</h2><ol>
+<li>MMU类<code>addressTranslation</code>函数。在标出的地方判断<ul>
+<li>若TLB有效：若<strong>tlb中没有该页</strong>且<strong>内存中没有该页</strong>，缺页中断<ul>
+<li>内存从磁盘加载该页的数据。</li>
+<li>并且将该页写入tlb。<code>tlb.write(i);</code></li>
+</ul>
+</li>
+<li>若TLB无效：<strong>直接判断内存</strong>中有没有该页（应该是有代码的）</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// <span class="doctag">TODO:</span> add tlb here</span></span><br><span class="line"><span class="comment">//1. 启用TLB之后，判断是否缺页的工作应该首先交给TLB来完成。</span></span><br><span class="line"><span class="comment">//2. 如果发生缺页，page_load方法会进行填页表，填页表之后不要忘记填TLB。</span></span><br><span class="line"><span class="keyword">if</span> (TLB.isAvailable)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!tlb.isValidPage(i))&#123;<span class="comment">//如果TLB中不存在该页</span></span><br><span class="line">    <span class="comment">// 缺页中断，该页不在内存中，内存从磁盘加载该页的数据</span></span><br><span class="line">        memory.page_load(i);<span class="comment">//从磁盘中加载数据,并填写页表</span></span><br><span class="line">        tlb.write(i);<span class="comment">//填写TLB</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (!memory.isValidPage(i)) &#123;</span><br><span class="line">    <span class="comment">// 缺页中断，该页不在内存中，内存从磁盘加载该页的数据</span></span><br><span class="line">    memory.page_load(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><code>toPagePhysicalAddr</code>方法，上面讲过了。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(TLB.isAvailable)&#123;</span><br><span class="line">    <span class="comment">//如果TLB可用，从TLB中获取物理页号</span></span><br><span class="line">    pageFrame = TLB.getTLB().getFrameOfPage(vPageNoInt);</span><br><span class="line">&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//如果TLB不可用，从内存中获取物理页号</span></span><br><span class="line">    pageFrame = Memory.getMemory().getFrameOfPage(vPageNoInt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/7.%E6%8E%A7%E5%88%B6%E5%99%A8/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/7.%E6%8E%A7%E5%88%B6%E5%99%A8/" class="trm-anima-link">
+                    7-控制器
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:47</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/5.%E7%A3%81%E7%9B%98/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/5.%E7%A3%81%E7%9B%98/" class="trm-anima-link">
+                    5-磁盘
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:45</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="虚拟存储器"><a rel="nofollow" class="trm-toc-link" href="#虚拟存储器"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">虚拟存储器</span></a></li><li class="trm-toc-item trm-toc-level-1" title="实模式"><a rel="nofollow" class="trm-toc-link" href="#实模式"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">实模式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="Memory的real_load方法"><a rel="nofollow" class="trm-toc-link" href="#Memory的real-load方法"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">Memory的real_load方法</span></a></li><li class="trm-toc-item trm-toc-level-2" title="MMU"><a rel="nofollow" class="trm-toc-link" href="#MMU"><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">MMU</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="分段式"><a rel="nofollow" class="trm-toc-link" href="#分段式"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">分段式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="Memory类：实现seg_load段加载方法"><a rel="nofollow" class="trm-toc-link" href="#Memory类：实现seg-load段加载方法"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">Memory类：实现seg_load段加载方法</span></a></li><li class="trm-toc-item trm-toc-level-2" title="MMU类：​​​​toSegLinearAddr​​​​ 逻辑地址转线性地址。"><a rel="nofollow" class="trm-toc-link" href="#MMU类：​​​​toSegLinearAddr​​​​-逻辑地址转线性地址。"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">MMU类：​​​​toSegLinearAddr​​​​ 逻辑地址转线性地址。</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="段页式"><a rel="nofollow" class="trm-toc-link" href="#段页式"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">段页式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="Memory类：page_load页加载方法。"><a rel="nofollow" class="trm-toc-link" href="#Memory类：page-load页加载方法。"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">Memory类：page_load页加载方法。</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 加载页数据"><a rel="nofollow" class="trm-toc-link" href="#1-加载页数据"><span class="trm-toc-number">4.1.1.</span> <span class="trm-toc-text">1. 加载页数据</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 写入内存"><a rel="nofollow" class="trm-toc-link" href="#2-写入内存"><span class="trm-toc-number">4.1.2.</span> <span class="trm-toc-text">2. 写入内存</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 填页表"><a rel="nofollow" class="trm-toc-link" href="#3-填页表"><span class="trm-toc-number">4.1.3.</span> <span class="trm-toc-text">3. 填页表</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="修改seg_load方法。"><a rel="nofollow" class="trm-toc-link" href="#修改seg-load方法。"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">修改seg_load方法。</span></a></li><li class="trm-toc-item trm-toc-level-2" title="MMU类：toPagePhysicalAddr页级地址转换方法"><a rel="nofollow" class="trm-toc-link" href="#MMU类：toPagePhysicalAddr页级地址转换方法"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">MMU类：toPagePhysicalAddr页级地址转换方法</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="4. cache与TLB的融合"><a rel="nofollow" class="trm-toc-link" href="#4-cache与TLB的融合"><span class="trm-toc-number">5.</span> <span class="trm-toc-text">4. cache与TLB的融合</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="a. 将cache融合进MMU中"><a rel="nofollow" class="trm-toc-link" href="#a-将cache融合进MMU中"><span class="trm-toc-number">5.1.</span> <span class="trm-toc-text">a. 将cache融合进MMU中</span></a></li><li class="trm-toc-item trm-toc-level-2" title="b. 将TLB融合进MMU中"><a rel="nofollow" class="trm-toc-link" href="#b-将TLB融合进MMU中"><span class="trm-toc-number">5.2.</span> <span class="trm-toc-text">b. 将TLB融合进MMU中</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

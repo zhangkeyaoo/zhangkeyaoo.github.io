@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="一. 计算两个32位二进制整数补码真值的和1. 步骤 初始化：将 src 和 dest 转换为字符串形式，并初始化一个 StringBuilder 来存储结果。 逐位相加：从最低位（第31位）开始逐位相加，考虑进位情况。 处理进位：根据当前位的和以及是否有进位，决定当前位的结果和是否产生新的进位。 结果反转：由于结果是从最低位开始添加的，最终需要反转字符串以得到正确的顺序。 返回结果：将结果转换为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2-补码加减乘除">
+<meta property="og:url" content="http://example.com/2025/02/22/2.%E8%A1%A5%E7%A0%81%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="一. 计算两个32位二进制整数补码真值的和1. 步骤 初始化：将 src 和 dest 转换为字符串形式，并初始化一个 StringBuilder 来存储结果。 逐位相加：从最低位（第31位）开始逐位相加，考虑进位情况。 处理进位：根据当前位的和以及是否有进位，决定当前位的结果和是否产生新的进位。 结果反转：由于结果是从最低位开始添加的，最终需要反转字符串以得到正确的顺序。 返回结果：将结果转换为">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-22T07:42:00.000Z">
+<meta property="article:modified_time" content="2025-02-22T07:42:19.858Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+
+
+<title >2-补码加减乘除</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyao","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-22 15:42:19"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            2-补码加减乘除
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="Bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fab icon-bilibili"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                1652046628@qq.com
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/22
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:42
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyao
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h2 id="一-计算两个32位二进制整数补码真值的和"><a href="#一-计算两个32位二进制整数补码真值的和" class="headerlink" title="一. 计算两个32位二进制整数补码真值的和"></a>一. 计算两个32位二进制整数补码真值的和</h2><h3 id="1-步骤"><a href="#1-步骤" class="headerlink" title="1. 步骤"></a>1. 步骤</h3><ol>
+<li>初始化：将 src 和 dest 转换为字符串形式，并初始化一个 StringBuilder 来存储结果。</li>
+<li>逐位相加：从最低位（第31位）开始逐位相加，<strong>考虑进位情况</strong>。</li>
+<li>处理进位：根据<strong>当前位的和以及是否有进位</strong>，决定<strong>当前位的结果和是否产生新的进位</strong>。</li>
+<li><strong>结果反转</strong>：由于结果是从最低位开始添加的，<strong>最终需要反转字符串以得到正确的顺序</strong>。</li>
+<li>返回结果：将结果转换为 DataType 并返回。<ul>
+<li>DataType ans &#x3D; <strong>new DataType(ansStr)</strong>;</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-【注意】结果反转"><a href="#2-【注意】结果反转" class="headerlink" title="2. 【注意】结果反转"></a>2. 【注意】结果反转</h3><ul>
+<li><code>String ans = ansStr.reverse().toString();</code></li>
+<li><strong>StringBulider</strong>才能用<code>.reverse()</code>; String不能用</li>
+</ul>
+<h3 id="3-完整代码"><a href="#3-完整代码" class="headerlink" title="3. 完整代码"></a>3. 完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">add</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">       String srcStr=src.toString();</span><br><span class="line">       String destStr=dest.toString();</span><br><span class="line">       <span class="type">StringBuilder</span> <span class="variable">ansStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">       <span class="type">boolean</span> <span class="variable">carry</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">destInt</span> <span class="operator">=</span> destStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">           <span class="type">int</span> <span class="variable">srcInt</span> <span class="operator">=</span> srcStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">           <span class="keyword">if</span> (!carry) &#123;<span class="comment">//无进位</span></span><br><span class="line">               <span class="keyword">if</span> (destInt + srcInt == <span class="number">2</span>) &#123;</span><br><span class="line">                   carry = <span class="literal">true</span>;</span><br><span class="line">                   ansStr.append(<span class="number">0</span>);</span><br><span class="line">               &#125; <span class="keyword">else</span> <span class="keyword">if</span>(destInt+srcInt==<span class="number">1</span>)&#123;</span><br><span class="line">                   ansStr.append(<span class="number">1</span>);</span><br><span class="line">               &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                   ansStr.append(<span class="number">0</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;<span class="comment">//有进位</span></span><br><span class="line">               <span class="keyword">if</span> (destInt + srcInt == <span class="number">2</span>) &#123;</span><br><span class="line">                   ansStr.append(<span class="number">1</span>);</span><br><span class="line">               &#125; <span class="keyword">else</span> <span class="keyword">if</span>(destInt+srcInt==<span class="number">1</span>)&#123;</span><br><span class="line">                   ansStr.append(<span class="number">0</span>);</span><br><span class="line">               &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                   ansStr.append(<span class="number">1</span>);</span><br><span class="line">                   carry=<span class="literal">false</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">DataType</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(ansStr.reverse().toString());</span><br><span class="line">       <span class="keyword">return</span> ans;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-更简单："><a href="#4-更简单：" class="headerlink" title="4. 更简单："></a>4. 更简单：</h3><ul>
+<li>int sum &#x3D; num1 + num2 + carry;</li>
+<li>result.append(sum % 2);</li>
+<li>carry &#x3D; sum &#x2F; 2;</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">add</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="type">String</span> <span class="variable">srcStr</span> <span class="operator">=</span> src.toString();</span><br><span class="line">    <span class="type">String</span> <span class="variable">destStr</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">    <span class="type">int</span> <span class="variable">carry</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">31</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> srcStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">num2</span> <span class="operator">=</span> destStr.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> num1 + num2 + carry;</span><br><span class="line">        result.append(sum % <span class="number">2</span>);</span><br><span class="line">        carry = sum / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(result.reverse().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、计算两个32位二进制整数补码真值的差"><a href="#二、计算两个32位二进制整数补码真值的差" class="headerlink" title="二、计算两个32位二进制整数补码真值的差"></a>二、计算两个32位二进制整数补码真值的差</h2><ul>
+<li>dest表示被减数，src表示减数(即计算dest - src)</li>
+</ul>
+<h3 id="1-取反操作"><a href="#1-取反操作" class="headerlink" title="1. 取反操作"></a>1. 取反操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">negation</span><span class="params">(String beforeStr)</span>&#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">afterStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="comment">//逐位取反</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (beforeStr.charAt(i)==<span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">            afterStr.append(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            afterStr.append(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//加1</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">carry</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(carry)&#123;<span class="comment">//有进位</span></span><br><span class="line">            <span class="keyword">if</span>(afterStr.charAt(i)==<span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">                afterStr.replace(i,i+<span class="number">1</span>,<span class="string">&quot;1&quot;</span>);</span><br><span class="line">                carry=<span class="literal">false</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                afterStr.replace(i,i+<span class="number">1</span>,<span class="string">&quot;0&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> afterStr.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-完整代码"><a href="#2-完整代码" class="headerlink" title="2.完整代码"></a>2.完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">sub</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">    String srcStr=src.toString();</span><br><span class="line">    srcStr=negation(srcStr);</span><br><span class="line">    src = <span class="keyword">new</span> <span class="title class_">DataType</span>(srcStr);</span><br><span class="line">    <span class="keyword">return</span> add(src,dest);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、两个二进制整数的乘积-布斯乘法，结果低位截取后32位"><a href="#三、两个二进制整数的乘积-布斯乘法，结果低位截取后32位" class="headerlink" title="三、两个二进制整数的乘积(布斯乘法，结果低位截取后32位)"></a>三、两个二进制整数的乘积(布斯乘法，结果低位截取后32位)</h2><h3 id="1-布斯乘法"><a href="#1-布斯乘法" class="headerlink" title="1.布斯乘法"></a>1.布斯乘法</h3><ol>
+<li>正负数处理：<ul>
+<li>检查 src 和 dest 是否为负数，如果是负数，则将其<strong>转换为正数</strong>。</li>
+</ul>
+</li>
+<li>初始化：<ol>
+<li>初始化 <strong>resultStr</strong> 为<strong>65位字符串</strong>，其中<strong>前32位为0，后32位为 dest，并在末尾添一个0</strong>。<ul>
+<li><strong>32个0+dest+0</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>迭代计算：<ul>
+<li>对 resultStr 进行<strong>32次迭代</strong>；第一次是<strong>0-最低位</strong></li>
+<li>每次根据 resultStr 的最低位和次低位的组合（<strong>最低位-次低位</strong>）决定是否进行加法或减法操作。<ul>
+<li>如果组合为 <strong>01（1）</strong>，则将 <strong>resultStr的高32位 + src</strong>。</li>
+<li>如果组合为 10（-1），则将<strong>resultStr的高32位 - src</strong>。</li>
+<li>如果组合为 11或00（0），则不变。</li>
+<li>进行<strong>算术右移操作（保留符号位）</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重复：<ul>
+<li>重复上述迭代步骤，直到处理完乘数的所有位。</li>
+</ul>
+</li>
+<li>结果：<ul>
+<li>截取 resultStr 的**低32位（33~64）**作为最终结果</li>
+<li>如果原始 src 和 dest 中有一个是负数，则将结果取反。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-算术右移方法："><a href="#2-算术右移方法：" class="headerlink" title="2. 算术右移方法："></a>2. 算术右移方法：</h3><ol>
+<li>符号位不变</li>
+<li>原本的64位整体右移</li>
+</ol>
+<ul>
+<li>相当于<strong>前面变成两个符号位，最后一位丢掉</strong></li>
+</ul>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">mul</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">    String srcStr=src.toString();</span><br><span class="line">    <span class="type">String</span> <span class="variable">destStr</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">    <span class="comment">//1.判断正负，如果负，则标记并转为正</span></span><br><span class="line">    <span class="type">boolean</span> srcNeg=<span class="literal">false</span>;</span><br><span class="line">    <span class="type">boolean</span> destNeg=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(srcStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">        srcNeg=<span class="literal">true</span>;</span><br><span class="line">        srcStr=negation(srcStr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(destStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">        destNeg=<span class="literal">true</span>;</span><br><span class="line">        destStr=negation(destStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2.初始化</span></span><br><span class="line">    StringBuilder resultStr=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;0&quot;</span>.repeat(<span class="number">32</span>)+destStr+<span class="string">&quot;0&quot;</span>);<span class="comment">//result，32个0+dest+0组成</span></span><br><span class="line">    <span class="comment">//3.计算</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">32</span>;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">        DataType src1=<span class="keyword">new</span> <span class="title class_">DataType</span>(srcStr);</span><br><span class="line">        DataType dest1=<span class="keyword">new</span> <span class="title class_">DataType</span>(resultStr.substring(<span class="number">0</span>,<span class="number">32</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(i==<span class="number">32</span>)&#123;<span class="comment">//第1位（补充了一个0）</span></span><br><span class="line">            <span class="keyword">if</span>(destStr.charAt(<span class="number">31</span>)-<span class="string">&#x27;0&#x27;</span>==<span class="number">0</span>)&#123;<span class="comment">//0：右移</span></span><br><span class="line">                resultStr= <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(rightshift(resultStr.toString()));<span class="comment">//右移</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//-1：减src，再右移</span></span><br><span class="line">                resultStr.replace(<span class="number">0</span>,<span class="number">32</span>,sub(src1,dest1).toString());</span><br><span class="line">                resultStr= <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(rightshift(resultStr.toString()));<span class="comment">//右移</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">//其它位</span></span><br><span class="line">            <span class="keyword">if</span>(destStr.charAt(i)-destStr.charAt(i-<span class="number">1</span>)==<span class="number">0</span>)&#123;<span class="comment">//0：右移</span></span><br><span class="line">                resultStr= <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(rightshift(resultStr.toString()));<span class="comment">//右移</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>  <span class="keyword">if</span>(destStr.charAt(i)-destStr.charAt(i-<span class="number">1</span>)==<span class="number">1</span>)&#123;<span class="comment">//1：加src，再右移</span></span><br><span class="line">                resultStr.replace(<span class="number">0</span>,<span class="number">32</span>,add(src1,dest1).toString());</span><br><span class="line">                resultStr= <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(rightshift(resultStr.toString()));<span class="comment">//右移</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//-1：减src，再右移</span></span><br><span class="line">                resultStr.replace(<span class="number">0</span>,<span class="number">32</span>,sub(src1,dest1).toString());</span><br><span class="line">                resultStr= <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(rightshift(resultStr.toString()));<span class="comment">//右移</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//4.结果：截取低32位</span></span><br><span class="line">    String result=resultStr.substring(<span class="number">32</span>,<span class="number">64</span>);</span><br><span class="line">    <span class="comment">//正负调整</span></span><br><span class="line">    <span class="keyword">if</span>((srcNeg&amp;&amp;!destNeg)||(!srcNeg&amp;&amp;destNeg))&#123;</span><br><span class="line">        result =negation(result);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">rightshift</span><span class="params">(String beforeStr)</span>&#123;<span class="comment">//右移</span></span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">afterStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    afterStr.append(beforeStr.charAt(<span class="number">0</span>));<span class="comment">//保留符号位</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">        afterStr.append(beforeStr.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> afterStr.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、两个二进制整数的除法"><a href="#四、两个二进制整数的除法" class="headerlink" title="四、两个二进制整数的除法"></a>四、两个二进制整数的除法</h2><ul>
+<li><strong>恢复余数除法</strong>和<strong>不恢复余数除法</strong>均可</li>
+<li>dest ÷ src</li>
+<li>将32位余数正确储存在余数寄存器remainderReg中</li>
+<li>除数为0，且被除数不为0时要求能够正确抛出ArithmeticException<strong>异常</strong>。</li>
+</ul>
+<h3 id="1-恢复余数除法"><a href="#1-恢复余数除法" class="headerlink" title="1. 恢复余数除法"></a>1. 恢复余数除法</h3><ol start="0">
+<li>（此代码中）正负调整(【Datatype】src和【String】srcStr都要)</li>
+<li>初始化：<ul>
+<li>被除数（Dividend）和除数（Divisor）分别存储在寄存器中。</li>
+<li><strong>余数</strong>寄存器（Remainder）初始化为<strong>32位的0</strong>。</li>
+<li><strong>商</strong>寄存器（Quotient）初始化为<strong>被除数</strong>。</li>
+</ul>
+</li>
+<li>迭代：对<strong>被除数的每一位</strong>进行处理，从<strong>最高位到最低位</strong>。<ol>
+<li>将<strong>余数左移一位</strong>，并将<strong>被除数的当前位移入余数的最低位</strong>。</li>
+<li><strong>余数减去&#x2F;加上除数</strong>。<ul>
+<li>如果余数<strong>与原本异号</strong>，则<strong>恢复余数（加回除数）</strong>，并将<strong>商的当前位设为0</strong>。</li>
+<li>如果余数<strong>与原本同号</strong>，则将商的当前位<strong>设为1</strong>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>结果：<ul>
+<li>（此代码中）调整<strong>余数和商的符号</strong></li>
+<li>迭代完成后，商寄存器中存储的值即为商，余数寄存器中存储的值即为余数。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-不恢复余数除法"><a href="#2-不恢复余数除法" class="headerlink" title="2. 不恢复余数除法"></a>2. 不恢复余数除法</h3><ol>
+<li>初始化：<ul>
+<li>被除数（Dividend）和除数（Divisor）分别存储在寄存器中。</li>
+<li>余数寄存器（Remainder）初始化为0。</li>
+<li>商寄存器（Quotient）初始化为被除数。</li>
+</ul>
+</li>
+<li>迭代： 对被除数的每一位进行处理，从最高位到最低位。<ol>
+<li>将<strong>余数左移一位</strong>，并将<strong>被除数的当前位移入余数的最低位</strong>。</li>
+<li>余数减去&#x2F;加上除数。<ul>
+<li>如果余数<strong>与原本异号</strong>，则将商的当前位设为0，并在<strong>下一次迭代中将余数加回除数</strong>。</li>
+<li>如果余数<strong>与原本同号</strong>，则将商的当前位设为1，并在<strong>下一次迭代中继续减去除数</strong>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>结果：<ul>
+<li>根据被除数和除数的符号，调整商和余数的符号：<ul>
+<li><strong>被除数和除数同号：余数+除数</strong>，商为正</li>
+<li><strong>被除数和除数异号：余数-除数</strong>，商为负</li>
+</ul>
+</li>
+<li>迭代完成后，商寄存器中存储的值即为商，余数寄存器中存储的值即为余数。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-调整余数和商的符号"><a href="#3-调整余数和商的符号" class="headerlink" title="3. 调整余数和商的符号"></a>3. 调整余数和商的符号</h3><ol>
+<li><strong>余数和被除数同号</strong></li>
+<li>其中<strong>一方为负，则商取负</strong></li>
+</ol>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">DataType remainderReg;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回两个二进制整数的除法结果</span></span><br><span class="line"><span class="comment"> * dest ÷ src</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> src  32-bits</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dest 32-bits</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 32-bits</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//用恢复余数除法</span></span><br><span class="line"><span class="keyword">public</span> DataType <span class="title function_">div</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">srcStr</span> <span class="operator">=</span> src.toString();</span><br><span class="line">    <span class="type">String</span> <span class="variable">destStr</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">    <span class="comment">//0.判断除0情况</span></span><br><span class="line">    <span class="keyword">if</span>(srcStr.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>(<span class="string">&quot;除0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//1. 判断正负，如果是负就转正，并标记</span></span><br><span class="line">    <span class="type">boolean</span> srcNeg=<span class="literal">false</span>;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">destNeg</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(srcStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">        srcStr=negation(srcStr);</span><br><span class="line">        src=<span class="keyword">new</span> <span class="title class_">DataType</span>(srcStr);<span class="comment">//保证src也变号</span></span><br><span class="line">        srcNeg=<span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(destStr.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">        destStr=negation(destStr);</span><br><span class="line">        dest = <span class="keyword">new</span> <span class="title class_">DataType</span>(destStr);<span class="comment">//保证dest也变号</span></span><br><span class="line">        destNeg=<span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2. 初始化-商和余数寄存器</span></span><br><span class="line">    StringBuilder Shang=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(destStr);<span class="comment">//商，初始化为被除数</span></span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">Yu</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;0&quot;</span>.repeat(<span class="number">32</span>));<span class="comment">//余数，初始化为32个0</span></span><br><span class="line">    <span class="comment">//3. 计算</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">        <span class="comment">//3.1左移</span></span><br><span class="line">        Yu=leftshift(Yu.toString());</span><br><span class="line">        Yu.append(Shang.charAt(<span class="number">0</span>));</span><br><span class="line">        Shang=leftshift(Shang.toString());</span><br><span class="line">        <span class="comment">//3.2 余数减去除数</span></span><br><span class="line">        String tmp=sub(src,<span class="keyword">new</span> <span class="title class_">DataType</span>(Yu.toString())).toString();</span><br><span class="line">        <span class="keyword">if</span>(tmp.charAt(<span class="number">0</span>)==<span class="string">&#x27;1&#x27;</span>)&#123;<span class="comment">//为负</span></span><br><span class="line">            Shang.append(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">//非负</span></span><br><span class="line">            Yu=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(tmp);</span><br><span class="line">            Shang.append(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//4.结果</span></span><br><span class="line">    String YuStr= Yu.toString();</span><br><span class="line">    String ShangStr= Shang.toString();</span><br><span class="line">    <span class="comment">//被除数和余数同号</span></span><br><span class="line">    <span class="keyword">if</span>(!srcNeg&amp;&amp;destNeg)&#123;<span class="comment">//除数正，被除数负</span></span><br><span class="line">        YuStr=negation(YuStr);</span><br><span class="line">        ShangStr=negation(ShangStr);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (srcNeg&amp;&amp;!destNeg) &#123;<span class="comment">//除数负，被除数正</span></span><br><span class="line">        ShangStr=negation(YuStr);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(srcNeg&amp;&amp;destNeg)&#123;<span class="comment">//都是负</span></span><br><span class="line">        YuStr=negation(YuStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    remainderReg=<span class="keyword">new</span> <span class="title class_">DataType</span>(YuStr);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(ShangStr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//左移</span></span><br><span class="line"><span class="keyword">public</span> StringBuilder <span class="title function_">leftshift</span><span class="params">(String beforeStr)</span>&#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">afterStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;<span class="number">32</span>;i++)&#123;<span class="comment">//跳过第一位</span></span><br><span class="line">        afterStr.append(beforeStr.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> afterStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-anima-link">
+                    3-浮点数加减乘除
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:43</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/" class="trm-anima-link">
+                    1-十进制二进制浮点数转换
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/20</li>
+                <li>16:34</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-2" title="一. 计算两个32位二进制整数补码真值的和"><a rel="nofollow" class="trm-toc-link" href="#一-计算两个32位二进制整数补码真值的和"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">一. 计算两个32位二进制整数补码真值的和</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 步骤"><a rel="nofollow" class="trm-toc-link" href="#1-步骤"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">1. 步骤</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 【注意】结果反转"><a rel="nofollow" class="trm-toc-link" href="#2-【注意】结果反转"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">2. 【注意】结果反转</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 完整代码"><a rel="nofollow" class="trm-toc-link" href="#3-完整代码"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">3. 完整代码</span></a></li><li class="trm-toc-item trm-toc-level-3" title="4. 更简单："><a rel="nofollow" class="trm-toc-link" href="#4-更简单："><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">4. 更简单：</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="二、计算两个32位二进制整数补码真值的差"><a rel="nofollow" class="trm-toc-link" href="#二、计算两个32位二进制整数补码真值的差"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">二、计算两个32位二进制整数补码真值的差</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 取反操作"><a rel="nofollow" class="trm-toc-link" href="#1-取反操作"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">1. 取反操作</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.完整代码"><a rel="nofollow" class="trm-toc-link" href="#2-完整代码"><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">2.完整代码</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="三、两个二进制整数的乘积(布斯乘法，结果低位截取后32位)"><a rel="nofollow" class="trm-toc-link" href="#三、两个二进制整数的乘积-布斯乘法，结果低位截取后32位"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">三、两个二进制整数的乘积(布斯乘法，结果低位截取后32位)</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.布斯乘法"><a rel="nofollow" class="trm-toc-link" href="#1-布斯乘法"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1.布斯乘法</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 算术右移方法："><a rel="nofollow" class="trm-toc-link" href="#2-算术右移方法："><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. 算术右移方法：</span></a></li><li class="trm-toc-item trm-toc-level-3" title="完整代码"><a rel="nofollow" class="trm-toc-link" href="#完整代码"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">完整代码</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="四、两个二进制整数的除法"><a rel="nofollow" class="trm-toc-link" href="#四、两个二进制整数的除法"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">四、两个二进制整数的除法</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 恢复余数除法"><a rel="nofollow" class="trm-toc-link" href="#1-恢复余数除法"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">1. 恢复余数除法</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 不恢复余数除法"><a rel="nofollow" class="trm-toc-link" href="#2-不恢复余数除法"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">2. 不恢复余数除法</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 调整余数和商的符号"><a rel="nofollow" class="trm-toc-link" href="#3-调整余数和商的符号"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">3. 调整余数和商的符号</span></a></li><li class="trm-toc-item trm-toc-level-3" title="完整代码"><a rel="nofollow" class="trm-toc-link" href="#完整代码-1"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">完整代码</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

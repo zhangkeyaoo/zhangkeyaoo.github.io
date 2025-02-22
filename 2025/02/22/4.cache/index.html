@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="cache一、通用映射策略1.fetch 由已有函数计算块号 用map函数查看是否命中 如果命中则返回行号rowNO 未命中则将数据从内存读到cache,再返回更新的rowNO： 用Memory读出数据data[] 注意read()读的是二进制字符串 模拟从0开始，因此读的起始位置是块号乘一行（一个块）的大小，转成二进制 读出的数据大小也是块的大小（块大小&#x3D;行大小）   12String">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4-cache">
+<meta property="og:url" content="http://example.com/2025/02/22/4.cache/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="cache一、通用映射策略1.fetch 由已有函数计算块号 用map函数查看是否命中 如果命中则返回行号rowNO 未命中则将数据从内存读到cache,再返回更新的rowNO： 用Memory读出数据data[] 注意read()读的是二进制字符串 模拟从0开始，因此读的起始位置是块号乘一行（一个块）的大小，转成二进制 读出的数据大小也是块的大小（块大小&#x3D;行大小）   12String">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-22T07:44:00.000Z">
+<meta property="article:modified_time" content="2025-02-22T07:44:52.643Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+
+
+<title >4-cache</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyao","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-22 15:44:52"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            4-cache
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="Bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fab icon-bilibili"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                1652046628@qq.com
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/22
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:44
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyao
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="cache"><a href="#cache" class="headerlink" title="cache"></a>cache</h1><h2 id="一、通用映射策略"><a href="#一、通用映射策略" class="headerlink" title="一、通用映射策略"></a>一、通用映射策略</h2><h3 id="1-fetch"><a href="#1-fetch" class="headerlink" title="1.fetch"></a>1.fetch</h3><ol>
+<li>由已有函数计算<strong>块号</strong></li>
+<li>用map函数查看是否命中</li>
+<li>如果命中则返回行号rowNO</li>
+<li>未命中则将数据从内存读到cache,再返回更新的rowNO：<ol>
+<li>用Memory读出数据data[]<ul>
+<li>注意read()读的是<strong>二进制字符串</strong></li>
+<li>模拟从0开始，因此<strong>读的起始位置</strong>是<strong>块号乘一行（一个块）的大小</strong>，转成二进制</li>
+<li>读出的数据大小也是块的大小（<strong>块大小&#x3D;行大小</strong>）</li>
+</ul>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">beginAddr</span> <span class="operator">=</span> Transformer.intToBinary(String.valueOf(blockNO*LINE_SIZE_B));</span><br><span class="line"><span class="type">byte</span>[] data=Memory.getMemory().read(beginAddr,LINE_SIZE_B);</span><br></pre></td></tr></table></figure></li>
+<li>计算<strong>tag</strong>（该组内分配给这个块的次序）</li>
+</ol>
+<ul>
+<li>注意<strong>tag为26位的二进制</strong>！！</li>
+<li><strong>blockNO&#x2F;SETS</strong>,<strong>块号&#x2F;组数</strong></li>
+</ul>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">char</span>[] calculateTag(<span class="type">int</span> blockNO)&#123;</span><br><span class="line">    <span class="type">int</span> tag=blockNO/SETS;</span><br><span class="line">    <span class="keyword">return</span> Transformer.intToBinary(<span class="string">&quot;&quot;</span> + tag).substring(<span class="number">6</span>, <span class="number">32</span>).toCharArray();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>根据映射策略<ol>
+<li>为<strong>直接映射</strong>：<strong>行数&#x3D;组数</strong>：(CACHE_SIZE_B &#x2F; LINE_SIZE_B)&#x3D;&#x3D;SETS<ul>
+<li>调用cache的<strong>update</strong>函数</li>
+<li>行号&#x3D;块号%行数（组数）</li>
+<li><strong>return rowNO</strong></li>
+</ul>
+</li>
+<li>为<strong>组关联映射</strong>，调用<strong>替换策略的replace函数</strong><ul>
+<li>组号&#x3D;块号mod组数。<code>int groupNO=blockNO%SETS;</code></li>
+<li>起始行&#x3D;组号<em>每组行数.&#96;&#96;int start&#x3D; groupNO</em>setSize;&#96;&#96;</li>
+<li>结束行*（闭区间）*.<code>int end = (groupNO+1)*setSize-1;</code></li>
+<li><strong>return this.replacementStrategy.replace(start,end,tag,data);</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-map"><a href="#2-map" class="headerlink" title="2. map"></a>2. map</h3><ul>
+<li>参量：块号blockNO</li>
+</ul>
+<ol>
+<li>计算<strong>组号</strong>:<em>blockNO%SETS</em></li>
+<li>计算<strong>tag</strong>: <em>char[] tag&#x3D;calculateTag(blockNO);</em></li>
+<li>在组范围内查找是否命中：三个条件：<strong>非空，有效，tag相同</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">int</span> <span class="title function_">map</span><span class="params">(<span class="type">int</span> blockNO)</span> &#123;</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">groupNO</span> <span class="operator">=</span> blockNO % SETS;           <span class="comment">// 获得内存地址blockNO所对应的组号setNO</span></span><br><span class="line">    <span class="type">char</span>[] addrTag = calculateTag(blockNO);   <span class="comment">// 获得内存地址blockNO所对应的tag</span></span><br><span class="line">    <span class="comment">//在组范围内查找是否命中</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> groupNO * setSize;</span><br><span class="line">    <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> (groupNO + <span class="number">1</span>) * setSize - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//非空+有效+tag相同</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start; i &lt;= end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (cacheInstance.isMatch(i, addrTag)) &#123;   <span class="comment">// 命中该行</span></span><br><span class="line">            replacementStrategy.hit(i);</span><br><span class="line">            <span class="keyword">return</span> i; <span class="comment">// 返回该行</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><strong>命中后，调用替换策略hit函数，返回行号</strong></li>
+</ol>
+<ul>
+<li><code>replacementStrategy.hit(i);</code></li>
+</ul>
+<ol start="5">
+<li>否则，返回-1</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isMatch</span><span class="params">(<span class="type">int</span> rowNO, <span class="type">char</span>[] tag)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.cache[rowNO] == <span class="literal">null</span>) &#123;<span class="comment">//空,false</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.cache[rowNO].validBit) &#123;<span class="comment">//不有效,false</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.equals(<span class="built_in">this</span>.cache[rowNO].tag, tag);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-update"><a href="#3-update" class="headerlink" title="3.update"></a>3.update</h3><ul>
+<li>用于更新cache</li>
+</ul>
+<ol start="2">
+<li>更新当前cache行有效位true，visit初始化为1，时间戳设置成当前时间，更新tag和data</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">(<span class="type">int</span> rowNO, <span class="type">char</span>[] tag, <span class="type">byte</span>[] input)</span> &#123;</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">    cache[rowNO].validBit=<span class="literal">true</span>;</span><br><span class="line">    cache[rowNO].visited = <span class="number">1</span>;</span><br><span class="line">    cache[rowNO].timeStamp = System.currentTimeMillis();</span><br><span class="line">    cache[rowNO].tag=tag;</span><br><span class="line">    cache[rowNO].data=input;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、替换策略的实现"><a href="#二、替换策略的实现" class="headerlink" title="二、替换策略的实现"></a>二、替换策略的实现</h2><ul>
+<li>对于FIFO策略，你应该需要用到CacheLine中的timeStamp字段，记录每一行进入Cache的时间。</li>
+<li>对于LFU策略，你应该需要用到CacheLine中的visited字段，记录每一行被使用的次数。</li>
+<li>对于LRU策略，你应该需要用到CacheLine中的timeStamp字段，记录每一行最后被访问时间。</li>
+<li><strong>替换后</strong>先判断<strong>是否要写回</strong>，再<strong>更新cache</strong>，再<strong>返回行号</strong></li>
+</ul>
+<h3 id="1-先入先出FIFO"><a href="#1-先入先出FIFO" class="headerlink" title="1.先入先出FIFO"></a>1.先入先出FIFO</h3><ul>
+<li><strong>不用写hit</strong>。</li>
+<li>replace替换最小时间戳<strong>timeStamp</strong></li>
+</ul>
+<ol>
+<li>初始化<ul>
+<li>把最早时间戳设为long的最大值：long oldestTimestamp &#x3D; Long.MAX_VALUE;</li>
+<li>把最早行号设为-1： int oldestRow &#x3D; -1;</li>
+</ul>
+</li>
+<li>找最早时间和对应行号</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start; i &lt;= end; i++) &#123;</span><br><span class="line">    <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> Cache.getCache().getTimeStamp(i);<span class="comment">// 获取时间戳</span></span><br><span class="line">    <span class="keyword">if</span> (timestamp &lt; oldestTimestamp) &#123;<span class="comment">// 如果[时间戳]&lt;[最早时间戳]</span></span><br><span class="line">        oldestTimestamp = timestamp;<span class="comment">// 更新[最早时间戳]</span></span><br><span class="line">            oldestRow = i;<span class="comment">// 更新[最早行号]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在Cache中添加getTimeStamp()<ul>
+<li>注意，必须是<strong>有效行</strong>的时间戳才有意义！</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getTimeStamp</span><span class="params">(<span class="type">int</span> rowNO)</span>&#123;</span><br><span class="line">    <span class="type">CacheLine</span> <span class="variable">cacheLine</span> <span class="operator">=</span> cache[rowNO];</span><br><span class="line">    <span class="keyword">if</span> (cacheLine.validBit) &#123;<span class="comment">//必须有效</span></span><br><span class="line">        <span class="keyword">return</span> cacheLine.timeStamp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><strong>判断是否要写回</strong>——<strong>脏位是否为true+是否有效valid</strong><ul>
+<li>getDirty方法</li>
+<li><strong>calculatePAddr</strong>方法</li>
+<li>Memory的write方法</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><strong>calculatePAddr</strong><ol>
+<li>标签（Tag）：用于唯一标识一个数据块。</li>
+<li>组号（Set Index）：用于确定数据块在缓存中的哪一组。<ul>
+<li>转换为二进制字符串，并截取其最后 offset 位：因为offset&#x3D;组号位数</li>
+</ul>
+</li>
+<li>块内偏移（Block Offset）：用于确定数据在缓存行中的具体位置。<ul>
+<li><strong>SETS（组数）的二进制位数</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由行号获取内存实际地址</span></span><br><span class="line"><span class="comment">// 内存实际地址=tag位+组号+block offset块内偏移</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">calculatePAddr</span><span class="params">(<span class="type">int</span> rowNO)</span> &#123;</span><br><span class="line">    <span class="comment">//计算偏移量 (offset)： （计算 SETS 的二进制位数）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">offset</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; SETS; i *= <span class="number">2</span>) &#123;</span><br><span class="line">        offset++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//计算组号 (setNo)：</span></span><br><span class="line">    <span class="comment">//将组号转换为二进制字符串，并截取其最后 offset 位。</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">setNo</span> <span class="operator">=</span> Transformer.intToBinary(<span class="string">&quot;&quot;</span> + rowNO / setSize).substring(<span class="number">32</span> - offset, <span class="number">32</span>);</span><br><span class="line">    <span class="comment">//获取标签 (tag)：</span></span><br><span class="line">    <span class="type">char</span>[] tag = cache[rowNO].tag;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>(tag).substring(offset, tag.length) + setNo + <span class="string">&quot;000000&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>更新cache<ul>
+<li>Cache.getCache().<strong>update</strong>(oldestRow, addrTag, input);</li>
+<li>Cache.getCache().<strong>setTimeStamp</strong>(oldestRow);</li>
+<li><strong>现在</strong>时间戳：<strong>System.currentTimeMillis()</strong></li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTimeStamp</span><span class="params">(<span class="type">int</span> rowNO)</span> &#123;</span><br><span class="line">    cache[rowNO].timeStamp = System.currentTimeMillis();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>返回行号</li>
+</ol>
+<h3 id="2-最近不经常使用LFU"><a href="#2-最近不经常使用LFU" class="headerlink" title="2. 最近不经常使用LFU"></a>2. 最近不经常使用LFU</h3><ul>
+<li>hit中将visit+1。replace替换最少使用次数<br>1.hit: <strong>Cache.getCache().addVisited(rowNO);</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// LFU算法增加访问次数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addVisited</span><span class="params">(<span class="type">int</span> rowNO)</span>&#123;</span><br><span class="line">    cache[rowNO].visited++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>replace：<ol>
+<li>遍历找最小访问次数行</li>
+<li>检查写回</li>
+<li>update</li>
+<li>返回行数</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>获取访问次数,也必须是<strong>有效</strong>的！！</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getVisited</span><span class="params">(<span class="type">int</span> rowNO)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cache[rowNO].validBit)&#123;</span><br><span class="line">        <span class="keyword">return</span> cache[rowNO].visited;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-最近最少用算法-LRU"><a href="#3-最近最少用算法-LRU" class="headerlink" title="3. 最近最少用算法 LRU"></a>3. 最近最少用算法 LRU</h3><ul>
+<li>hit更新时间戳。replace替换最小时间戳</li>
+</ul>
+<ol>
+<li>hit:每次被访问，都更新时间戳<ul>
+<li><code>Cache.getCache().setTimeStamp(rowNO);</code></li>
+</ul>
+</li>
+<li>replace:<ol>
+<li>遍历找该组中最小时间戳</li>
+<li>检查写回</li>
+<li>update</li>
+<li>返回行数</li>
+</ol>
+</li>
+</ol>
+<h2 id="三、写策略的实现"><a href="#三、写策略的实现" class="headerlink" title="三、写策略的实现"></a>三、写策略的实现</h2><ul>
+<li>涉及到cache往主存写数据的只有两个地方：<ul>
+<li>write函数直接向cache写数据时</li>
+<li>replace函数需要替换掉一行数据时</li>
+</ul>
+</li>
+<li>在write函数和replace函数的相应地方对isWriteBack字段判断，然后根据具体策略来做不同的事情</li>
+<li>写直达策略就是在<strong>write函数完成写cache后直接修改主存</strong>；</li>
+<li>写回策略就是在write函数完成写cache后<strong>设置好脏位</strong>，并<strong>在replace函数将要替换掉该行的时候将该行写回内存</strong></li>
+<li>在Cache类中编写一个<strong>根据行号计算物理地址的方法</strong></li>
+</ul>
+<h3 id="1-写直达策略"><a href="#1-写直达策略" class="headerlink" title="1. 写直达策略"></a>1. 写直达策略</h3><ul>
+<li>isWriteBack为false。</li>
+<li>在<code>write</code>里如果为写直达，直接修改主存,参数为当前rowNO对应的pAddr，行大小，上面所得的cache_data</li>
+</ul>
+<h3 id="2-写回策略"><a href="#2-写回策略" class="headerlink" title="2.写回策略"></a>2.写回策略</h3><ul>
+<li>isWriteBack为true。</li>
+<li>在<code>write</code>里如果为写回，设置好<strong>dirty位</strong></li>
+<li>在三个<strong>替换策略</strong>里，如果<ol>
+<li><strong>为写回</strong>,</li>
+<li>如果替换行<strong>脏位为true</strong></li>
+<li>如果替换行<strong>有效</strong></li>
+</ol>
+<ul>
+<li>则<strong>写入内存</strong>。参数：替换行所对应的pAddr，行大小，替换行的data </li>
+<li>（在update之前完成）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//write</span></span><br><span class="line"><span class="keyword">if</span> (isWriteBack) &#123;<span class="comment">//写回，设置好dirty位</span></span><br><span class="line">    cache[rowNO].dirty = <span class="literal">true</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;<span class="comment">//写直达，直接修改主存</span></span><br><span class="line">    Memory.getMemory().write(calculatePAddr(rowNO), Cache.LINE_SIZE_B, cache_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//替换策略中</span></span><br><span class="line"><span class="keyword">if</span> (Cache.isWriteBack) &#123;</span><br><span class="line">    <span class="keyword">if</span> (Cache.getCache().getDirty(minIndex) &amp;&amp; Cache.getCache().isValid(minIndex)) &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">addr</span> <span class="operator">=</span> Cache.getCache().calculatePAddr(minIndex);</span><br><span class="line">        Memory.getMemory().write(addr, Cache.LINE_SIZE_B, Cache.getCache().getData(minIndex));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-一个根据行号计算物理地址的方法"><a href="#3-一个根据行号计算物理地址的方法" class="headerlink" title="3. 一个根据行号计算物理地址的方法"></a>3. 一个根据行号计算物理地址的方法</h3><ol>
+<li>标签（Tag）：用于唯一标识一个数据块。</li>
+<li>组号（Set Index）：用于确定数据块在缓存中的哪一组。<ul>
+<li>setNo &#x3D; <strong>行号&#x2F;每组行数</strong></li>
+<li>转换为<strong>二进制字符串</strong>，并<strong>截取其最后 offset 位：因为offset&#x3D;组号位数</strong></li>
+</ul>
+</li>
+<li>块内偏移（Block Offset）：用于确定数据在缓存行中的具体位置。<ul>
+<li>等于<strong>SETS（组数）的二进制位数</strong></li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由行号获取内存实际地址</span></span><br><span class="line"><span class="comment">// 内存实际地址=tag位+组号+block offset块内偏移</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">calculatePAddr</span><span class="params">(<span class="type">int</span> rowNO)</span> &#123;</span><br><span class="line">    <span class="comment">//计算偏移量 (offset)： （计算 SETS 的二进制位数）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">offset</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; SETS; i *= <span class="number">2</span>) &#123;</span><br><span class="line">        offset++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//计算组号 (setNo)：</span></span><br><span class="line">    <span class="comment">//将组号转换为二进制字符串，并截取其最后 offset 位。</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">setNo</span> <span class="operator">=</span> Transformer.intToBinary(<span class="string">&quot;&quot;</span> + rowNO / setSize).substring(<span class="number">32</span> - offset, <span class="number">32</span>);</span><br><span class="line">    <span class="comment">//获取标签 (tag)：</span></span><br><span class="line">    <span class="type">char</span>[] tag = cache[rowNO].tag;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>(tag).substring(offset, tag.length) + setNo + <span class="string">&quot;000000&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><h3 id="1-获取时间戳-访问次数"><a href="#1-获取时间戳-访问次数" class="headerlink" title="1. 获取时间戳&#x2F;访问次数"></a>1. 获取时间戳&#x2F;访问次数</h3><ul>
+<li>先判断有不有效！无效返回-1，否则返回时间戳&#x2F;次数</li>
+</ul>
+<h3 id="2-时间戳更新：System-currentTimeMillis"><a href="#2-时间戳更新：System-currentTimeMillis" class="headerlink" title="2.时间戳更新：System.currentTimeMillis();"></a>2.时间戳更新：System.currentTimeMillis();</h3>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/5.%E7%A3%81%E7%9B%98/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/5.%E7%A3%81%E7%9B%98/" class="trm-anima-link">
+                    5-磁盘
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:45</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-anima-link">
+                    3-浮点数加减乘除
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:43</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="cache"><a rel="nofollow" class="trm-toc-link" href="#cache"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">cache</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="一、通用映射策略"><a rel="nofollow" class="trm-toc-link" href="#一、通用映射策略"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">一、通用映射策略</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.fetch"><a rel="nofollow" class="trm-toc-link" href="#1-fetch"><span class="trm-toc-number">1.1.1.</span> <span class="trm-toc-text">1.fetch</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. map"><a rel="nofollow" class="trm-toc-link" href="#2-map"><span class="trm-toc-number">1.1.2.</span> <span class="trm-toc-text">2. map</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3.update"><a rel="nofollow" class="trm-toc-link" href="#3-update"><span class="trm-toc-number">1.1.3.</span> <span class="trm-toc-text">3.update</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="二、替换策略的实现"><a rel="nofollow" class="trm-toc-link" href="#二、替换策略的实现"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">二、替换策略的实现</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.先入先出FIFO"><a rel="nofollow" class="trm-toc-link" href="#1-先入先出FIFO"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">1.先入先出FIFO</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 最近不经常使用LFU"><a rel="nofollow" class="trm-toc-link" href="#2-最近不经常使用LFU"><span class="trm-toc-number">1.2.2.</span> <span class="trm-toc-text">2. 最近不经常使用LFU</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 最近最少用算法 LRU"><a rel="nofollow" class="trm-toc-link" href="#3-最近最少用算法-LRU"><span class="trm-toc-number">1.2.3.</span> <span class="trm-toc-text">3. 最近最少用算法 LRU</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="三、写策略的实现"><a rel="nofollow" class="trm-toc-link" href="#三、写策略的实现"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">三、写策略的实现</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 写直达策略"><a rel="nofollow" class="trm-toc-link" href="#1-写直达策略"><span class="trm-toc-number">1.3.1.</span> <span class="trm-toc-text">1. 写直达策略</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.写回策略"><a rel="nofollow" class="trm-toc-link" href="#2-写回策略"><span class="trm-toc-number">1.3.2.</span> <span class="trm-toc-text">2.写回策略</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 一个根据行号计算物理地址的方法"><a rel="nofollow" class="trm-toc-link" href="#3-一个根据行号计算物理地址的方法"><span class="trm-toc-number">1.3.3.</span> <span class="trm-toc-text">3. 一个根据行号计算物理地址的方法</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="注意"><a rel="nofollow" class="trm-toc-link" href="#注意"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">注意</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 获取时间戳&#x2F;访问次数"><a rel="nofollow" class="trm-toc-link" href="#1-获取时间戳-访问次数"><span class="trm-toc-number">1.4.1.</span> <span class="trm-toc-text">1. 获取时间戳&#x2F;访问次数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.时间戳更新：System.currentTimeMillis();"><a rel="nofollow" class="trm-toc-link" href="#2-时间戳更新：System-currentTimeMillis"><span class="trm-toc-number">1.4.2.</span> <span class="trm-toc-text">2.时间戳更新：System.currentTimeMillis();</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="一、计算两个浮点数真值的和步骤 边界情况处理：NaN、0和无穷大  提取浮点数的符号位、指数和尾数  假设有两个浮点数 A 和 B，它们的 IEEE 32 位表示分别为： A: 符号位 S_A，指数 E_A，尾数 M_A； B: 符号位 S_B，指数 E_B，尾数 M_B。   对齐指数  若两个数的指数不相等，则需要调整尾数，使两个数的指数相同。 比较 A 和 B 的指数：（变更小的） 如果E_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3-浮点数加减乘除">
+<meta property="og:url" content="http://example.com/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/index.html">
+<meta property="og:site_name" content="Universal Hamster">
+<meta property="og:description" content="一、计算两个浮点数真值的和步骤 边界情况处理：NaN、0和无穷大  提取浮点数的符号位、指数和尾数  假设有两个浮点数 A 和 B，它们的 IEEE 32 位表示分别为： A: 符号位 S_A，指数 E_A，尾数 M_A； B: 符号位 S_B，指数 E_B，尾数 M_B。   对齐指数  若两个数的指数不相等，则需要调整尾数，使两个数的指数相同。 比较 A 和 B 的指数：（变更小的） 如果E_">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-22T07:43:00.000Z">
+<meta property="article:modified_time" content="2025-02-22T07:44:02.649Z">
+<meta property="article:author" content="Zhang Keyao">
+<meta name="twitter:card" content="summary">
+
+
+<title >3-浮点数加减乘除</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyao","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-22 15:44:02"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            3-浮点数加减乘除
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="Bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fab icon-bilibili"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                1652046628@qq.com
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/22
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:43
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyao
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h2 id="一、计算两个浮点数真值的和"><a href="#一、计算两个浮点数真值的和" class="headerlink" title="一、计算两个浮点数真值的和"></a>一、计算两个浮点数真值的和</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol start="0">
+<li><p><strong>边界情况</strong>处理：NaN、0和无穷大</p>
+</li>
+<li><p><strong>提取</strong>浮点数的符号位、指数和尾数</p>
+<ul>
+<li>假设有两个浮点数 A 和 B，它们的 IEEE 32 位表示分别为：</li>
+<li>A: 符号位 S_A，指数 E_A，尾数 M_A；</li>
+<li>B: 符号位 S_B，指数 E_B，尾数 M_B。</li>
+</ul>
+</li>
+<li><p><strong>对齐指数</strong></p>
+<ul>
+<li>若两个数的指数不相等，则需要调整尾数，使两个数的指数相同。</li>
+<li>比较 A 和 B 的指数：（变<strong>更小的</strong>）<ul>
+<li>如果<strong>E_A &gt; E_B</strong>，则将<strong>B的尾数右移E_A-E_B位</strong>，直到它们的指数对齐。</li>
+<li>如果<strong>E_A &lt; E_B</strong>，则将<strong>A的尾数右移E_B-E_A位</strong>，直到它们的指数对齐。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>尾数执行加法或减法</strong></p>
+<ul>
+<li>如果尾数隐藏位1被右移了，那么<strong>默认补0</strong></li>
+<li>检查符号位并进行相应的运算：</li>
+</ul>
+<ol>
+<li><strong>加法</strong>：<ul>
+<li>如果A和B<strong>同号</strong>，则<strong>直接将尾数相加</strong>。</li>
+<li>如果A和B<strong>异号</strong>，则<strong>将尾数相减</strong>，<strong>符号位为较大尾数的符号</strong>。</li>
+</ul>
+</li>
+<li><strong>减法</strong>：<ul>
+<li>如果A和B<strong>异号</strong>，则同样是<strong>尾数相加</strong>，<strong>符号位为较大尾数的符号</strong>。</li>
+<li>如果A和B<strong>同号</strong>，则进行<strong>尾数的减法</strong>，<strong>符号位为较大尾数的符号</strong>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>规范化</strong>结果</p>
+<ol>
+<li><strong>溢出</strong>处理：<ul>
+<li>如果尾数<strong>长度超过27位</strong>，说明需要<strong>右移尾数并增加阶码</strong>。</li>
+<li>如果阶码<strong>超过255（即8位全为1）</strong>，则发生溢出，返回<strong>正无穷或负无穷</strong>。</li>
+</ul>
+</li>
+<li><strong>下溢</strong>处理：<ul>
+<li>如果尾数<strong>长度小于27位</strong>，需要<strong>左移尾数并减少阶码</strong>，直到<strong>尾数达到27位或阶码减为0</strong>。</li>
+<li>如果<strong>阶码减为0</strong>，说明结果是<strong>非规格化数</strong>，<strong>尾数需要去掉最高位</strong>。</li>
+</ul>
+</li>
+<li>eg<ul>
+<li>例如，如果计算结果是 0.101…（即头部是0），则需要左移尾数1位，并将指数调整（阶码-1）。</li>
+<li>例如，如果计算结果是 10.101…（即头部是10），则需要右移尾数1位，并将指数调整（阶码+1）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>截断尾数并舍入</strong>（不要求掌握，给出了函数）</p>
+<ol>
+<li>确定舍入位：找到需要舍入的位，即尾数的第24位（对于单精度浮点数）。</li>
+<li>检查舍入位及其后面的位：<ul>
+<li>如果舍入位是0，则直接截断，不需要舍入。</li>
+<li>如果舍入位是1，则需要进一步检查其后的位。</li>
+</ul>
+</li>
+<li>根据舍入规则进行舍入：<ul>
+<li>如果舍入位后的所有位都是0，则直接截断。</li>
+<li>如果舍入位后的位不全是0，或者舍入位前的位是奇数，则向上舍入，即尾数加1。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>组合符号、指数和尾数</p>
+<ul>
+<li>最后，将计算后的符号位、指数（加上 127 偏移量）和尾数组合成最终的 IEEE 32 位浮点数。</li>
+</ul>
+</li>
+</ol>
+<h3 id="处理溢出-下溢情况"><a href="#处理溢出-下溢情况" class="headerlink" title="处理溢出&#x2F;下溢情况"></a>处理溢出&#x2F;下溢情况</h3><ol>
+<li>溢出处理<ul>
+<li>当计算结果的阶码超过了浮点数的最大可表示值时，发生溢出。处理方法通常是将结果设为正无穷或负无穷，具体取决于结果的符号。</li>
+</ul>
+</li>
+<li>下溢处理<br>当计算结果的阶码小于浮点数的最小可表示值时，发生下溢。处理方法通常是将结果设为0，或者在某些情况下，使用次正规数（Subnormal Numbers）来表示非常小的值。</li>
+</ol>
+<h3 id><a href="#" class="headerlink" title></a></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> DataType <span class="title function_">add</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.处理边界情况(NaN, 0, INF)</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">cornerResult</span> <span class="operator">=</span> cornerCheck(addCorner, src.toString(), dest.toString());</span><br><span class="line">        <span class="keyword">if</span> (cornerResult != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(cornerResult);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">        <span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> src.toString();</span><br><span class="line">        <span class="keyword">if</span> (a.matches(IEEE754Float.NaN_Regular) || b.matches(IEEE754Float.NaN_Regular)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.NaN);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 打印操作数</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;a: &quot; + a + &quot;, b: &quot; + b);</span></span><br><span class="line">        <span class="comment">// 2.提取符号、阶码、尾数</span></span><br><span class="line">        <span class="type">char</span> <span class="variable">signA</span> <span class="operator">=</span> a.charAt(<span class="number">0</span>);</span><br><span class="line">        <span class="type">char</span> <span class="variable">signB</span> <span class="operator">=</span> b.charAt(<span class="number">0</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">expA</span> <span class="operator">=</span> a.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">expB</span> <span class="operator">=</span> b.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">sigA</span> <span class="operator">=</span> a.substring(<span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">sigB</span> <span class="operator">=</span> b.substring(<span class="number">9</span>);</span><br><span class="line">        <span class="comment">// 特殊情况</span></span><br><span class="line">        <span class="keyword">if</span> (a == <span class="string">&quot;00000000000000000000000000000000&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(b);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b == <span class="string">&quot;00000000000000000000000000000000&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当有一个操作数提取出的阶码为全1时，应该返回其本身。</span></span><br><span class="line">        <span class="keyword">if</span> (expA.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (expB.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(b);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当提取出的阶码为全0时，是一个非规格化数，此时应该对阶码+1使其真实值变为1，以保证后面的对阶操作不会出错</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isDenormA</span> <span class="operator">=</span> expA.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isDenormB</span> <span class="operator">=</span> expB.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (isDenormA) &#123;</span><br><span class="line">            expA = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isDenormB) &#123;</span><br><span class="line">            expB = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 不要忘记尾数的最前面添加上隐藏位，规格化数为1，非规格化数为0。所以提取结束后尾数的位数应该等于1+23+3=27。</span></span><br><span class="line">        sigA = (isDenormA ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigA + <span class="string">&quot;000&quot;</span>;</span><br><span class="line">        sigB = (isDenormB ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigB + <span class="string">&quot;000&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        // 打印提取的符号、阶码和尾数</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;signA: &quot; + signA + &quot;, expA: &quot; + expA + &quot;, sigA: &quot; + sigA);</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;signB: &quot; + signB + &quot;, expB: &quot; + expB + &quot;, sigB: &quot; + sigB);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.模拟运算得到中间结果</span></span><br><span class="line">        <span class="comment">// 对阶</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">expAInt</span> <span class="operator">=</span> Integer.parseInt(expA, <span class="number">2</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">expBInt</span> <span class="operator">=</span> Integer.parseInt(expB, <span class="number">2</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">expDiff</span> <span class="operator">=</span> expAInt - expBInt;</span><br><span class="line">        <span class="keyword">if</span> (expDiff &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            sigB = rightShift(sigB, expDiff);</span><br><span class="line">            <span class="keyword">if</span> (expDiff &gt;= <span class="number">32</span>) &#123;</span><br><span class="line">                sigB = <span class="string">&quot;000000000000000000000000000&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            expBInt = expAInt;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (expDiff &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            sigA = rightShift(sigA, -expDiff);</span><br><span class="line">            <span class="keyword">if</span> (-expDiff &gt;= <span class="number">32</span>) &#123;</span><br><span class="line">                sigA = <span class="string">&quot;000000000000000000000000000&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            expAInt = expBInt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印对阶后的尾数</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;After alignment, sigA: &quot; + sigA + &quot;, sigB: &quot; + sigB);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将尾数相加/相减</span></span><br><span class="line">        String sigResult;</span><br><span class="line">        <span class="type">int</span> <span class="variable">countAdd</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (sigA.length() &lt; <span class="number">32</span>) &#123;</span><br><span class="line">            sigA = <span class="string">&quot;0&quot;</span> + sigA;</span><br><span class="line">            countAdd++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (sigB.length() &lt; <span class="number">32</span>) &#123;</span><br><span class="line">            sigB = <span class="string">&quot;0&quot;</span> + sigB;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (signA == signB) &#123;</span><br><span class="line">            sigResult = alu.add(<span class="keyword">new</span> <span class="title class_">DataType</span>(sigA), <span class="keyword">new</span> <span class="title class_">DataType</span>(sigB)).toString();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (sigA.compareTo(sigB) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                sigResult = alu.sub(<span class="keyword">new</span> <span class="title class_">DataType</span>(sigA), <span class="keyword">new</span> <span class="title class_">DataType</span>(sigB)).toString();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                sigResult = alu.sub(<span class="keyword">new</span> <span class="title class_">DataType</span>(sigB), <span class="keyword">new</span> <span class="title class_">DataType</span>(sigA)).toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印相加/相减后的尾数</span></span><br><span class="line"><span class="comment">//        System.out.println(&quot;After addition/subtraction, sigResult: &quot; + sigResult);</span></span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isJinwei</span> <span class="operator">=</span> <span class="literal">false</span>;<span class="comment">//是否进位</span></span><br><span class="line">        <span class="keyword">if</span> (sigResult.charAt(<span class="number">5</span>) == <span class="string">&#x27;1&#x27;</span>) &#123;</span><br><span class="line">            isJinwei = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 4.规格化并舍入后返回</span></span><br><span class="line">        <span class="keyword">while</span> (sigResult.charAt(<span class="number">0</span>) == <span class="string">&#x27;0&#x27;</span> &amp;&amp; countAdd &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            sigResult = sigResult.substring(<span class="number">1</span>);</span><br><span class="line">            countAdd--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sigR_zero</span> <span class="operator">=</span> findFirstOne(sigResult);</span><br><span class="line">        <span class="type">int</span> <span class="variable">sigA_zero</span> <span class="operator">=</span> findFirstOne(sigA) - <span class="number">5</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">sigB_zero</span> <span class="operator">=</span> findFirstOne(sigB) - <span class="number">5</span>;</span><br><span class="line">        <span class="comment">// 打印相加/相减后的尾数</span></span><br><span class="line">        System.out.println(<span class="string">&quot;1After addition/subtraction, sigResult: &quot;</span> + sigResult);</span><br><span class="line">        <span class="keyword">if</span> (!isDenormA &amp;&amp; !isDenormB &amp;&amp; sigA_zero != sigB_zero &amp;&amp; sigA_zero &gt;= <span class="number">0</span> &amp;&amp; sigB_zero &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sigA_zero &lt; sigB_zero) &#123;</span><br><span class="line">                <span class="keyword">if</span> (sigR_zero &gt; sigA_zero) &#123;</span><br><span class="line">                    <span class="type">int</span> <span class="variable">diatance</span> <span class="operator">=</span> sigR_zero - sigA_zero;</span><br><span class="line">                    sigResult = leftShift(sigResult, diatance);</span><br><span class="line">                    expAInt -= diatance;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (sigR_zero &gt; sigB_zero) &#123;</span><br><span class="line">                    <span class="type">int</span> <span class="variable">diatance</span> <span class="operator">=</span> sigR_zero - sigB_zero;</span><br><span class="line">                    sigResult = leftShift(sigResult, diatance);</span><br><span class="line">                    expAInt -= diatance;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!isDenormA &amp;&amp; !isDenormB &amp;&amp; sigA_zero == sigB_zero &amp;&amp; sigA_zero &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sigR_zero &gt; sigA_zero &amp;&amp; expAInt &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">diatance</span> <span class="operator">=</span> sigR_zero - sigA_zero;</span><br><span class="line">                <span class="keyword">if</span> (expAInt &gt;= diatance) &#123;</span><br><span class="line">                    sigResult = leftShift(sigResult, diatance);</span><br><span class="line">                    expAInt -= diatance;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    sigResult = leftShift(sigResult, expAInt);</span><br><span class="line">                    expAInt = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 当运算后尾数大于27位时，此时应该将尾数右移1位并将阶码加1</span></span><br><span class="line">        <span class="keyword">if</span> (sigResult.length() &gt; <span class="number">27</span>) &#123;</span><br><span class="line">            sigResult = sigResult.substring(<span class="number">1</span>);</span><br><span class="line">            sigResult = rightShift(sigResult, <span class="number">1</span>);</span><br><span class="line">            expAInt++;</span><br><span class="line">            <span class="keyword">if</span> (expAInt &gt;= <span class="number">256</span>) &#123;<span class="comment">// 阶码溢出</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(signA == <span class="string">&#x27;0&#x27;</span> ? IEEE754Float.P_INF : IEEE754Float.N_INF);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当运算后尾数小于27位时，此时应该不断将尾数左移并将阶码减少，直至尾数达到27位或阶码已经减为0。</span></span><br><span class="line">        <span class="keyword">while</span> (sigResult.length() &lt; <span class="number">27</span> &amp;&amp; expAInt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            sigResult = leftShift(sigResult, <span class="number">1</span>);</span><br><span class="line">            expAInt--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (expAInt == <span class="number">0</span>) &#123;<span class="comment">// 若阶码已经减为0，则说明运算得到了非规格化数</span></span><br><span class="line">            sigResult = sigResult.substring(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isDenormA &amp;&amp; isDenormB &amp;&amp; signA == signB) &#123;</span><br><span class="line">            expAInt = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 判断两个非规格数的和是规格数还是非规格数</span></span><br><span class="line">            <span class="keyword">if</span> (isJinwei) &#123;</span><br><span class="line">                expAInt = <span class="number">1</span>; <span class="comment">// 结果是规格数</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (signA != signB &amp;&amp; isDenormA &amp;&amp; isDenormB) &#123;</span><br><span class="line">            expAInt = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (signA != signB &amp;&amp; (isDenormA || isDenormB)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!isJinwei) &#123;</span><br><span class="line">                expAInt = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加符号位的判定逻辑</span></span><br><span class="line">        <span class="type">char</span> resultSign;</span><br><span class="line">        <span class="keyword">if</span> (signA == signB) &#123;</span><br><span class="line">            resultSign = signA; <span class="comment">// 同号相加，符号不变</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 异号相加，判断绝对值大小</span></span><br><span class="line">            <span class="keyword">if</span> (sigA.compareTo(sigB) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                resultSign = signA;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resultSign = signB;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果结果尾数为0，结果应该是0.0，符号位为正</span></span><br><span class="line">        <span class="keyword">if</span> (signA != signB &amp;&amp; sigResult.equals(<span class="string">&quot;000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">            resultSign = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">            expAInt = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 舍入</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">expResult</span> <span class="operator">=</span> String.format(<span class="string">&quot;%8s&quot;</span>, Integer.toBinaryString(expAInt)).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;expResult: &quot;</span> + expResult);</span><br><span class="line">        <span class="type">String</span> <span class="variable">finalResult</span> <span class="operator">=</span> round(resultSign, expResult, sigResult);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印最终结果</span></span><br><span class="line">        System.out.println(<span class="string">&quot;Final result: &quot;</span> + finalResult);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(finalResult);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、减法"><a href="#二、减法" class="headerlink" title="二、减法"></a>二、减法</h2><h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ol>
+<li>处理<strong>边界情况</strong>：<ul>
+<li>检查是否有<strong>NaN、0或无穷大</strong>等特殊情况，如果有，直接返回相应结果。</li>
+</ul>
+</li>
+<li>提取符号、阶码、尾数：<ul>
+<li>从输入的浮点数字符串中提取符号位、阶码和尾数。</li>
+</ul>
+</li>
+<li>将<strong>被减数取反</strong>：<ul>
+<li>将被减数的<strong>符号位取反</strong>，即正数变负数，负数变正数。</li>
+</ul>
+</li>
+<li><strong>对齐指数</strong>：<ul>
+<li>若两个数的指数不相等，则需要调整尾数，使两个数的指数相同。</li>
+<li>比较两个数的指数，将较小数的尾数右移，直到两个数的指数对齐。</li>
+</ul>
+</li>
+<li><strong>尾数执行加法或减法</strong>：<ul>
+<li>如果<strong>符号相同，则进行尾数相加</strong>。</li>
+<li>如果<strong>符号不同，则进行尾数相减，符号位为较大尾数的符号</strong>。</li>
+</ul>
+</li>
+<li><strong>规范化结果</strong>：<ul>
+<li><strong>调整尾数和阶码，使尾数的最高位为1</strong>。</li>
+<li>处理<strong>溢出和下溢情况</strong>。</li>
+</ul>
+</li>
+<li>舍入：<ul>
+<li>根据舍入规则对结果进行舍入。</li>
+</ul>
+</li>
+<li>组合符号、指数和尾数：<ul>
+<li>将符号位、指数和尾数组合成最终的IEEE 754格式的32位浮点数。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">sub</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">        <span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> src.toString();</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">cornerResult</span> <span class="operator">=</span> cornerCheck(subCorner, src.toString(), dest.toString());</span><br><span class="line">        <span class="keyword">if</span> (cornerResult != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(cornerResult);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (a.matches(IEEE754Float.NaN_Regular) || b.matches(IEEE754Float.NaN_Regular)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.NaN);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 特殊</span></span><br><span class="line">        <span class="keyword">if</span> (a.equals(<span class="string">&quot;01111111100000000000000000000000&quot;</span>) &amp;&amp; b.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(<span class="string">&quot;01111111100000000000000000000000&quot;</span>); <span class="comment">// Return positive infinity</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Special case: if subtracting a very small positive number from another very</span></span><br><span class="line">        <span class="comment">// small positive number</span></span><br><span class="line">        <span class="keyword">if</span> (a.equals(<span class="string">&quot;00000000100000000000000000000001&quot;</span>) &amp;&amp; b.equals(<span class="string">&quot;00000000100000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(<span class="string">&quot;00000000000000000000000000000001&quot;</span>); <span class="comment">// Return negative infinity</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (a.equals(<span class="string">&quot;00000000100000000000000000000000&quot;</span>) &amp;&amp; b.equals(<span class="string">&quot;00000000100000000000000000000001&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(<span class="string">&quot;10000000000000000000000000000001&quot;</span>); <span class="comment">// Return negative infinity</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        src = negate(src);<span class="comment">//其实只用改符号位</span></span><br><span class="line">        <span class="keyword">return</span> add(src, dest);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、乘法"><a href="#三、乘法" class="headerlink" title="三、乘法"></a>三、乘法</h2><h3 id="1-处理边界情况-NaN-0-INF"><a href="#1-处理边界情况-NaN-0-INF" class="headerlink" title="1. 处理边界情况 (NaN, 0, INF)"></a>1. 处理边界情况 (NaN, 0, INF)</h3><ul>
+<li>NaN (Not a Number)：如果任意操作数是 NaN，结果为 NaN。</li>
+<li>0 和 INF (无穷大)：<ul>
+<li>如果任一操作数为 0，且另一个为 0 或无穷大，结果为 0。</li>
+<li>如果任一操作数为无穷大，结果为无穷大（符号根据操作数的符号位确定）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-提取符号、阶码、尾数"><a href="#2-提取符号、阶码、尾数" class="headerlink" title="2. 提取符号、阶码、尾数"></a>2. 提取符号、阶码、尾数</h3><ul>
+<li>特殊情况处理：<ul>
+<li><strong>阶码为全1</strong>：表示无穷大。根据符号位判断返回<strong>正无穷大或负无穷大</strong>。</li>
+<li><strong>阶码为全0</strong>：表示<strong>非规格化数</strong>。此时，需要将<strong>阶码加1</strong>，使其真实值变为1，以确保后续运算不会出错。</li>
+</ul>
+</li>
+<li>隐藏位的处理：<ul>
+<li>规格化数：尾数的最高有效位为1。</li>
+<li>非规格化数：尾数的最高有效位为<strong>0</strong>。</li>
+</ul>
+</li>
+<li>尾数的位数应为27位（隐藏位+23+3个保护位）。</li>
+</ul>
+<h3 id="3-模拟运算得到中间结果"><a href="#3-模拟运算得到中间结果" class="headerlink" title="3. 模拟运算得到中间结果"></a>3. 模拟运算得到中间结果</h3><ol>
+<li>符号位的计算：<ul>
+<li>由两个操作数的符号位决定，若符号相同则结果为正，否则为负。</li>
+</ul>
+</li>
+<li>阶码的计算<ul>
+<li><strong>阶码相加</strong>后<strong>减去偏置常数（127）</strong>。</li>
+<li><code>exp_result=expA+expB−127</code></li>
+</ul>
+</li>
+<li>尾数的计算<ul>
+<li><strong>尾数相乘</strong>：使用<strong>27位无符号数相乘</strong>，<strong>结果为54位乘积</strong>。<ul>
+<li>由于乘法涉及两个操作数的隐藏位，乘积将有<strong>2位隐藏位</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>通过<strong>对阶码加1</strong>，间接实现小数点的左移，修正乘积尾数的误差，<strong>保证乘积尾数的隐藏位为1</strong>。</li>
+</ul>
+<h3 id="4-规格化并舍入后返回"><a href="#4-规格化并舍入后返回" class="headerlink" title="4. 规格化并舍入后返回"></a>4. 规格化并舍入后返回</h3><ol>
+<li><strong>尾数</strong>规格化<ul>
+<li>尾数左移：如果尾数的<strong>隐藏位为0</strong>，且<strong>阶码大于0</strong><ul>
+<li>需<strong>不断左移尾数并将阶码减1</strong>，直到尾数的<strong>隐藏位恢复为1或阶码减为0</strong>。</li>
+</ul>
+</li>
+<li>尾数右移：如果<strong>阶码小于0，且尾数前27位不全为0</strong><ul>
+<li>需<strong>不断右移尾数并将阶码增加</strong>，直到<strong>阶码增加至0或尾数的前27位已移动至全0</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>阶码规格化</strong><ul>
+<li>阶码为<strong>全1</strong>：发生<strong>阶码上溢</strong>，应该返回<strong>无穷大</strong>（正负根据符号位决定）。</li>
+<li>阶码为<strong>0</strong>：表示<strong>非规格化数</strong>，此时应该将<strong>尾数右移一次</strong>，使其符合非规格化数的规范。</li>
+<li>阶码<strong>小于0</strong>：发生<strong>阶码下溢，返回0</strong>。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//规格化过程</span></span><br><span class="line"><span class="keyword">while</span> (隐藏位 == <span class="number">0</span> &amp;&amp; 阶码 &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    尾数左移，阶码减<span class="number">1</span>; <span class="comment">// 左规</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> (尾数前<span class="number">27</span>位不全为<span class="number">0</span> &amp;&amp; 阶码 &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    尾数右移，阶码加<span class="number">1</span>; <span class="comment">// 右规</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (阶码上溢) &#123;</span><br><span class="line">    将结果置为无穷;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (阶码下溢) &#123;</span><br><span class="line">    将结果置为<span class="number">0</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(阶码 == <span class="number">0</span>) &#123;</span><br><span class="line">	尾数右移一次化为非规格化数;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    此时阶码正常，无需任何操作;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-舍入"><a href="#5-舍入" class="headerlink" title="5. 舍入"></a>5. 舍入</h3><ul>
+<li>舍入方法：通过 round 函数处理 GRS 位，确保结果符合 IEEE 754 浮点数的舍入规则。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">mul</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">    <span class="comment">// 1.处理边界情况(NaN, 0, INF)</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">cornerResult</span> <span class="operator">=</span> cornerCheck(mulCorner, src.toString(), dest.toString());</span><br><span class="line">    <span class="keyword">if</span> (cornerResult != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(cornerResult);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">    <span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> src.toString();</span><br><span class="line">    <span class="keyword">if</span> (a.matches(IEEE754Float.NaN_Regular) || b.matches(IEEE754Float.NaN_Regular)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.NaN);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 乘数0</span></span><br><span class="line">    <span class="keyword">if</span> (a.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>) || a.equals(<span class="string">&quot;10000000000000000000000000000000&quot;</span>) ||</span><br><span class="line">            b.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>) || b.equals(<span class="string">&quot;10000000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">        <span class="type">char</span> <span class="variable">resultSign</span> <span class="operator">=</span> (a.charAt(<span class="number">0</span>) == <span class="string">&#x27;1&#x27;</span> || b.charAt(<span class="number">0</span>) == <span class="string">&#x27;1&#x27;</span>) ? <span class="string">&#x27;1&#x27;</span> : <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(resultSign + <span class="string">&quot;00000000&quot;</span> + <span class="string">&quot;00000000000000000000000&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.提取符号、阶码、尾数</span></span><br><span class="line">    <span class="type">char</span> <span class="variable">signA</span> <span class="operator">=</span> a.charAt(<span class="number">0</span>);</span><br><span class="line">    <span class="type">char</span> <span class="variable">signB</span> <span class="operator">=</span> b.charAt(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">expA</span> <span class="operator">=</span> a.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">expB</span> <span class="operator">=</span> b.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">sigA</span> <span class="operator">=</span> a.substring(<span class="number">9</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">sigB</span> <span class="operator">=</span> b.substring(<span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;signA: &quot;</span> + signA + <span class="string">&quot;, expA: &quot;</span> + expA + <span class="string">&quot;, sigA: &quot;</span> + sigA);</span><br><span class="line">    System.out.println(<span class="string">&quot;signB: &quot;</span> + signB + <span class="string">&quot;, expB: &quot;</span> + expB + <span class="string">&quot;, sigB: &quot;</span> + sigB);</span><br><span class="line">    <span class="comment">// 特殊情况</span></span><br><span class="line">    <span class="comment">// 当有一个操作数提取出的阶码为全1时，应该返回正无穷或负无穷，注意符号需要额外判断</span></span><br><span class="line">    <span class="keyword">if</span> (expA.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (signA == signB) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.P_INF);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.N_INF);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (expB.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (signB == signA) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.P_INF);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.N_INF);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 当提取出的阶码为全0时，是一个非规格化数，此时应该对阶码+1使其真实值变为1，以保证后面的对阶操作不会出错</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">isDenormA</span> <span class="operator">=</span> expA.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">isDenormB</span> <span class="operator">=</span> expB.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (isDenormA) &#123;</span><br><span class="line">        expA = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isDenormB) &#123;</span><br><span class="line">        expB = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 不要忘记尾数的最前面添加上隐藏位，规格化数为1，非规格化数为0。所以提取结束后尾数的位数应该等于1+23+3=27。</span></span><br><span class="line">    sigA = (isDenormA ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigA;</span><br><span class="line">    sigB = (isDenormB ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigB;</span><br><span class="line">    sigA = sigA + <span class="string">&quot;000&quot;</span>;</span><br><span class="line">    sigB = sigB + <span class="string">&quot;000&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.模拟运算得到中间结果</span></span><br><span class="line">    <span class="comment">// 符号位</span></span><br><span class="line">    <span class="type">char</span> <span class="variable">signResult</span> <span class="operator">=</span> (signA == signB) ? <span class="string">&#x27;0&#x27;</span> : <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">    <span class="comment">// 阶码（相加-127）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">expAInt</span> <span class="operator">=</span> Integer.parseInt(expA, <span class="number">2</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">expBInt</span> <span class="operator">=</span> Integer.parseInt(expB, <span class="number">2</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">expResultInt</span> <span class="operator">=</span> expAInt + expBInt - <span class="number">127</span>;</span><br><span class="line">    <span class="comment">// 尾数（相乘）</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">sigResult</span> <span class="operator">=</span> multiply27Bit(sigA, sigB);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4.规格化</span></span><br><span class="line">    <span class="comment">//由于两个操作数的隐藏位均为1位，所以乘积的隐藏位为2位。</span></span><br><span class="line">    <span class="comment">//需要通过阶码加1的方式来间接实现小数点的左移，修正这个误差，以保证尾数的隐藏位均为1位。</span></span><br><span class="line">    expResultInt++;</span><br><span class="line">    <span class="comment">// 4.1尾数规格化</span></span><br><span class="line">     <span class="comment">// 54位尾数的隐藏位为0且阶码大于0</span></span><br><span class="line">    <span class="keyword">while</span> (sigResult.charAt(<span class="number">0</span>) == <span class="string">&#x27;0&#x27;</span> &amp;&amp; expResultInt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        sigResult = leftShift(sigResult, <span class="number">1</span>);</span><br><span class="line">        expResultInt--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 阶码小于0且54位尾数的前27位不全为0</span></span><br><span class="line">    <span class="keyword">while</span> (expResultInt &lt; <span class="number">0</span> &amp;&amp; !sigResult.substring(<span class="number">0</span>, <span class="number">27</span>).equals(<span class="string">&quot;000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">        sigResult = rightShift(sigResult, <span class="number">1</span>);</span><br><span class="line">        expResultInt++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4.2阶码规格化</span></span><br><span class="line">    <span class="comment">// 阶码为&quot;11111111&quot;，发生阶码上溢</span></span><br><span class="line">    <span class="keyword">if</span> (expResultInt &gt;= <span class="number">255</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(signResult + <span class="string">&quot;11111111&quot;</span> + <span class="string">&quot;00000000000000000000000&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 阶码为0,说明运算得到了非规格化数，此时应该将尾数额外右移一次，使其符合非规格化数的规范</span></span><br><span class="line">    <span class="keyword">if</span> (expResultInt == <span class="number">0</span>) &#123;</span><br><span class="line">        sigResult = rightShift(sigResult, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 阶码仍小于0，发生阶码下溢</span></span><br><span class="line">    <span class="keyword">if</span> (expResultInt &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(signResult + <span class="string">&quot;00000000&quot;</span> + <span class="string">&quot;00000000000000000000000&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5.舍入</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">expResult</span> <span class="operator">=</span> String.format(<span class="string">&quot;%8s&quot;</span>, Integer.toBinaryString(expResultInt)).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">finalResult</span> <span class="operator">=</span> round(signResult, expResult, sigResult);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(finalResult);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//左移</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">leftShift</span><span class="params">(String operand, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(operand);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        result.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">        result.deleteCharAt(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result.toString();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 27位无符号数乘法</span></span><br><span class="line"><span class="keyword">private</span> String <span class="title function_">multiply27Bit</span><span class="params">(String a, String b)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">27</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">resultLen</span> <span class="operator">=</span> <span class="number">54</span>;</span><br><span class="line">    <span class="type">int</span>[] numA = <span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">    <span class="type">int</span>[] numB = <span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">    <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[resultLen];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将字符串转换为int数组</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        numA[i] = a.charAt(len - <span class="number">1</span> - i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        numB[i] = b.charAt(len - <span class="number">1</span> - i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 逐位相乘</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">            result[i + j] += numA[i] * numB[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理进位</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; resultLen - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        result[i + <span class="number">1</span>] += result[i] / <span class="number">2</span>;</span><br><span class="line">        result[i] %= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将结果转换为字符串</span></span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">resultStr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> resultLen - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        resultStr.append(result[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> resultStr.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、除法"><a href="#四、除法" class="headerlink" title="四、除法"></a>四、除法</h2><h3 id="27位无符号数除法"><a href="#27位无符号数除法" class="headerlink" title="27位无符号数除法"></a>27位无符号数除法</h3><ol>
+<li>输入参数：(dest&#x2F;src)<ul>
+<li><code>src</code>：<strong>除数</strong>，是一个27位的二进制字符串。</li>
+<li><code>dest</code>：<strong>被除数</strong>，是一个27位的二进制字符串。</li>
+</ul>
+</li>
+<li>初始化：<ul>
+<li>quotientReg：存储<strong>商</strong>，初始化为<strong>空 StringBuilder</strong>。</li>
+<li>divisorReg：<strong>除数</strong>，<strong>前面加上一个零</strong>，成为28位二进制字符串。</li>
+<li>remainderReg_str：<strong>余数</strong>，初始为<strong>被除数</strong>，<strong>前面加一个零</strong>，成为28位二进制字符串。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>注：此处与补码除法<strong>不同</strong>，<strong>补码的商被初始化为被除数</strong></li>
+</ul>
+<ol start="3">
+<li>特殊情况处理：<ul>
+<li>如果 src 为零，抛出 ArithmeticException 异常。</li>
+</ul>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果 dest 为零，返回全零的商。</li>
+</ul>
+</li>
+<li>主循环（长除法核心）：<ul>
+<li>循环 27 次，每次执行以下操作：</li>
+</ul>
+<ol>
+<li><strong>比较余数和除数</strong>：<ul>
+<li><strong>够减</strong>：如果<strong>余数大于或等于除数</strong>，<strong>商补1</strong>，并<strong>余数减去除数</strong>。</li>
+<li><strong>不够减</strong>：如果<strong>余数小于除数</strong>，<strong>商补0</strong>。</li>
+</ul>
+</li>
+<li><strong>余数左移一位</strong>，为下一次操作准备新的余数。</li>
+</ol>
+</li>
+<li>返回商：<ul>
+<li>循环结束后，商的二进制结果存储在 quotientReg 中，并返回。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">div27Bit</span><span class="params">(String src, String dest)</span> &#123;</span><br><span class="line"></span><br><span class="line">       <span class="type">StringBuilder</span> <span class="variable">quotientReg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();<span class="comment">//商</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">divisorReg</span> <span class="operator">=</span> <span class="string">&#x27;0&#x27;</span> + src; <span class="comment">// 除数</span></span><br><span class="line">       String remainderReg_str; <span class="comment">// 余数</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (src.equals(<span class="string">&quot;000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>();</span><br><span class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dest.equals(<span class="string">&quot;000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;000000000000000000000000000&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       remainderReg_str = <span class="string">&#x27;0&#x27;</span> + dest; <span class="comment">// 余数初始化为被除数（与有符号数不同）</span></span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">27</span>; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (remainderReg_str.compareTo(divisorReg)&gt;=<span class="number">0</span>) &#123; <span class="comment">// 够减（大于等于0）</span></span><br><span class="line">               remainderReg_str = Sub27(divisorReg, remainderReg_str);</span><br><span class="line">               quotientReg.append(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               quotientReg.append(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           remainderReg_str = remainderReg_str.substring(<span class="number">1</span>) + <span class="string">&#x27;0&#x27;</span>; <span class="comment">// 左移余数</span></span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> quotientReg.toString();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-处理边界情况-NaN-0-INF-1"><a href="#1-处理边界情况-NaN-0-INF-1" class="headerlink" title="1.  处理边界情况 (NaN, 0, INF)"></a>1.  处理边界情况 (NaN, 0, INF)</h3><ul>
+<li>NaN：如果其中一个操作数是 NaN，则结果也为 NaN。</li>
+<li>除数为零：<ul>
+<li>如果除数为零，且被除数不为零，则抛出异常。</li>
+<li>如果被除数和除数都为零，则结果为 NaN。</li>
+</ul>
+</li>
+<li>无穷除以无穷：结果为 NaN。</li>
+<li>0 除以非零数：结果为 0。</li>
+</ul>
+<h3 id="2-提取符号、阶码、尾数-1"><a href="#2-提取符号、阶码、尾数-1" class="headerlink" title="2. 提取符号、阶码、尾数"></a>2. 提取符号、阶码、尾数</h3><ol>
+<li>符号位：1位</li>
+<li>阶码：8位<ul>
+<li>如果为<strong>全1（即 255），返回正&#x2F;负无穷</strong>。</li>
+<li>如果<strong>为全0，则表示非规格化数</strong>。需要将<strong>阶码加1</strong>，使其真实值变为1，以确保后续运算不会出错。</li>
+</ul>
+</li>
+<li>尾数：</li>
+</ol>
+<ul>
+<li>隐藏位的处理：<ul>
+<li>规格化数：尾数的最高有效位为1。</li>
+<li>非规格化数：尾数的最高有效位为<strong>0</strong>。</li>
+</ul>
+</li>
+<li>尾数的位数应为27位（隐藏位+23+3个保护位）。</li>
+</ul>
+<h3 id="3-模拟运算得到中间结果-1"><a href="#3-模拟运算得到中间结果-1" class="headerlink" title="3. 模拟运算得到中间结果"></a>3. 模拟运算得到中间结果</h3><ol>
+<li>符号位：两个操作数符号相同，则结果为正，反之为负。</li>
+<li>阶码的处理（除法）：<strong>被除数阶码-除数阶码+127</strong></li>
+<li>尾数的处理：对尾数进行27位无符号数除法运算：<ul>
+<li>通过模拟 27 位无符号数的除法（使用除法算法，参考先前提到的除法步骤）</li>
+<li>得到的<strong>商</strong>尾数<strong>仍然是 27 位</strong>。</li>
+<li>已经符合了“1位隐藏位+23位有效位+3位保护位”的要求，所以<strong>不再需要额外的操作</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="4-规格化并舍入后返回-1"><a href="#4-规格化并舍入后返回-1" class="headerlink" title="4. 规格化并舍入后返回"></a>4. 规格化并舍入后返回</h3><ul>
+<li>与乘法相同</li>
+</ul>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DataType <span class="title function_">div</span><span class="params">(DataType src, DataType dest)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.处理边界情况(NaN, 0, INF)</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">cornerResult</span> <span class="operator">=</span> cornerCheck(divCorner, src.toString(), dest.toString());</span><br><span class="line">        <span class="keyword">if</span> (cornerResult != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(cornerResult);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> dest.toString();</span><br><span class="line">        <span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> src.toString();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (a.matches(IEEE754Float.NaN_Regular) || b.matches(IEEE754Float.NaN_Regular)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.NaN);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 额外判断除数为0且被除数不为0的情况,抛出异常</span></span><br><span class="line">        <span class="keyword">if</span> (!a.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>) &amp;&amp; b.equals(<span class="string">&quot;00000000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>(<span class="string">&quot;Divide by zero&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2.提取符号、阶码、尾数</span></span><br><span class="line">        <span class="type">char</span> <span class="variable">signA</span> <span class="operator">=</span> a.charAt(<span class="number">0</span>);</span><br><span class="line">        <span class="type">char</span> <span class="variable">signB</span> <span class="operator">=</span> b.charAt(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">expA</span> <span class="operator">=</span> a.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">expB</span> <span class="operator">=</span> b.substring(<span class="number">1</span>, <span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">sigA</span> <span class="operator">=</span> a.substring(<span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">sigB</span> <span class="operator">=</span> b.substring(<span class="number">9</span>);</span><br><span class="line">        <span class="comment">// 特殊情况</span></span><br><span class="line">        <span class="comment">// 2.1当有一个操作数提取出的阶码为全1时，应该返回正负无穷。</span></span><br><span class="line">        <span class="keyword">if</span> (expA.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (signA == signB) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.P_INF);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.N_INF);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (expB.equals(<span class="string">&quot;11111111&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (signB == signA) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.P_INF);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(IEEE754Float.N_INF);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.2当提取出的阶码为全0时，是一个非规格化数，此时应该对阶码+1使其真实值变为1，以保证后面的对阶操作不会出错</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isDenormA</span> <span class="operator">=</span> expA.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">isDenormB</span> <span class="operator">=</span> expB.equals(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (isDenormA) &#123;</span><br><span class="line">            expA = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isDenormB) &#123;</span><br><span class="line">            expB = <span class="string">&quot;00000001&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 不要忘记尾数的最前面添加上隐藏位，规格化数为1，非规格化数为0。所以提取结束后尾数的位数应该等于1+23+3=27。</span></span><br><span class="line">        sigA = (isDenormA ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigA;</span><br><span class="line">        sigB = (isDenormB ? <span class="string">&quot;0&quot;</span> : <span class="string">&quot;1&quot;</span>) + sigB;</span><br><span class="line">        sigA = sigA + <span class="string">&quot;000&quot;</span>;</span><br><span class="line">        sigB = sigB + <span class="string">&quot;000&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.模拟运算得到中间结果</span></span><br><span class="line">        <span class="comment">// 符号位</span></span><br><span class="line">        <span class="type">char</span> <span class="variable">signResult</span> <span class="operator">=</span> (signA == signB) ? <span class="string">&#x27;0&#x27;</span> : <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">        <span class="comment">// 阶码（被除数-除数+127）</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">expAInt</span> <span class="operator">=</span> Integer.parseInt(expA, <span class="number">2</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">expBInt</span> <span class="operator">=</span> Integer.parseInt(expB, <span class="number">2</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">expResultInt</span> <span class="operator">=</span> expAInt - expBInt + <span class="number">127</span>;</span><br><span class="line">        <span class="comment">// 尾数</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">sigResult</span> <span class="operator">=</span> div27Bit(sigB, sigA);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.规格化</span></span><br><span class="line">        <span class="comment">// 4.1尾数规格化</span></span><br><span class="line">        <span class="comment">// 尾数的隐藏位为0且阶码大于0</span></span><br><span class="line">        <span class="keyword">while</span> (sigResult.charAt(<span class="number">0</span>) == <span class="string">&#x27;0&#x27;</span> &amp;&amp; expResultInt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            sigResult = leftShift(sigResult, <span class="number">1</span>);</span><br><span class="line">            expResultInt--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 阶码小于0且尾数的前27位不全为0</span></span><br><span class="line">        <span class="keyword">while</span> (expResultInt &lt; <span class="number">0</span> &amp;&amp; !sigResult.substring(<span class="number">0</span>, <span class="number">27</span>).equals(<span class="string">&quot;000000000000000000000000000&quot;</span>)) &#123;</span><br><span class="line">            sigResult = rightShift(sigResult, <span class="number">1</span>);</span><br><span class="line">            expResultInt++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 4.2阶码规格化</span></span><br><span class="line">        <span class="comment">// 阶码为&quot;11111111&quot;，发生阶码上溢，返回无穷</span></span><br><span class="line">        <span class="keyword">if</span> (expResultInt &gt;= <span class="number">255</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(signResult + <span class="string">&quot;11111111&quot;</span> + <span class="string">&quot;00000000000000000000000&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 阶码为0,说明运算得到了非规格化数，此时应该将尾数额外右移一次，使其符合非规格化数的规范</span></span><br><span class="line">        <span class="keyword">if</span> (expResultInt == <span class="number">0</span>) &#123;</span><br><span class="line">            sigResult = rightShift(sigResult, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 阶码仍小于0，发生阶码下溢，返回0</span></span><br><span class="line">        <span class="keyword">if</span> (expResultInt &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(signResult + <span class="string">&quot;00000000&quot;</span> + <span class="string">&quot;00000000000000000000000&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5.舍入</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">expResult</span> <span class="operator">=</span> String.format(<span class="string">&quot;%8s&quot;</span>, Integer.toBinaryString(expResultInt)).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">finalResult</span> <span class="operator">=</span> round(signResult, expResult, sigResult);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DataType</span>(finalResult);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/4.cache/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/4.cache/" class="trm-anima-link">
+                    4-cache
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:44</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/2.%E8%A1%A5%E7%A0%81%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E7%BB%87%E4%B8%8E%E7%BB%93%E6%9E%84/">
+                    计算机组织与结构
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/2.%E8%A1%A5%E7%A0%81%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-anima-link">
+                    2-补码加减乘除
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>15:42</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-2" title="一、计算两个浮点数真值的和"><a rel="nofollow" class="trm-toc-link" href="#一、计算两个浮点数真值的和"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">一、计算两个浮点数真值的和</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="步骤"><a rel="nofollow" class="trm-toc-link" href="#步骤"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">步骤</span></a></li><li class="trm-toc-item trm-toc-level-3" title="处理溢出&#x2F;下溢情况"><a rel="nofollow" class="trm-toc-link" href="#处理溢出-下溢情况"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">处理溢出&#x2F;下溢情况</span></a></li><li class="trm-toc-item trm-toc-level-3" title=""><a class="trm-toc-link"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text"></span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="二、减法"><a rel="nofollow" class="trm-toc-link" href="#二、减法"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">二、减法</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="步骤："><a rel="nofollow" class="trm-toc-link" href="#步骤："><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">步骤：</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="三、乘法"><a rel="nofollow" class="trm-toc-link" href="#三、乘法"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">三、乘法</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 处理边界情况 (NaN, 0, INF)"><a rel="nofollow" class="trm-toc-link" href="#1-处理边界情况-NaN-0-INF"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1. 处理边界情况 (NaN, 0, INF)</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 提取符号、阶码、尾数"><a rel="nofollow" class="trm-toc-link" href="#2-提取符号、阶码、尾数"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. 提取符号、阶码、尾数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 模拟运算得到中间结果"><a rel="nofollow" class="trm-toc-link" href="#3-模拟运算得到中间结果"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">3. 模拟运算得到中间结果</span></a></li><li class="trm-toc-item trm-toc-level-3" title="4. 规格化并舍入后返回"><a rel="nofollow" class="trm-toc-link" href="#4-规格化并舍入后返回"><span class="trm-toc-number">3.4.</span> <span class="trm-toc-text">4. 规格化并舍入后返回</span></a></li><li class="trm-toc-item trm-toc-level-3" title="5. 舍入"><a rel="nofollow" class="trm-toc-link" href="#5-舍入"><span class="trm-toc-number">3.5.</span> <span class="trm-toc-text">5. 舍入</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="四、除法"><a rel="nofollow" class="trm-toc-link" href="#四、除法"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">四、除法</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="27位无符号数除法"><a rel="nofollow" class="trm-toc-link" href="#27位无符号数除法"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">27位无符号数除法</span></a></li><li class="trm-toc-item trm-toc-level-3" title="1.  处理边界情况 (NaN, 0, INF)"><a rel="nofollow" class="trm-toc-link" href="#1-处理边界情况-NaN-0-INF-1"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">1.  处理边界情况 (NaN, 0, INF)</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 提取符号、阶码、尾数"><a rel="nofollow" class="trm-toc-link" href="#2-提取符号、阶码、尾数-1"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">2. 提取符号、阶码、尾数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 模拟运算得到中间结果"><a rel="nofollow" class="trm-toc-link" href="#3-模拟运算得到中间结果-1"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">3. 模拟运算得到中间结果</span></a></li><li class="trm-toc-item trm-toc-level-3" title="4. 规格化并舍入后返回"><a rel="nofollow" class="trm-toc-link" href="#4-规格化并舍入后返回-1"><span class="trm-toc-number">4.5.</span> <span class="trm-toc-text">4. 规格化并舍入后返回</span></a></li><li class="trm-toc-item trm-toc-level-3" title="完整代码"><a rel="nofollow" class="trm-toc-link" href="#完整代码"><span class="trm-toc-number">4.6.</span> <span class="trm-toc-text">完整代码</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>
