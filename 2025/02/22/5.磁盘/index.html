@@ -306,6 +306,10 @@
             <i class="iconfont fas fa-bold"></i>
         </a>
     
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
 </div>
 
 <!-- sidebar social end -->
@@ -614,6 +618,25 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">double</span> <span class="title function_">CLOOK</span><span class="params">(<span class="type">int</span> start,<span class="type">int</span>[] request)</span>&#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">sumDistance</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> request.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">currentTrack</span> <span class="operator">=</span> start;<span class="comment">//当前磁头所在的磁道号</span></span><br><span class="line">    Arrays.sort(request);<span class="comment">//升序</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Arrays.binarySearch(request, currentTrack);<span class="comment">//查找当前磁头位置在请求中的索引</span></span><br><span class="line">    <span class="keyword">if</span>(index&lt;<span class="number">0</span>)&#123;<span class="comment">//如果当前磁头位置不在请求中</span></span><br><span class="line">        index = -index-<span class="number">1</span>;<span class="comment">//计算当前磁头位置应该插入的位置</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始移动方向是增大方向</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=index;i&lt;n;i++)&#123;</span><br><span class="line">        sumDistance+=Math.abs(currentTrack-request[i]);</span><br><span class="line">        currentTrack=request[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">0</span>;i&lt;=index-<span class="number">1</span>;i++)&#123;</span><br><span class="line">        sumDistance+=Math.abs(currentTrack-request[i]);</span><br><span class="line">        currentTrack=request[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)sumDistance/n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </article>
     
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
     
 
 </div>
