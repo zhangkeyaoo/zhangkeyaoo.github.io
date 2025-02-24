@@ -3051,6 +3051,97 @@
       </tags>
   </entry>
   <entry>
+    <title>九、局域网交换和VLAN</title>
+    <url>/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/</url>
+    <content><![CDATA[<h1 id="09-LAN-Switching-and-VLAN"><a href="#09-LAN-Switching-and-VLAN" class="headerlink" title="09 LAN Switching and VLAN"></a>09 LAN Switching and VLAN</h1><h1 id="一、Switching"><a href="#一、Switching" class="headerlink" title="一、Switching"></a>一、Switching</h1><ol>
+<li>对称交换(Symmetric Switching)</li>
+</ol>
+<ul>
+<li><strong>对称交换</strong>：<ul>
+<li>提供<strong>带宽相同的端口</strong>之间的交换连接（如10&#x2F;10 Mbps或100&#x2F;100 Mbps）。</li>
+<li>当用户尝试访问其他段上的服务器时，可能会导致瓶颈。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>非对称交换(Asymmetric Switching)</li>
+</ol>
+<ul>
+<li><strong>非对称交换</strong>：<ul>
+<li>通过将服务器所在的段<strong>连接到更高带宽的端口</strong>（如100 Mbps），减少潜在瓶颈的可能性。</li>
+<li>非对称交换需要在交换机中进行内存缓冲。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>内存缓冲</strong>：<ul>
+<li>交换机中的内存区域，用于存储目的地和传输数据，直到可以通过正确的端口交换出去。</li>
+</ul>
+<ol>
+<li>基于端口的内存缓冲<ul>
+<li>数据包存储在每个端口的队列中。</li>
+<li>由于目标端口繁忙，可能导致一个数据包延迟其他数据包的传输。</li>
+</ul>
+</li>
+<li>共享内存缓冲<ul>
+<li>所有端口共享的公共内存缓冲。</li>
+<li>允许数据包在一个端口接收（RX）并在另一个端口发送（TX），而无需更改到不同的队列。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="4-交换方式"><a href="#4-交换方式" class="headerlink" title="4. 交换方式"></a>4. 交换方式</h2><h3 id="1-存储转发（Store-and-Forward）"><a href="#1-存储转发（Store-and-Forward）" class="headerlink" title="1. 存储转发（Store-and-Forward）"></a>1. 存储转发（Store-and-Forward）</h3><ul>
+<li>网桥、路由器等通过软件的设备</li>
+</ul>
+<ol>
+<li>交换机<strong>接收整个帧</strong>，最后将其计算为CRC，然后再将其发送到目的地</li>
+<li>接收后，<em>校验</em>，正确再发送</li>
+</ol>
+<h3 id="2-直通交换（Cut-through）"><a href="#2-直通交换（Cut-through）" class="headerlink" title="2. 直通交换（Cut-through）"></a>2. 直通交换（Cut-through）</h3><ul>
+<li>交换机会增加延迟，可以通过使用直通交换方法来<em>减少延迟</em>。<ul>
+<li><strong>快速转发交换（Fast Forward Switching）</strong>：仅检查<strong>目标MAC地址</strong>，然后立即转发帧。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-无碎片转发（Segment-free-Switching）"><a href="#3-无碎片转发（Segment-free-Switching）" class="headerlink" title="3. 无碎片转发（Segment-free Switching）"></a>3. 无碎片转发（Segment-free Switching）</h3><ul>
+<li>碎片释放（Fragment Free）：在转发帧之前读取前 64 个字节以减少错误：避免碰撞和帧碎片</li>
+</ul>
+<h1 id="二、The-Spanning-Tree-Protocol-STP-生成树协议"><a href="#二、The-Spanning-Tree-Protocol-STP-生成树协议" class="headerlink" title="二、The Spanning-Tree Protocol (STP)生成树协议"></a>二、The Spanning-Tree Protocol (STP)生成树协议</h1><p>ISDN中</p>
+<ul>
+<li><p><strong>ISDN BRI服务</strong>：</p>
+<ul>
+<li>提供两个B信道和一个D信道。</li>
+<li>ISDN BRI提供总带宽为144kbps（2B+D&#x3D;144kbps）的线路，分为三个独立的信道。</li>
+<li>BRI的B信道服务以64kbps的速度运行，用于传输用户数据和语音通信。</li>
+<li>第三个信道，D信道，是一个16kbps的信令信道，用于传输指令，告诉电话网络如何处理每个B信道。</li>
+</ul>
+</li>
+<li><p><strong>ISDN PRI服务</strong></p>
+</li>
+<li><p>提供23或30个B信道和一个D信道</p>
+</li>
+<li><p>带宽：</p>
+<ul>
+<li>B信道 B Channal  64kbps</li>
+<li>D信道 D Channal  16kbps</li>
+</ul>
+</li>
+<li><p>what is the bandwidth of <strong>an</strong> ISDN BRI-B Channel? </p>
+<ul>
+<li>64kbps</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>七、路由和路由器</title>
     <url>/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/</url>
     <content><![CDATA[<h1 id="07-Routing-and-Routers"><a href="#07-Routing-and-Routers" class="headerlink" title="07. Routing and Routers"></a>07. Routing and Routers</h1><ul>
@@ -3638,405 +3729,360 @@
       </tags>
   </entry>
   <entry>
-    <title>六、OSI第567层：会话、表示、应用层</title>
-    <url>/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/</url>
-    <content><![CDATA[<h1 id="06-会话、表示、应用层"><a href="#06-会话、表示、应用层" class="headerlink" title="06 会话、表示、应用层"></a>06 会话、表示、应用层</h1><ul>
-<li>The Session Layer</li>
-<li>The Presentation Layer</li>
-<li>The Application Layer</li>
-</ul>
-<h1 id="一、第5层：会话层"><a href="#一、第5层：会话层" class="headerlink" title="一、第5层：会话层"></a>一、第5层：会话层</h1><ul>
-<li>负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。</li>
-</ul>
-<h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1. 作用"></a>1. 作用</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ul>
-<li>会话层的核心作用是负责会话的<strong>建立、管理和终止</strong>，确保<strong>数据传输在不同设备间顺畅进行</strong>。主要包括：</li>
-</ul>
-<ol>
-<li>基于令牌（Token）进行交互发言，通过数据同步保证数据完整性(应用逻辑)</li>
-<li>进行数据分段、拼接，保证传输的有效。</li>
-<li>同步技术，保证故障恢复</li>
-</ol>
-<h2 id="2-服务"><a href="#2-服务" class="headerlink" title="2. 服务"></a>2. 服务</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li><strong>双向同步通讯 TWA</strong>(Two-Way Alternate)<ul>
-<li>全双工通信</li>
-<li>半双工通信</li>
-<li>单工通信</li>
+    <title>八、RIP&amp;OSPF</title>
+    <url>/2025/02/24/%E5%85%AB.RIP&amp;OSPF/</url>
+    <content><![CDATA[<h1 id="08-Routing-Protocols：RIP-and-OSPF"><a href="#08-Routing-Protocols：RIP-and-OSPF" class="headerlink" title="08 Routing Protocols：RIP and OSPF"></a>08 Routing Protocols：RIP and OSPF</h1><ul>
+<li>RIPv1&#x2F;RIPv2<ul>
+<li>RIP History </li>
+<li>Differences Between RIP v1 and RIP v2 </li>
+<li>Configuration of RIP v2</li>
 </ul>
 </li>
-<li><strong>双向交替控制 TWS</strong>(Two-Way Simultaneous)<ul>
-<li>会话连接、活动开始、数据校验（同步）</li>
-<li>令牌转换等</li>
-</ul>
-</li>
-<li>是否同步 synchronized 了您的会话的主题？<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ol>
-<h2 id="3-同步点-CheckPoint"><a href="#3-同步点-CheckPoint" class="headerlink" title="3. 同步点 CheckPoint"></a>3. 同步点 CheckPoint</h2><ol>
-<li>**同步点（CheckPoint）**用于分隔会话session的各个部分，以前称为对话（dialogues）<ul>
-<li>同步点：发送一定数据后设置同步点</li>
-<li>次同步点：作为同步点的一个子集，进行数据校验</li>
-<li>主同步点：按照主同步点进行校验确认</li>
-<li>如果错误，恢复到上次都已经同步的主同步点</li>
-</ul>
-</li>
-<li>对话分隔（Seperation）：会话层通过同步点分隔不同的对话（会话段），确保各个会话部分的有序启动、进行与终止。尽量保证了数据交换的效率和可靠性。</li>
-</ol>
-<h2 id="4-Some-Applications-of-Layer-5"><a href="#4-Some-Applications-of-Layer-5" class="headerlink" title="4. Some Applications of Layer 5"></a>4. Some Applications of Layer 5</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li>NFS</li>
-<li>SQL</li>
-<li>RPC</li>
-<li>X Window System</li>
-<li>ASP</li>
-<li>SCP</li>
-</ol>
-<hr>
-<h1 id="二、第6层：表示层"><a href="#二、第6层：表示层" class="headerlink" title="二、第6层：表示层"></a>二、第6层：表示层</h1><ul>
-<li>The Presentation Layer</li>
-</ul>
-<ol>
-<li>表示层负责以<strong>接收设备可以理解的形式</strong>表示数据。<ul>
-<li>传送语法协商</li>
-<li>接受语法协商</li>
-</ul>
-</li>
-<li>表示层具有 3 个<strong>主要功能</strong>：<ul>
-<li><strong>数据格式化</strong>（formatting）</li>
-<li><strong>数据压缩</strong>（compression）：早期网络比较慢，倾向于先压缩在发送</li>
-<li><strong>数据加密</strong>（encryption）</li>
-</ul>
-</li>
-</ol>
-<h2 id="1-Data-Formatting-数据格式化"><a href="#1-Data-Formatting-数据格式化" class="headerlink" title="1. Data Formatting 数据格式化"></a>1. Data Formatting 数据格式化</h2><ol>
-<li>想象两个不同（dissimilar）的系统。<ul>
-<li>一种使用扩展二进制编码的十进制交换码（EBCDIC,Extended Binary Coded Decimal Interchange Code）格式化文本</li>
-<li>另一种使用美国信息交换标准码（ASCII）格式化文本</li>
-</ul>
-</li>
-<li>第六层提供了<strong>这两种</strong>不同类型的代码之间的<strong>转换</strong></li>
-</ol>
-<h3 id="1-1-Graphic-File-Formats-图形文件格式"><a href="#1-1-Graphic-File-Formats-图形文件格式" class="headerlink" title="1.1 Graphic File Formats 图形文件格式"></a>1.1 Graphic File Formats 图形文件格式</h3><ul>
-<li>互联网通常使用两种<strong>二进制</strong>文件格式来显示图像：<ul>
-<li>图形交换格式（GIF）</li>
-<li>联合图像专家组（JPEG）</li>
-</ul>
-</li>
-<li>任何具有GIF和JPEG文件格式阅读器的计算机都可以读取这些文件类型，无论计算机类型如何。</li>
-</ul>
-<h3 id="1-2-Multimedia-File-Format-多媒体文件格式"><a href="#1-2-Multimedia-File-Format-多媒体文件格式" class="headerlink" title="1.2 Multimedia File Format 多媒体文件格式"></a>1.2 Multimedia File Format 多媒体文件格式</h3><ul>
-<li>多媒体文件格式是另一种类型的<strong>二进制</strong>文件，用于存储声音、音乐和视频。<ul>
-<li>这些文件可以完全下载后播放，或者在下载的同时播放。</li>
-<li>后一种方法称为流式音频。</li>
+<li>OSPF(single area)<ul>
+<li>Link-state routing protocol</li>
+<li>Single-area OSPF concepts</li>
+<li>Single-area OSPF configuration</li>
 </ul>
 </li>
 </ul>
-<h2 id="2-Encryption-Compression-数据加密-压缩"><a href="#2-Encryption-Compression-数据加密-压缩" class="headerlink" title="2. Encryption &amp; Compression 数据加密&amp;压缩"></a>2. Encryption &amp; Compression 数据加密&amp;压缩</h2><ul>
-<li>第六层负责<strong>数据加密</strong>：<ul>
-<li>数据加密可<strong>在信息传输过程中保护信息</strong>。</li>
+<h1 id="一、RIPv1-RIPv2"><a href="#一、RIPv1-RIPv2" class="headerlink" title="一、RIPv1&#x2F;RIPv2"></a>一、RIPv1&#x2F;RIPv2</h1><h2 id="（一）RIP-History"><a href="#（一）RIP-History" class="headerlink" title="（一）RIP History"></a>（一）RIP History</h2><h2 id="1-RIP的历史"><a href="#1-RIP的历史" class="headerlink" title="1. RIP的历史"></a>1. RIP的历史</h2><ol>
+<li><strong>RIP v1</strong>被认为是一种无类别的<strong>内部网关协议（IGP）</strong>。<ul>
+<li><strong>距离矢量协议 DVP</strong>：RIP v1是一种距离矢量协议，它以预定的间隔向每个邻居路由器广播其整个路由表。默认间隔为<strong>30秒</strong>。</li>
+<li><strong>跳数作为度量</strong>：RIP使用跳数作为度量，最大跳数为<strong>15</strong>。<ul>
+<li>如果目的地的跳数超过15，则认为该目的地不可达。</li>
 </ul>
 </li>
-<li>表示层还负责文件的压缩。</li>
 </ul>
-<hr>
-<h1 id="三、第7层：应用层"><a href="#三、第7层：应用层" class="headerlink" title="三、第7层：应用层"></a>三、第7层：应用层</h1><ul>
-<li>The Application Layer<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-<li>上图中各层的一些协议和使用：会话层对端口进行管理</li>
-<li>第七层对应了应用界面，第六层对应了各种协议</li>
-</ul>
-<h2 id="1-职责"><a href="#1-职责" class="headerlink" title="1. 职责"></a>1. 职责</h2><ol>
-<li>应用层（最接近用户）支持应用程序的<strong>通信组件</strong>。</li>
+</li>
+<li><strong>负载均衡 load balancing</strong>：RIP v1能够在多达<strong>6条</strong>等成本路径上进行负载均衡，默认情况下为<strong>4条</strong>路径。</li>
+<li><strong>规范</strong>：RIP最初在RFC 1058中指定。</li>
 </ol>
 <ul>
-<li><strong>应用层</strong>：<ul>
-<li>识别并建立预期通信伙伴的可用性</li>
-<li>同步协作应用程序Synchronizes cooperating applications</li>
-<li>就错误恢复程序达成一致</li>
-<li>控制数据完整性 data integrity</li>
+<li>RIP v1的局限性<ul>
+<li><strong>不发送子网掩码信息</strong>：RIP v1在更新中不发送子网掩码信息。<ul>
+<li>意味着只能支持类网络，必须用同样的子网掩码</li>
+</ul>
+</li>
+<li><strong>广播更新</strong>：RIP v1以广播形式发送更新，地址为255.255.255.255。<ul>
+<li>只能发给邻居，不能通过路由器转发</li>
+</ul>
+</li>
+<li><strong>不支持身份验证（authentication）</strong>：RIP v1不支持认证。<ul>
+<li>安全隐患</li>
+</ul>
+</li>
+<li><strong>不支持VLSM或CIDR</strong>：RIP v1无法支持可变长子网掩码（VLSM）或无类别域间路由（CIDR）。</li>
 </ul>
 </li>
 </ul>
-<h2 id="2-HTTP-超文本传输协议"><a href="#2-HTTP-超文本传输协议" class="headerlink" title="2. HTTP 超文本传输协议"></a>2. HTTP 超文本传输协议</h2><ul>
-<li><strong>HyperText Transfer Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ul>
-<h3 id="2-1-统一资源定位符URL-Uniform-Resource-Locator"><a href="#2-1-统一资源定位符URL-Uniform-Resource-Locator" class="headerlink" title="2.1 统一资源定位符URL (Uniform Resource Locator)"></a>2.1 统一资源定位符URL (Uniform Resource Locator)</h3><ul>
-<li>统一资源定位符URL 是对可以从因特网上得到的资源的<strong>位置</strong>和<strong>访问方法</strong>的一种简洁的表示</li>
-<li>URL 给<strong>资源的位置</strong>提供一种抽象的识别方法，并用这种方法给资源<strong>定位</strong></li>
-<li>只要能够对资源定位，系统就可以对资源进行各种<strong>操作</strong>，如存取、更新、替换和查找其属性</li>
-<li>URL 相当于<strong>一个文件名在网络范围的扩展</strong>。因此URL 是<strong>与因特网相连的机器上的任何可访问对象的一个指针</strong></li>
-<li><code>&lt;URL的访问方式&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</code><ol>
-<li>访问方式：协议 HTTPS 或者 HTTP</li>
-<li>主机：域名的方式</li>
-<li>端口对应进程</li>
-<li>路径对应具体的文件</li>
-</ol>
-</li>
-</ul>
-<h3 id="2-2-HTTP"><a href="#2-2-HTTP" class="headerlink" title="2.2 HTTP"></a>2.2 HTTP</h3><ul>
-<li>HTTP 是<strong>面向事务</strong>的客户服务器协议</li>
-<li>HTTP 1.0 协议是<strong>无状态</strong>的(stateless)</li>
-<li>HTTP 协议本身也是<strong>无连接</strong>的，虽然它使用了面向连接的TCP 向上提供的服务</li>
-<li>万维网浏览器就是一个HTTP 客户，而在万维网服务器等待HTTP 请求的进程常称为HTTP daemon，有的文献将它缩写为HTTPD</li>
-<li>HTTP daemon 在收到 HTTP 客户的请求后，把所需的文件返回给HTTP 客户</li>
-</ul>
-<h3 id="2-3-HTTP的报文结构-请求报文"><a href="#2-3-HTTP的报文结构-请求报文" class="headerlink" title="2.3 HTTP的报文结构(请求报文)"></a>2.3 HTTP的报文结构(请求报文)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li>报文由三个部分组成，即<strong>开始行</strong>、<strong>首部行</strong>和<strong>实体主体</strong>。</li>
-<li>在请求报文中，<strong>开始行就是请求行</strong>。</li>
-</ol>
-<h3 id="2-4-HTTP-请求报文的一些方法"><a href="#2-4-HTTP-请求报文的一些方法" class="headerlink" title="2.4 HTTP 请求报文的一些方法"></a>2.4 HTTP 请求报文的一些方法</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<h3 id="2-5-HTML-HyperText-Markup-Language-超文本标记语言"><a href="#2-5-HTML-HyperText-Markup-Language-超文本标记语言" class="headerlink" title="2.5 HTML(HyperText Markup Language) 超文本标记语言"></a>2.5 HTML(HyperText Markup Language) 超文本标记语言</h3><ul>
-<li>定义了许多用于排版的命令（标签）</li>
-<li>HTML 文档是一种可以用任何文本编辑器创建的ASCII 码文件</li>
-<li>仅当HTML 文档是以.html 或.htm 为后缀时，浏览器才对此文档的各种标签进行解释</li>
-<li>当浏览器从服务器读取HTML 文档，针对HTML 文档中的各种标签，根据浏览器所使用的显示器的尺寸和分辨率大小，重新进行排版并恢复出所读取的页面</li>
-<li>HTML 用一对标签（一个开始标签和一个结束标签）或几对标签来标识一个元素</li>
-</ul>
-<h2 id="3-FTP-and-TFTP-文件传输协议"><a href="#3-FTP-and-TFTP-文件传输协议" class="headerlink" title="3. FTP and TFTP 文件传输协议"></a>3. FTP and TFTP 文件传输协议</h2><ul>
-<li>File Transfer Protocol</li>
-<li><strong>Trivial</strong> File Transfer Protocol 简单文件传输协议</li>
-</ul>
-<ol>
-<li><strong>FTP</strong>： 是一种<em>可</em>靠的、面向连接<strong>的服务，使用</strong>TCP**传输文件。<ul>
-<li>FTP首先在<strong>客户端和服务器</strong>之间建立<strong>控制连接</strong>（端口21）。</li>
-<li>然后建立第二个连接，通过该连接在<strong>计算机之间传输数据</strong>（端口20）。</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>Trivial File Transfer Protocol</li>
-</ul>
-<ol start="2">
-<li><strong>TFTP</strong>：是一种<strong>无连接</strong>的服务，使用<strong>UDP</strong>。<ul>
-<li>小巧且易于实现。</li>
-<li>例如，TFTP用于路由器传输配置文件和Cisco IOS镜像。</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-1-FTP主进程工作步骤"><a href="#3-1-FTP主进程工作步骤" class="headerlink" title="3.1 FTP主进程工作步骤"></a>3.1 FTP主进程工作步骤</h3><ol>
-<li><strong>打开熟知端口</strong>（端口号为21），使客户进程能够连接上</li>
-<li><strong>等待客户进程发出连接请求</strong></li>
-<li>启动<strong>从属进程</strong>来处理客户进程发来的请求。从属进程对客户进程的请求处理完毕后即终止，但从属进程在运行期间根据需要还可能创建其他一些子进程</li>
-<li>回到<strong>等待</strong>状态，继续接受其他客户进程发来的请求。主进程与从属进程的处理是<strong>并发地进行</strong></li>
-</ol>
-<h3 id="3-2-FTP的屏幕信息举例"><a href="#3-2-FTP的屏幕信息举例" class="headerlink" title="3.2 FTP的屏幕信息举例"></a>3.2 FTP的屏幕信息举例</h3><ul>
-<li>[01] ftp nic.ddn.mil<ul>
-<li>用户要用 FTP 和远地主机（网络信息中心 NIC 上的主机）建立连接。域名：nic.ddn.mil</li>
-</ul>
-</li>
-<li>[02] connected to nic.ddn.mil<ul>
-<li>本地 FTP 发送的连接成功信息</li>
-</ul>
-</li>
-<li>[03] 220 nic FTP server（Sunos 4.1）ready.<ul>
-<li>从远地服务器返回的信息，220 表示“服务就绪”</li>
-</ul>
-</li>
-<li>[04] Name： anonymous<ul>
-<li>本地 FTP 提示用户键入名字。用户键入的名字表示“匿名”。用户只需键入 anonymous 即可（匿名）</li>
-</ul>
-</li>
-<li>[05] 331 Guest login ok, send ident as password.<ul>
-<li>数字 331 表示“用户名正确”，需要口令</li>
-</ul>
-</li>
-<li>[06] Password： <a href="mailto:&#x61;&#x62;&#99;&#x40;&#120;&#121;&#122;&#46;&#x6d;&#x61;&#x74;&#104;&#46;&#x79;&#x61;&#x6c;&#x65;&#46;&#x65;&#x64;&#x75;">abc@xyz.math.yale.edu</a><ul>
-<li>本地 FTP 提示用户键入口令。用户这时可键入 guest 作为匿名的口令，也可以键入自己的电子邮件地址，即耶鲁大学数学系名为 xyz 的主机上的 abd（匿名密码是随意输入的）</li>
-</ul>
-</li>
-<li>[07] 230 Guest login ok, access restrictions apply.<ul>
-<li>数字 230 表示用户已经注册完毕</li>
-</ul>
-</li>
-<li>[08] ftp&gt; cd rfc<ul>
-<li>“ftp&gt;”是 FTP 的提示信息。用户键入的是将目录改变为包含 RFC 文件的目录</li>
-</ul>
-</li>
-<li>[09] 250 CWD command successful.<ul>
-<li>字符”CWD”是 FTP 的标准命令，表示 Change Working Directory</li>
-</ul>
-</li>
-<li>[10] ftp&gt; get rfc1261.txt nicinfo<ul>
-<li>用户要求将名为 rfc1261.txt 的文件复制到本地主机上，并改名为 nicinfo（get 获取到本地）</li>
-</ul>
-</li>
-<li>[11] 200 PORT command successful.<ul>
-<li>字符 PORT 是 FTP 的标准命令，表示要建立数据连接。200 表示“命令正确”</li>
-</ul>
-</li>
-<li>[12] 150 ASCII data connection for rfc1261.txt（128.36.12.27,1401）（4318 bytes）.<ul>
-<li>数字 150 表示”文件状态正确，即将建立数据连接”</li>
-</ul>
-</li>
-<li>[13] 226 ASCII Transfer complete. local： nicinfo remote： rfc1261.txt 4488 bytes received in 15 seconds（0.3 Kbytes&#x2F;s）.<ul>
-<li>数字 226 是“释放数据连接”，现在一个新的本地文件已经生成。</li>
-</ul>
-</li>
-<li>[14] ftp&gt; quit<ul>
-<li>用户键入退出命令。</li>
-</ul>
-</li>
-<li>[15] 221 Goodbye.<ul>
-<li>表示 FTP 工作结束</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-Telnet-远程终端协议"><a href="#4-Telnet-远程终端协议" class="headerlink" title="4. Telnet 远程终端协议"></a>4. Telnet 远程终端协议</h2><ul>
-<li>用于通过网络远程访问和控制另一台计算机</li>
-<li>Telnet客户端软件提供“<strong>登录</strong>到<strong>运行Telnet服务器应用程序</strong>的<strong>远程互联网主机</strong>”的能力，然后从命令行执行命令。</li>
-</ul>
-<h2 id="5-SMTP-and-POP-收发邮件协议"><a href="#5-SMTP-and-POP-收发邮件协议" class="headerlink" title="5. SMTP and POP 收发邮件协议"></a>5. SMTP and POP 收发邮件协议</h2><ul>
-<li>电子邮件服务器相互通信，使用<strong>SMTP</strong>协议<strong>发送</strong>邮件，使用<strong>POP3</strong>协议<strong>接收</strong>邮件。</li>
-<li><strong>SMTP（Simple Mail Transfer Protocol）</strong>：邮件发送</li>
-<li><strong>POP3（Post Office Protocol version 3）</strong>：邮件接收<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-<li>发送者先登录到服务器，通过服务器根据SMTP传输到对应的服务器，然后用户登录后通过POP3协议收邮件到本地</li>
-</ul>
-<h3 id="5-1-MIME-和-SMTP-的关系"><a href="#5-1-MIME-和-SMTP-的关系" class="headerlink" title="5.1 MIME 和 SMTP 的关系"></a>5.1 MIME 和 SMTP 的关系</h3><ul>
-<li>MIME（Multipurpose Internet Mail Extensions）<ul>
-<li>是一种扩展了电子邮件格式的标准，它允许邮件发送<strong>非ASCII字符</strong>（如图像、音频、视频等二进制文件），并使邮件能够包含多种类型的内容。</li>
-</ul>
-</li>
-<li>MIME 是通过<strong>对非 ASCII 内容进行编码</strong>，使其能够通过原本**仅支持 ASCII 的协议（如 SMTP）**进行传输。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ul>
-<h3 id="5-2-MIME-增加-5-个新的邮件首部"><a href="#5-2-MIME-增加-5-个新的邮件首部" class="headerlink" title="5.2 MIME 增加 5 个新的邮件首部"></a>5.2 MIME 增加 5 个新的邮件首部</h3><ol>
-<li>MIME-Version: 标志 MIME 的版本。现在的版本号是1.0。若无此行，则为英文文本<ul>
-<li><code>MIME-Version: 1.0</code></li>
-</ul>
-</li>
-<li>Content-Description: 这是可读字符串，说明此邮件主体是否是图像、音频或视频<ul>
-<li><code>Content-Description: This is a picture of a cat</code></li>
-</ul>
-</li>
-<li>Content-Id: 邮件的惟一标识符<ul>
-<li><code>Content-Id: &lt;image1234@domain.com&gt;</code></li>
-</ul>
-</li>
-<li>Content-Transfer-Encoding: 在传送时邮件的主体是如何编码的<ul>
-<li><code>Content-Transfer-Encoding: base64</code></li>
-</ul>
-</li>
-<li>Content-Type:说明邮件主体的数据类型和子类型<ul>
-<li><code>Content-Type: text/plain; charset=&quot;UTF-8&quot;</code> 或 <code>Content-Type: image/jpeg</code></li>
-</ul>
-</li>
-</ol>
-<h2 id="6-SNMP-简单网络管理协议"><a href="#6-SNMP-简单网络管理协议" class="headerlink" title="6. SNMP 简单网络管理协议"></a>6. SNMP 简单网络管理协议</h2><ul>
-<li><strong>Simple Network Management Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-<li>简单网络管理协议（SNMP）是一种<strong>应用层协议</strong>，促进网络设备之间管理信息的交换。</li>
-<li><strong>NMS（Network Management System）：网管</strong>,通过下发请求对上网的所有的主机关于流量等等信息进行管理（监控）</li>
-</ul>
-<h2 id="7-DNS-域名系统-Domain-Name-System"><a href="#7-DNS-域名系统-Domain-Name-System" class="headerlink" title="7. DNS 域名系统 Domain Name System"></a>7. DNS 域名系统 Domain Name System</h2><ul>
-<li>域名系统（DNS）是一种<strong>网络服务</strong>，<strong>管理域名</strong>并响应<strong>客户端请求——将域名转换为相应的IP地址</strong></li>
-</ul>
-<h3 id="7-1-Dnmain-Name-域名"><a href="#7-1-Dnmain-Name-域名" class="headerlink" title="7.1 Dnmain Name 域名"></a>7.1 Dnmain Name 域名</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li><p>使用圆点 <code>.</code> 将字符串进行分隔开，字符串不应该太长</p>
-</li>
-<li><p>越靠后域名级别越高</p>
-</li>
-<li><p>www 就是对应到主机群</p>
-</li>
-<li><p><strong>根域（Root Domain）</strong>：</p>
-<ul>
-<li>位于域名层次结构的顶端，表示为空字符串。</li>
-<li>由一组根服务器管理，负责顶级域名的解析。</li>
-</ul>
-</li>
-<li><p><strong>顶级域（Top-Level Domain, TLD）</strong>：</p>
-<ul>
-<li>位于根域之下，分为通用顶级域（gTLD）和国家顶级域（ccTLD）。</li>
-<li>例如：.com、.org、.net（通用顶级域），.cn、.us、.uk（国家顶级域）。</li>
-<li><strong>唯一的基础设施域</strong>：arpa，用于反向解析域名</li>
-</ul>
-</li>
-<li><p><strong>二级域（Second-Level Domain, SLD）</strong>：</p>
-<ul>
-<li>位于顶级域之下，通常由组织或个人注册。</li>
-<li>例如：example.com中的example。</li>
-</ul>
-</li>
-<li><p><strong>子域（Subdomain）</strong>：</p>
-<ul>
-<li>位于二级域之下，可以由域名所有者自由创建。</li>
-<li>例如：mail.example.com中的mail。</li>
-</ul>
-</li>
-<li><p><strong>主机名（Hostname）</strong>：</p>
-<ul>
-<li>最具体的层次，指向具体的设备或服务。</li>
-<li>例如：<a href="http://www.example.com中的www./">www.example.com中的www。</a></li>
-</ul>
-</li>
-</ol>
-<h3 id="7-2-TLD-顶级域-Top-Level-Domain"><a href="#7-2-TLD-顶级域-Top-Level-Domain" class="headerlink" title="7.2 TLD 顶级域 Top Level Domain"></a>7.2 TLD 顶级域 Top Level Domain</h3><ol>
-<li>国家 TLD（nTLD）<ul>
-<li>.cn（CHINA） 中国</li>
-<li>.us（United States） 美国</li>
-<li>.uk（United kingdom）, etc. 英国等等</li>
-</ul>
-</li>
-<li>通用 TLD（gTLD），最早的域包括：<ul>
-<li>.com Enterprises and companies 企业和公司</li>
-<li>.net Network services providers 网络服务提供者</li>
-<li>.org Nonprofit organizations 非盈利组织</li>
-<li>.edu Educational facilities 教育机构</li>
-</ul>
-</li>
-<li>基础设施领域（Infrastructure domain）<ul>
-<li>Only one： <strong>arpa</strong>, for resolving domain names reversely 仅一个：arpa，用于<strong>反向解析域名</strong></li>
-</ul>
-</li>
-<li>Recently, new TLD domain added：<ul>
-<li>.aero（航空运输企业）</li>
-<li>.biz（公司和企业）</li>
-<li>.coop（合作团体）</li>
-<li>.info（各种资讯）</li>
-<li>.jobs（人力资源管理者）</li>
-<li>.mobi（移动产品与服务的用户和提供者）</li>
-<li>.museum（博物馆）</li>
-<li>.name（个人）</li>
-<li>.pro（经过认证的专业人员）</li>
-<li>.travel（旅游业）</li>
-</ul>
-</li>
-</ol>
-<h3 id="7-3-域名服务器Domain-Name-Server-DNS"><a href="#7-3-域名服务器Domain-Name-Server-DNS" class="headerlink" title="7.3 域名服务器Domain Name Server (DNS)"></a>7.3 域名服务器Domain Name Server (DNS)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ul>
-<li>顶级域名底下的域名就是由顶级域名下面进行管理</li>
-<li>根域名服务器存储位置，所以子服务器知道根服务器的地址即可</li>
-</ul>
-<h3 id="7-4-结合域名服务器查找-IP-地址"><a href="#7-4-结合域名服务器查找-IP-地址" class="headerlink" title="7.4 结合域名服务器查找 IP 地址"></a>7.4 结合域名服务器查找 IP 地址</h3><ul>
-<li>DNS 系统以层次（hierarchy）结构设置，该层次结构创建<strong>不同级别的 DNS 服务器</strong>。</li>
-<li>此级别的 DNS 服务器<strong>判断其自身</strong>是否能够将<strong>域名</strong>转换为<strong>关联的 IP 地址</strong>：<ol>
-<li>如果<strong>可以</strong>，则将<strong>结果返回给客户端</strong></li>
-<li>如果<strong>没有</strong>，它将请求发送到更高级别。（<strong>向上级请求</strong>）<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ol>
-</li>
-<li>请求分为两种：<ul>
-<li>能够应答</li>
-<li>不能够应答</li>
-</ul>
-</li>
-<li>递归地进行查找：具体过程在上图</li>
-<li>下面递归，上面迭代</li>
-</ul>
-<h2 id="8-应用层通信处理的两种方式"><a href="#8-应用层通信处理的两种方式" class="headerlink" title="8. 应用层通信处理的两种方式"></a>8. 应用层通信处理的两种方式</h2><ol>
-<li><strong>第一种方式</strong>：（短连接）<ul>
-<li>在这种模式下，客户端每次向服务器请求资源时，都会建立一次新的连接，并且在请求处理完成后，连接会立即断开。</li>
-<li>当浏览器打开时，它连接到<strong>默认页面</strong>，并将<em>页面的文件传输到客户端</em>。</li>
-<li>处理完成后，连接断开。</li>
-</ul>
-</li>
-<li><strong>第二种方式</strong>：（长连接&#x2F;持久连接）<ul>
-<li>长连接（也称持久连接）会在客户端和服务器之间建立一个持久的连接，在整个会话期间保持连接，直到客户端显式地断开连接。通常用于需要持续<strong>交互</strong>的应用。</li>
-<li>如Telnet（远程登录）和FTP（文件传输），建立与服务器的连接，并保持该连接直到所有处理完成。</li>
-<li>当用户确定已完成时，客户端终止连接。</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>所有通信活动都属于这两种类别之一。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ul>
+<h2 id="2-RIP的配置Configuration"><a href="#2-RIP的配置Configuration" class="headerlink" title="2. RIP的配置Configuration"></a>2. RIP的配置Configuration</h2><figure class="highlight plaintext"><figcaption><span>rip``` 开始RIP路由过程(**选择 RIP 作为路由协议**)</span></figcaption><table><tr><td class="code"><pre><span class="line">```network network-number``` 分配基于 NIC（Network Interface Card）的网络地址，也就是说，路由器与哪些网络直接连接，就要配置对应的网络地址。</span><br><span class="line">- 例子：</span><br></pre></td></tr></table></figure>
+<p>router rip<br>network 1.0.0.0<br>network 2.0.0.0<br>&#x2F;&#x2F;路由器是直接连接到 1.0.0.0 和 2.0.0.0 这两个网络的，且这两个网络会启用RIP协议</p>
+<pre><code>- ![alt text](image.png)
+## （二）Configuration of RIP v2
+## 1. RIP v2
+- RIP v2是RIP v1的改进版本，具有以下特性：
+    - **距离矢量协议**：使用**跳数**作为度量。
+    - **保持定时器**：使用holddown timers防止路由环路，默认时间为**180秒**。
+        - 如果路由器在180s内没有接收到路由更新，它会认为路由不可用。
+    - **水平分割**：使用split horizons防止路由环路。
+    - **无限距离**：使用**16跳**作为**无限距离的度量**。
+        - 15 跳及以内可达；否则认为目标不可达
+    - **支持CIDR和VLSM**
+    - 支持**认证**（Authentication）
+    - 使用**多播**而不是广播, 地址**224.0.0.9**
+    - 会发送**子网掩码**信息
+## 2. RIP v2 的配置
+1. `router`命令启动路由过程。
+2. `version 2`：表示启动 RIPv2
+    - 直接使用 router rip **默认为 v1**，一定要输入这个命令才能启动 RIPv2
+3. `network`配置网络，命令实现以下三个功能：
+    - **路由更新**通过该命令指定的**网络接口**进行**多播** multicast。
+        - 并将路由更新通过该接口发送到多播地址（224.0.0.9），发送给同一网络上的其他 RIP 路由器。
+    - 如果路由更新进入**同一接口**，则进行**处理**。
+        - 同一接口（即该接口本身已配置为 RIP 网络接口）
+        - 路由器会处理该更新并更新自己的路由表
+    - 广播直接连接到该接口的子网。
+        - 路由器会在指定网络接口上广播或多播该接口直接连接的子网信息
+![alt text](image-1.png)
+## 3. 验证与故障排除
+1. 验证 RIPv2：
+- Router#**show ip protocols**    #查看当前启用的路由协议，以及其配置和相关信息
+- Router#**show ip route**    #显示 IP 路由表
+2. 故障排除 RIPv2：
+- Router#**debug ip rip**   #显示RIP 路由更新的发送和接收过程
+- Router#**undebug all**    #（或 **no debug all**）：停止debug调试
+3. `show ip protocols`实例
+- ![alt text](image-2.png)
+4. `debug ip rip`命令
+    1. `debug ip rip`命令显示 **RIP 路由更新的发送和接收**。在本示例中，更新是通过 183.8.128.130 发送的
+    2. 它报告了三台路由器，其中一台**无法访问**，因为其跳数大于 15。然后通过 183.8.128.2 广播了更新
+- ![alt text](image-3.png)
+5. `show ip route`查看路由表
+- ![alt text](image-5.png)
+- Codes：表示对于路由协议类型的描述
+- 每个路由的格式为：**&lt;协议类型&gt;/&lt;跳数&gt;**
+- 120/1：表示该路由通过 RIP 协议获取, 1 跳到达，120/2：表示 2 跳到达
+## （三）RIPv1 和 RIPv2 之间的区别
+![alt text](image-6.png)
+- 支持有类路由：可以携带子网掩码
+- 使用多播地址进行发送广播：特定给 RIP 接受，避免了接受后发现没有启动 RIP 进程耽误时间
+- 需要身份认证才确定是否继续进行接收
+---
+# OSPF(single area)
+- 介绍单个区域（single-srea）OSPF 协议
+## 1. OSPF概述
+- **Open Shortest Path First**
+1. 开放最短路径优先（OSPF）是一种基于开放标准的**链路状态link-state**路由协议。
+2. 标准描述：OSPF在多个互联网工程任务组（IETF）的标准中有所描述，最新的描述在RFC 2328中。
+3. **可扩展性**：与RIPv1和RIPv2相比，OSPF因其可扩展性而成为首选的**内部网关协议（IGP）**。
+## 2. 路由信息 Routing information
+- **链路状态**：The state of the link是**对接口及其与邻居路由器关系的描述**。
+- **链路状态数据库**：链路状态的集合形成 link-state database，有时也称为**拓扑数据库 topological database**。
+- **SPF算法**：路由器应用**Dijkstra最短路径优先（SPF）算法**来构建SPF树，以自身为根。
+- **路径计算**：路由器通过SPF树计算最佳路径，然后选择最佳路径并将其放入**路由表**中。
+## 3. OSPF vs. RIP
+![alt text](image-7.png)
+1. OSPF使用带宽作为评价指标, 而RIP使用跳数
+2. OSPF适合大型网络, 而RIP是为小型网络设计的
+3. OSPF可以进一步把网络划分为小区域
+4. OSPF支持VLSM，RIP v1不支持
+5. OSPF快速收敛
+6. OSPF支持多条等价的路径（多路负载均衡）
+- ![alt text](image-8.png)
+- What is the Best Path from A to B?
+    - 上面带宽大，2 跳达到，下面带宽小，1 跳到达。
+    - OSPF 从上面走，RIP 从下面走，但是上面会快一些，因此 OSPF 选择的路径是更加优越的
+## 4. OSPF的特点
+- More robust更健壮
+- 更好的可扩展性 scalable
+- **分层设计 hierarchical design**：大型OSPF网络使用分层设计
+## 5. OSPF中的一些术语 Terminology
+1. **链路/连接（Link）**：
+   - 两个网络设备之间的物理连接
+   - ![alt text](image-9.png)
+2. **链路状态（Link-State）**：
+   - 两个路由器之间的链路状态，包括路由器接口的信息及其与邻居路由器的关系、网络类型（点对点、多路复用）等
+   - ![alt text](image-10.png)
+- **邻居（Neighbors）**：相邻的路由器
+3. **开销（Cost）**：
+   - 不同网络链路处理的时候的代价，和链路带宽相关，成反比关系，一般是固定值除以带宽
+   - ![alt text](image-11.png)
+4. **区域（Area）**：
+   - 具有相同区域ID的网络/路由器的集合
+   - 区域内的每个路由器都具有相同的链路状态信息
+   - ![alt text](image-12.png)
+5. **自治系统（Autonomous System，AS）**：
+    - 多个 Area 形成一个自治系统
+    - ![alt text](image-14.png)
+6. **邻接关系数据库（Neighborship Database）**：
+   - 列出路由器已建立双向通信的所有邻居
+7. **拓扑数据库（Topology Database）**：
+   - 列出所有路由 link-state
+   - 包含关于互联网络中所有其他路由器的信息，显示互联网络的拓扑结构
+8. **路由表（Routing Table）**：
+   - 列出最佳路由
+   - 有时称为转发数据库
+   - 每个路由器的路由表都是唯一的
+9. **指定路由器（Designated Router, DR）**：
+   - 在OSPF多访问网络中选举出的一个路由器，代表该网络中的所有路由器
+   - ![alt text](image-15.png)
+10. **备份指定路由器（Backup Designated Router, BDR）**：
+   - 备用路由器，如果原始DR失效，它将成为DR
+---
+## 6. OSPF Area
+- **区域定义**：区域使用32位数字定义
+    - 可以是 IP格式 或 单个十进制值
+    - 例如：Area 0 或 Area 0.0.0.0
+- **区域 0**：区域编号为0的单一区域
+- **分层模型**：OSPF使用**2 level hierarchical model**
+- 在**多区域OSPF网络**中，所有区域都需要**连接到区域0**（主干）
+![alt text](image-16.png)
+## 7. OSPF操作步骤
+- OSPF使用*邻居关系*来获取网络的完整信息。
+- **操作步骤**：
+  1. 建立邻接关系 **adjacency relationships**
+  2. 选举DR和BDR（如果需要）（多路复用的时候才需要）
+  3. 发现路由（路线 routes）
+  4. 选择合适的路由
+  5. 维护路由信息
+- **OSPF的七个状态**：
+  - Init 初始化
+  - 2Way 双向操作
+  - ExStart 预先启动
+  - Exchange 交换
+  - Loading 加载
+  - Full 完成
+## 8. 最短路径算法
+- 最短路径算法使用节点作为起点，依次检查其关于相邻节点的信息，计算出无环拓扑结构。
+- 不根据跳数来进行选择，而是根据最小权和来寻找
+## 9. 选择 DR 和 BDR
+- **OSPF网络类型**：
+  - 广播多访问网络，如以太网    需要选举DR
+  - 点对点网络                 不需要选举DR
+  - 非广播多访问网络（NBMA）    需要选举DR
+- ![alt text](image-17.png)
+- 只有多路复用的实现方式需要 DR 和 BDR
+1. 然后，每个路由器与 DR 和 BDR 形成**邻接关系**
+2. 对于所有 OSPF 路由器，DR 使用 224.0.0.5（自己的 IP）的**主播地址**向该网段上的所有其他路由器发送**链接状态信息**
+3. 为确保 DR/BDR 看到所有路由器在网段上发送的链接状态，**使用了所有 DR/BDR 的多播地址** 224.0.0.6（DR 和 BDR 之间）
+## 10. 多路复用（Multi-Access media）中的OSPF
+1. Giga/Fast/Ethernet，FDDI，Token Ring
+    - ![alt text](image-18.png)
+2. **几个 Area 有几个 DR 和 BDR**（是在不同 Area 上）
+3. DR 和 BDR 归属于区域
+## 11. OSPF Packets
+- OSPF路由协议有5种类型的数据包：
+![alt text](image-19.png)
+- **Hello**：用于**建立和维护邻接关系**
+- **数据库描述（DBD）**：用于描述链路状态数据库的内容
+- **链路状态请求（LSR）**：用于请求特定的链路状态信息
+- **链路状态更新（LSU）**：用于发送链路状态信息
+- **链路状态确认（LSAck）**：用于确认接收到的链路状态信息
+### 1. Hello 协议
+- 当路由器在接口上启动OSPF路由进程时，它会发送一个Hello数据包，并继续定期发送Hello数据包。
+- 管理OSPF Hello数据包交换的规则称为Hello协议。
+- Hello数据包的地址是**224.0.0.5**。
+- 在广播多访问和点对点网络上，默认**每10秒**发送一次Hello数据包。
+- 在连接到非广播多访问（NBMA）网络（如帧中继）的接口上，默认时间为**30秒**。
+### 2. OSPF 报文头部
+![alt text](image-20.png)
+- Hello 报文的 Type 字段设置为 1
+### 3. 哪个路由器将成为 DR？
+- **优先级 + 路由器ID 最大**：优先级和路由器ID**最大**的路由器成为DR，第二大的成为BDR。
+- **优先级**：范围为1-255，默认值为1。
+- **路由器ID**：
+  - 使用回环IP地址作为路由器ID。
+  - 如果没有回环IP地址，则使用最高值的接口IP地址。
+- **接口失效**：如果接口失效，路由器必须重新建立邻接关系并重新发布LSA。
+## 12. OSPF 操作的完整步骤
+![alt text](image-21.png)
+1. 一开始的状态是 Down State
+2. 发送 **Hello 报文**（Init State）
+3. B 收到 A 的报文（收到报文一定是邻居）：Hello 报文的 TTL 是 1，所以不会跨路由器传播，收到即丢弃
+4. 收到后，B 也会发送自己的 Hello，然后 A 收到后进入 Two Way 状态
+![alt text](image-22.png)
+1. 准备交换数据库（Exstart Starts）
+2. 首先确认**主方（发送方）、从方（接受方）**，保证数据有序，简单就是谁的 Router ID **高**
+3. Router ID 高的（主方）发送自己 **DBD 报文**，从方对主方发送的 DBD 接受处理并发送（Exchange State）
+![alt text](image-23.png)
+1. 交换完成后，各自检查自己是不是有全部的信息
+    - 如果发现有没有的，则发送 **LSR**，等待 **LSU**（整个链路的详细信息，不是 LSA）来进行学习，之后收到完成后发送 **LSAck**（Loading State）
+    - 如果有完整的信息，则发送 **LSAck**（Full State）
+## 13. 总结：OSPF操作
+1. Set up the adjacency relationships邻居关系
+2. Elect DR and BDR（if needed）选举DR
+3. Discover the routes 发路由
+4. Choose appropriate routes 选路由
+5. Maintain the route information 维持路由信息
+### 步骤 1：建立邻居关系
+- 路由器按间隔发送Hello数据包。
+   - 如果发现**邻居**：
+     - 将邻居添加到邻接关系数据库。
+   - 发现**网络类型**：
+     - 如果是**多访问网络**，进入DR/BDR选举过程并进入步骤2。
+     - 如果是**点对点或点对多点网络**，不选举DR/BDR，跳过步骤2。
+     - 如果**Hello数据包头中的DR/BDR字段已被占用**（即已存在DR/BDR对），则不进行DR/BDR选举，跳过步骤2。
+### 步骤 2：选举DR/BDR
+- 如果没有其他路由器在线，该路由器成为DR。下一个上线的路由器将成为BDR。
+- 如果有多个路由器（两个或更多）同时上线，则：
+    - **优先级**最高的路由器成为DR。
+       - 优先级为零表示“永不成为DR”。
+    - 如果**优先级相同**，则**路由器ID**最高的路由器成为DR。
+       - 路由器ID是最高的回环地址或接口IP地址。
+    - 优先级或路由器ID第二高的路由器成为BDR。
+- 如果DR失效，BDR成为DR。
+- 【注意！】但是，如果一个**新的OSPF路由器加入**网络，且其**优先级或路由器ID更高**，当前的DR和BDR**不会改变**。
+    - 只有在当前DR失效时，它才会成为新的*BDR*；
+    - 或者在当前DR和BDR**都失效**时，它才会成为新的*DR*。
+### 步骤 3：发现路由
+- 之前在ExStart到Full状态中解释过
+    - 路由器确定“**主/从**”关系
+    - 在多路复用网络中，**DR/BDR交换LSA**，所有**其他路由器**将**类型2的DBD发送给DR/BDR**
+    - 如果需要，路由器可以通过发送**LSR请求更多信息**进入加载状态
+        - 所有路由器必须在加载状态中等待，直到请求路由器完全更新
+    - 路由器现在进入Full状态
+### 步骤 4：选择最佳路由
+- 现在网络上的所有路由器并行计算SPF算法。
+  - 记住：**在此之前**，所有路由器必须具有**相同的链路状态数据库**。
+  - SPF使用**Cost作为度量**。
+  - SPF为每条从自身到目的地的路径累加开销，构建以路由器为根的树。
+  - OSPF然后将最小开销路径安装到路由表中。
+  - *最多可以安装4条等成本路径进行负载共享*。
+### 步骤 5：维护路由信息
+- OSPF通过**定期交换Hello数据包**来检测**新邻居或失效邻居**。
+  - **根据网络类型**，Hello数据包在**不同的默认间隔**发送。
+    - 对于速度为T1（1.544 Mbps）或更高的链路，**每10秒发送一次：广播多访问和点对点链路**。
+    - 对于低于T1的链路，**每30秒发送一次：非广播多访问链路**。
+  - “失效间隔”是Hello间隔的四倍。
+---
+## 14. Basic OSPF 配置Configuration
+1. 在**路由器上启用OSPF**
+    - ```router ospf process-id```
+    - 进程号 **process-id**：
+        - 值范围为1到65535
+        - 用于标识路由器上的多个OSPF进程
+        - 通常在整个自治系统（AS）中保持相同的进程ID。
+2. **标识路由器上的IP网络**
+    - ```network network-id wildcard-mask area area-id```
+    - network-id：网络地址，可以是整个网络、子网或接口地址。
+    - wildcard-mask：通配符掩码。
+        - wildcardmask 和 subnet mask 相反
+        - 子网掩码是 255.255.255.0，则 Wild-card Address 就是 0.0.0.255
+    - area-id：区域ID，标识网络所属的OSPF区域
+        - 只有一个 Area，则为 area0
+- ![alt text](image-24.png)
+## 15. 配置回环地址 Loopback Address
+- 配置回环地址以增加OSPF路由器ID的稳定性
+    ```interface loopback number```
+    ```ip address address subnet-mask```
+    - number：回环接口编号。
+    - address：回环接口的IP地址。
+    - subnet-mask：子网掩码，建议使用/32掩码以避免潜在的路由问题。
+- 回环接口必须在OSPF进程**启动之前**配置。
+- 建议在基于OSPF的网络中的**所有关键路由器上**使用回环地址（私有或公共地址）。
+- ![alt text](image-25.png)
+
+## 16. 更改OSPF路由器的优先级
+1. **操纵 DR/BDR 选举**
+```ip ospf priority number```
+- 优先级越大越高
+- 值范围：0 ~ 255，默认值为1
+- 优先级为0表示接口不能被选为DR或BDR
+2. **监控OSPF接口优先级**
+```show ip ospf [interface type number]```
+
+## 17. OSPF 开销（Cost）= 度量（Metric）
+- **开销应用于所有路由器链路路径**
+- **16位数字（1 – 65,535）**
+- **开销越低，路径越理想**
+- **路由决策基于路径的总开销**
+- **开销由带宽派生**
+  - 公式：COST = 100,000,000 / 带宽
+  - 例如，T1链路的OSPF开销：100,000,000 / 1,544,000 = 64
+### 1. OSPF路径开销
+- **所有连接到同一链路的接口必须同意该链路的开销**，否则链路将被视为断开。
+  - Cisco路由器的串行链路默认开销为1784（56Kbps带宽）。
+  - 开销范围：1 ~ 65535。
+- 配置OSPF开销
+```ip ospf cost number```
+- 如果线路速度较慢，必须指定实际链路速度
+```bandwidth number```
+
+- 在多供应商路由环境中，常见的需要更改开销的情况是确保一个供应商的开销值与另一个供应商的开销值匹配。
+- 另一种情况是使用千兆以太网时。默认开销将最低开销值1分配给100 Mbps链路
+### 2. 配置OSPF计时器
+- **所有OSPF区域内的路由器必须达成相同的Hello间隔和失效间隔**，默认值：
+  - T1或更高带宽的链路（广播）：**10秒**
+    - 广播多访问和点对点链路
+  - 低于T1的链路（非广播）：**30秒**
+    - 非广播多访问
+  - **失效间隔 = 4 * Hello间隔**
+- 更改间隔的命令：
+```ip ospf hello-interval seconds```
+```ip ospf dead-interval seconds```
+- 注意：失效间隔会自动调整为新的Hello间隔的四倍
+- ![alt text](image-26.png)
+</code></pre>
 ]]></content>
       <categories>
         <category>互联网计算</category>
@@ -4555,6 +4601,414 @@
 <li><strong>释放映射</strong>：当连接结束或超时时，NAT设备释放该映射，使端口号返回端口池供其他内部主机使用。</li>
 </ol>
 <h2 id="10-PAT-操作"><a href="#10-PAT-操作" class="headerlink" title="10. PAT 操作"></a>10. PAT 操作</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-33.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>六、OSI第567层：会话、表示、应用层</title>
+    <url>/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/</url>
+    <content><![CDATA[<h1 id="06-会话、表示、应用层"><a href="#06-会话、表示、应用层" class="headerlink" title="06 会话、表示、应用层"></a>06 会话、表示、应用层</h1><ul>
+<li>The Session Layer</li>
+<li>The Presentation Layer</li>
+<li>The Application Layer</li>
+</ul>
+<h1 id="一、第5层：会话层"><a href="#一、第5层：会话层" class="headerlink" title="一、第5层：会话层"></a>一、第5层：会话层</h1><ul>
+<li>负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。</li>
+</ul>
+<h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1. 作用"></a>1. 作用</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>会话层的核心作用是负责会话的<strong>建立、管理和终止</strong>，确保<strong>数据传输在不同设备间顺畅进行</strong>。主要包括：</li>
+</ul>
+<ol>
+<li>基于令牌（Token）进行交互发言，通过数据同步保证数据完整性(应用逻辑)</li>
+<li>进行数据分段、拼接，保证传输的有效。</li>
+<li>同步技术，保证故障恢复</li>
+</ol>
+<h2 id="2-服务"><a href="#2-服务" class="headerlink" title="2. 服务"></a>2. 服务</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>双向同步通讯 TWA</strong>(Two-Way Alternate)<ul>
+<li>全双工通信</li>
+<li>半双工通信</li>
+<li>单工通信</li>
+</ul>
+</li>
+<li><strong>双向交替控制 TWS</strong>(Two-Way Simultaneous)<ul>
+<li>会话连接、活动开始、数据校验（同步）</li>
+<li>令牌转换等</li>
+</ul>
+</li>
+<li>是否同步 synchronized 了您的会话的主题？<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<h2 id="3-同步点-CheckPoint"><a href="#3-同步点-CheckPoint" class="headerlink" title="3. 同步点 CheckPoint"></a>3. 同步点 CheckPoint</h2><ol>
+<li>**同步点（CheckPoint）**用于分隔会话session的各个部分，以前称为对话（dialogues）<ul>
+<li>同步点：发送一定数据后设置同步点</li>
+<li>次同步点：作为同步点的一个子集，进行数据校验</li>
+<li>主同步点：按照主同步点进行校验确认</li>
+<li>如果错误，恢复到上次都已经同步的主同步点</li>
+</ul>
+</li>
+<li>对话分隔（Seperation）：会话层通过同步点分隔不同的对话（会话段），确保各个会话部分的有序启动、进行与终止。尽量保证了数据交换的效率和可靠性。</li>
+</ol>
+<h2 id="4-Some-Applications-of-Layer-5"><a href="#4-Some-Applications-of-Layer-5" class="headerlink" title="4. Some Applications of Layer 5"></a>4. Some Applications of Layer 5</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>NFS</li>
+<li>SQL</li>
+<li>RPC</li>
+<li>X Window System</li>
+<li>ASP</li>
+<li>SCP</li>
+</ol>
+<hr>
+<h1 id="二、第6层：表示层"><a href="#二、第6层：表示层" class="headerlink" title="二、第6层：表示层"></a>二、第6层：表示层</h1><ul>
+<li>The Presentation Layer</li>
+</ul>
+<ol>
+<li>表示层负责以<strong>接收设备可以理解的形式</strong>表示数据。<ul>
+<li>传送语法协商</li>
+<li>接受语法协商</li>
+</ul>
+</li>
+<li>表示层具有 3 个<strong>主要功能</strong>：<ul>
+<li><strong>数据格式化</strong>（formatting）</li>
+<li><strong>数据压缩</strong>（compression）：早期网络比较慢，倾向于先压缩在发送</li>
+<li><strong>数据加密</strong>（encryption）</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-Data-Formatting-数据格式化"><a href="#1-Data-Formatting-数据格式化" class="headerlink" title="1. Data Formatting 数据格式化"></a>1. Data Formatting 数据格式化</h2><ol>
+<li>想象两个不同（dissimilar）的系统。<ul>
+<li>一种使用扩展二进制编码的十进制交换码（EBCDIC,Extended Binary Coded Decimal Interchange Code）格式化文本</li>
+<li>另一种使用美国信息交换标准码（ASCII）格式化文本</li>
+</ul>
+</li>
+<li>第六层提供了<strong>这两种</strong>不同类型的代码之间的<strong>转换</strong></li>
+</ol>
+<h3 id="1-1-Graphic-File-Formats-图形文件格式"><a href="#1-1-Graphic-File-Formats-图形文件格式" class="headerlink" title="1.1 Graphic File Formats 图形文件格式"></a>1.1 Graphic File Formats 图形文件格式</h3><ul>
+<li>互联网通常使用两种<strong>二进制</strong>文件格式来显示图像：<ul>
+<li>图形交换格式（GIF）</li>
+<li>联合图像专家组（JPEG）</li>
+</ul>
+</li>
+<li>任何具有GIF和JPEG文件格式阅读器的计算机都可以读取这些文件类型，无论计算机类型如何。</li>
+</ul>
+<h3 id="1-2-Multimedia-File-Format-多媒体文件格式"><a href="#1-2-Multimedia-File-Format-多媒体文件格式" class="headerlink" title="1.2 Multimedia File Format 多媒体文件格式"></a>1.2 Multimedia File Format 多媒体文件格式</h3><ul>
+<li>多媒体文件格式是另一种类型的<strong>二进制</strong>文件，用于存储声音、音乐和视频。<ul>
+<li>这些文件可以完全下载后播放，或者在下载的同时播放。</li>
+<li>后一种方法称为流式音频。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Encryption-Compression-数据加密-压缩"><a href="#2-Encryption-Compression-数据加密-压缩" class="headerlink" title="2. Encryption &amp; Compression 数据加密&amp;压缩"></a>2. Encryption &amp; Compression 数据加密&amp;压缩</h2><ul>
+<li>第六层负责<strong>数据加密</strong>：<ul>
+<li>数据加密可<strong>在信息传输过程中保护信息</strong>。</li>
+</ul>
+</li>
+<li>表示层还负责文件的压缩。</li>
+</ul>
+<hr>
+<h1 id="三、第7层：应用层"><a href="#三、第7层：应用层" class="headerlink" title="三、第7层：应用层"></a>三、第7层：应用层</h1><ul>
+<li>The Application Layer<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>上图中各层的一些协议和使用：会话层对端口进行管理</li>
+<li>第七层对应了应用界面，第六层对应了各种协议</li>
+</ul>
+<h2 id="1-职责"><a href="#1-职责" class="headerlink" title="1. 职责"></a>1. 职责</h2><ol>
+<li>应用层（最接近用户）支持应用程序的<strong>通信组件</strong>。</li>
+</ol>
+<ul>
+<li><strong>应用层</strong>：<ul>
+<li>识别并建立预期通信伙伴的可用性</li>
+<li>同步协作应用程序Synchronizes cooperating applications</li>
+<li>就错误恢复程序达成一致</li>
+<li>控制数据完整性 data integrity</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-HTTP-超文本传输协议"><a href="#2-HTTP-超文本传输协议" class="headerlink" title="2. HTTP 超文本传输协议"></a>2. HTTP 超文本传输协议</h2><ul>
+<li><strong>HyperText Transfer Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="2-1-统一资源定位符URL-Uniform-Resource-Locator"><a href="#2-1-统一资源定位符URL-Uniform-Resource-Locator" class="headerlink" title="2.1 统一资源定位符URL (Uniform Resource Locator)"></a>2.1 统一资源定位符URL (Uniform Resource Locator)</h3><ul>
+<li>统一资源定位符URL 是对可以从因特网上得到的资源的<strong>位置</strong>和<strong>访问方法</strong>的一种简洁的表示</li>
+<li>URL 给<strong>资源的位置</strong>提供一种抽象的识别方法，并用这种方法给资源<strong>定位</strong></li>
+<li>只要能够对资源定位，系统就可以对资源进行各种<strong>操作</strong>，如存取、更新、替换和查找其属性</li>
+<li>URL 相当于<strong>一个文件名在网络范围的扩展</strong>。因此URL 是<strong>与因特网相连的机器上的任何可访问对象的一个指针</strong></li>
+<li><code>&lt;URL的访问方式&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</code><ol>
+<li>访问方式：协议 HTTPS 或者 HTTP</li>
+<li>主机：域名的方式</li>
+<li>端口对应进程</li>
+<li>路径对应具体的文件</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-2-HTTP"><a href="#2-2-HTTP" class="headerlink" title="2.2 HTTP"></a>2.2 HTTP</h3><ul>
+<li>HTTP 是<strong>面向事务</strong>的客户服务器协议</li>
+<li>HTTP 1.0 协议是<strong>无状态</strong>的(stateless)</li>
+<li>HTTP 协议本身也是<strong>无连接</strong>的，虽然它使用了面向连接的TCP 向上提供的服务</li>
+<li>万维网浏览器就是一个HTTP 客户，而在万维网服务器等待HTTP 请求的进程常称为HTTP daemon，有的文献将它缩写为HTTPD</li>
+<li>HTTP daemon 在收到 HTTP 客户的请求后，把所需的文件返回给HTTP 客户</li>
+</ul>
+<h3 id="2-3-HTTP的报文结构-请求报文"><a href="#2-3-HTTP的报文结构-请求报文" class="headerlink" title="2.3 HTTP的报文结构(请求报文)"></a>2.3 HTTP的报文结构(请求报文)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>报文由三个部分组成，即<strong>开始行</strong>、<strong>首部行</strong>和<strong>实体主体</strong>。</li>
+<li>在请求报文中，<strong>开始行就是请求行</strong>。</li>
+</ol>
+<h3 id="2-4-HTTP-请求报文的一些方法"><a href="#2-4-HTTP-请求报文的一些方法" class="headerlink" title="2.4 HTTP 请求报文的一些方法"></a>2.4 HTTP 请求报文的一些方法</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-5-HTML-HyperText-Markup-Language-超文本标记语言"><a href="#2-5-HTML-HyperText-Markup-Language-超文本标记语言" class="headerlink" title="2.5 HTML(HyperText Markup Language) 超文本标记语言"></a>2.5 HTML(HyperText Markup Language) 超文本标记语言</h3><ul>
+<li>定义了许多用于排版的命令（标签）</li>
+<li>HTML 文档是一种可以用任何文本编辑器创建的ASCII 码文件</li>
+<li>仅当HTML 文档是以.html 或.htm 为后缀时，浏览器才对此文档的各种标签进行解释</li>
+<li>当浏览器从服务器读取HTML 文档，针对HTML 文档中的各种标签，根据浏览器所使用的显示器的尺寸和分辨率大小，重新进行排版并恢复出所读取的页面</li>
+<li>HTML 用一对标签（一个开始标签和一个结束标签）或几对标签来标识一个元素</li>
+</ul>
+<h2 id="3-FTP-and-TFTP-文件传输协议"><a href="#3-FTP-and-TFTP-文件传输协议" class="headerlink" title="3. FTP and TFTP 文件传输协议"></a>3. FTP and TFTP 文件传输协议</h2><ul>
+<li>File Transfer Protocol</li>
+<li><strong>Trivial</strong> File Transfer Protocol 简单文件传输协议</li>
+</ul>
+<ol>
+<li><strong>FTP</strong>： 是一种<em>可</em>靠的、面向连接<strong>的服务，使用</strong>TCP**传输文件。<ul>
+<li>FTP首先在<strong>客户端和服务器</strong>之间建立<strong>控制连接</strong>（端口21）。</li>
+<li>然后建立第二个连接，通过该连接在<strong>计算机之间传输数据</strong>（端口20）。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Trivial File Transfer Protocol</li>
+</ul>
+<ol start="2">
+<li><strong>TFTP</strong>：是一种<strong>无连接</strong>的服务，使用<strong>UDP</strong>。<ul>
+<li>小巧且易于实现。</li>
+<li>例如，TFTP用于路由器传输配置文件和Cisco IOS镜像。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-1-FTP主进程工作步骤"><a href="#3-1-FTP主进程工作步骤" class="headerlink" title="3.1 FTP主进程工作步骤"></a>3.1 FTP主进程工作步骤</h3><ol>
+<li><strong>打开熟知端口</strong>（端口号为21），使客户进程能够连接上</li>
+<li><strong>等待客户进程发出连接请求</strong></li>
+<li>启动<strong>从属进程</strong>来处理客户进程发来的请求。从属进程对客户进程的请求处理完毕后即终止，但从属进程在运行期间根据需要还可能创建其他一些子进程</li>
+<li>回到<strong>等待</strong>状态，继续接受其他客户进程发来的请求。主进程与从属进程的处理是<strong>并发地进行</strong></li>
+</ol>
+<h3 id="3-2-FTP的屏幕信息举例"><a href="#3-2-FTP的屏幕信息举例" class="headerlink" title="3.2 FTP的屏幕信息举例"></a>3.2 FTP的屏幕信息举例</h3><ul>
+<li>[01] ftp nic.ddn.mil<ul>
+<li>用户要用 FTP 和远地主机（网络信息中心 NIC 上的主机）建立连接。域名：nic.ddn.mil</li>
+</ul>
+</li>
+<li>[02] connected to nic.ddn.mil<ul>
+<li>本地 FTP 发送的连接成功信息</li>
+</ul>
+</li>
+<li>[03] 220 nic FTP server（Sunos 4.1）ready.<ul>
+<li>从远地服务器返回的信息，220 表示“服务就绪”</li>
+</ul>
+</li>
+<li>[04] Name： anonymous<ul>
+<li>本地 FTP 提示用户键入名字。用户键入的名字表示“匿名”。用户只需键入 anonymous 即可（匿名）</li>
+</ul>
+</li>
+<li>[05] 331 Guest login ok, send ident as password.<ul>
+<li>数字 331 表示“用户名正确”，需要口令</li>
+</ul>
+</li>
+<li>[06] Password： <a href="mailto:&#97;&#98;&#99;&#x40;&#x78;&#121;&#x7a;&#46;&#x6d;&#97;&#116;&#x68;&#46;&#x79;&#97;&#108;&#x65;&#x2e;&#101;&#100;&#117;">abc@xyz.math.yale.edu</a><ul>
+<li>本地 FTP 提示用户键入口令。用户这时可键入 guest 作为匿名的口令，也可以键入自己的电子邮件地址，即耶鲁大学数学系名为 xyz 的主机上的 abd（匿名密码是随意输入的）</li>
+</ul>
+</li>
+<li>[07] 230 Guest login ok, access restrictions apply.<ul>
+<li>数字 230 表示用户已经注册完毕</li>
+</ul>
+</li>
+<li>[08] ftp&gt; cd rfc<ul>
+<li>“ftp&gt;”是 FTP 的提示信息。用户键入的是将目录改变为包含 RFC 文件的目录</li>
+</ul>
+</li>
+<li>[09] 250 CWD command successful.<ul>
+<li>字符”CWD”是 FTP 的标准命令，表示 Change Working Directory</li>
+</ul>
+</li>
+<li>[10] ftp&gt; get rfc1261.txt nicinfo<ul>
+<li>用户要求将名为 rfc1261.txt 的文件复制到本地主机上，并改名为 nicinfo（get 获取到本地）</li>
+</ul>
+</li>
+<li>[11] 200 PORT command successful.<ul>
+<li>字符 PORT 是 FTP 的标准命令，表示要建立数据连接。200 表示“命令正确”</li>
+</ul>
+</li>
+<li>[12] 150 ASCII data connection for rfc1261.txt（128.36.12.27,1401）（4318 bytes）.<ul>
+<li>数字 150 表示”文件状态正确，即将建立数据连接”</li>
+</ul>
+</li>
+<li>[13] 226 ASCII Transfer complete. local： nicinfo remote： rfc1261.txt 4488 bytes received in 15 seconds（0.3 Kbytes&#x2F;s）.<ul>
+<li>数字 226 是“释放数据连接”，现在一个新的本地文件已经生成。</li>
+</ul>
+</li>
+<li>[14] ftp&gt; quit<ul>
+<li>用户键入退出命令。</li>
+</ul>
+</li>
+<li>[15] 221 Goodbye.<ul>
+<li>表示 FTP 工作结束</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Telnet-远程终端协议"><a href="#4-Telnet-远程终端协议" class="headerlink" title="4. Telnet 远程终端协议"></a>4. Telnet 远程终端协议</h2><ul>
+<li>用于通过网络远程访问和控制另一台计算机</li>
+<li>Telnet客户端软件提供“<strong>登录</strong>到<strong>运行Telnet服务器应用程序</strong>的<strong>远程互联网主机</strong>”的能力，然后从命令行执行命令。</li>
+</ul>
+<h2 id="5-SMTP-and-POP-收发邮件协议"><a href="#5-SMTP-and-POP-收发邮件协议" class="headerlink" title="5. SMTP and POP 收发邮件协议"></a>5. SMTP and POP 收发邮件协议</h2><ul>
+<li>电子邮件服务器相互通信，使用<strong>SMTP</strong>协议<strong>发送</strong>邮件，使用<strong>POP3</strong>协议<strong>接收</strong>邮件。</li>
+<li><strong>SMTP（Simple Mail Transfer Protocol）</strong>：邮件发送</li>
+<li><strong>POP3（Post Office Protocol version 3）</strong>：邮件接收<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送者先登录到服务器，通过服务器根据SMTP传输到对应的服务器，然后用户登录后通过POP3协议收邮件到本地</li>
+</ul>
+<h3 id="5-1-MIME-和-SMTP-的关系"><a href="#5-1-MIME-和-SMTP-的关系" class="headerlink" title="5.1 MIME 和 SMTP 的关系"></a>5.1 MIME 和 SMTP 的关系</h3><ul>
+<li>MIME（Multipurpose Internet Mail Extensions）<ul>
+<li>是一种扩展了电子邮件格式的标准，它允许邮件发送<strong>非ASCII字符</strong>（如图像、音频、视频等二进制文件），并使邮件能够包含多种类型的内容。</li>
+</ul>
+</li>
+<li>MIME 是通过<strong>对非 ASCII 内容进行编码</strong>，使其能够通过原本**仅支持 ASCII 的协议（如 SMTP）**进行传输。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="5-2-MIME-增加-5-个新的邮件首部"><a href="#5-2-MIME-增加-5-个新的邮件首部" class="headerlink" title="5.2 MIME 增加 5 个新的邮件首部"></a>5.2 MIME 增加 5 个新的邮件首部</h3><ol>
+<li>MIME-Version: 标志 MIME 的版本。现在的版本号是1.0。若无此行，则为英文文本<ul>
+<li><code>MIME-Version: 1.0</code></li>
+</ul>
+</li>
+<li>Content-Description: 这是可读字符串，说明此邮件主体是否是图像、音频或视频<ul>
+<li><code>Content-Description: This is a picture of a cat</code></li>
+</ul>
+</li>
+<li>Content-Id: 邮件的惟一标识符<ul>
+<li><code>Content-Id: &lt;image1234@domain.com&gt;</code></li>
+</ul>
+</li>
+<li>Content-Transfer-Encoding: 在传送时邮件的主体是如何编码的<ul>
+<li><code>Content-Transfer-Encoding: base64</code></li>
+</ul>
+</li>
+<li>Content-Type:说明邮件主体的数据类型和子类型<ul>
+<li><code>Content-Type: text/plain; charset=&quot;UTF-8&quot;</code> 或 <code>Content-Type: image/jpeg</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="6-SNMP-简单网络管理协议"><a href="#6-SNMP-简单网络管理协议" class="headerlink" title="6. SNMP 简单网络管理协议"></a>6. SNMP 简单网络管理协议</h2><ul>
+<li><strong>Simple Network Management Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>简单网络管理协议（SNMP）是一种<strong>应用层协议</strong>，促进网络设备之间管理信息的交换。</li>
+<li><strong>NMS（Network Management System）：网管</strong>,通过下发请求对上网的所有的主机关于流量等等信息进行管理（监控）</li>
+</ul>
+<h2 id="7-DNS-域名系统-Domain-Name-System"><a href="#7-DNS-域名系统-Domain-Name-System" class="headerlink" title="7. DNS 域名系统 Domain Name System"></a>7. DNS 域名系统 Domain Name System</h2><ul>
+<li>域名系统（DNS）是一种<strong>网络服务</strong>，<strong>管理域名</strong>并响应<strong>客户端请求——将域名转换为相应的IP地址</strong></li>
+</ul>
+<h3 id="7-1-Dnmain-Name-域名"><a href="#7-1-Dnmain-Name-域名" class="headerlink" title="7.1 Dnmain Name 域名"></a>7.1 Dnmain Name 域名</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><p>使用圆点 <code>.</code> 将字符串进行分隔开，字符串不应该太长</p>
+</li>
+<li><p>越靠后域名级别越高</p>
+</li>
+<li><p>www 就是对应到主机群</p>
+</li>
+<li><p><strong>根域（Root Domain）</strong>：</p>
+<ul>
+<li>位于域名层次结构的顶端，表示为空字符串。</li>
+<li>由一组根服务器管理，负责顶级域名的解析。</li>
+</ul>
+</li>
+<li><p><strong>顶级域（Top-Level Domain, TLD）</strong>：</p>
+<ul>
+<li>位于根域之下，分为通用顶级域（gTLD）和国家顶级域（ccTLD）。</li>
+<li>例如：.com、.org、.net（通用顶级域），.cn、.us、.uk（国家顶级域）。</li>
+<li><strong>唯一的基础设施域</strong>：arpa，用于反向解析域名</li>
+</ul>
+</li>
+<li><p><strong>二级域（Second-Level Domain, SLD）</strong>：</p>
+<ul>
+<li>位于顶级域之下，通常由组织或个人注册。</li>
+<li>例如：example.com中的example。</li>
+</ul>
+</li>
+<li><p><strong>子域（Subdomain）</strong>：</p>
+<ul>
+<li>位于二级域之下，可以由域名所有者自由创建。</li>
+<li>例如：mail.example.com中的mail。</li>
+</ul>
+</li>
+<li><p><strong>主机名（Hostname）</strong>：</p>
+<ul>
+<li>最具体的层次，指向具体的设备或服务。</li>
+<li>例如：<a href="http://www.example.com中的www./">www.example.com中的www。</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="7-2-TLD-顶级域-Top-Level-Domain"><a href="#7-2-TLD-顶级域-Top-Level-Domain" class="headerlink" title="7.2 TLD 顶级域 Top Level Domain"></a>7.2 TLD 顶级域 Top Level Domain</h3><ol>
+<li>国家 TLD（nTLD）<ul>
+<li>.cn（CHINA） 中国</li>
+<li>.us（United States） 美国</li>
+<li>.uk（United kingdom）, etc. 英国等等</li>
+</ul>
+</li>
+<li>通用 TLD（gTLD），最早的域包括：<ul>
+<li>.com Enterprises and companies 企业和公司</li>
+<li>.net Network services providers 网络服务提供者</li>
+<li>.org Nonprofit organizations 非盈利组织</li>
+<li>.edu Educational facilities 教育机构</li>
+</ul>
+</li>
+<li>基础设施领域（Infrastructure domain）<ul>
+<li>Only one： <strong>arpa</strong>, for resolving domain names reversely 仅一个：arpa，用于<strong>反向解析域名</strong></li>
+</ul>
+</li>
+<li>Recently, new TLD domain added：<ul>
+<li>.aero（航空运输企业）</li>
+<li>.biz（公司和企业）</li>
+<li>.coop（合作团体）</li>
+<li>.info（各种资讯）</li>
+<li>.jobs（人力资源管理者）</li>
+<li>.mobi（移动产品与服务的用户和提供者）</li>
+<li>.museum（博物馆）</li>
+<li>.name（个人）</li>
+<li>.pro（经过认证的专业人员）</li>
+<li>.travel（旅游业）</li>
+</ul>
+</li>
+</ol>
+<h3 id="7-3-域名服务器Domain-Name-Server-DNS"><a href="#7-3-域名服务器Domain-Name-Server-DNS" class="headerlink" title="7.3 域名服务器Domain Name Server (DNS)"></a>7.3 域名服务器Domain Name Server (DNS)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>顶级域名底下的域名就是由顶级域名下面进行管理</li>
+<li>根域名服务器存储位置，所以子服务器知道根服务器的地址即可</li>
+</ul>
+<h3 id="7-4-结合域名服务器查找-IP-地址"><a href="#7-4-结合域名服务器查找-IP-地址" class="headerlink" title="7.4 结合域名服务器查找 IP 地址"></a>7.4 结合域名服务器查找 IP 地址</h3><ul>
+<li>DNS 系统以层次（hierarchy）结构设置，该层次结构创建<strong>不同级别的 DNS 服务器</strong>。</li>
+<li>此级别的 DNS 服务器<strong>判断其自身</strong>是否能够将<strong>域名</strong>转换为<strong>关联的 IP 地址</strong>：<ol>
+<li>如果<strong>可以</strong>，则将<strong>结果返回给客户端</strong></li>
+<li>如果<strong>没有</strong>，它将请求发送到更高级别。（<strong>向上级请求</strong>）<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+</li>
+<li>请求分为两种：<ul>
+<li>能够应答</li>
+<li>不能够应答</li>
+</ul>
+</li>
+<li>递归地进行查找：具体过程在上图</li>
+<li>下面递归，上面迭代</li>
+</ul>
+<h2 id="8-应用层通信处理的两种方式"><a href="#8-应用层通信处理的两种方式" class="headerlink" title="8. 应用层通信处理的两种方式"></a>8. 应用层通信处理的两种方式</h2><ol>
+<li><strong>第一种方式</strong>：（短连接）<ul>
+<li>在这种模式下，客户端每次向服务器请求资源时，都会建立一次新的连接，并且在请求处理完成后，连接会立即断开。</li>
+<li>当浏览器打开时，它连接到<strong>默认页面</strong>，并将<em>页面的文件传输到客户端</em>。</li>
+<li>处理完成后，连接断开。</li>
+</ul>
+</li>
+<li><strong>第二种方式</strong>：（长连接&#x2F;持久连接）<ul>
+<li>长连接（也称持久连接）会在客户端和服务器之间建立一个持久的连接，在整个会话期间保持连接，直到客户端显式地断开连接。通常用于需要持续<strong>交互</strong>的应用。</li>
+<li>如Telnet（远程登录）和FTP（文件传输），建立与服务器的连接，并保持该连接直到所有处理完成。</li>
+<li>当用户确定已完成时，客户端终止连接。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>所有通信活动都属于这两种类别之一。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
 ]]></content>
       <categories>
         <category>互联网计算</category>

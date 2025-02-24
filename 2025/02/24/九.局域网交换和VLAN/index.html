@@ -7,16 +7,21 @@
 <meta name="full-screen" content="yes">
 <meta name="theme-color" content="#317EFB" />
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Universe Hamster">
-<meta property="og:url" content="http://example.com/archives/2025/page/2/index.html">
+<meta name="description" content="09 LAN Switching and VLAN一、Switching 对称交换(Symmetric Switching)   对称交换： 提供带宽相同的端口之间的交换连接（如10&#x2F;10 Mbps或100&#x2F;100 Mbps）。 当用户尝试访问其他段上的服务器时，可能会导致瓶颈。     非对称交换(Asymmetric Switching)   非对称交换： 通过将服务器所在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="九、局域网交换和VLAN">
+<meta property="og:url" content="http://example.com/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/index.html">
 <meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="09 LAN Switching and VLAN一、Switching 对称交换(Symmetric Switching)   对称交换： 提供带宽相同的端口之间的交换连接（如10&#x2F;10 Mbps或100&#x2F;100 Mbps）。 当用户尝试访问其他段上的服务器时，可能会导致瓶颈。     非对称交换(Asymmetric Switching)   非对称交换： 通过将服务器所在">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-24T09:41:22.249Z">
+<meta property="article:modified_time" content="2025-02-24T09:42:18.249Z">
 <meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
 
 
-<title >Universe Hamster</title>
+<title >九、局域网交换和VLAN</title>
 
 <!-- Favicon -->
 
@@ -55,7 +60,7 @@
 
 <!-- Variable -->
 <script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
-<script id="async-page-config">window.PAGE_CONFIG = {"isPost":false,"isHome":false,"postUpdate":"2025-02-24 17:42:41"};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:42:18"};</script>
 
 <!-- Theme mode css -->
 <link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
@@ -219,7 +224,7 @@
     <div class="trm-banner">
     
     <!-- banner cover -->
-    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/assets/banner.png">
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
     <!-- banner cover end -->
     
 
@@ -235,10 +240,10 @@
                     <!-- banner title -->
                     <div class="trm-banner-text ">
                         <div class="trm-label trm-mb-20">
-                            I don&#39;t know where I&#39;m going, but I&#39;m on my way.
+                            NEWS LETTER
                         </div>
                         <h1 class="trm-mb-30 trm-hsmb-font">
-                            怀着厌倦的落魄，<br>我每时每刻都在，<br>填平希望的湖泊。
+                            九、局域网交换和VLAN
                         </h1>
 
                         
@@ -248,7 +253,7 @@
                                 </li>
                                 <li>
                                     <span>
-                                        archives
+                                        2025
                                     </span>
                                 </li>
                             </ul>
@@ -369,243 +374,181 @@
             
             <div class="trm-page-content col-lg-8">
                 <div id="trm-content" class="trm-content">
-                    <div class="row">
-    <div class="col-lg-12">
-        <div class="trm-card">
-            <div style="padding: 0 20px;">
-                
-                    <ul class="trm-tag-list"><li class="trm-tag-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">（17）</span></li></ul>
-                
-            </div>
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:41
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
         </div>
     </div>
 </div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="09-LAN-Switching-and-VLAN"><a href="#09-LAN-Switching-and-VLAN" class="headerlink" title="09 LAN Switching and VLAN"></a>09 LAN Switching and VLAN</h1><h1 id="一、Switching"><a href="#一、Switching" class="headerlink" title="一、Switching"></a>一、Switching</h1><ol>
+<li>对称交换(Symmetric Switching)</li>
+</ol>
+<ul>
+<li><strong>对称交换</strong>：<ul>
+<li>提供<strong>带宽相同的端口</strong>之间的交换连接（如10&#x2F;10 Mbps或100&#x2F;100 Mbps）。</li>
+<li>当用户尝试访问其他段上的服务器时，可能会导致瓶颈。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>非对称交换(Asymmetric Switching)</li>
+</ol>
+<ul>
+<li><strong>非对称交换</strong>：<ul>
+<li>通过将服务器所在的段<strong>连接到更高带宽的端口</strong>（如100 Mbps），减少潜在瓶颈的可能性。</li>
+<li>非对称交换需要在交换机中进行内存缓冲。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>内存缓冲</strong>：<ul>
+<li>交换机中的内存区域，用于存储目的地和传输数据，直到可以通过正确的端口交换出去。</li>
+</ul>
+<ol>
+<li>基于端口的内存缓冲<ul>
+<li>数据包存储在每个端口的队列中。</li>
+<li>由于目标端口繁忙，可能导致一个数据包延迟其他数据包的传输。</li>
+</ul>
+</li>
+<li>共享内存缓冲<ul>
+<li>所有端口共享的公共内存缓冲。</li>
+<li>允许数据包在一个端口接收（RX）并在另一个端口发送（TX），而无需更改到不同的队列。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="4-交换方式"><a href="#4-交换方式" class="headerlink" title="4. 交换方式"></a>4. 交换方式</h2><h3 id="1-存储转发（Store-and-Forward）"><a href="#1-存储转发（Store-and-Forward）" class="headerlink" title="1. 存储转发（Store-and-Forward）"></a>1. 存储转发（Store-and-Forward）</h3><ul>
+<li>网桥、路由器等通过软件的设备</li>
+</ul>
+<ol>
+<li>交换机<strong>接收整个帧</strong>，最后将其计算为CRC，然后再将其发送到目的地</li>
+<li>接收后，<em>校验</em>，正确再发送</li>
+</ol>
+<h3 id="2-直通交换（Cut-through）"><a href="#2-直通交换（Cut-through）" class="headerlink" title="2. 直通交换（Cut-through）"></a>2. 直通交换（Cut-through）</h3><ul>
+<li>交换机会增加延迟，可以通过使用直通交换方法来<em>减少延迟</em>。<ul>
+<li><strong>快速转发交换（Fast Forward Switching）</strong>：仅检查<strong>目标MAC地址</strong>，然后立即转发帧。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-无碎片转发（Segment-free-Switching）"><a href="#3-无碎片转发（Segment-free-Switching）" class="headerlink" title="3. 无碎片转发（Segment-free Switching）"></a>3. 无碎片转发（Segment-free Switching）</h3><ul>
+<li>碎片释放（Fragment Free）：在转发帧之前读取前 64 个字节以减少错误：避免碰撞和帧碎片</li>
+</ul>
+<h1 id="二、The-Spanning-Tree-Protocol-STP-生成树协议"><a href="#二、The-Spanning-Tree-Protocol-STP-生成树协议" class="headerlink" title="二、The Spanning-Tree Protocol (STP)生成树协议"></a>二、The Spanning-Tree Protocol (STP)生成树协议</h1><p>ISDN中</p>
+<ul>
+<li><p><strong>ISDN BRI服务</strong>：</p>
+<ul>
+<li>提供两个B信道和一个D信道。</li>
+<li>ISDN BRI提供总带宽为144kbps（2B+D&#x3D;144kbps）的线路，分为三个独立的信道。</li>
+<li>BRI的B信道服务以64kbps的速度运行，用于传输用户数据和语音通信。</li>
+<li>第三个信道，D信道，是一个16kbps的信令信道，用于传输指令，告诉电话网络如何处理每个B信道。</li>
+</ul>
+</li>
+<li><p><strong>ISDN PRI服务</strong></p>
+</li>
+<li><p>提供23或30个B信道和一个D信道</p>
+</li>
+<li><p>带宽：</p>
+<ul>
+<li>B信道 B Channal  64kbps</li>
+<li>D信道 D Channal  16kbps</li>
+</ul>
+</li>
+<li><p>what is the bandwidth of <strong>an</strong> ISDN BRI-B Channel? </p>
+<ul>
+<li>64kbps</li>
+</ul>
+</li>
+</ul>
 
-<!-- history -->
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
 
-<div class="row">
+    
+
+</div>
+<div class="trm-post-next-prev row">
     <div class="col-lg-12">
         <!-- title -->
         <h5 class="trm-title-with-divider">
-            
-                Archive for 2025
-            
-            <span data-number="01"></span>
+            Other Articles
+            <span data-number="02"></span>
         </h5>
     </div>
-    <div class="col-lg-12">
-        <!-- timeline -->
-        <div class="trm-timeline">
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E5%85%AB.RIP&OSPF/" class="trm-cover-frame trm-anima-link">
             
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/22/6.%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8/" class="trm-anima-link">
-                                        6-虚拟存储器
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/22</li>
-                                        <li class="trm-accent-color">15:45</li>
-                                        
-                                        <li>3.7k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
             </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/22/5.%E7%A3%81%E7%9B%98/" class="trm-anima-link">
-                                        5-磁盘
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/22</li>
-                                        <li class="trm-accent-color">15:45</li>
-                                        
-                                        <li>2.7k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/22/4.cache/" class="trm-anima-link">
-                                        4-cache
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/22</li>
-                                        <li class="trm-accent-color">15:44</li>
-                                        
-                                        <li>1.9k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-anima-link">
-                                        3-浮点数加减乘除
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/22</li>
-                                        <li class="trm-accent-color">15:43</li>
-                                        
-                                        <li>5.5k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/22/2.%E8%A1%A5%E7%A0%81%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/" class="trm-anima-link">
-                                        2-补码加减乘除
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/22</li>
-                                        <li class="trm-accent-color">15:42</li>
-                                        
-                                        <li>2.2k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/20/1-%E5%8D%81%E8%BF%9B%E5%88%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BD%AC%E6%8D%A2/" class="trm-anima-link">
-                                        1-十进制二进制浮点数转换
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/20</li>
-                                        <li class="trm-accent-color">16:34</li>
-                                        
-                                        <li>3.8k</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2025/02/20/hello-world/" class="trm-anima-link">
-                                        Hello World
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">02/20</li>
-                                        <li class="trm-accent-color">00:00</li>
-                                        
-                                        <li>75</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
+            <h5>
+                <a href="/2025/02/24/%E5%85%AB.RIP&OSPF/" class="trm-anima-link">
+                    八、RIP&amp;OSPF
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:40</li>
+                
+                    <li>4.6k</li>
+                
+                
+                    <li>18</li>
+                
+            </ul>
         </div>
-        <!-- timeline end -->
     </div>
 </div>
+    
+</div>
 
-<!-- history end -->
-
-
-    <div class="trm-pagination">
-        <a class="page-number" href="/archives/2025/">1</a><span class="page-number current">2</span>
-    </div>
-
-
+    
 
 
 
@@ -641,9 +584,29 @@
 
             
 
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="09 LAN Switching and VLAN"><a rel="nofollow" class="trm-toc-link" href="#09-LAN-Switching-and-VLAN"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">09 LAN Switching and VLAN</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、Switching"><a rel="nofollow" class="trm-toc-link" href="#一、Switching"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、Switching</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="4. 交换方式"><a rel="nofollow" class="trm-toc-link" href="#4-交换方式"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">4. 交换方式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 存储转发（Store-and-Forward）"><a rel="nofollow" class="trm-toc-link" href="#1-存储转发（Store-and-Forward）"><span class="trm-toc-number">2.1.1.</span> <span class="trm-toc-text">1. 存储转发（Store-and-Forward）</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 直通交换（Cut-through）"><a rel="nofollow" class="trm-toc-link" href="#2-直通交换（Cut-through）"><span class="trm-toc-number">2.1.2.</span> <span class="trm-toc-text">2. 直通交换（Cut-through）</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3. 无碎片转发（Segment-free Switching）"><a rel="nofollow" class="trm-toc-link" href="#3-无碎片转发（Segment-free-Switching）"><span class="trm-toc-number">2.1.3.</span> <span class="trm-toc-text">3. 无碎片转发（Segment-free Switching）</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="二、The Spanning-Tree Protocol (STP)生成树协议"><a rel="nofollow" class="trm-toc-link" href="#二、The-Spanning-Tree-Protocol-STP-生成树协议"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">二、The Spanning-Tree Protocol (STP)生成树协议</span></a></li></ol>
+      </div>
+    </div>
+
             
 <div class="trm-fixed-container">
     
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
     
     
     <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
@@ -718,6 +681,10 @@
     
 
     <!-- 评论插件 -->
+    
+        
+
+        
     
 
 		

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="08 Routing Protocols：RIP and OSPF RIPv1&#x2F;RIPv2 RIP History  Differences Between RIP v1 and RIP v2  Configuration of RIP v2   OSPF(single area) Link-state routing protocol Single-area OSPF concepts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="八、RIP&amp;OSPF">
+<meta property="og:url" content="http://example.com/2025/02/24/%E5%85%AB.RIP&OSPF/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="08 Routing Protocols：RIP and OSPF RIPv1&#x2F;RIPv2 RIP History  Differences Between RIP v1 and RIP v2  Configuration of RIP v2   OSPF(single area) Link-state routing protocol Single-area OSPF concepts">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-24T09:40:43.158Z">
+<meta property="article:modified_time" content="2025-02-24T09:42:18.258Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+
+<title >八、RIP&OSPF</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:42:18"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            八、RIP&OSPF
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:40
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="08-Routing-Protocols：RIP-and-OSPF"><a href="#08-Routing-Protocols：RIP-and-OSPF" class="headerlink" title="08 Routing Protocols：RIP and OSPF"></a>08 Routing Protocols：RIP and OSPF</h1><ul>
+<li>RIPv1&#x2F;RIPv2<ul>
+<li>RIP History </li>
+<li>Differences Between RIP v1 and RIP v2 </li>
+<li>Configuration of RIP v2</li>
+</ul>
+</li>
+<li>OSPF(single area)<ul>
+<li>Link-state routing protocol</li>
+<li>Single-area OSPF concepts</li>
+<li>Single-area OSPF configuration</li>
+</ul>
+</li>
+</ul>
+<h1 id="一、RIPv1-RIPv2"><a href="#一、RIPv1-RIPv2" class="headerlink" title="一、RIPv1&#x2F;RIPv2"></a>一、RIPv1&#x2F;RIPv2</h1><h2 id="（一）RIP-History"><a href="#（一）RIP-History" class="headerlink" title="（一）RIP History"></a>（一）RIP History</h2><h2 id="1-RIP的历史"><a href="#1-RIP的历史" class="headerlink" title="1. RIP的历史"></a>1. RIP的历史</h2><ol>
+<li><strong>RIP v1</strong>被认为是一种无类别的<strong>内部网关协议（IGP）</strong>。<ul>
+<li><strong>距离矢量协议 DVP</strong>：RIP v1是一种距离矢量协议，它以预定的间隔向每个邻居路由器广播其整个路由表。默认间隔为<strong>30秒</strong>。</li>
+<li><strong>跳数作为度量</strong>：RIP使用跳数作为度量，最大跳数为<strong>15</strong>。<ul>
+<li>如果目的地的跳数超过15，则认为该目的地不可达。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>负载均衡 load balancing</strong>：RIP v1能够在多达<strong>6条</strong>等成本路径上进行负载均衡，默认情况下为<strong>4条</strong>路径。</li>
+<li><strong>规范</strong>：RIP最初在RFC 1058中指定。</li>
+</ol>
+<ul>
+<li>RIP v1的局限性<ul>
+<li><strong>不发送子网掩码信息</strong>：RIP v1在更新中不发送子网掩码信息。<ul>
+<li>意味着只能支持类网络，必须用同样的子网掩码</li>
+</ul>
+</li>
+<li><strong>广播更新</strong>：RIP v1以广播形式发送更新，地址为255.255.255.255。<ul>
+<li>只能发给邻居，不能通过路由器转发</li>
+</ul>
+</li>
+<li><strong>不支持身份验证（authentication）</strong>：RIP v1不支持认证。<ul>
+<li>安全隐患</li>
+</ul>
+</li>
+<li><strong>不支持VLSM或CIDR</strong>：RIP v1无法支持可变长子网掩码（VLSM）或无类别域间路由（CIDR）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-RIP的配置Configuration"><a href="#2-RIP的配置Configuration" class="headerlink" title="2. RIP的配置Configuration"></a>2. RIP的配置Configuration</h2><figure class="highlight plaintext"><figcaption><span>rip``` 开始RIP路由过程(**选择 RIP 作为路由协议**)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">```network network-number``` 分配基于 NIC（Network Interface Card）的网络地址，也就是说，路由器与哪些网络直接连接，就要配置对应的网络地址。</span><br><span class="line">- 例子：</span><br></pre></td></tr></table></figure>
+<p>router rip<br>network 1.0.0.0<br>network 2.0.0.0<br>&#x2F;&#x2F;路由器是直接连接到 1.0.0.0 和 2.0.0.0 这两个网络的，且这两个网络会启用RIP协议</p>
+<pre><code>- ![alt text](image.png)
+## （二）Configuration of RIP v2
+## 1. RIP v2
+- RIP v2是RIP v1的改进版本，具有以下特性：
+    - **距离矢量协议**：使用**跳数**作为度量。
+    - **保持定时器**：使用holddown timers防止路由环路，默认时间为**180秒**。
+        - 如果路由器在180s内没有接收到路由更新，它会认为路由不可用。
+    - **水平分割**：使用split horizons防止路由环路。
+    - **无限距离**：使用**16跳**作为**无限距离的度量**。
+        - 15 跳及以内可达；否则认为目标不可达
+    - **支持CIDR和VLSM**
+    - 支持**认证**（Authentication）
+    - 使用**多播**而不是广播, 地址**224.0.0.9**
+    - 会发送**子网掩码**信息
+## 2. RIP v2 的配置
+1. `router`命令启动路由过程。
+2. `version 2`：表示启动 RIPv2
+    - 直接使用 router rip **默认为 v1**，一定要输入这个命令才能启动 RIPv2
+3. `network`配置网络，命令实现以下三个功能：
+    - **路由更新**通过该命令指定的**网络接口**进行**多播** multicast。
+        - 并将路由更新通过该接口发送到多播地址（224.0.0.9），发送给同一网络上的其他 RIP 路由器。
+    - 如果路由更新进入**同一接口**，则进行**处理**。
+        - 同一接口（即该接口本身已配置为 RIP 网络接口）
+        - 路由器会处理该更新并更新自己的路由表
+    - 广播直接连接到该接口的子网。
+        - 路由器会在指定网络接口上广播或多播该接口直接连接的子网信息
+![alt text](image-1.png)
+## 3. 验证与故障排除
+1. 验证 RIPv2：
+- Router#**show ip protocols**    #查看当前启用的路由协议，以及其配置和相关信息
+- Router#**show ip route**    #显示 IP 路由表
+2. 故障排除 RIPv2：
+- Router#**debug ip rip**   #显示RIP 路由更新的发送和接收过程
+- Router#**undebug all**    #（或 **no debug all**）：停止debug调试
+3. `show ip protocols`实例
+- ![alt text](image-2.png)
+4. `debug ip rip`命令
+    1. `debug ip rip`命令显示 **RIP 路由更新的发送和接收**。在本示例中，更新是通过 183.8.128.130 发送的
+    2. 它报告了三台路由器，其中一台**无法访问**，因为其跳数大于 15。然后通过 183.8.128.2 广播了更新
+- ![alt text](image-3.png)
+5. `show ip route`查看路由表
+- ![alt text](image-5.png)
+- Codes：表示对于路由协议类型的描述
+- 每个路由的格式为：**&lt;协议类型&gt;/&lt;跳数&gt;**
+- 120/1：表示该路由通过 RIP 协议获取, 1 跳到达，120/2：表示 2 跳到达
+## （三）RIPv1 和 RIPv2 之间的区别
+![alt text](image-6.png)
+- 支持有类路由：可以携带子网掩码
+- 使用多播地址进行发送广播：特定给 RIP 接受，避免了接受后发现没有启动 RIP 进程耽误时间
+- 需要身份认证才确定是否继续进行接收
+---
+# OSPF(single area)
+- 介绍单个区域（single-srea）OSPF 协议
+## 1. OSPF概述
+- **Open Shortest Path First**
+1. 开放最短路径优先（OSPF）是一种基于开放标准的**链路状态link-state**路由协议。
+2. 标准描述：OSPF在多个互联网工程任务组（IETF）的标准中有所描述，最新的描述在RFC 2328中。
+3. **可扩展性**：与RIPv1和RIPv2相比，OSPF因其可扩展性而成为首选的**内部网关协议（IGP）**。
+## 2. 路由信息 Routing information
+- **链路状态**：The state of the link是**对接口及其与邻居路由器关系的描述**。
+- **链路状态数据库**：链路状态的集合形成 link-state database，有时也称为**拓扑数据库 topological database**。
+- **SPF算法**：路由器应用**Dijkstra最短路径优先（SPF）算法**来构建SPF树，以自身为根。
+- **路径计算**：路由器通过SPF树计算最佳路径，然后选择最佳路径并将其放入**路由表**中。
+## 3. OSPF vs. RIP
+![alt text](image-7.png)
+1. OSPF使用带宽作为评价指标, 而RIP使用跳数
+2. OSPF适合大型网络, 而RIP是为小型网络设计的
+3. OSPF可以进一步把网络划分为小区域
+4. OSPF支持VLSM，RIP v1不支持
+5. OSPF快速收敛
+6. OSPF支持多条等价的路径（多路负载均衡）
+- ![alt text](image-8.png)
+- What is the Best Path from A to B?
+    - 上面带宽大，2 跳达到，下面带宽小，1 跳到达。
+    - OSPF 从上面走，RIP 从下面走，但是上面会快一些，因此 OSPF 选择的路径是更加优越的
+## 4. OSPF的特点
+- More robust更健壮
+- 更好的可扩展性 scalable
+- **分层设计 hierarchical design**：大型OSPF网络使用分层设计
+## 5. OSPF中的一些术语 Terminology
+1. **链路/连接（Link）**：
+   - 两个网络设备之间的物理连接
+   - ![alt text](image-9.png)
+2. **链路状态（Link-State）**：
+   - 两个路由器之间的链路状态，包括路由器接口的信息及其与邻居路由器的关系、网络类型（点对点、多路复用）等
+   - ![alt text](image-10.png)
+- **邻居（Neighbors）**：相邻的路由器
+3. **开销（Cost）**：
+   - 不同网络链路处理的时候的代价，和链路带宽相关，成反比关系，一般是固定值除以带宽
+   - ![alt text](image-11.png)
+4. **区域（Area）**：
+   - 具有相同区域ID的网络/路由器的集合
+   - 区域内的每个路由器都具有相同的链路状态信息
+   - ![alt text](image-12.png)
+5. **自治系统（Autonomous System，AS）**：
+    - 多个 Area 形成一个自治系统
+    - ![alt text](image-14.png)
+6. **邻接关系数据库（Neighborship Database）**：
+   - 列出路由器已建立双向通信的所有邻居
+7. **拓扑数据库（Topology Database）**：
+   - 列出所有路由 link-state
+   - 包含关于互联网络中所有其他路由器的信息，显示互联网络的拓扑结构
+8. **路由表（Routing Table）**：
+   - 列出最佳路由
+   - 有时称为转发数据库
+   - 每个路由器的路由表都是唯一的
+9. **指定路由器（Designated Router, DR）**：
+   - 在OSPF多访问网络中选举出的一个路由器，代表该网络中的所有路由器
+   - ![alt text](image-15.png)
+10. **备份指定路由器（Backup Designated Router, BDR）**：
+   - 备用路由器，如果原始DR失效，它将成为DR
+---
+## 6. OSPF Area
+- **区域定义**：区域使用32位数字定义
+    - 可以是 IP格式 或 单个十进制值
+    - 例如：Area 0 或 Area 0.0.0.0
+- **区域 0**：区域编号为0的单一区域
+- **分层模型**：OSPF使用**2 level hierarchical model**
+- 在**多区域OSPF网络**中，所有区域都需要**连接到区域0**（主干）
+![alt text](image-16.png)
+## 7. OSPF操作步骤
+- OSPF使用*邻居关系*来获取网络的完整信息。
+- **操作步骤**：
+  1. 建立邻接关系 **adjacency relationships**
+  2. 选举DR和BDR（如果需要）（多路复用的时候才需要）
+  3. 发现路由（路线 routes）
+  4. 选择合适的路由
+  5. 维护路由信息
+- **OSPF的七个状态**：
+  - Init 初始化
+  - 2Way 双向操作
+  - ExStart 预先启动
+  - Exchange 交换
+  - Loading 加载
+  - Full 完成
+## 8. 最短路径算法
+- 最短路径算法使用节点作为起点，依次检查其关于相邻节点的信息，计算出无环拓扑结构。
+- 不根据跳数来进行选择，而是根据最小权和来寻找
+## 9. 选择 DR 和 BDR
+- **OSPF网络类型**：
+  - 广播多访问网络，如以太网    需要选举DR
+  - 点对点网络                 不需要选举DR
+  - 非广播多访问网络（NBMA）    需要选举DR
+- ![alt text](image-17.png)
+- 只有多路复用的实现方式需要 DR 和 BDR
+1. 然后，每个路由器与 DR 和 BDR 形成**邻接关系**
+2. 对于所有 OSPF 路由器，DR 使用 224.0.0.5（自己的 IP）的**主播地址**向该网段上的所有其他路由器发送**链接状态信息**
+3. 为确保 DR/BDR 看到所有路由器在网段上发送的链接状态，**使用了所有 DR/BDR 的多播地址** 224.0.0.6（DR 和 BDR 之间）
+## 10. 多路复用（Multi-Access media）中的OSPF
+1. Giga/Fast/Ethernet，FDDI，Token Ring
+    - ![alt text](image-18.png)
+2. **几个 Area 有几个 DR 和 BDR**（是在不同 Area 上）
+3. DR 和 BDR 归属于区域
+## 11. OSPF Packets
+- OSPF路由协议有5种类型的数据包：
+![alt text](image-19.png)
+- **Hello**：用于**建立和维护邻接关系**
+- **数据库描述（DBD）**：用于描述链路状态数据库的内容
+- **链路状态请求（LSR）**：用于请求特定的链路状态信息
+- **链路状态更新（LSU）**：用于发送链路状态信息
+- **链路状态确认（LSAck）**：用于确认接收到的链路状态信息
+### 1. Hello 协议
+- 当路由器在接口上启动OSPF路由进程时，它会发送一个Hello数据包，并继续定期发送Hello数据包。
+- 管理OSPF Hello数据包交换的规则称为Hello协议。
+- Hello数据包的地址是**224.0.0.5**。
+- 在广播多访问和点对点网络上，默认**每10秒**发送一次Hello数据包。
+- 在连接到非广播多访问（NBMA）网络（如帧中继）的接口上，默认时间为**30秒**。
+### 2. OSPF 报文头部
+![alt text](image-20.png)
+- Hello 报文的 Type 字段设置为 1
+### 3. 哪个路由器将成为 DR？
+- **优先级 + 路由器ID 最大**：优先级和路由器ID**最大**的路由器成为DR，第二大的成为BDR。
+- **优先级**：范围为1-255，默认值为1。
+- **路由器ID**：
+  - 使用回环IP地址作为路由器ID。
+  - 如果没有回环IP地址，则使用最高值的接口IP地址。
+- **接口失效**：如果接口失效，路由器必须重新建立邻接关系并重新发布LSA。
+## 12. OSPF 操作的完整步骤
+![alt text](image-21.png)
+1. 一开始的状态是 Down State
+2. 发送 **Hello 报文**（Init State）
+3. B 收到 A 的报文（收到报文一定是邻居）：Hello 报文的 TTL 是 1，所以不会跨路由器传播，收到即丢弃
+4. 收到后，B 也会发送自己的 Hello，然后 A 收到后进入 Two Way 状态
+![alt text](image-22.png)
+1. 准备交换数据库（Exstart Starts）
+2. 首先确认**主方（发送方）、从方（接受方）**，保证数据有序，简单就是谁的 Router ID **高**
+3. Router ID 高的（主方）发送自己 **DBD 报文**，从方对主方发送的 DBD 接受处理并发送（Exchange State）
+![alt text](image-23.png)
+1. 交换完成后，各自检查自己是不是有全部的信息
+    - 如果发现有没有的，则发送 **LSR**，等待 **LSU**（整个链路的详细信息，不是 LSA）来进行学习，之后收到完成后发送 **LSAck**（Loading State）
+    - 如果有完整的信息，则发送 **LSAck**（Full State）
+## 13. 总结：OSPF操作
+1. Set up the adjacency relationships邻居关系
+2. Elect DR and BDR（if needed）选举DR
+3. Discover the routes 发路由
+4. Choose appropriate routes 选路由
+5. Maintain the route information 维持路由信息
+### 步骤 1：建立邻居关系
+- 路由器按间隔发送Hello数据包。
+   - 如果发现**邻居**：
+     - 将邻居添加到邻接关系数据库。
+   - 发现**网络类型**：
+     - 如果是**多访问网络**，进入DR/BDR选举过程并进入步骤2。
+     - 如果是**点对点或点对多点网络**，不选举DR/BDR，跳过步骤2。
+     - 如果**Hello数据包头中的DR/BDR字段已被占用**（即已存在DR/BDR对），则不进行DR/BDR选举，跳过步骤2。
+### 步骤 2：选举DR/BDR
+- 如果没有其他路由器在线，该路由器成为DR。下一个上线的路由器将成为BDR。
+- 如果有多个路由器（两个或更多）同时上线，则：
+    - **优先级**最高的路由器成为DR。
+       - 优先级为零表示“永不成为DR”。
+    - 如果**优先级相同**，则**路由器ID**最高的路由器成为DR。
+       - 路由器ID是最高的回环地址或接口IP地址。
+    - 优先级或路由器ID第二高的路由器成为BDR。
+- 如果DR失效，BDR成为DR。
+- 【注意！】但是，如果一个**新的OSPF路由器加入**网络，且其**优先级或路由器ID更高**，当前的DR和BDR**不会改变**。
+    - 只有在当前DR失效时，它才会成为新的*BDR*；
+    - 或者在当前DR和BDR**都失效**时，它才会成为新的*DR*。
+### 步骤 3：发现路由
+- 之前在ExStart到Full状态中解释过
+    - 路由器确定“**主/从**”关系
+    - 在多路复用网络中，**DR/BDR交换LSA**，所有**其他路由器**将**类型2的DBD发送给DR/BDR**
+    - 如果需要，路由器可以通过发送**LSR请求更多信息**进入加载状态
+        - 所有路由器必须在加载状态中等待，直到请求路由器完全更新
+    - 路由器现在进入Full状态
+### 步骤 4：选择最佳路由
+- 现在网络上的所有路由器并行计算SPF算法。
+  - 记住：**在此之前**，所有路由器必须具有**相同的链路状态数据库**。
+  - SPF使用**Cost作为度量**。
+  - SPF为每条从自身到目的地的路径累加开销，构建以路由器为根的树。
+  - OSPF然后将最小开销路径安装到路由表中。
+  - *最多可以安装4条等成本路径进行负载共享*。
+### 步骤 5：维护路由信息
+- OSPF通过**定期交换Hello数据包**来检测**新邻居或失效邻居**。
+  - **根据网络类型**，Hello数据包在**不同的默认间隔**发送。
+    - 对于速度为T1（1.544 Mbps）或更高的链路，**每10秒发送一次：广播多访问和点对点链路**。
+    - 对于低于T1的链路，**每30秒发送一次：非广播多访问链路**。
+  - “失效间隔”是Hello间隔的四倍。
+---
+## 14. Basic OSPF 配置Configuration
+1. 在**路由器上启用OSPF**
+    - ```router ospf process-id```
+    - 进程号 **process-id**：
+        - 值范围为1到65535
+        - 用于标识路由器上的多个OSPF进程
+        - 通常在整个自治系统（AS）中保持相同的进程ID。
+2. **标识路由器上的IP网络**
+    - ```network network-id wildcard-mask area area-id```
+    - network-id：网络地址，可以是整个网络、子网或接口地址。
+    - wildcard-mask：通配符掩码。
+        - wildcardmask 和 subnet mask 相反
+        - 子网掩码是 255.255.255.0，则 Wild-card Address 就是 0.0.0.255
+    - area-id：区域ID，标识网络所属的OSPF区域
+        - 只有一个 Area，则为 area0
+- ![alt text](image-24.png)
+## 15. 配置回环地址 Loopback Address
+- 配置回环地址以增加OSPF路由器ID的稳定性
+    ```interface loopback number```
+    ```ip address address subnet-mask```
+    - number：回环接口编号。
+    - address：回环接口的IP地址。
+    - subnet-mask：子网掩码，建议使用/32掩码以避免潜在的路由问题。
+- 回环接口必须在OSPF进程**启动之前**配置。
+- 建议在基于OSPF的网络中的**所有关键路由器上**使用回环地址（私有或公共地址）。
+- ![alt text](image-25.png)
+
+## 16. 更改OSPF路由器的优先级
+1. **操纵 DR/BDR 选举**
+```ip ospf priority number```
+- 优先级越大越高
+- 值范围：0 ~ 255，默认值为1
+- 优先级为0表示接口不能被选为DR或BDR
+2. **监控OSPF接口优先级**
+```show ip ospf [interface type number]```
+
+## 17. OSPF 开销（Cost）= 度量（Metric）
+- **开销应用于所有路由器链路路径**
+- **16位数字（1 – 65,535）**
+- **开销越低，路径越理想**
+- **路由决策基于路径的总开销**
+- **开销由带宽派生**
+  - 公式：COST = 100,000,000 / 带宽
+  - 例如，T1链路的OSPF开销：100,000,000 / 1,544,000 = 64
+### 1. OSPF路径开销
+- **所有连接到同一链路的接口必须同意该链路的开销**，否则链路将被视为断开。
+  - Cisco路由器的串行链路默认开销为1784（56Kbps带宽）。
+  - 开销范围：1 ~ 65535。
+- 配置OSPF开销
+```ip ospf cost number```
+- 如果线路速度较慢，必须指定实际链路速度
+```bandwidth number```
+
+- 在多供应商路由环境中，常见的需要更改开销的情况是确保一个供应商的开销值与另一个供应商的开销值匹配。
+- 另一种情况是使用千兆以太网时。默认开销将最低开销值1分配给100 Mbps链路
+### 2. 配置OSPF计时器
+- **所有OSPF区域内的路由器必须达成相同的Hello间隔和失效间隔**，默认值：
+  - T1或更高带宽的链路（广播）：**10秒**
+    - 广播多访问和点对点链路
+  - 低于T1的链路（非广播）：**30秒**
+    - 非广播多访问
+  - **失效间隔 = 4 * Hello间隔**
+- 更改间隔的命令：
+```ip ospf hello-interval seconds```
+```ip ospf dead-interval seconds```
+- 注意：失效间隔会自动调整为新的Hello间隔的四倍
+- ![alt text](image-26.png)
+</code></pre>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/" class="trm-anima-link">
+                    九、局域网交换和VLAN
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:41</li>
+                
+                    <li>588</li>
+                
+                
+                    <li>2</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" class="trm-anima-link">
+                    七、路由和路由器
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:38</li>
+                
+                    <li>2.7k</li>
+                
+                
+                    <li>9</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="08 Routing Protocols：RIP and OSPF"><a rel="nofollow" class="trm-toc-link" href="#08-Routing-Protocols：RIP-and-OSPF"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">08 Routing Protocols：RIP and OSPF</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、RIPv1&#x2F;RIPv2"><a rel="nofollow" class="trm-toc-link" href="#一、RIPv1-RIPv2"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、RIPv1&#x2F;RIPv2</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="（一）RIP History"><a rel="nofollow" class="trm-toc-link" href="#（一）RIP-History"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">（一）RIP History</span></a></li><li class="trm-toc-item trm-toc-level-2" title="1. RIP的历史"><a rel="nofollow" class="trm-toc-link" href="#1-RIP的历史"><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">1. RIP的历史</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. RIP的配置Configuration"><a rel="nofollow" class="trm-toc-link" href="#2-RIP的配置Configuration"><span class="trm-toc-number">2.3.</span> <span class="trm-toc-text">2. RIP的配置Configuration</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>
