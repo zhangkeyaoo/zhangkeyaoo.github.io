@@ -4293,8 +4293,9 @@
 </ul>
 </li>
 </ul>
-<h2 id="2-RIP的配置Configuration"><a href="#2-RIP的配置Configuration" class="headerlink" title="2. RIP的配置Configuration"></a>2. RIP的配置Configuration</h2><p><code>router rip</code> 开始RIP路由过程(<strong>选择 RIP 作为路由协议</strong>)<br><code>network network-number</code> 分配基于 NIC（Network Interface Card）的网络地址，也就是说，路由器与哪些网络直接连接，就要配置对应的网络地址。</p>
-<ul>
+<h2 id="2-RIP的配置Configuration"><a href="#2-RIP的配置Configuration" class="headerlink" title="2. RIP的配置Configuration"></a>2. RIP的配置Configuration</h2><ul>
+<li><code>router rip</code> 开始RIP路由过程(<strong>选择 RIP 作为路由协议</strong>)</li>
+<li><code>network network-number</code> 分配基于 NIC（Network Interface Card）的网络地址，也就是说，路由器与哪些网络直接连接，就要配置对应的网络地址。</li>
 <li>例子：</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router rip</span><br><span class="line">network 1.0.0.0</span><br><span class="line">network 2.0.0.0</span><br><span class="line">//路由器是直接连接到 1.0.0.0 和 2.0.0.0 这两个网络的，且这两个网络会启用RIP协议</span><br></pre></td></tr></table></figure>
