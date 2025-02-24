@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="第五章 第四层:运输层 Transport Layer 第四层运输层主要是实现了主机之间的通信。 数据通信是服务于主机上的进程(Session)   An overview of layer 4 TCP (Transmission Control Protocol) UDP(User Datagram Protocol) An application: NAT and PAT  一、第四层综述1、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五、OSI第四层:运输层">
+<meta property="og:url" content="http://example.com/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="第五章 第四层:运输层 Transport Layer 第四层运输层主要是实现了主机之间的通信。 数据通信是服务于主机上的进程(Session)   An overview of layer 4 TCP (Transmission Control Protocol) UDP(User Datagram Protocol) An application: NAT and PAT  一、第四层综述1、">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2025-02-24T09:33:53.718Z">
+<meta property="article:modified_time" content="2025-02-24T09:37:19.119Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >五、OSI第四层:运输层</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:37:19"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            五、OSI第四层:运输层
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:33
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="第五章-第四层-运输层-Transport-Layer"><a href="#第五章-第四层-运输层-Transport-Layer" class="headerlink" title="第五章 第四层:运输层 Transport Layer"></a>第五章 第四层:运输层 Transport Layer</h1><ul>
+<li>第四层运输层主要是实现了主机之间的通信。</li>
+<li>数据通信是服务于主机上的进程(Session)</li>
+</ul>
+<ol>
+<li>An overview of layer 4</li>
+<li>TCP (Transmission Control Protocol)</li>
+<li>UDP(User Datagram Protocol)</li>
+<li>An application: NAT and PAT</li>
+</ol>
+<h1 id="一、第四层综述"><a href="#一、第四层综述" class="headerlink" title="一、第四层综述"></a>一、第四层综述</h1><h2 id="1、第4层执行多项功能："><a href="#1、第4层执行多项功能：" class="headerlink" title="1、第4层执行多项功能："></a>1、第4层执行多项功能：</h2><ol>
+<li>对上层应用数据进行分段（segmenting upper-layer application data）</li>
+<li>建立<strong>端到端</strong>(end to end)的运营</li>
+<li>将段从一个端主机发送到另一个端主机<ul>
+<li>(第三层和第二层不进行可靠性检验，第四层完成可靠性检验，接受方认为数据错误，在第四层进行要求重传)</li>
+</ul>
+</li>
+<li><strong>流量控制</strong>和<strong>可靠性</strong><ul>
+<li>可以比喻为<em>与外国人交谈</em>:通常，您会要求外国人<em>重复他&#x2F;她的话(可靠性)</em> 并<em>慢声说话(流量控制)</em></li>
+<li>双方主机的网络的处理能力不同，缓存能力不同</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-两个特别重要的第4层协议："><a href="#2-两个特别重要的第4层协议：" class="headerlink" title="2. 两个特别重要的第4层协议："></a>2. 两个特别重要的第4层协议：</h2><ol>
+<li><strong>传输控制协议</strong>(<strong>TCP</strong>, Transmission Control Protocol)</li>
+<li><strong>用户数据报协议</strong>(<strong>UDP</strong>, User Datagram Protocol)</li>
+</ol>
+<h2 id="3-Layer-4-The-Transport-Layer"><a href="#3-Layer-4-The-Transport-Layer" class="headerlink" title="3. Layer 4:  The Transport Layer"></a>3. Layer 4:  The Transport Layer</h2><ol>
+<li>将传出消息划分为多个<strong>段</strong> + 在目标站重新<strong>组合</strong>消息</li>
+<li><strong>传输控制协议（TCP）</strong>：<ul>
+<li><strong>可靠</strong></li>
+<li><strong>面向连接 Connection -oriented</strong></li>
+<li>软件<strong>检查</strong>段</li>
+<li><strong>重新发送</strong>任何丢失或出错的段</li>
+<li>使用<strong>确认 acknowledgments</strong></li>
+<li>提供<strong>流量控制</strong></li>
+</ul>
+</li>
+<li><strong>用户数据报协议（UDP）</strong>：<ul>
+<li>不可靠</li>
+<li>无连接 connectionless</li>
+<li>不提供段的软件检查</li>
+<li>（直接丢弃错误的报文，而不进行其他操作）</li>
+<li>不使用确认</li>
+<li>不提供流量控制</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-服务模型"><a href="#4-服务模型" class="headerlink" title="4. 服务模型"></a>4. 服务模型</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>TCP和UDP都使用<strong>端口 port</strong>来跟踪(track)同时穿越网络的不同会话</li>
+<li>应用软件开发人员同意使用在RFC1700中定义的知名端口号。</li>
+<li>端口号低于255的端口保留用于TCP和UDP公共应用程序。<ul>
+<li>端口号<strong>0-255是public</strong>的，<strong>不可以随意分给其他的进程</strong>，如果分发则不符合规范</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-套接字-Socket-第四层的单位"><a href="#5-套接字-Socket-第四层的单位" class="headerlink" title="5. 套接字(Socket, 第四层的单位)"></a>5. 套接字(Socket, 第四层的单位)</h2><ul>
+<li>套接字<strong>表示为（IP地址，端口）</strong>。</li>
+<li>每个<strong>连接</strong>表示为（<strong>源套接字，目标套接字</strong>），这是一个<strong>点对点</strong>的<strong>全双工</strong>通道。</li>
+<li>TCP不支持多播和广播。</li>
+</ul>
+<hr>
+<h1 id="二、-TCP-Transmission-Control-Protocol"><a href="#二、-TCP-Transmission-Control-Protocol" class="headerlink" title="二、 TCP (Transmission Control Protocol)"></a>二、 TCP (Transmission Control Protocol)</h1><ul>
+<li><strong>传输控制协议</strong></li>
+</ul>
+<h2 id="1-TCP-服务模型"><a href="#1-TCP-服务模型" class="headerlink" title="1. TCP 服务模型"></a>1. TCP 服务模型</h2><h3 id="1-1-TCP必须解决的问题"><a href="#1-1-TCP必须解决的问题" class="headerlink" title="1.1 TCP必须解决的问题"></a>1.1 TCP必须解决的问题</h3><ol>
+<li><strong>可靠传输</strong> Reliable transfer</li>
+<li><strong>流量传输</strong> Flow control<ul>
+<li>滑动窗口 Sliding window</li>
+<li>避免拥塞 congestion avoidance</li>
+</ul>
+</li>
+<li><strong>连接控制</strong> Connection management<ul>
+<li>建立连接:三次握手</li>
+<li>断开连接:四次握手</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-TCP数据段的格式"><a href="#1-2-TCP数据段的格式" class="headerlink" title="1.2 TCP数据段的格式"></a>1.2 TCP数据段的格式</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-1-首部情况"><a href="#1-2-1-首部情况" class="headerlink" title="1.2.1. 首部情况"></a>1.2.1. 首部情况</h4><ul>
+<li>一行共计4字节，段首在前，<strong>固定首部长度为20字节</strong>。</li>
+</ul>
+<h4 id="1-2-2-源端口和目的端口"><a href="#1-2-2-源端口和目的端口" class="headerlink" title="1.2.2. 源端口和目的端口"></a>1.2.2. 源端口和目的端口</h4><ul>
+<li>源端口和目的端口字段:各占 <strong>2 字节</strong></li>
+</ul>
+<ol>
+<li>端口是运输层与<strong>应用层</strong>的服务接口</li>
+<li>运输层的复用和分用功能都要通过端口才能实现</li>
+</ol>
+<h4 id="1-2-3-序号"><a href="#1-2-3-序号" class="headerlink" title="1.2.3. 序号"></a>1.2.3. 序号</h4><ul>
+<li>序号字段：占<strong>4 字节</strong></li>
+</ul>
+<ol>
+<li>TCP 传送的数据流中的每一个字节都编上一个序号</li>
+<li>序号字段的值指本报文段所发送的数据的第一个字节的序号</li>
+</ol>
+<h4 id="1-2-4-确认号"><a href="#1-2-4-确认号" class="headerlink" title="1.2.4. 确认号"></a>1.2.4. 确认号</h4><ul>
+<li>确认号字段：占 <strong>4 字节</strong>，是<strong>期望</strong>收到对方的<strong>下一个报文段的数据的第一个字节的序号</strong></li>
+</ul>
+<ol>
+<li>确认对方的数据号(发送同时对上一次传输进行确认)</li>
+<li>体现出了全双工通信的优点，比如上回收到最后序号是700，那么确认号就是701</li>
+</ol>
+<h4 id="1-2-5-数据偏移"><a href="#1-2-5-数据偏移" class="headerlink" title="1.2.5. 数据偏移"></a>1.2.5. 数据偏移</h4><ul>
+<li>数据偏移(即<em>首部长度</em>)：占 <strong>4 位</strong></li>
+</ul>
+<ol>
+<li>指出 TCP 报文段的<strong>数据起始处距 TCP 报文段的起始处的长度</strong><ul>
+<li>(Data部分从什么地方开始算)</li>
+</ul>
+</li>
+<li>单位是 32 位字(以 4 字节为计算单位)</li>
+<li>不满足的话<strong>使用填充位保证为4字节的整数倍</strong>(保证对齐问题)</li>
+</ol>
+<h4 id="1-2-6-保留"><a href="#1-2-6-保留" class="headerlink" title="1.2.6. 保留"></a>1.2.6. 保留</h4><ul>
+<li>保留字段：占 <strong>6 位</strong>，保留为今后使用，<strong>目前置 0</strong><ul>
+<li>也就是说截止到现在也没有使用这部分的字段。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-7-URG"><a href="#1-2-7-URG" class="headerlink" title="1.2.7. URG"></a>1.2.7. URG</h4><ul>
+<li><strong>紧急 URG &#x3D; 1 时</strong>，表明紧急指针字段有效。</li>
+</ul>
+<ol>
+<li>告诉系统此报文段中<strong>有紧急数据</strong>，应尽快传送(相当于<strong>高优先级</strong>的数据)</li>
+</ol>
+<h4 id="1-2-8-ACK"><a href="#1-2-8-ACK" class="headerlink" title="1.2.8. ACK"></a>1.2.8. ACK</h4><ul>
+<li>ACK &#x3D; 1 时<strong>确认号字段</strong>有效;</li>
+<li>ACK &#x3D; 0 时确认号字段无效</li>
+</ul>
+<h4 id="1-2-9-PSH-PuSH-推送"><a href="#1-2-9-PSH-PuSH-推送" class="headerlink" title="1.2.9. PSH(PuSH) 推送"></a>1.2.9. PSH(PuSH) 推送</h4><ol>
+<li>接收 TCP 收到 <strong>PSH &#x3D; 1</strong> 的报文段，就<strong>尽快地交付接收应用进程</strong>，而<strong>不再等到整个缓存都填满了后再向上交付</strong><ul>
+<li>此时<strong>将缓存所有部分都传输</strong>，而<em>并不是只将这个报文段的信息进行传输</em>。</li>
+<li>TCP在正常条件下并不是立马传输的，首先要缓存满了才发送，其次还有就是要保证网络可信的时候才发送</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-2-10-RST-复位"><a href="#1-2-10-RST-复位" class="headerlink" title="1.2.10. RST 复位"></a>1.2.10. RST 复位</h4><ol>
+<li><strong>ReSeT &#x3D; 1时</strong>，表明TCP连接中出现<strong>严重差错</strong>(如由于主机崩溃或其他原因)，<strong>必须释放连接，然后再重新建立运输连接</strong></li>
+</ol>
+<h4 id="1-2-11-SYN"><a href="#1-2-11-SYN" class="headerlink" title="1.2.11. SYN"></a>1.2.11. SYN</h4><ol>
+<li>同步 <strong>SYN &#x3D; 1</strong>:表示<strong>这是一个连接请求或连接接受报文</strong><ul>
+<li>(初始的时候才出现)</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-2-12-FIN-FINis-终止"><a href="#1-2-12-FIN-FINis-终止" class="headerlink" title="1.2.12. FIN(FINis) 终止"></a>1.2.12. FIN(FINis) 终止</h4><ul>
+<li>用来<strong>释放一个连接</strong>。</li>
+<li><strong>FIN &#x3D; 1</strong> 表明<strong>此报文段的发送端的数据已发送完毕</strong>，并<em>要求释放运输连接</em>。 <ul>
+<li>(发送方没有传输数据了)</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-13-窗口"><a href="#1-2-13-窗口" class="headerlink" title="1.2.13. 窗口"></a>1.2.13. 窗口</h4><ul>
+<li>占 <strong>2 字节</strong>，用来让对方设置发送窗口的依据，单位为字节。<ul>
+<li>表示<strong>可以进行传输的窗口大小</strong>是多少。</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-14-检验和"><a href="#1-2-14-检验和" class="headerlink" title="1.2.14. 检验和"></a>1.2.14. 检验和</h4><ul>
+<li>检验和:占<strong>2字节</strong>。检验和字段检验的范围包括<strong>首部</strong>和<strong>数据</strong>这两部分</li>
+</ul>
+<h4 id="1-2-15-紧急指针字段"><a href="#1-2-15-紧急指针字段" class="headerlink" title="1.2.15. 紧急指针字段"></a>1.2.15. 紧急指针字段</h4><ul>
+<li>紧急指针字段:占<strong>16位</strong>，指出在本报文段中<strong>紧急数据共有多少个字节</strong>（紧急数据放在本报文段数据的<strong>最前面</strong>）</li>
+</ul>
+<h4 id="1-2-16-选项（长度可变）"><a href="#1-2-16-选项（长度可变）" class="headerlink" title="1.2.16. 选项（长度可变）"></a>1.2.16. 选项（长度可变）</h4><ol>
+<li>TCP 最初只有一种选项，即最大报文段长度 MSS(Maximum Segment Size)</li>
+<li>MSS 告诉对方缓存所能接收的报文段的数据字段的最大长度是 MSS 个字节</li>
+<li>数据字段加上 TCP 首部才等于整个的 TCP 报文段</li>
+</ol>
+<h4 id="1-2-17-填充字段"><a href="#1-2-17-填充字段" class="headerlink" title="1.2.17. 填充字段"></a>1.2.17. 填充字段</h4><ul>
+<li>填充字段：这是为了<strong>使整个首部长度是 4 字节的整数倍</strong>。</li>
+</ul>
+<hr>
+<h2 id="2-TCP协议"><a href="#2-TCP协议" class="headerlink" title="2. TCP协议"></a>2. TCP协议</h2><ol>
+<li>主机使用**段（TPDU传输层PDU）**交换数据</li>
+<li>每个段都有：<ul>
+<li>一个<strong>20字节的首部</strong>（不包括可选部分）</li>
+<li><strong>0 或更多数据字节</strong>（请求连接的时候）</li>
+</ul>
+</li>
+<li>段的大小必须与 IP 数据包匹配，并且还必须满足底层的需求<ul>
+<li>例如，以太网的 MTU（最大传输单位）为 1500 字节</li>
+</ul>
+</li>
+<li><strong>每个字节 byte</strong> 都有一个 32 位的序号<strong>seq</strong></li>
+</ol>
+<h3 id="2-1-Reliable-Connection-可靠连接"><a href="#2-1-Reliable-Connection-可靠连接" class="headerlink" title="2.1 Reliable Connection 可靠连接"></a>2.1 Reliable Connection 可靠连接</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>“红蓝两军问题”是一个经典的计算机网络中的死锁（Deadlock）问题，或者说是资源竞争的一个类比。通常是用于阐述一些竞争、阻塞和同步问题。</li>
+</ul>
+<hr>
+<h2 id="3-TCP-Establish-Connection"><a href="#3-TCP-Establish-Connection" class="headerlink" title="3. TCP:Establish Connection"></a>3. TCP:Establish Connection</h2><h3 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器Server</strong>：执行LISTEN和ACCEPT原语，被动监听。</li>
+<li><strong>客户端Client</strong>：执行CONNECT原语，生成一个<strong>SYN&#x3D;1和ACK&#x3D;0</strong>的TCP段，表示连<strong>接请求</strong>。<ul>
+<li>SYN&#x3D;1：连接请求</li>
+<li>ACK&#x3D;0：确认号无效</li>
+</ul>
+</li>
+</ul>
+<h3 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>：检查<strong>是否有服务进程在监听端口</strong></li>
+</ul>
+<ol>
+<li>如果<strong>没有</strong>进程，回复一个<strong>RST&#x3D;1</strong>的TCP段<ul>
+<li>差错，要重连</li>
+</ul>
+</li>
+<li>如果<strong>有</strong>进程，决定拒绝或接受请求</li>
+<li>如果接受连接请求，发送一个SYN&#x3D;1和ACK&#x3D;1的TCP段<ul>
+<li>连接请求</li>
+<li>确认号有效</li>
+</ul>
+</li>
+</ol>
+<h3 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><p><strong>客户端</strong>：发送一个<strong>SYN&#x3D;0和ACK&#x3D;1</strong>的TCP段，以<strong>确认连接</strong>。</p>
+</li>
+<li><p><strong>服务器</strong>：接收到确认后，通知上层应用程序连接已建立。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+</li>
+<li><p>默认三次握手就认为可靠了，之后就进行数据传输</p>
+</li>
+<li><p>有时候我们会选择，第三次握手的时候同时携带数据。</p>
+</li>
+</ol>
+<ul>
+<li>TCP头部中的<strong>SEQ（序列号）字段</strong>：<ul>
+<li>32位，用来标识当前数据段的序列号。每发送一个数据段时，序列号会<strong>根据数据段的大小递增</strong>。</li>
+<li>通过与ACK（确认号）一起使用，确保了数据的可靠性和完整性。<ul>
+<li>此ACK指的是32位的那个</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>seq和ack的关系：<ul>
+<li>在三次握手（TCP连接建立过程）中，序列号用于确保双方都准备好建立连接。</li>
+<li>在数据传输过程中，SEQ标识发送的数据包的顺序，而ACK确认已收到的数据。</li>
+<li>例如，客户端发送的数据包的SEQ为1000，服务器确认收到后返回ACK为1001，表示它已经成功接收到序列号为1000的数据包。</li>
+</ul>
+</li>
+</ul>
+<h2 id="建立连接实例"><a href="#建立连接实例" class="headerlink" title="建立连接实例"></a>建立连接实例</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-9.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>基本的三次握手用于连接同步Synchronization</li>
+<li>注意，<strong>ACK不占用序列号空间</strong>（如果占用，我们将最终确认ACK的ACK！）</li>
+</ul>
+<hr>
+<h2 id="4-数据传输——停止等待协议-Data-transfer——stop-and-wait-protocol"><a href="#4-数据传输——停止等待协议-Data-transfer——stop-and-wait-protocol" class="headerlink" title="4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol"></a>4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>发送段后，<strong>暂时保留备份 backup</strong><ul>
+<li>在发送后没有收到确认的时候，要保存备份来重传</li>
+<li>收到确认的时候，抛弃备份</li>
+<li><strong>超时</strong>计时器：如果对方的应答超过一定时间后则<strong>直接进行重发</strong>（时间要比正常往返时间稍微长一点）</li>
+</ul>
+</li>
+<li>每个<strong>segment和 ACK 必须具有 ID</strong></li>
+<li>重新发送时间必须大于<strong>平均传输时间 * 2</strong></li>
+<li>停止等待协议是一个简单的协议，但是效率很低</li>
+</ol>
+<h2 id="5-数据传输——丢失-延迟-Lost-ACK-and-Late-ACK"><a href="#5-数据传输——丢失-延迟-Lost-ACK-and-Late-ACK" class="headerlink" title="5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK"></a>5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>丢失ACK情况:</li>
+</ol>
+<ul>
+<li><strong>发送方</strong>：<strong>重新发送一份</strong>M1数据段</li>
+<li><strong>接收方</strong>：如果<strong>接收到重复</strong>的M1数据段，接收方将<strong>丢弃</strong>重复的数据段。<ul>
+<li>将<strong>重新发送ACK</strong>，以确认已经接收到的M1数据段。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>ACK迟到情况:</li>
+</ol>
+<ul>
+<li><strong>发送方</strong>：<strong>重新发送一份</strong>M1数据段</li>
+<li><strong>接收方</strong>：如果<strong>接收到重复</strong>的M1数据段，接收方将<strong>丢弃</strong>重复的数据段。<ul>
+<li>将<strong>重新发送ACK</strong>，以确认已经接收到的M1数据段。</li>
+</ul>
+</li>
+<li>发送方收到迟到的ACK不做理会<ul>
+<li>晚到的应答直接丢弃（不做处理）</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-可靠通信——自动重传请求（ARQ）"><a href="#6-可靠通信——自动重传请求（ARQ）" class="headerlink" title="6. 可靠通信——自动重传请求（ARQ）"></a>6. 可靠通信——自动重传请求（ARQ）</h2><ul>
+<li><strong>ARQ (Automatic Repeat reQuest)</strong></li>
+<li>这意味着“重传请求”是<strong>自动发送</strong>的，接收方<strong>无需请求发送方重传出错的数据段</strong>。</li>
+</ul>
+<h3 id="6-1-连续-ARQ-协议"><a href="#6-1-连续-ARQ-协议" class="headerlink" title="6.1 连续 ARQ 协议"></a>6.1 连续 ARQ 协议</h3><ul>
+<li>连续 ARQ 协议（<strong>Contiguous ARQ Protocol</strong>）<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>ARQ的工作原理</li>
+</ul>
+<ol>
+<li><strong>发送方维持发送窗口</strong></li>
+<li>收到<strong>一个确认</strong>后，发送窗口<strong>向前滑动</strong></li>
+<li>只可发送发送窗口内的数据</li>
+</ol>
+<h3 id="6-2-具体实例"><a href="#6-2-具体实例" class="headerlink" title="6.2 具体实例"></a>6.2 具体实例</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>发送端要发送 900 字节长的数据，划分为 9 个 100 字节长的报文段，而<strong>发送窗口确定为 500 字节</strong>。</li>
+<li><strong>发送端只要收到了对方的确认，发送窗口就可前移</strong>。</li>
+<li>发送 TCP 要维护一个指针。每发送一个报文段，指针就向前移动一个报文段的距离。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送端已发送了 400 字节的数据，但只收到对前 200 字节数据的确认，同时窗口大小不变。</li>
+<li>现在发送端还可发送 300 字节。</li>
+<li>发送端收到了对方对前 400 字节数据的确认，但对方<strong>通知发送端必须把窗口减小到 400 字节</strong>。</li>
+<li>现在发送端最多还可发送 400 字节的数据。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-16.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>利用可变窗口大小进行流量控制，双方确定的窗口值是 400<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-17.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li><strong>WIN：窗口的大小</strong>：双方动态协商，收到确认调整窗口</li>
+<li>ACK：是指可以继续发送的数据的位置。</li>
+<li>为什么 201 在 401 后面发送？<strong>超时重传</strong>（<strong>要超过两倍的平均传输时间后才进行重传</strong>）</li>
+</ul>
+<hr>
+<h2 id="7-TCP-Release-Connection-中断连接"><a href="#7-TCP-Release-Connection-中断连接" class="headerlink" title="7. TCP: Release Connection 中断连接"></a>7. TCP: Release Connection 中断连接</h2><h3 id="第一次握手：A发起断开连接请求"><a href="#第一次握手：A发起断开连接请求" class="headerlink" title="第一次握手：A发起断开连接请求"></a>第一次握手：A发起断开连接请求</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-18.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>客户端</strong>：发送一个<strong>FIN&#x3D;1</strong>的TCP段，表示<strong>请求中断连接</strong>。</li>
+<li>这表示发送方已经没有数据要发送了，但仍然可以接收数据</li>
+</ul>
+<h3 id="第二次握手：B-Ack-1-允许断开"><a href="#第二次握手：B-Ack-1-允许断开" class="headerlink" title="第二次握手：B:Ack &#x3D; 1:允许断开"></a>第二次握手：B:Ack &#x3D; 1:允许断开</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-21.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>：发送一个ACK&#x3D;1的TCP段，表示确认接收到中断连接请求.</li>
+<li>此时，<em>接收方可能还有未发送完的数据</em>，因此<strong>连接仍然保持</strong>，只是<strong>不再发送新的数据</strong>，此时我们需要完成之前未处理完成的数据的处理。(这里只是说我已经收到了你请求停止传输的请求)</li>
+</ul>
+<h3 id="第三次握手：B-FIN-1-数据处理完成"><a href="#第三次握手：B-FIN-1-数据处理完成" class="headerlink" title="第三次握手：B:FIN &#x3D; 1:数据处理完成"></a>第三次握手：B:FIN &#x3D; 1:数据处理完成</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-22.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>: 发送一个FIN&#x3D;1的TCP段, 表示它也没有数据要发送了，准备中断连接</li>
+</ul>
+<h3 id="第四次握手：A：ACK-1，确认收到B的断开信息"><a href="#第四次握手：A：ACK-1，确认收到B的断开信息" class="headerlink" title="第四次握手：A：ACK&#x3D;1，确认收到B的断开信息"></a>第四次握手：A：ACK&#x3D;1，确认收到B的断开信息</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-23.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>客户端</strong>: 发送一个ACK&#x3D;1的TCP段, 表示确认中断连接. 此时<strong>连接正式关闭</strong></li>
+</ul>
+<h3 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-24.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>在<strong>释放连接之前</strong>，<strong>客户端</strong>必须等待<strong>2倍的最大报文段生存时间（2MSL）</strong></li>
+</ul>
+<h2 id="7-为什么要等待2MSL"><a href="#7-为什么要等待2MSL" class="headerlink" title="7. 为什么要等待2MSL"></a>7. 为什么要等待2MSL</h2><ul>
+<li>确保A发送的最后一个ACK能够到达B</li>
+<li>防止任何无效的连接请求段出现<ul>
+<li>等待2MSL后，我们可以确保连接上的所有段都已消失</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="9-TCP的计时器"><a href="#9-TCP的计时器" class="headerlink" title="9. TCP的计时器"></a>9. TCP的计时器</h2><ol>
+<li>重传计时器</li>
+<li>坚持计时器<ul>
+<li><strong>作用</strong>：用于解决TCP连接中的“零窗口”问题。当接收方的接收窗口为零时，发送方会停止发送数据，并启动坚持计时器。坚持计时器到期后，发送方会发送一个小的探测报文段（窗口探测），询问接收方的窗口大小是否已经更新。</li>
+<li><strong>目的</strong>：防止发送方和接收方在“零窗口”状态下进入死锁。</li>
+</ul>
+</li>
+<li>保持计时器<ul>
+<li><strong>作用</strong>：用于检测TCP连接是否仍然有效。当一段时间内没有数据传输时，保持计时器会启动，并定期发送探测报文段。如果在多次探测后没有收到对方的响应，连接将被认为已经失效。</li>
+<li><strong>目的</strong>：确保连接的有效性，及时发现和关闭失效的连接，释放资源。</li>
+</ul>
+</li>
+<li>时间等待计时器</li>
+</ol>
+<h2 id="10-TCP的有限状态机"><a href="#10-TCP的有限状态机" class="headerlink" title="10. TCP的有限状态机"></a>10. TCP的有限状态机</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-25.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>粗线：正常的服务器端</li>
+<li>虚线：正常客户端</li>
+<li>细线：异常状态的问题</li>
+</ul>
+<hr>
+<h1 id="三、UDP-User-Datagram-Protocol"><a href="#三、UDP-User-Datagram-Protocol" class="headerlink" title="三、UDP (User Datagram Protocol)"></a>三、UDP (User Datagram Protocol)</h1><ul>
+<li><strong>用户数据报协议</strong></li>
+</ul>
+<h2 id="1-为什么需要UDP"><a href="#1-为什么需要UDP" class="headerlink" title="1. 为什么需要UDP"></a>1. 为什么需要UDP</h2><ul>
+<li><strong>无需连接建立</strong>：不需要连接建立过程（比如TCP三次握手，这可能会增加<strong>延迟</strong>）。</li>
+<li><strong>简单</strong>：发送方和接收方<strong>没有连接状态</strong>。</li>
+<li><strong>小的段头部</strong>：段头部较小，只有<strong>8个字节</strong>。</li>
+<li><strong>无拥塞控制</strong>：UDP可以根据需要快速发送数据。</li>
+</ul>
+<h2 id="2-介绍（特点与应用）"><a href="#2-介绍（特点与应用）" class="headerlink" title="2. 介绍（特点与应用）"></a>2. 介绍（特点与应用）</h2><ol>
+<li>无连接 Connectionless：<ul>
+<li><strong>无握手</strong>：UDP发送方sender和接收方receiver之间没有握手过程。</li>
+<li><strong>独立处理</strong>：UDP中的每个数据报文（Datagram）是独立处理的</li>
+</ul>
+</li>
+<li>常用于流媒体应用 streaming multimedia applications：<ul>
+<li><strong>容错</strong>：对丢失容忍。loss tolerant</li>
+<li><strong>速率敏感</strong>：对传输速率敏感，而UDP允许尽可能快。rate sensitive</li>
+<li>流媒体应用eg：音频、视频</li>
+</ul>
+</li>
+<li>UDP的应用：<ul>
+<li><strong>RIP（路由信息协议）</strong>：定期发送路由信息。<ul>
+<li>由于RIP的数据包较小且定期发送，使用UDP可以避免TCP的连接建立和关闭带来的延迟。</li>
+</ul>
+</li>
+<li><strong>DNS（域名系统）</strong>：DNS查询通常使用UDP<ul>
+<li>因为DNS查询通常是短小的请求和响应，且不需要建立连接，使用UDP可以避免TCP建立连接时的延迟。</li>
+</ul>
+</li>
+<li><strong>SNMP（简单网络管理协议）</strong>：SNMP用于网络设备的监控和管理<ul>
+<li>尤其是在拥塞的情况下，UDP能够比TCP提供更高的性能，因为TCP在拥塞情况下会出现重传和延迟。</li>
+</ul>
+</li>
+<li><strong>其他协议</strong>：包括TFTP（简单文件传输协议）、DHCP（动态主机配置协议）等不需要建立可靠连接的协议。</li>
+</ul>
+</li>
+<li>必要时在应用层添加可靠性<ul>
+<li>由于UDP本身不提供可靠性，应用层可以根据需要自己实现数据的可靠性控制。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-UDP段格式"><a href="#3-UDP段格式" class="headerlink" title="3. UDP段格式"></a>3. UDP段格式</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-26.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>UDP 的数据段很简单</li>
+<li>UDP 只有 <strong>8 个字节的首部</strong>，所以 <strong>UDP 报文最少是 8 个字节</strong></li>
+</ul>
+<ol>
+<li>源端口（Source Port）：16位，发送方的端口号。</li>
+<li>目的端口（Destination Port）：16位，接收方的端口号。</li>
+<li>长度（Length）：16位，UDP数据报的总长度（包括头部和数据部分）。</li>
+<li>校验和（Checksum）：16位，UDP数据的校验和，用于检验数据在传输过程中是否出错。校验和覆盖数据部分，如果发生错误，接收方会丢弃数据报。</li>
+</ol>
+<ul>
+<li><strong>校验</strong>也要对 data 一并校验，如果出现错误，直接丢弃。</li>
+<li>数据：UDP 直接发送，UDP 不会再自己分片了；应用层根据需要决定如何将数据分割成适合传输的大小。</li>
+</ul>
+<h2 id="TCP和UDP对比"><a href="#TCP和UDP对比" class="headerlink" title="TCP和UDP对比"></a>TCP和UDP对比</h2><h2 id><a href="#" class="headerlink" title></a><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-27.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></h2><h1 id="四、An-application-NAT-and-PAT"><a href="#四、An-application-NAT-and-PAT" class="headerlink" title="四、An application: NAT and PAT"></a>四、An application: NAT and PAT</h1><h2 id="1-什么是NAT（Network-Address-Translation）"><a href="#1-什么是NAT（Network-Address-Translation）" class="headerlink" title="1. 什么是NAT（Network Address Translation）"></a>1. 什么是NAT（Network Address Translation）</h2><ol>
+<li><strong>定义</strong>：NAT（<strong>网络地址转换</strong>）是将<strong>IP数据包头中</strong>的<strong>一个地址</strong>替换为<strong>另一个地址</strong>的过程。</li>
+<li><strong>用途</strong>：NAT用于允许<strong>使用私有地址的主机</strong> <strong>访问互联网</strong>。</li>
+<li><strong>解决IP地址耗尽的方案之一</strong>：<ul>
+<li>节省注册（合法）地址</li>
+<li>增加连接互联网的灵活性</li>
+</ul>
+</li>
+<li><strong>相关标准</strong>：RFC 1631 - 网络地址转换器（NAT）</li>
+</ol>
+<h2 id="2-NAT-a-simple-concept"><a href="#2-NAT-a-simple-concept" class="headerlink" title="2. NAT a simple concept"></a>2. NAT a simple concept</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-28.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="3-NAT-类型"><a href="#3-NAT-类型" class="headerlink" title="3. NAT 类型"></a>3. NAT 类型</h2><ol>
+<li><strong>静态NAT</strong>：Static NAT<ul>
+<li>固定映射：一个内部地址到一个注册地址。</li>
+</ul>
+</li>
+<li><strong>动态NAT</strong>：Dynamic NAT<ul>
+<li>映射是动态完成的，基于<strong>先到先得</strong>的原则。</li>
+</ul>
+</li>
+<li><strong>PAT（端口地址转换&#x2F;重载）</strong>： PAT (Overload)<ul>
+<li>使用端口地址转换允许<strong>多个内部用户共享一个“内部全局”地址</strong>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-NAT中的地址类型"><a href="#4-NAT中的地址类型" class="headerlink" title="4. NAT中的地址类型"></a>4. NAT中的地址类型</h2><ol>
+<li>Inside Local address 内部本地地址: <strong>内网IP地址</strong></li>
+<li>Inside Global address 内部全局地址: <strong>注册IP地址</strong>, 对外部展示的内部地址</li>
+<li>Outside Global address外部全局地址: 由<strong>主机所有者分配</strong>的IP地址, 通常是<strong>注册地址</strong>。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-29.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li>内部主机发送报文给网关，网关根据 NAT Table 进行翻译，转换成内部全局地址，然后进行转发</li>
+</ul>
+<h2 id="5-Static-NAT-例子"><a href="#5-Static-NAT-例子" class="headerlink" title="5. Static NAT 例子"></a>5. Static NAT 例子</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-30.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>静态映射</strong>：静态NAT通过<strong>手动配置</strong>，将每个内部私有IP地址<strong>固定映射</strong>到一个公网IP地址。</li>
+<li><strong>转换表</strong>：NAT设备维护一个<strong>静态转换表</strong>，记录内部私有IP地址和对应的公网IP地址之间的映射关系。</li>
+<li><strong>地址转换</strong>：当内部主机发起连接请求时，NAT设备根据静态转换表，将内部私有IP地址替换为对应的公网IP地址。</li>
+<li><strong>固定映射</strong>：映射关系是固定的，不会随时间变化，确保每个内部主机始终使用相同的公网IP地址进行通信。</li>
+</ol>
+<h2 id="6-Dynamic-NAT-例子"><a href="#6-Dynamic-NAT-例子" class="headerlink" title="6. Dynamic NAT 例子"></a>6. Dynamic NAT 例子</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-31.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>地址池</strong>：动态NAT使用一个公网IP地址池来动态映射内部私有IP地址。</li>
+<li><strong>请求映射</strong>：当内部主机发起连接请求时，NAT设备从地址池中选择一个未使用的公网IP地址，并将其映射到内部私有IP地址。</li>
+<li><strong>建立映射</strong>：NAT设备在内部私有IP地址和选定的公网IP地址之间建立临时映射。</li>
+<li><strong>释放映射</strong>：当连接结束或超时时，NAT设备释放该映射，使公网IP地址返回地址池供其他内部主机使用。</li>
+</ol>
+<ul>
+<li>先到先得</li>
+</ul>
+<h2 id="7-NAT-的优缺点"><a href="#7-NAT-的优缺点" class="headerlink" title="7. NAT 的优缺点"></a>7. NAT 的优缺点</h2><ol>
+<li><strong>优点</strong>：<ul>
+<li>由于<strong>并非每个内部主机同时需要外部访问</strong>，可以使用一个较小的公网IP地址池来服务相对较多的私有地址主机。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>一对一映射 one-to-one mapping</strong>。</li>
+<li>例如，如果私有地址空间是&#x2F;8，但公网地址是&#x2F;24，则只有254个主机可以同时访问互联网。</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-PAT-端口地址转换-Port-Address-Translation"><a href="#8-PAT-端口地址转换-Port-Address-Translation" class="headerlink" title="8. PAT 端口地址转换 Port Address Translation"></a>8. PAT 端口地址转换 Port Address Translation</h2><ul>
+<li>一种特殊类型的动态NAT</li>
+<li>将<strong>私有IP地址</strong>和<strong>公网IP地址</strong>映射到<strong>不同的端口号</strong>来实现<strong>多个私有IP地址共享一个公网IP地址</strong>。</li>
+<li>每个私有IP地址的每个连接都通过<strong>不同的端口号</strong>进行区分。</li>
+</ul>
+<h2 id="9-PAT-工作原理"><a href="#9-PAT-工作原理" class="headerlink" title="9. PAT 工作原理"></a>9. PAT 工作原理</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-32.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>端口重载</strong>：PAT使用一个公网IP地址，并通过<strong>不同的端口号</strong>来区分内部主机的连接请求。</li>
+<li><strong>端口映射</strong>：当内部主机发起连接请求时，NAT设备将内部私有IP地址和端口号映射到<strong>公网IP地址和唯一的端口号</strong>。</li>
+<li><strong>建立映射</strong>：NAT设备在内部私有IP地址和端口号与公网IP地址和唯一端口号之间建立临时映射。</li>
+<li><strong>转换表</strong>：NAT设备维护一个转换表，记录内部私有IP地址和端口号与公网IP地址和唯一端口号之间的映射关系。</li>
+<li><strong>地址转换</strong>：当数据包通过NAT设备时，NAT设备根据转换表将内部私有IP地址和端口号替换为公网IP地址和唯一端口号，反之亦然。</li>
+<li><strong>释放映射</strong>：当连接结束或超时时，NAT设备释放该映射，使端口号返回端口池供其他内部主机使用。</li>
+</ol>
+<h2 id="10-PAT-操作"><a href="#10-PAT-操作" class="headerlink" title="10. PAT 操作"></a>10. PAT 操作</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-33.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/" class="trm-anima-link">
+                    六、OSI第567层：会话、表示、应用层
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:36</li>
+                
+                    <li>3.7k</li>
+                
+                
+                    <li>13</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/" class="trm-anima-link">
+                    四、OSI第三层：数据链路层
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:32</li>
+                
+                    <li>10.1k</li>
+                
+                
+                    <li>38</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="第五章 第四层:运输层 Transport Layer"><a rel="nofollow" class="trm-toc-link" href="#第五章-第四层-运输层-Transport-Layer"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">第五章 第四层:运输层 Transport Layer</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、第四层综述"><a rel="nofollow" class="trm-toc-link" href="#一、第四层综述"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、第四层综述</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1、第4层执行多项功能："><a rel="nofollow" class="trm-toc-link" href="#1、第4层执行多项功能："><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">1、第4层执行多项功能：</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. 两个特别重要的第4层协议："><a rel="nofollow" class="trm-toc-link" href="#2-两个特别重要的第4层协议："><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">2. 两个特别重要的第4层协议：</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. Layer 4:  The Transport Layer"><a rel="nofollow" class="trm-toc-link" href="#3-Layer-4-The-Transport-Layer"><span class="trm-toc-number">2.3.</span> <span class="trm-toc-text">3. Layer 4:  The Transport Layer</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. 服务模型"><a rel="nofollow" class="trm-toc-link" href="#4-服务模型"><span class="trm-toc-number">2.4.</span> <span class="trm-toc-text">4. 服务模型</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5. 套接字(Socket, 第四层的单位)"><a rel="nofollow" class="trm-toc-link" href="#5-套接字-Socket-第四层的单位"><span class="trm-toc-number">2.5.</span> <span class="trm-toc-text">5. 套接字(Socket, 第四层的单位)</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="二、 TCP (Transmission Control Protocol)"><a rel="nofollow" class="trm-toc-link" href="#二、-TCP-Transmission-Control-Protocol"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">二、 TCP (Transmission Control Protocol)</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. TCP 服务模型"><a rel="nofollow" class="trm-toc-link" href="#1-TCP-服务模型"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1. TCP 服务模型</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.1 TCP必须解决的问题"><a rel="nofollow" class="trm-toc-link" href="#1-1-TCP必须解决的问题"><span class="trm-toc-number">3.1.1.</span> <span class="trm-toc-text">1.1 TCP必须解决的问题</span></a></li><li class="trm-toc-item trm-toc-level-3" title="1.2 TCP数据段的格式"><a rel="nofollow" class="trm-toc-link" href="#1-2-TCP数据段的格式"><span class="trm-toc-number">3.1.2.</span> <span class="trm-toc-text">1.2 TCP数据段的格式</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2. TCP协议"><a rel="nofollow" class="trm-toc-link" href="#2-TCP协议"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. TCP协议</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="2.1 Reliable Connection 可靠连接"><a rel="nofollow" class="trm-toc-link" href="#2-1-Reliable-Connection-可靠连接"><span class="trm-toc-number">3.2.1.</span> <span class="trm-toc-text">2.1 Reliable Connection 可靠连接</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="3. TCP:Establish Connection"><a rel="nofollow" class="trm-toc-link" href="#3-TCP-Establish-Connection"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">3. TCP:Establish Connection</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="第一次握手"><a rel="nofollow" class="trm-toc-link" href="#第一次握手"><span class="trm-toc-number">3.3.1.</span> <span class="trm-toc-text">第一次握手</span></a></li><li class="trm-toc-item trm-toc-level-3" title="第二次握手"><a rel="nofollow" class="trm-toc-link" href="#第二次握手"><span class="trm-toc-number">3.3.2.</span> <span class="trm-toc-text">第二次握手</span></a></li><li class="trm-toc-item trm-toc-level-3" title="第三次握手"><a rel="nofollow" class="trm-toc-link" href="#第三次握手"><span class="trm-toc-number">3.3.3.</span> <span class="trm-toc-text">第三次握手</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="建立连接实例"><a rel="nofollow" class="trm-toc-link" href="#建立连接实例"><span class="trm-toc-number">3.4.</span> <span class="trm-toc-text">建立连接实例</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol"><a rel="nofollow" class="trm-toc-link" href="#4-数据传输——停止等待协议-Data-transfer——stop-and-wait-protocol"><span class="trm-toc-number">3.5.</span> <span class="trm-toc-text">4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK"><a rel="nofollow" class="trm-toc-link" href="#5-数据传输——丢失-延迟-Lost-ACK-and-Late-ACK"><span class="trm-toc-number">3.6.</span> <span class="trm-toc-text">5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK</span></a></li><li class="trm-toc-item trm-toc-level-2" title="6. 可靠通信——自动重传请求（ARQ）"><a rel="nofollow" class="trm-toc-link" href="#6-可靠通信——自动重传请求（ARQ）"><span class="trm-toc-number">3.7.</span> <span class="trm-toc-text">6. 可靠通信——自动重传请求（ARQ）</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="6.1 连续 ARQ 协议"><a rel="nofollow" class="trm-toc-link" href="#6-1-连续-ARQ-协议"><span class="trm-toc-number">3.7.1.</span> <span class="trm-toc-text">6.1 连续 ARQ 协议</span></a></li><li class="trm-toc-item trm-toc-level-3" title="6.2 具体实例"><a rel="nofollow" class="trm-toc-link" href="#6-2-具体实例"><span class="trm-toc-number">3.7.2.</span> <span class="trm-toc-text">6.2 具体实例</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="7. TCP: Release Connection 中断连接"><a rel="nofollow" class="trm-toc-link" href="#7-TCP-Release-Connection-中断连接"><span class="trm-toc-number">3.8.</span> <span class="trm-toc-text">7. TCP: Release Connection 中断连接</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="第一次握手：A发起断开连接请求"><a rel="nofollow" class="trm-toc-link" href="#第一次握手：A发起断开连接请求"><span class="trm-toc-number">3.8.1.</span> <span class="trm-toc-text">第一次握手：A发起断开连接请求</span></a></li><li class="trm-toc-item trm-toc-level-3" title="第二次握手：B:Ack &#x3D; 1:允许断开"><a rel="nofollow" class="trm-toc-link" href="#第二次握手：B-Ack-1-允许断开"><span class="trm-toc-number">3.8.2.</span> <span class="trm-toc-text">第二次握手：B:Ack &#x3D; 1:允许断开</span></a></li><li class="trm-toc-item trm-toc-level-3" title="第三次握手：B:FIN &#x3D; 1:数据处理完成"><a rel="nofollow" class="trm-toc-link" href="#第三次握手：B-FIN-1-数据处理完成"><span class="trm-toc-number">3.8.3.</span> <span class="trm-toc-text">第三次握手：B:FIN &#x3D; 1:数据处理完成</span></a></li><li class="trm-toc-item trm-toc-level-3" title="第四次握手：A：ACK&#x3D;1，确认收到B的断开信息"><a rel="nofollow" class="trm-toc-link" href="#第四次握手：A：ACK-1，确认收到B的断开信息"><span class="trm-toc-number">3.8.4.</span> <span class="trm-toc-text">第四次握手：A：ACK&#x3D;1，确认收到B的断开信息</span></a></li><li class="trm-toc-item trm-toc-level-3" title="汇总"><a rel="nofollow" class="trm-toc-link" href="#汇总"><span class="trm-toc-number">3.8.5.</span> <span class="trm-toc-text">汇总</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="7. 为什么要等待2MSL"><a rel="nofollow" class="trm-toc-link" href="#7-为什么要等待2MSL"><span class="trm-toc-number">3.9.</span> <span class="trm-toc-text">7. 为什么要等待2MSL</span></a></li><li class="trm-toc-item trm-toc-level-2" title="9. TCP的计时器"><a rel="nofollow" class="trm-toc-link" href="#9-TCP的计时器"><span class="trm-toc-number">3.10.</span> <span class="trm-toc-text">9. TCP的计时器</span></a></li><li class="trm-toc-item trm-toc-level-2" title="10. TCP的有限状态机"><a rel="nofollow" class="trm-toc-link" href="#10-TCP的有限状态机"><span class="trm-toc-number">3.11.</span> <span class="trm-toc-text">10. TCP的有限状态机</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="三、UDP (User Datagram Protocol)"><a rel="nofollow" class="trm-toc-link" href="#三、UDP-User-Datagram-Protocol"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">三、UDP (User Datagram Protocol)</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 为什么需要UDP"><a rel="nofollow" class="trm-toc-link" href="#1-为什么需要UDP"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">1. 为什么需要UDP</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. 介绍（特点与应用）"><a rel="nofollow" class="trm-toc-link" href="#2-介绍（特点与应用）"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">2. 介绍（特点与应用）</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. UDP段格式"><a rel="nofollow" class="trm-toc-link" href="#3-UDP段格式"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">3. UDP段格式</span></a></li><li class="trm-toc-item trm-toc-level-2" title="TCP和UDP对比"><a rel="nofollow" class="trm-toc-link" href="#TCP和UDP对比"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">TCP和UDP对比</span></a></li><li class="trm-toc-item trm-toc-level-2" title=""><a class="trm-toc-link"><span class="trm-toc-number">4.5.</span> <span class="trm-toc-text"></span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="四、An application: NAT and PAT"><a rel="nofollow" class="trm-toc-link" href="#四、An-application-NAT-and-PAT"><span class="trm-toc-number">5.</span> <span class="trm-toc-text">四、An application: NAT and PAT</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 什么是NAT（Network Address Translation）"><a rel="nofollow" class="trm-toc-link" href="#1-什么是NAT（Network-Address-Translation）"><span class="trm-toc-number">5.1.</span> <span class="trm-toc-text">1. 什么是NAT（Network Address Translation）</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. NAT a simple concept"><a rel="nofollow" class="trm-toc-link" href="#2-NAT-a-simple-concept"><span class="trm-toc-number">5.2.</span> <span class="trm-toc-text">2. NAT a simple concept</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. NAT 类型"><a rel="nofollow" class="trm-toc-link" href="#3-NAT-类型"><span class="trm-toc-number">5.3.</span> <span class="trm-toc-text">3. NAT 类型</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. NAT中的地址类型"><a rel="nofollow" class="trm-toc-link" href="#4-NAT中的地址类型"><span class="trm-toc-number">5.4.</span> <span class="trm-toc-text">4. NAT中的地址类型</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5. Static NAT 例子"><a rel="nofollow" class="trm-toc-link" href="#5-Static-NAT-例子"><span class="trm-toc-number">5.5.</span> <span class="trm-toc-text">5. Static NAT 例子</span></a></li><li class="trm-toc-item trm-toc-level-2" title="6. Dynamic NAT 例子"><a rel="nofollow" class="trm-toc-link" href="#6-Dynamic-NAT-例子"><span class="trm-toc-number">5.6.</span> <span class="trm-toc-text">6. Dynamic NAT 例子</span></a></li><li class="trm-toc-item trm-toc-level-2" title="7. NAT 的优缺点"><a rel="nofollow" class="trm-toc-link" href="#7-NAT-的优缺点"><span class="trm-toc-number">5.7.</span> <span class="trm-toc-text">7. NAT 的优缺点</span></a></li><li class="trm-toc-item trm-toc-level-2" title="8. PAT 端口地址转换 Port Address Translation"><a rel="nofollow" class="trm-toc-link" href="#8-PAT-端口地址转换-Port-Address-Translation"><span class="trm-toc-number">5.8.</span> <span class="trm-toc-text">8. PAT 端口地址转换 Port Address Translation</span></a></li><li class="trm-toc-item trm-toc-level-2" title="9. PAT 工作原理"><a rel="nofollow" class="trm-toc-link" href="#9-PAT-工作原理"><span class="trm-toc-number">5.9.</span> <span class="trm-toc-text">9. PAT 工作原理</span></a></li><li class="trm-toc-item trm-toc-level-2" title="10. PAT 操作"><a rel="nofollow" class="trm-toc-link" href="#10-PAT-操作"><span class="trm-toc-number">5.10.</span> <span class="trm-toc-text">10. PAT 操作</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

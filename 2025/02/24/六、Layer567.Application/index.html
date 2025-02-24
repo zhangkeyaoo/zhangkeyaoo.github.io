@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="06 会话、表示、应用层 The Session Layer The Presentation Layer The Application Layer  一、第5层：会话层 负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。  1. 作用  会话层的核心作用是负责会话的建立、管理和终止，确保数据传输在不同设备间顺畅进行。主要包括：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="六、OSI第567层：会话、表示、应用层">
+<meta property="og:url" content="http://example.com/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="06 会话、表示、应用层 The Session Layer The Presentation Layer The Application Layer  一、第5层：会话层 负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。  1. 作用  会话层的核心作用是负责会话的建立、管理和终止，确保数据传输在不同设备间顺畅进行。主要包括：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2025-02-24T09:36:07.940Z">
+<meta property="article:modified_time" content="2025-02-24T09:37:19.150Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >六、OSI第567层：会话、表示、应用层</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:37:19"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            六、OSI第567层：会话、表示、应用层
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:36
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="06-会话、表示、应用层"><a href="#06-会话、表示、应用层" class="headerlink" title="06 会话、表示、应用层"></a>06 会话、表示、应用层</h1><ul>
+<li>The Session Layer</li>
+<li>The Presentation Layer</li>
+<li>The Application Layer</li>
+</ul>
+<h1 id="一、第5层：会话层"><a href="#一、第5层：会话层" class="headerlink" title="一、第5层：会话层"></a>一、第5层：会话层</h1><ul>
+<li>负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。</li>
+</ul>
+<h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1. 作用"></a>1. 作用</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>会话层的核心作用是负责会话的<strong>建立、管理和终止</strong>，确保<strong>数据传输在不同设备间顺畅进行</strong>。主要包括：</li>
+</ul>
+<ol>
+<li>基于令牌（Token）进行交互发言，通过数据同步保证数据完整性(应用逻辑)</li>
+<li>进行数据分段、拼接，保证传输的有效。</li>
+<li>同步技术，保证故障恢复</li>
+</ol>
+<h2 id="2-服务"><a href="#2-服务" class="headerlink" title="2. 服务"></a>2. 服务</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>双向同步通讯 TWA</strong>(Two-Way Alternate)<ul>
+<li>全双工通信</li>
+<li>半双工通信</li>
+<li>单工通信</li>
+</ul>
+</li>
+<li><strong>双向交替控制 TWS</strong>(Two-Way Simultaneous)<ul>
+<li>会话连接、活动开始、数据校验（同步）</li>
+<li>令牌转换等</li>
+</ul>
+</li>
+<li>是否同步 synchronized 了您的会话的主题？<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<h2 id="3-同步点-CheckPoint"><a href="#3-同步点-CheckPoint" class="headerlink" title="3. 同步点 CheckPoint"></a>3. 同步点 CheckPoint</h2><ol>
+<li>**同步点（CheckPoint）**用于分隔会话session的各个部分，以前称为对话（dialogues）<ul>
+<li>同步点：发送一定数据后设置同步点</li>
+<li>次同步点：作为同步点的一个子集，进行数据校验</li>
+<li>主同步点：按照主同步点进行校验确认</li>
+<li>如果错误，恢复到上次都已经同步的主同步点</li>
+</ul>
+</li>
+<li>对话分隔（Seperation）：会话层通过同步点分隔不同的对话（会话段），确保各个会话部分的有序启动、进行与终止。尽量保证了数据交换的效率和可靠性。</li>
+</ol>
+<h2 id="4-Some-Applications-of-Layer-5"><a href="#4-Some-Applications-of-Layer-5" class="headerlink" title="4. Some Applications of Layer 5"></a>4. Some Applications of Layer 5</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>NFS</li>
+<li>SQL</li>
+<li>RPC</li>
+<li>X Window System</li>
+<li>ASP</li>
+<li>SCP</li>
+</ol>
+<hr>
+<h1 id="二、第6层：表示层"><a href="#二、第6层：表示层" class="headerlink" title="二、第6层：表示层"></a>二、第6层：表示层</h1><ul>
+<li>The Presentation Layer</li>
+</ul>
+<ol>
+<li>表示层负责以<strong>接收设备可以理解的形式</strong>表示数据。<ul>
+<li>传送语法协商</li>
+<li>接受语法协商</li>
+</ul>
+</li>
+<li>表示层具有 3 个<strong>主要功能</strong>：<ul>
+<li><strong>数据格式化</strong>（formatting）</li>
+<li><strong>数据压缩</strong>（compression）：早期网络比较慢，倾向于先压缩在发送</li>
+<li><strong>数据加密</strong>（encryption）</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-Data-Formatting-数据格式化"><a href="#1-Data-Formatting-数据格式化" class="headerlink" title="1. Data Formatting 数据格式化"></a>1. Data Formatting 数据格式化</h2><ol>
+<li>想象两个不同（dissimilar）的系统。<ul>
+<li>一种使用扩展二进制编码的十进制交换码（EBCDIC,Extended Binary Coded Decimal Interchange Code）格式化文本</li>
+<li>另一种使用美国信息交换标准码（ASCII）格式化文本</li>
+</ul>
+</li>
+<li>第六层提供了<strong>这两种</strong>不同类型的代码之间的<strong>转换</strong></li>
+</ol>
+<h3 id="1-1-Graphic-File-Formats-图形文件格式"><a href="#1-1-Graphic-File-Formats-图形文件格式" class="headerlink" title="1.1 Graphic File Formats 图形文件格式"></a>1.1 Graphic File Formats 图形文件格式</h3><ul>
+<li>互联网通常使用两种<strong>二进制</strong>文件格式来显示图像：<ul>
+<li>图形交换格式（GIF）</li>
+<li>联合图像专家组（JPEG）</li>
+</ul>
+</li>
+<li>任何具有GIF和JPEG文件格式阅读器的计算机都可以读取这些文件类型，无论计算机类型如何。</li>
+</ul>
+<h3 id="1-2-Multimedia-File-Format-多媒体文件格式"><a href="#1-2-Multimedia-File-Format-多媒体文件格式" class="headerlink" title="1.2 Multimedia File Format 多媒体文件格式"></a>1.2 Multimedia File Format 多媒体文件格式</h3><ul>
+<li>多媒体文件格式是另一种类型的<strong>二进制</strong>文件，用于存储声音、音乐和视频。<ul>
+<li>这些文件可以完全下载后播放，或者在下载的同时播放。</li>
+<li>后一种方法称为流式音频。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Encryption-Compression-数据加密-压缩"><a href="#2-Encryption-Compression-数据加密-压缩" class="headerlink" title="2. Encryption &amp; Compression 数据加密&amp;压缩"></a>2. Encryption &amp; Compression 数据加密&amp;压缩</h2><ul>
+<li>第六层负责<strong>数据加密</strong>：<ul>
+<li>数据加密可<strong>在信息传输过程中保护信息</strong>。</li>
+</ul>
+</li>
+<li>表示层还负责文件的压缩。</li>
+</ul>
+<hr>
+<h1 id="三、第7层：应用层"><a href="#三、第7层：应用层" class="headerlink" title="三、第7层：应用层"></a>三、第7层：应用层</h1><ul>
+<li>The Application Layer<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>上图中各层的一些协议和使用：会话层对端口进行管理</li>
+<li>第七层对应了应用界面，第六层对应了各种协议</li>
+</ul>
+<h2 id="1-职责"><a href="#1-职责" class="headerlink" title="1. 职责"></a>1. 职责</h2><ol>
+<li>应用层（最接近用户）支持应用程序的<strong>通信组件</strong>。</li>
+</ol>
+<ul>
+<li><strong>应用层</strong>：<ul>
+<li>识别并建立预期通信伙伴的可用性</li>
+<li>同步协作应用程序Synchronizes cooperating applications</li>
+<li>就错误恢复程序达成一致</li>
+<li>控制数据完整性 data integrity</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-HTTP-超文本传输协议"><a href="#2-HTTP-超文本传输协议" class="headerlink" title="2. HTTP 超文本传输协议"></a>2. HTTP 超文本传输协议</h2><ul>
+<li><strong>HyperText Transfer Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="2-1-统一资源定位符URL-Uniform-Resource-Locator"><a href="#2-1-统一资源定位符URL-Uniform-Resource-Locator" class="headerlink" title="2.1 统一资源定位符URL (Uniform Resource Locator)"></a>2.1 统一资源定位符URL (Uniform Resource Locator)</h3><ul>
+<li>统一资源定位符URL 是对可以从因特网上得到的资源的<strong>位置</strong>和<strong>访问方法</strong>的一种简洁的表示</li>
+<li>URL 给<strong>资源的位置</strong>提供一种抽象的识别方法，并用这种方法给资源<strong>定位</strong></li>
+<li>只要能够对资源定位，系统就可以对资源进行各种<strong>操作</strong>，如存取、更新、替换和查找其属性</li>
+<li>URL 相当于<strong>一个文件名在网络范围的扩展</strong>。因此URL 是<strong>与因特网相连的机器上的任何可访问对象的一个指针</strong></li>
+<li><code>&lt;URL的访问方式&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</code><ol>
+<li>访问方式：协议 HTTPS 或者 HTTP</li>
+<li>主机：域名的方式</li>
+<li>端口对应进程</li>
+<li>路径对应具体的文件</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-2-HTTP"><a href="#2-2-HTTP" class="headerlink" title="2.2 HTTP"></a>2.2 HTTP</h3><ul>
+<li>HTTP 是<strong>面向事务</strong>的客户服务器协议</li>
+<li>HTTP 1.0 协议是<strong>无状态</strong>的(stateless)</li>
+<li>HTTP 协议本身也是<strong>无连接</strong>的，虽然它使用了面向连接的TCP 向上提供的服务</li>
+<li>万维网浏览器就是一个HTTP 客户，而在万维网服务器等待HTTP 请求的进程常称为HTTP daemon，有的文献将它缩写为HTTPD</li>
+<li>HTTP daemon 在收到 HTTP 客户的请求后，把所需的文件返回给HTTP 客户</li>
+</ul>
+<h3 id="2-3-HTTP的报文结构-请求报文"><a href="#2-3-HTTP的报文结构-请求报文" class="headerlink" title="2.3 HTTP的报文结构(请求报文)"></a>2.3 HTTP的报文结构(请求报文)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>报文由三个部分组成，即<strong>开始行</strong>、<strong>首部行</strong>和<strong>实体主体</strong>。</li>
+<li>在请求报文中，<strong>开始行就是请求行</strong>。</li>
+</ol>
+<h3 id="2-4-HTTP-请求报文的一些方法"><a href="#2-4-HTTP-请求报文的一些方法" class="headerlink" title="2.4 HTTP 请求报文的一些方法"></a>2.4 HTTP 请求报文的一些方法</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-5-HTML-HyperText-Markup-Language-超文本标记语言"><a href="#2-5-HTML-HyperText-Markup-Language-超文本标记语言" class="headerlink" title="2.5 HTML(HyperText Markup Language) 超文本标记语言"></a>2.5 HTML(HyperText Markup Language) 超文本标记语言</h3><ul>
+<li>定义了许多用于排版的命令（标签）</li>
+<li>HTML 文档是一种可以用任何文本编辑器创建的ASCII 码文件</li>
+<li>仅当HTML 文档是以.html 或.htm 为后缀时，浏览器才对此文档的各种标签进行解释</li>
+<li>当浏览器从服务器读取HTML 文档，针对HTML 文档中的各种标签，根据浏览器所使用的显示器的尺寸和分辨率大小，重新进行排版并恢复出所读取的页面</li>
+<li>HTML 用一对标签（一个开始标签和一个结束标签）或几对标签来标识一个元素</li>
+</ul>
+<h2 id="3-FTP-and-TFTP-文件传输协议"><a href="#3-FTP-and-TFTP-文件传输协议" class="headerlink" title="3. FTP and TFTP 文件传输协议"></a>3. FTP and TFTP 文件传输协议</h2><ul>
+<li>File Transfer Protocol</li>
+<li><strong>Trivial</strong> File Transfer Protocol 简单文件传输协议</li>
+</ul>
+<ol>
+<li><strong>FTP</strong>： 是一种<em>可</em>靠的、面向连接<strong>的服务，使用</strong>TCP**传输文件。<ul>
+<li>FTP首先在<strong>客户端和服务器</strong>之间建立<strong>控制连接</strong>（端口21）。</li>
+<li>然后建立第二个连接，通过该连接在<strong>计算机之间传输数据</strong>（端口20）。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Trivial File Transfer Protocol</li>
+</ul>
+<ol start="2">
+<li><strong>TFTP</strong>：是一种<strong>无连接</strong>的服务，使用<strong>UDP</strong>。<ul>
+<li>小巧且易于实现。</li>
+<li>例如，TFTP用于路由器传输配置文件和Cisco IOS镜像。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-1-FTP主进程工作步骤"><a href="#3-1-FTP主进程工作步骤" class="headerlink" title="3.1 FTP主进程工作步骤"></a>3.1 FTP主进程工作步骤</h3><ol>
+<li><strong>打开熟知端口</strong>（端口号为21），使客户进程能够连接上</li>
+<li><strong>等待客户进程发出连接请求</strong></li>
+<li>启动<strong>从属进程</strong>来处理客户进程发来的请求。从属进程对客户进程的请求处理完毕后即终止，但从属进程在运行期间根据需要还可能创建其他一些子进程</li>
+<li>回到<strong>等待</strong>状态，继续接受其他客户进程发来的请求。主进程与从属进程的处理是<strong>并发地进行</strong></li>
+</ol>
+<h3 id="3-2-FTP的屏幕信息举例"><a href="#3-2-FTP的屏幕信息举例" class="headerlink" title="3.2 FTP的屏幕信息举例"></a>3.2 FTP的屏幕信息举例</h3><ul>
+<li>[01] ftp nic.ddn.mil<ul>
+<li>用户要用 FTP 和远地主机（网络信息中心 NIC 上的主机）建立连接。域名：nic.ddn.mil</li>
+</ul>
+</li>
+<li>[02] connected to nic.ddn.mil<ul>
+<li>本地 FTP 发送的连接成功信息</li>
+</ul>
+</li>
+<li>[03] 220 nic FTP server（Sunos 4.1）ready.<ul>
+<li>从远地服务器返回的信息，220 表示“服务就绪”</li>
+</ul>
+</li>
+<li>[04] Name： anonymous<ul>
+<li>本地 FTP 提示用户键入名字。用户键入的名字表示“匿名”。用户只需键入 anonymous 即可（匿名）</li>
+</ul>
+</li>
+<li>[05] 331 Guest login ok, send ident as password.<ul>
+<li>数字 331 表示“用户名正确”，需要口令</li>
+</ul>
+</li>
+<li>[06] Password： <a href="mailto:&#x61;&#x62;&#99;&#x40;&#120;&#121;&#122;&#46;&#x6d;&#x61;&#x74;&#104;&#46;&#x79;&#x61;&#x6c;&#x65;&#46;&#x65;&#x64;&#x75;">abc@xyz.math.yale.edu</a><ul>
+<li>本地 FTP 提示用户键入口令。用户这时可键入 guest 作为匿名的口令，也可以键入自己的电子邮件地址，即耶鲁大学数学系名为 xyz 的主机上的 abd（匿名密码是随意输入的）</li>
+</ul>
+</li>
+<li>[07] 230 Guest login ok, access restrictions apply.<ul>
+<li>数字 230 表示用户已经注册完毕</li>
+</ul>
+</li>
+<li>[08] ftp&gt; cd rfc<ul>
+<li>“ftp&gt;”是 FTP 的提示信息。用户键入的是将目录改变为包含 RFC 文件的目录</li>
+</ul>
+</li>
+<li>[09] 250 CWD command successful.<ul>
+<li>字符”CWD”是 FTP 的标准命令，表示 Change Working Directory</li>
+</ul>
+</li>
+<li>[10] ftp&gt; get rfc1261.txt nicinfo<ul>
+<li>用户要求将名为 rfc1261.txt 的文件复制到本地主机上，并改名为 nicinfo（get 获取到本地）</li>
+</ul>
+</li>
+<li>[11] 200 PORT command successful.<ul>
+<li>字符 PORT 是 FTP 的标准命令，表示要建立数据连接。200 表示“命令正确”</li>
+</ul>
+</li>
+<li>[12] 150 ASCII data connection for rfc1261.txt（128.36.12.27,1401）（4318 bytes）.<ul>
+<li>数字 150 表示”文件状态正确，即将建立数据连接”</li>
+</ul>
+</li>
+<li>[13] 226 ASCII Transfer complete. local： nicinfo remote： rfc1261.txt 4488 bytes received in 15 seconds（0.3 Kbytes&#x2F;s）.<ul>
+<li>数字 226 是“释放数据连接”，现在一个新的本地文件已经生成。</li>
+</ul>
+</li>
+<li>[14] ftp&gt; quit<ul>
+<li>用户键入退出命令。</li>
+</ul>
+</li>
+<li>[15] 221 Goodbye.<ul>
+<li>表示 FTP 工作结束</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Telnet-远程终端协议"><a href="#4-Telnet-远程终端协议" class="headerlink" title="4. Telnet 远程终端协议"></a>4. Telnet 远程终端协议</h2><ul>
+<li>用于通过网络远程访问和控制另一台计算机</li>
+<li>Telnet客户端软件提供“<strong>登录</strong>到<strong>运行Telnet服务器应用程序</strong>的<strong>远程互联网主机</strong>”的能力，然后从命令行执行命令。</li>
+</ul>
+<h2 id="5-SMTP-and-POP-收发邮件协议"><a href="#5-SMTP-and-POP-收发邮件协议" class="headerlink" title="5. SMTP and POP 收发邮件协议"></a>5. SMTP and POP 收发邮件协议</h2><ul>
+<li>电子邮件服务器相互通信，使用<strong>SMTP</strong>协议<strong>发送</strong>邮件，使用<strong>POP3</strong>协议<strong>接收</strong>邮件。</li>
+<li><strong>SMTP（Simple Mail Transfer Protocol）</strong>：邮件发送</li>
+<li><strong>POP3（Post Office Protocol version 3）</strong>：邮件接收<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送者先登录到服务器，通过服务器根据SMTP传输到对应的服务器，然后用户登录后通过POP3协议收邮件到本地</li>
+</ul>
+<h3 id="5-1-MIME-和-SMTP-的关系"><a href="#5-1-MIME-和-SMTP-的关系" class="headerlink" title="5.1 MIME 和 SMTP 的关系"></a>5.1 MIME 和 SMTP 的关系</h3><ul>
+<li>MIME（Multipurpose Internet Mail Extensions）<ul>
+<li>是一种扩展了电子邮件格式的标准，它允许邮件发送<strong>非ASCII字符</strong>（如图像、音频、视频等二进制文件），并使邮件能够包含多种类型的内容。</li>
+</ul>
+</li>
+<li>MIME 是通过<strong>对非 ASCII 内容进行编码</strong>，使其能够通过原本**仅支持 ASCII 的协议（如 SMTP）**进行传输。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="5-2-MIME-增加-5-个新的邮件首部"><a href="#5-2-MIME-增加-5-个新的邮件首部" class="headerlink" title="5.2 MIME 增加 5 个新的邮件首部"></a>5.2 MIME 增加 5 个新的邮件首部</h3><ol>
+<li>MIME-Version: 标志 MIME 的版本。现在的版本号是1.0。若无此行，则为英文文本<ul>
+<li><code>MIME-Version: 1.0</code></li>
+</ul>
+</li>
+<li>Content-Description: 这是可读字符串，说明此邮件主体是否是图像、音频或视频<ul>
+<li><code>Content-Description: This is a picture of a cat</code></li>
+</ul>
+</li>
+<li>Content-Id: 邮件的惟一标识符<ul>
+<li><code>Content-Id: &lt;image1234@domain.com&gt;</code></li>
+</ul>
+</li>
+<li>Content-Transfer-Encoding: 在传送时邮件的主体是如何编码的<ul>
+<li><code>Content-Transfer-Encoding: base64</code></li>
+</ul>
+</li>
+<li>Content-Type:说明邮件主体的数据类型和子类型<ul>
+<li><code>Content-Type: text/plain; charset=&quot;UTF-8&quot;</code> 或 <code>Content-Type: image/jpeg</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="6-SNMP-简单网络管理协议"><a href="#6-SNMP-简单网络管理协议" class="headerlink" title="6. SNMP 简单网络管理协议"></a>6. SNMP 简单网络管理协议</h2><ul>
+<li><strong>Simple Network Management Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>简单网络管理协议（SNMP）是一种<strong>应用层协议</strong>，促进网络设备之间管理信息的交换。</li>
+<li><strong>NMS（Network Management System）：网管</strong>,通过下发请求对上网的所有的主机关于流量等等信息进行管理（监控）</li>
+</ul>
+<h2 id="7-DNS-域名系统-Domain-Name-System"><a href="#7-DNS-域名系统-Domain-Name-System" class="headerlink" title="7. DNS 域名系统 Domain Name System"></a>7. DNS 域名系统 Domain Name System</h2><ul>
+<li>域名系统（DNS）是一种<strong>网络服务</strong>，<strong>管理域名</strong>并响应<strong>客户端请求——将域名转换为相应的IP地址</strong></li>
+</ul>
+<h3 id="7-1-Dnmain-Name-域名"><a href="#7-1-Dnmain-Name-域名" class="headerlink" title="7.1 Dnmain Name 域名"></a>7.1 Dnmain Name 域名</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><p>使用圆点 <code>.</code> 将字符串进行分隔开，字符串不应该太长</p>
+</li>
+<li><p>越靠后域名级别越高</p>
+</li>
+<li><p>www 就是对应到主机群</p>
+</li>
+<li><p><strong>根域（Root Domain）</strong>：</p>
+<ul>
+<li>位于域名层次结构的顶端，表示为空字符串。</li>
+<li>由一组根服务器管理，负责顶级域名的解析。</li>
+</ul>
+</li>
+<li><p><strong>顶级域（Top-Level Domain, TLD）</strong>：</p>
+<ul>
+<li>位于根域之下，分为通用顶级域（gTLD）和国家顶级域（ccTLD）。</li>
+<li>例如：.com、.org、.net（通用顶级域），.cn、.us、.uk（国家顶级域）。</li>
+<li><strong>唯一的基础设施域</strong>：arpa，用于反向解析域名</li>
+</ul>
+</li>
+<li><p><strong>二级域（Second-Level Domain, SLD）</strong>：</p>
+<ul>
+<li>位于顶级域之下，通常由组织或个人注册。</li>
+<li>例如：example.com中的example。</li>
+</ul>
+</li>
+<li><p><strong>子域（Subdomain）</strong>：</p>
+<ul>
+<li>位于二级域之下，可以由域名所有者自由创建。</li>
+<li>例如：mail.example.com中的mail。</li>
+</ul>
+</li>
+<li><p><strong>主机名（Hostname）</strong>：</p>
+<ul>
+<li>最具体的层次，指向具体的设备或服务。</li>
+<li>例如：<a target="_blank" rel="noopener" href="http://www.example.com中的www./">www.example.com中的www。</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="7-2-TLD-顶级域-Top-Level-Domain"><a href="#7-2-TLD-顶级域-Top-Level-Domain" class="headerlink" title="7.2 TLD 顶级域 Top Level Domain"></a>7.2 TLD 顶级域 Top Level Domain</h3><ol>
+<li>国家 TLD（nTLD）<ul>
+<li>.cn（CHINA） 中国</li>
+<li>.us（United States） 美国</li>
+<li>.uk（United kingdom）, etc. 英国等等</li>
+</ul>
+</li>
+<li>通用 TLD（gTLD），最早的域包括：<ul>
+<li>.com Enterprises and companies 企业和公司</li>
+<li>.net Network services providers 网络服务提供者</li>
+<li>.org Nonprofit organizations 非盈利组织</li>
+<li>.edu Educational facilities 教育机构</li>
+</ul>
+</li>
+<li>基础设施领域（Infrastructure domain）<ul>
+<li>Only one： <strong>arpa</strong>, for resolving domain names reversely 仅一个：arpa，用于<strong>反向解析域名</strong></li>
+</ul>
+</li>
+<li>Recently, new TLD domain added：<ul>
+<li>.aero（航空运输企业）</li>
+<li>.biz（公司和企业）</li>
+<li>.coop（合作团体）</li>
+<li>.info（各种资讯）</li>
+<li>.jobs（人力资源管理者）</li>
+<li>.mobi（移动产品与服务的用户和提供者）</li>
+<li>.museum（博物馆）</li>
+<li>.name（个人）</li>
+<li>.pro（经过认证的专业人员）</li>
+<li>.travel（旅游业）</li>
+</ul>
+</li>
+</ol>
+<h3 id="7-3-域名服务器Domain-Name-Server-DNS"><a href="#7-3-域名服务器Domain-Name-Server-DNS" class="headerlink" title="7.3 域名服务器Domain Name Server (DNS)"></a>7.3 域名服务器Domain Name Server (DNS)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>顶级域名底下的域名就是由顶级域名下面进行管理</li>
+<li>根域名服务器存储位置，所以子服务器知道根服务器的地址即可</li>
+</ul>
+<h3 id="7-4-结合域名服务器查找-IP-地址"><a href="#7-4-结合域名服务器查找-IP-地址" class="headerlink" title="7.4 结合域名服务器查找 IP 地址"></a>7.4 结合域名服务器查找 IP 地址</h3><ul>
+<li>DNS 系统以层次（hierarchy）结构设置，该层次结构创建<strong>不同级别的 DNS 服务器</strong>。</li>
+<li>此级别的 DNS 服务器<strong>判断其自身</strong>是否能够将<strong>域名</strong>转换为<strong>关联的 IP 地址</strong>：<ol>
+<li>如果<strong>可以</strong>，则将<strong>结果返回给客户端</strong></li>
+<li>如果<strong>没有</strong>，它将请求发送到更高级别。（<strong>向上级请求</strong>）<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+</li>
+<li>请求分为两种：<ul>
+<li>能够应答</li>
+<li>不能够应答</li>
+</ul>
+</li>
+<li>递归地进行查找：具体过程在上图</li>
+<li>下面递归，上面迭代</li>
+</ul>
+<h2 id="8-应用层通信处理的两种方式"><a href="#8-应用层通信处理的两种方式" class="headerlink" title="8. 应用层通信处理的两种方式"></a>8. 应用层通信处理的两种方式</h2><ol>
+<li><strong>第一种方式</strong>：（短连接）<ul>
+<li>在这种模式下，客户端每次向服务器请求资源时，都会建立一次新的连接，并且在请求处理完成后，连接会立即断开。</li>
+<li>当浏览器打开时，它连接到<strong>默认页面</strong>，并将<em>页面的文件传输到客户端</em>。</li>
+<li>处理完成后，连接断开。</li>
+</ul>
+</li>
+<li><strong>第二种方式</strong>：（长连接&#x2F;持久连接）<ul>
+<li>长连接（也称持久连接）会在客户端和服务器之间建立一个持久的连接，在整个会话期间保持连接，直到客户端显式地断开连接。通常用于需要持续<strong>交互</strong>的应用。</li>
+<li>如Telnet（远程登录）和FTP（文件传输），建立与服务器的连接，并保持该连接直到所有处理完成。</li>
+<li>当用户确定已完成时，客户端终止连接。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>所有通信活动都属于这两种类别之一。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" class="trm-anima-link">
+                    七、路由和路由器
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:38</li>
+                
+                    <li>2.7k</li>
+                
+                
+                    <li>9</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/" class="trm-anima-link">
+                    五、OSI第四层:运输层
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:33</li>
+                
+                    <li>5.3k</li>
+                
+                
+                    <li>19</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="06 会话、表示、应用层"><a rel="nofollow" class="trm-toc-link" href="#06-会话、表示、应用层"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">06 会话、表示、应用层</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、第5层：会话层"><a rel="nofollow" class="trm-toc-link" href="#一、第5层：会话层"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、第5层：会话层</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 作用"><a rel="nofollow" class="trm-toc-link" href="#1-作用"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">1. 作用</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. 服务"><a rel="nofollow" class="trm-toc-link" href="#2-服务"><span class="trm-toc-number">2.2.</span> <span class="trm-toc-text">2. 服务</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. 同步点 CheckPoint"><a rel="nofollow" class="trm-toc-link" href="#3-同步点-CheckPoint"><span class="trm-toc-number">2.3.</span> <span class="trm-toc-text">3. 同步点 CheckPoint</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. Some Applications of Layer 5"><a rel="nofollow" class="trm-toc-link" href="#4-Some-Applications-of-Layer-5"><span class="trm-toc-number">2.4.</span> <span class="trm-toc-text">4. Some Applications of Layer 5</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="二、第6层：表示层"><a rel="nofollow" class="trm-toc-link" href="#二、第6层：表示层"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">二、第6层：表示层</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. Data Formatting 数据格式化"><a rel="nofollow" class="trm-toc-link" href="#1-Data-Formatting-数据格式化"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1. Data Formatting 数据格式化</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.1 Graphic File Formats 图形文件格式"><a rel="nofollow" class="trm-toc-link" href="#1-1-Graphic-File-Formats-图形文件格式"><span class="trm-toc-number">3.1.1.</span> <span class="trm-toc-text">1.1 Graphic File Formats 图形文件格式</span></a></li><li class="trm-toc-item trm-toc-level-3" title="1.2 Multimedia File Format 多媒体文件格式"><a rel="nofollow" class="trm-toc-link" href="#1-2-Multimedia-File-Format-多媒体文件格式"><span class="trm-toc-number">3.1.2.</span> <span class="trm-toc-text">1.2 Multimedia File Format 多媒体文件格式</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2. Encryption &amp; Compression 数据加密&amp;压缩"><a rel="nofollow" class="trm-toc-link" href="#2-Encryption-Compression-数据加密-压缩"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. Encryption &amp; Compression 数据加密&amp;压缩</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="三、第7层：应用层"><a rel="nofollow" class="trm-toc-link" href="#三、第7层：应用层"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">三、第7层：应用层</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 职责"><a rel="nofollow" class="trm-toc-link" href="#1-职责"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">1. 职责</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. HTTP 超文本传输协议"><a rel="nofollow" class="trm-toc-link" href="#2-HTTP-超文本传输协议"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">2. HTTP 超文本传输协议</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="2.1 统一资源定位符URL (Uniform Resource Locator)"><a rel="nofollow" class="trm-toc-link" href="#2-1-统一资源定位符URL-Uniform-Resource-Locator"><span class="trm-toc-number">4.2.1.</span> <span class="trm-toc-text">2.1 统一资源定位符URL (Uniform Resource Locator)</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.2 HTTP"><a rel="nofollow" class="trm-toc-link" href="#2-2-HTTP"><span class="trm-toc-number">4.2.2.</span> <span class="trm-toc-text">2.2 HTTP</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.3 HTTP的报文结构(请求报文)"><a rel="nofollow" class="trm-toc-link" href="#2-3-HTTP的报文结构-请求报文"><span class="trm-toc-number">4.2.3.</span> <span class="trm-toc-text">2.3 HTTP的报文结构(请求报文)</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.4 HTTP 请求报文的一些方法"><a rel="nofollow" class="trm-toc-link" href="#2-4-HTTP-请求报文的一些方法"><span class="trm-toc-number">4.2.4.</span> <span class="trm-toc-text">2.4 HTTP 请求报文的一些方法</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.5 HTML(HyperText Markup Language) 超文本标记语言"><a rel="nofollow" class="trm-toc-link" href="#2-5-HTML-HyperText-Markup-Language-超文本标记语言"><span class="trm-toc-number">4.2.5.</span> <span class="trm-toc-text">2.5 HTML(HyperText Markup Language) 超文本标记语言</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="3. FTP and TFTP 文件传输协议"><a rel="nofollow" class="trm-toc-link" href="#3-FTP-and-TFTP-文件传输协议"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">3. FTP and TFTP 文件传输协议</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="3.1 FTP主进程工作步骤"><a rel="nofollow" class="trm-toc-link" href="#3-1-FTP主进程工作步骤"><span class="trm-toc-number">4.3.1.</span> <span class="trm-toc-text">3.1 FTP主进程工作步骤</span></a></li><li class="trm-toc-item trm-toc-level-3" title="3.2 FTP的屏幕信息举例"><a rel="nofollow" class="trm-toc-link" href="#3-2-FTP的屏幕信息举例"><span class="trm-toc-number">4.3.2.</span> <span class="trm-toc-text">3.2 FTP的屏幕信息举例</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="4. Telnet 远程终端协议"><a rel="nofollow" class="trm-toc-link" href="#4-Telnet-远程终端协议"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">4. Telnet 远程终端协议</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5. SMTP and POP 收发邮件协议"><a rel="nofollow" class="trm-toc-link" href="#5-SMTP-and-POP-收发邮件协议"><span class="trm-toc-number">4.5.</span> <span class="trm-toc-text">5. SMTP and POP 收发邮件协议</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="5.1 MIME 和 SMTP 的关系"><a rel="nofollow" class="trm-toc-link" href="#5-1-MIME-和-SMTP-的关系"><span class="trm-toc-number">4.5.1.</span> <span class="trm-toc-text">5.1 MIME 和 SMTP 的关系</span></a></li><li class="trm-toc-item trm-toc-level-3" title="5.2 MIME 增加 5 个新的邮件首部"><a rel="nofollow" class="trm-toc-link" href="#5-2-MIME-增加-5-个新的邮件首部"><span class="trm-toc-number">4.5.2.</span> <span class="trm-toc-text">5.2 MIME 增加 5 个新的邮件首部</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="6. SNMP 简单网络管理协议"><a rel="nofollow" class="trm-toc-link" href="#6-SNMP-简单网络管理协议"><span class="trm-toc-number">4.6.</span> <span class="trm-toc-text">6. SNMP 简单网络管理协议</span></a></li><li class="trm-toc-item trm-toc-level-2" title="7. DNS 域名系统 Domain Name System"><a rel="nofollow" class="trm-toc-link" href="#7-DNS-域名系统-Domain-Name-System"><span class="trm-toc-number">4.7.</span> <span class="trm-toc-text">7. DNS 域名系统 Domain Name System</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="7.1 Dnmain Name 域名"><a rel="nofollow" class="trm-toc-link" href="#7-1-Dnmain-Name-域名"><span class="trm-toc-number">4.7.1.</span> <span class="trm-toc-text">7.1 Dnmain Name 域名</span></a></li><li class="trm-toc-item trm-toc-level-3" title="7.2 TLD 顶级域 Top Level Domain"><a rel="nofollow" class="trm-toc-link" href="#7-2-TLD-顶级域-Top-Level-Domain"><span class="trm-toc-number">4.7.2.</span> <span class="trm-toc-text">7.2 TLD 顶级域 Top Level Domain</span></a></li><li class="trm-toc-item trm-toc-level-3" title="7.3 域名服务器Domain Name Server (DNS)"><a rel="nofollow" class="trm-toc-link" href="#7-3-域名服务器Domain-Name-Server-DNS"><span class="trm-toc-number">4.7.3.</span> <span class="trm-toc-text">7.3 域名服务器Domain Name Server (DNS)</span></a></li><li class="trm-toc-item trm-toc-level-3" title="7.4 结合域名服务器查找 IP 地址"><a rel="nofollow" class="trm-toc-link" href="#7-4-结合域名服务器查找-IP-地址"><span class="trm-toc-number">4.7.4.</span> <span class="trm-toc-text">7.4 结合域名服务器查找 IP 地址</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="8. 应用层通信处理的两种方式"><a rel="nofollow" class="trm-toc-link" href="#8-应用层通信处理的两种方式"><span class="trm-toc-number">4.8.</span> <span class="trm-toc-text">8. 应用层通信处理的两种方式</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

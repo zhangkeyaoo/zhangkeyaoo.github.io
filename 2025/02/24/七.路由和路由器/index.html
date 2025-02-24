@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="07. Routing and Routers Router Basics Router Startup procedure Routing Router configuration  一、Router Basics 路由器基础1. 内部组成  RAM 随机存取存储器 用于临时存储路由器配置文件 断电或重启时RAM内容会丢失 存储内容包括： 路由表 ARP缓存 快速交换缓存 数据包缓冲 数据包保持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="七、路由和路由器">
+<meta property="og:url" content="http://example.com/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="07. Routing and Routers Router Basics Router Startup procedure Routing Router configuration  一、Router Basics 路由器基础1. 内部组成  RAM 随机存取存储器 用于临时存储路由器配置文件 断电或重启时RAM内容会丢失 存储内容包括： 路由表 ARP缓存 快速交换缓存 数据包缓冲 数据包保持">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2025-02-24T09:38:11.010Z">
+<meta property="article:modified_time" content="2025-02-24T09:38:41.313Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >七、路由和路由器</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:38:41"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            七、路由和路由器
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:38
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="07-Routing-and-Routers"><a href="#07-Routing-and-Routers" class="headerlink" title="07. Routing and Routers"></a>07. Routing and Routers</h1><ul>
+<li>Router Basics</li>
+<li>Router Startup procedure</li>
+<li>Routing</li>
+<li>Router configuration</li>
+</ul>
+<h1 id="一、Router-Basics-路由器基础"><a href="#一、Router-Basics-路由器基础" class="headerlink" title="一、Router Basics 路由器基础"></a>一、Router Basics 路由器基础</h1><h2 id="1-内部组成"><a href="#1-内部组成" class="headerlink" title="1. 内部组成"></a>1. 内部组成</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>RAM</strong> 随机存取存储器<ul>
+<li>用于<strong>临时</strong>存储路由器<strong>配置文件</strong></li>
+<li><strong>断电或重启</strong>时RAM内容会<strong>丢失</strong></li>
+<li>存储内容包括：<ul>
+<li><strong>路由表</strong></li>
+<li>ARP缓存</li>
+<li>快速交换缓存</li>
+<li>数据包缓冲</li>
+<li>数据包保持队列</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>NVRAM</strong> 非易失性随机存取存储器<ul>
+<li><strong>非易失性 Non-volatile</strong> 随机存取存储器</li>
+<li>存储备份&#x2F;启动配置文件</li>
+<li>路由器断电或重启时内容<strong>不会丢失</strong></li>
+</ul>
+</li>
+<li><strong>Flash</strong><ul>
+<li><strong>EEPROM</strong>（电子可擦除可编程只读存储器）<ul>
+<li>Electronically Erasable Programmable Read-Only Memory</li>
+</ul>
+</li>
+<li>存储Cisco IOS（互联网操作系统）</li>
+<li>允许在不更换Flash芯片的情况下更新软件</li>
+<li>可以存储多个版本的IOS</li>
+<li>断电时内容<strong>不会丢失</strong></li>
+</ul>
+</li>
+<li><strong>ROM</strong> 只读存储器 Read-Only Memory<ul>
+<li>包含<strong>上电自检POST</strong>（Power On Self Test）</li>
+<li><strong>启动程序</strong>（加载Cisco IOS）</li>
+<li>操作系统软件</li>
+<li>备份的精简版IOS</li>
+<li>升级需要安装新的芯片组</li>
+</ul>
+</li>
+<li><strong>Interface</strong> 接口<ul>
+<li>网络连接，通过这些接口连接数据包进入和退出路由器</li>
+<li>附加在主板上或作为独立模块</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="Router-Startup-Procedure-路由器启动步骤"><a href="#Router-Startup-Procedure-路由器启动步骤" class="headerlink" title="Router Startup Procedure 路由器启动步骤"></a>Router Startup Procedure 路由器启动步骤</h1><h2 id="1-系统启动过程-System-Startup-Procedure"><a href="#1-系统启动过程-System-Startup-Procedure" class="headerlink" title="1. 系统启动过程: System Startup Procedure"></a>1. 系统启动过程: System Startup Procedure</h2><ol>
+<li><strong>执行上电自检（POST）</strong>：<ul>
+<li>在自检过程中，路由器从<strong>ROM</strong>中执行诊断，检查所有硬件模块。</li>
+</ul>
+</li>
+<li><strong>验证基本操作</strong>：<ul>
+<li>验证CPU、内存和网络接口端口的基本操作。</li>
+</ul>
+</li>
+<li><strong>软件初始化</strong>：<ul>
+<li>初始化操作系统和其他软件组件。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-软件启动过程"><a href="#2-软件启动过程" class="headerlink" title="2. 软件启动过程:"></a>2. 软件启动过程:</h2><ol>
+<li><strong>步骤1</strong>：通用引导加载程序在ROM中执行，在CPU卡上运行。</li>
+<li><strong>步骤2</strong>：操作系统（Cisco IOS）可以在多个位置找到。位置在配置寄存器的引导字段中指定。</li>
+<li><strong>步骤3</strong>：加载操作系统映像。</li>
+<li><strong>步骤4</strong>：将保存在NVRAM中的配置文件加载到主内存中，并逐行执行。</li>
+<li><strong>步骤5</strong>：如果NVRAM中没有有效的配置文件，则执行一个问题驱动的初始配置例程，称为系统配置对话，也称为设置模式。</li>
+</ol>
+<h2 id="3-检验基本的路由配置"><a href="#3-检验基本的路由配置" class="headerlink" title="3. 检验基本的路由配置"></a>3. 检验基本的路由配置</h2><ul>
+<li>使用show running-config 命令</li>
+<li>存储路由器基本配置copy running-config<br> startup-config</li>
+</ul>
+<hr>
+<h1 id="三、Routing-路由"><a href="#三、Routing-路由" class="headerlink" title="三、Routing 路由"></a>三、Routing 路由</h1><h2 id="1-使用网络寻址进行路由"><a href="#1-使用网络寻址进行路由" class="headerlink" title="1. 使用网络寻址进行路由"></a>1. 使用网络寻址进行路由</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>路由器通常通过两个基本功能将数据包从一个数据链路中继到另一个数据链路：<ol>
+<li><strong>path determination 路径确定功能</strong>：决定数据包的最佳传输路径。</li>
+<li><strong>switching 交换功能</strong>：将数据包从<em>输入接口</em>转发到适当的<em>输出接口</em>。</li>
+</ol>
+</li>
+<li><strong>交换功能</strong>允许路由器<strong>在一个接口上接受数据包</strong>并<strong>通过第二个接口转发</strong>。</li>
+<li><strong>路径确定功能</strong>使路由器能够<strong>选择最合适的接口</strong>来<strong>转发数据包</strong>。</li>
+<li>路由器使用地址的<strong>网络部分</strong>进行<em>路径选择</em>，以将数据包传递到<em>下一个路由器</em></li>
+<li>地址的<strong>节点部分</strong>由<em>直接连接到目标网络的路由器</em> 使用，以将数据包传递到<em>正确的主机</em>。</li>
+</ol>
+<h2 id="2-Static-and-Dynamic-Route-静态和动态路由"><a href="#2-Static-and-Dynamic-Route-静态和动态路由" class="headerlink" title="2. Static and Dynamic Route 静态和动态路由"></a>2. Static and Dynamic Route 静态和动态路由</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-1-静态路由例子"><a href="#2-1-静态路由例子" class="headerlink" title="2.1. 静态路由例子"></a>2.1. 静态路由例子</h3><ul>
+<li><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>尽管（whereas）动态路由倾向于显示（reveal）有关互联网络的所有已知信息，但是出于安全原因，您可能<em>希望隐藏互联网络的某些部分</em>。</li>
+<li>当<em>只有一条路径可访问网络时</em>，到网络的静态路由就足够了。</li>
+<li>这种分区称为<strong>Stub Network</strong></li>
+</ul>
+<h3 id="2-2-静态路由配置Configuration"><a href="#2-2-静态路由配置Configuration" class="headerlink" title="2.2. 静态路由配置Configuration"></a>2.2. 静态路由配置Configuration</h3><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><code>ip route network [mask] &#123;address | interface&#125; [distance]</code></p>
+<ul>
+<li><strong>network</strong>：目标网络或子网</li>
+<li><strong>mask</strong>：子网掩码</li>
+<li><strong>address</strong>：下一跳路由器的IP地址</li>
+<li><strong>interface</strong>：到达目标网络所使用的接口</li>
+<li><strong>distance</strong>：管理距离 administrative distance</li>
+</ul>
+<h4 id="管理距离-Administrative-Distance"><a href="#管理距离-Administrative-Distance" class="headerlink" title="管理距离 Administrative Distance"></a>管理距离 Administrative Distance</h4><ul>
+<li>管理距离是对路由信息源<strong>可信度</strong>的评级，以0到255的数值表示。</li>
+<li><strong>数值越高，可信度越低</strong>。</li>
+<li>因此，<strong>静态路由的管理距离通常较低（默认值为1）</strong></li>
+</ul>
+<h2 id="3-动态路由"><a href="#3-动态路由" class="headerlink" title="3. 动态路由"></a>3. 动态路由</h2><ul>
+<li>动态路由协议也可以在网络中的不同路径之间重定向流量 redirect traffic（或负载共享loadshare）。</li>
+</ul>
+<ol>
+<li>动态路由依赖于路由协议在路由器之间共享知识。</li>
+<li>动态路由<em>取决于</em>两个基本路由器功能：<ul>
+<li><strong>维护（maintance）路由表</strong></li>
+<li><strong>向其他路由器分发（distribution）路由信息</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="4-收敛时间-Time-to-Convergence"><a href="#4-收敛时间-Time-to-Convergence" class="headerlink" title="4. 收敛时间 Time to Convergence"></a>4. 收敛时间 Time to Convergence</h2><ol>
+<li>收敛时间：<ul>
+<li>从刚启动到网络达到稳定的时间</li>
+<li>从（网络拓扑）发生变化到再次稳定的时间</li>
+</ul>
+</li>
+<li>收敛时间越短，路由协议越强，网络的稳定性和可靠性也越高，需要路由器的基本硬件支持。</li>
+</ol>
+<h2 id="5-动态路由协议分类"><a href="#5-动态路由协议分类" class="headerlink" title="5. 动态路由协议分类"></a>5. 动态路由协议分类</h2><ul>
+<li>距离矢量（DV,Distance Vector）</li>
+<li>链路状态（LS,Link State）</li>
+<li>混合路由（HR,Hybird Routing）</li>
+</ul>
+<h3 id="5-1-距离矢量协议-Distance-Vector-Protocol"><a href="#5-1-距离矢量协议-Distance-Vector-Protocol" class="headerlink" title="5.1 距离矢量协议 Distance-Vector Protocol"></a>5.1 距离矢量协议 Distance-Vector Protocol</h3><ul>
+<li>距离矢量算法<strong>不允许</strong>路由器知道互联网络的<strong>确切拓扑</strong>结构。</li>
+<li>基于距离矢量的路由算法（也称为<strong>Bellman-Ford算法</strong>）通过路由器之间定期传递路由表的副本来工作。<ul>
+<li>大家交换 Routing Table</li>
+<li>只知道可达，但是不知道怎么可达（知道 where,但是不知道 how），不知道整个网路的具体拓扑</li>
+</ul>
+</li>
+</ul>
+<h4 id="DVP导致问题"><a href="#DVP导致问题" class="headerlink" title="DVP导致问题"></a>DVP导致问题</h4><ol>
+<li>问题1：<strong>路由环路 Routing loops</strong>:<ul>
+<li>路由环路是指数据包在网络中不断循环，无法到达目的地。距离矢量协议由于缺乏全局拓扑信息，容易导致路由环路。</li>
+</ul>
+</li>
+<li>问题2：<strong>计数到无穷大 Couting to Infinity</strong>：<ul>
+<li>当网络中某条路径失效时，路由器可能会不断增加到该路径的距离，直到达到预设的最大值（无穷大）。这会导致网络收敛时间变长，影响网络性能。</li>
+<li>当路由器在计数到无穷大时，无效信息会导致路由环路的存在。</li>
+</ul>
+</li>
+</ol>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ol>
+<li><strong>定义最大值（最大跳数）</strong>：<ul>
+<li>通过定义一个最大跳数（例如15跳），限制路由器可以传播的最大距离。当达到这个最大值时，路由器将认为路径不可达，从而避免计数到无穷大的问题。</li>
+</ul>
+</li>
+<li><strong>路由毒化 Route Poisoning</strong>：<ul>
+<li>当路由器检测到某条路径<em>失效</em>时，将该路径的距离<em>设置为无穷大</em>，并立即<em>通知其他路由器</em>，从而加速收敛。</li>
+</ul>
+</li>
+<li><strong>水平分割 Split Horizon</strong>：<ul>
+<li>路由器从某个端口收到的报文信息，不能再从该端口发送回去，从而防止路由环路。</li>
+</ul>
+</li>
+<li><strong>持久计时器 Hold-Down Timers</strong>：<ul>
+<li>在路径失效后，路由器会等待一段时间再接受关于该路径的更新信息，从而避免无效信息的传播。</li>
+</ul>
+</li>
+</ol>
+<h4 id="防止发送路由更新"><a href="#防止发送路由更新" class="headerlink" title="防止发送路由更新"></a>防止发送路由更新</h4><ul>
+<li>为了防止接口发送任何路由更新信息，可以使用以下命令：</li>
+</ul>
+<p><code>Router(config-router)# passive-interface f0/0</code></p>
+<ul>
+<li>仅当使用距离矢量路由协议时，它才有效，因为链路状态路由协议不会直接从其邻接方的路由表中获取拓扑信息</li>
+</ul>
+<h3 id="5-2-链路状态协议-LSP-Link-state-Protocol"><a href="#5-2-链路状态协议-LSP-Link-state-Protocol" class="headerlink" title="5.2 链路状态协议 LSP Link-state Protocol"></a>5.2 链路状态协议 LSP Link-state Protocol</h3><ul>
+<li>基于链路状态的路由算法（也称为<strong>SPF（最短路径优先）算法</strong>）维护一个复杂的拓扑信息数据库。</li>
+<li>链路状态路由使用：<ul>
+<li><strong>链路状态公告（LSAs）</strong></li>
+<li><strong>拓扑数据库</strong></li>
+<li><strong>SPF算法和生成的SPF树</strong></li>
+<li><strong>到每个网络的路径和端口的路由表</strong></li>
+</ul>
+</li>
+<li>RFC 1583包含了OSPF链路状态概念和操作的描述。</li>
+<li>工作原理<ol>
+<li><strong>交换LSAs</strong>：<ul>
+<li>路由器之间交换链路状态公告（LSAs）。每个路由器从直接连接的网络开始。</li>
+</ul>
+</li>
+<li><strong>构建拓扑数据库</strong>：<ul>
+<li>每个路由器与其他路由器并行构建一个包含所有LSAs的拓扑数据库。</li>
+</ul>
+</li>
+<li><strong>SPF算法计算网络可达性</strong>：<ul>
+<li>SPF算法计算网络的可达性。路由器将这个逻辑拓扑构建为一棵树，以自身为根，包含到每个网络的所有可能路径。然后按最短路径优先（SPF）对这些路径进行排序。</li>
+</ul>
+</li>
+<li><strong>更新路由表</strong>：<ul>
+<li>路由器在路由表中列出其最佳路径和到这些目标网络的端口。它还维护其他拓扑元素和状态细节的数据库。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="LSP关注点"><a href="#LSP关注点" class="headerlink" title="LSP关注点"></a>LSP关注点</h4><ol>
+<li><strong>处理和内存需求</strong>：<ul>
+<li>运行链路状态路由协议通常需要路由器使用<strong>更多</strong>的内存和进行更多的处理，相比于距离矢量路由协议。</li>
+</ul>
+</li>
+<li><strong>带宽需求</strong>：<ul>
+<li>在初始链路状态数据包泛洪期间，所有使用链路状态路由协议的路由器会向其他所有路由器发送LSA数据包。这一行为会泛洪整个互联网络，<strong>增加带宽需求</strong>，并暂时减少用于传输用户数据的带宽。</li>
+</ul>
+</li>
+</ol>
+<h4 id="问题-链路状态更新-Link-State-Updates"><a href="#问题-链路状态更新-Link-State-Updates" class="headerlink" title="问题: 链路状态更新 Link-State Updates"></a>问题: 链路状态更新 Link-State Updates</h4><ul>
+<li>链路状态路由必须确保<em>所有路由器</em>都获取到<em>所有必要的LSA数据包</em>。</li>
+<li>拥有不同LSA集合的路由器会基于不同的拓扑数据计算路由。</li>
+</ul>
+<h3 id="比较：链路状态LSP和距离矢量DVP"><a href="#比较：链路状态LSP和距离矢量DVP" class="headerlink" title="比较：链路状态LSP和距离矢量DVP"></a>比较：链路状态LSP和距离矢量DVP</h3><ol>
+<li>DV：距离矢量<ul>
+<li>视野窄，代价小</li>
+<li>基于<strong>跳数</strong></li>
+<li>定期交换路由表，收敛慢</li>
+<li>交换<strong>路由表</strong></li>
+</ul>
+</li>
+<li>LS：链路状态<ul>
+<li>视野宽，有一定代价</li>
+<li>基于<strong>带宽</strong></li>
+<li>初期充分交换，收敛快</li>
+<li>交换 <strong>Linked State 的数据库</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="5-3-混合协议-Hybrid-Protocols"><a href="#5-3-混合协议-Hybrid-Protocols" class="headerlink" title="5.3 混合协议 Hybrid Protocols"></a>5.3 混合协议 Hybrid Protocols</h3><ol>
+<li>混合协议结合了距离矢量协议DVP和链路状态协议LSP的特性。</li>
+</ol>
+<ul>
+<li><strong>示例</strong>：<ul>
+<li><strong>OSI的IS-IS（Intermediate System-to-Intermediate System）</strong></li>
+<li><strong>Cisco的EIGRP（Enhanced Interior Gateway Routing Protocol）</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="四、Routing-Protocols-主动路由协议"><a href="#四、Routing-Protocols-主动路由协议" class="headerlink" title="四、Routing Protocols 主动路由协议"></a>四、Routing Protocols 主动路由协议</h1><ol>
+<li>IP路由协议示例<ul>
+<li><strong>RIP</strong>：距离矢量路由协议</li>
+<li><strong>IGRP</strong>：Cisco的距离矢量路由协议</li>
+<li><strong>OSPF</strong>：链路状态路由协议</li>
+<li><strong>EIGRP</strong>：平衡混合路由协议<br><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+<li>工作在第3层——网络层</li>
+<li>路由协议的主要目标<ul>
+<li><strong>最佳路径</strong>：Optimal<ul>
+<li>选择最佳路径</li>
+</ul>
+</li>
+<li><strong>效率</strong>：Efficiency<ul>
+<li>最小化带宽和路由器处理资源的使用</li>
+</ul>
+</li>
+<li><strong>快速收敛</strong>：Rapid Convergence<ul>
+<li>收敛速度越快越好。有些协议比其他协议收敛得更快。</li>
+</ul>
+</li>
+<li><strong>灵活性</strong>：Flexibility<ul>
+<li>能够处理各种情况，如高使用率和路由失败</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>动态路由配置 Dynamic Routing Configuration</li>
+</ol>
+<p><code>router protocol [keyword]</code> 定义一个IP路由协议<br><code>network network-number</code> network-number：指定一个直接连接的网络</p>
+<ul>
+<li>例如<ol>
+<li>启动RIP：<code>router protocol [RIP...]</code></li>
+</ol>
+</li>
+</ul>
+<ol start="5">
+<li>定义<strong>默认路由</strong></li>
+</ol>
+<ul>
+<li><strong>默认路由</strong>：保持路由表简短。</li>
+<li>当路由表中不存在目标网络的条目时，数据包将被发送到默认网络。<ol>
+<li>用动态路由协议定义默认路由</li>
+</ol>
+<p>  <code>ip default-network [network-number]</code><br>  2. 用静态路由定义默认路由<br>  <code> ip route 0.0.0.0 0.0.0.0 [next-hop-ip address| exit-interface]</code></p>
+</li>
+</ul>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/" class="trm-anima-link">
+                    六、OSI第567层：会话、表示、应用层
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:36</li>
+                
+                    <li>3.7k</li>
+                
+                
+                    <li>13</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="07. Routing and Routers"><a rel="nofollow" class="trm-toc-link" href="#07-Routing-and-Routers"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">07. Routing and Routers</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、Router Basics 路由器基础"><a rel="nofollow" class="trm-toc-link" href="#一、Router-Basics-路由器基础"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、Router Basics 路由器基础</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 内部组成"><a rel="nofollow" class="trm-toc-link" href="#1-内部组成"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">1. 内部组成</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="Router Startup Procedure 路由器启动步骤"><a rel="nofollow" class="trm-toc-link" href="#Router-Startup-Procedure-路由器启动步骤"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">Router Startup Procedure 路由器启动步骤</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 系统启动过程: System Startup Procedure"><a rel="nofollow" class="trm-toc-link" href="#1-系统启动过程-System-Startup-Procedure"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1. 系统启动过程: System Startup Procedure</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. 软件启动过程:"><a rel="nofollow" class="trm-toc-link" href="#2-软件启动过程"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. 软件启动过程:</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. 检验基本的路由配置"><a rel="nofollow" class="trm-toc-link" href="#3-检验基本的路由配置"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">3. 检验基本的路由配置</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="三、Routing 路由"><a rel="nofollow" class="trm-toc-link" href="#三、Routing-路由"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">三、Routing 路由</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 使用网络寻址进行路由"><a rel="nofollow" class="trm-toc-link" href="#1-使用网络寻址进行路由"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">1. 使用网络寻址进行路由</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. Static and Dynamic Route 静态和动态路由"><a rel="nofollow" class="trm-toc-link" href="#2-Static-and-Dynamic-Route-静态和动态路由"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">2. Static and Dynamic Route 静态和动态路由</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="2.1. 静态路由例子"><a rel="nofollow" class="trm-toc-link" href="#2-1-静态路由例子"><span class="trm-toc-number">4.2.1.</span> <span class="trm-toc-text">2.1. 静态路由例子</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.2. 静态路由配置Configuration"><a rel="nofollow" class="trm-toc-link" href="#2-2-静态路由配置Configuration"><span class="trm-toc-number">4.2.2.</span> <span class="trm-toc-text">2.2. 静态路由配置Configuration</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="3. 动态路由"><a rel="nofollow" class="trm-toc-link" href="#3-动态路由"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">3. 动态路由</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. 收敛时间 Time to Convergence"><a rel="nofollow" class="trm-toc-link" href="#4-收敛时间-Time-to-Convergence"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">4. 收敛时间 Time to Convergence</span></a></li><li class="trm-toc-item trm-toc-level-2" title="5. 动态路由协议分类"><a rel="nofollow" class="trm-toc-link" href="#5-动态路由协议分类"><span class="trm-toc-number">4.5.</span> <span class="trm-toc-text">5. 动态路由协议分类</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="5.1 距离矢量协议 Distance-Vector Protocol"><a rel="nofollow" class="trm-toc-link" href="#5-1-距离矢量协议-Distance-Vector-Protocol"><span class="trm-toc-number">4.5.1.</span> <span class="trm-toc-text">5.1 距离矢量协议 Distance-Vector Protocol</span></a></li><li class="trm-toc-item trm-toc-level-3" title="5.2 链路状态协议 LSP Link-state Protocol"><a rel="nofollow" class="trm-toc-link" href="#5-2-链路状态协议-LSP-Link-state-Protocol"><span class="trm-toc-number">4.5.2.</span> <span class="trm-toc-text">5.2 链路状态协议 LSP Link-state Protocol</span></a></li><li class="trm-toc-item trm-toc-level-3" title="比较：链路状态LSP和距离矢量DVP"><a rel="nofollow" class="trm-toc-link" href="#比较：链路状态LSP和距离矢量DVP"><span class="trm-toc-number">4.5.3.</span> <span class="trm-toc-text">比较：链路状态LSP和距离矢量DVP</span></a></li><li class="trm-toc-item trm-toc-level-3" title="5.3 混合协议 Hybrid Protocols"><a rel="nofollow" class="trm-toc-link" href="#5-3-混合协议-Hybrid-Protocols"><span class="trm-toc-number">4.5.4.</span> <span class="trm-toc-text">5.3 混合协议 Hybrid Protocols</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="四、Routing Protocols 主动路由协议"><a rel="nofollow" class="trm-toc-link" href="#四、Routing-Protocols-主动路由协议"><span class="trm-toc-number">5.</span> <span class="trm-toc-text">四、Routing Protocols 主动路由协议</span></a></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

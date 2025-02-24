@@ -421,6 +421,753 @@
       </tags>
   </entry>
   <entry>
+    <title>三、OSI第二层：数据链路层</title>
+    <url>/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="Layer2-Data-Link-Layer"><a href="#Layer2-Data-Link-Layer" class="headerlink" title="Layer2:Data Link Layer"></a>Layer2:Data Link Layer</h1><ul>
+<li>Overview</li>
+<li>Ethernet and CSMA&#x2F;CD<ul>
+<li>LLC and MAC Sub-layers</li>
+<li>Media Access Control in MAC Sub-layer</li>
+</ul>
+</li>
+<li>Wireless LAN and CSMA&#x2F;CA</li>
+<li>Layer 2 Devices</li>
+</ul>
+<h1 id="一、数据链路层-Overview"><a href="#一、数据链路层-Overview" class="headerlink" title="一、数据链路层 Overview"></a>一、数据链路层 Overview</h1><ul>
+<li>数据链路层使用的信道：<ul>
+<li>点对点信道：一对一</li>
+<li>广播信道：一对多</li>
+</ul>
+</li>
+<li>本章研究：局域网的数据链路层的技术标准</li>
+<li>主要是以太网的介质和无线网的介质两大类。<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h2 id="1-物理层和数据链路层的区别"><a href="#1-物理层和数据链路层的区别" class="headerlink" title="1. 物理层和数据链路层的区别"></a>1. 物理层和数据链路层的区别</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>第一层<ul>
+<li>无法与上层通信    </li>
+<li>无法确定哪台主机将会传输或接受二进制数据    </li>
+<li>无法命名或标识主机    </li>
+<li>仅仅能描述比特流</li>
+</ul>
+</li>
+<li>第二层<ul>
+<li>通过LLC与上层通信</li>
+<li>通过MAC确定</li>
+<li>通过寻址或命名过程来实现</li>
+<li>通过帧来组织&#x2F;分组比特</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-数据链路层-Data-Link-Layer"><a href="#2-数据链路层-Data-Link-Layer" class="headerlink" title="2. 数据链路层 Data Link Layer"></a>2. 数据链路层 Data Link Layer</h2><ol>
+<li>问题：如何在不稳定(instable)的链路上正确传输数据？</li>
+<li>数据链路层提供<ul>
+<li>网络介质访问:</li>
+<li>跨媒体物理传输(transmission)</li>
+</ul>
+</li>
+<li>第二层协议明确了<ul>
+<li>在链路上<strong>交换的数据格式</strong></li>
+<li>链路上的<strong>两个节点的行为</strong></li>
+</ul>
+</li>
+<li>在数据链路层，<em>过程就是协议</em>。</li>
+<li>在两端<strong>校验</strong>，帧是否正确，如果正确则交付第三层，否则进行相应的处理</li>
+</ol>
+<h2 id="3-局域网和数据链路"><a href="#3-局域网和数据链路" class="headerlink" title="3. 局域网和数据链路"></a>3. 局域网和数据链路</h2><ol>
+<li>主要工作<ul>
+<li><strong>错误识别(notification)</strong></li>
+<li><strong>网络拓扑(Network topology)</strong></li>
+<li><strong>流控制(Flow control)</strong></li>
+</ul>
+</li>
+<li>第一层和第二层的不同:<ul>
+<li>第一层不可以<strong>访问更高层</strong>(upper-level layers)，而第二层是通过<strong>逻辑链路LLC</strong>(Logical Link Control)访问更高层</li>
+<li>第1层<strong>无法决定哪个主机</strong>将发送(transmit)或接收(receive)来自组的二进制数据；第2层使用<strong>媒体访问控制MAC</strong>（Media Access Control）做到这一点，共用总线链路</li>
+<li>第1层无法命名或识别计算机；<strong>第2层使用寻址(或命名)过程</strong>，以太网场景下</li>
+<li>第1层只能描述比特流；第2层使用**成帧（framing）**对比特进行组织或分组。</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-第二层提供的服务"><a href="#4-第二层提供的服务" class="headerlink" title="4. 第二层提供的服务"></a>4. 第二层提供的服务</h2><ol>
+<li>提供给<strong>网络层</strong>的三层服务<ol>
+<li>(最弱，最不靠谱的)<strong>没有确认(acknowledgement)的无连接(Connectionless)服务</strong><ul>
+<li>发送取出就行，不用等收到确认</li>
+<li><strong>可靠(Reliable)的链接</strong>(上层以确保数据正确性)</li>
+<li><strong>实时</strong>任务，比较高效</li>
+<li>适用于大多数<strong>局域网</strong></li>
+</ul>
+</li>
+<li><strong>带有确认的无连接服务</strong>：<ul>
+<li><strong>不可靠</strong>的链接，例如<strong>无线网络</strong>：需要保证一定的通信质量(比如无线网络的传输)，同时会损失一定的性能。</li>
+</ul>
+</li>
+<li><strong>带有确认的连接服务</strong><ul>
+<li>比如蓝牙:需要先确定绑定关系才能进行通信</li>
+<li>手机和手机之间的蓝牙连接需要确定一些信息</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>三种服务的连接的不同和区别:<ul>
+<li><strong>无线连接</strong>有<strong>确认</strong>的过程，<strong>有线连接没有</strong></li>
+<li><strong>网线连接</strong>:我们通信的对象是<strong>路由器</strong>，由路由器进行转发</li>
+<li>PPPoP是<strong>路由器和远端</strong>的服务器的连接</li>
+<li>有线无线都接给路由器，都需要连接，但是无线网相对有线网需要确认(包确认)</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-常见的局域网的介质访问控制-Media-Access-Control-in-common-LANs"><a href="#5-常见的局域网的介质访问控制-Media-Access-Control-in-common-LANs" class="headerlink" title="5. 常见的局域网的介质访问控制(Media Access Control in common LANs)"></a>5. 常见的局域网的介质访问控制(Media Access Control in common LANs)</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-9.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>以太网(Ethernet):<ul>
+<li>逻辑：<strong>总线拓扑</strong>(信息流在线性总线上)</li>
+<li>物理：星形或扩展星形(连线为星形)</li>
+</ul>
+</li>
+<li>令牌环(Token Ring):<ul>
+<li>逻辑：<strong>环拓扑</strong>(信息流在一个环中)</li>
+<li>物理：星形拓扑(以星形连接)</li>
+<li>使用令牌传递机制来控制网络访问</li>
+</ul>
+</li>
+<li>光纤分布式数据接口(FDDI, Fiber Distributed Data Interface):<ul>
+<li>逻辑：<strong>环拓扑</strong>(信息流在一个环中)</li>
+<li>物理：双环拓扑(作为双环连接)</li>
+<li>光纤作为传输介质，曾经很常用，后来被以太网有线接入逐渐替代</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-介质访问控制方法-Access-Methods-for-Media-Access-Control"><a href="#6-介质访问控制方法-Access-Methods-for-Media-Access-Control" class="headerlink" title="6. 介质访问控制方法 Access Methods for Media-Access Control"></a>6. 介质访问控制方法 Access Methods for Media-Access Control</h2><ol>
+<li><strong>确定性轮流 Deterministic</strong> —— taking turns<ul>
+<li>Token Ring 和 FDDI(Fiber Distributed Data Interface)</li>
+</ul>
+</li>
+<li><strong>争用式 Non-deterministic (probabilistic)</strong> —— 先到先得 first come, first sesrved<ul>
+<li>Ethernet&#x2F;802.3</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-1-确定性轮流-Deterministic-MAC-Protocols"><a href="#6-1-确定性轮流-Deterministic-MAC-Protocols" class="headerlink" title="6.1 确定性轮流 Deterministic MAC Protocols"></a>6.1 确定性轮流 Deterministic MAC Protocols</h3><ol>
+<li>一个特殊的<strong>数据令牌token在环中循环(circulates)</strong>。</li>
+<li>当主机host收到令牌时，它可以传输数据而不是令牌。这称为“<strong>夺取(seizing)令牌</strong>”。</li>
+<li>当<strong>传输的帧回到发送者</strong>时，站点会<strong>传输一个新的令牌</strong>；<ul>
+<li>帧会从环中移除或剥离。(stripped)。</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-2-非确定性MAC协议-Non-Deterministic-MAC-Protocols"><a href="#6-2-非确定性MAC协议-Non-Deterministic-MAC-Protocols" class="headerlink" title="6.2 非确定性MAC协议 Non-Deterministic MAC Protocols"></a>6.2 非确定性MAC协议 Non-Deterministic MAC Protocols</h3><ul>
+<li>【重要！】此MAC协议称为<strong>载波监听多路访问&#x2F;碰撞检测(CSMA&#x2F;CD)</strong>，即<strong>带冲突检测的载波侦听多路访问</strong><ul>
+<li>Carrier Sense Multiple Access with Collision Detection</li>
+</ul>
+</li>
+<li>为了使用这种共享介质(shared-medium)技术，以太网允许网络设备为传输权进行仲裁(arbitrate)。</li>
+</ul>
+<h2 id="7-局域网数据传输-Transmitison-方式-三种"><a href="#7-局域网数据传输-Transmitison-方式-三种" class="headerlink" title="7. 局域网数据传输(Transmitison)方式: 三种"></a>7. 局域网数据传输(Transmitison)方式: 三种</h2><ol>
+<li><strong>单播(unicast)</strong><ul>
+<li>将<strong>单个数据包</strong>从<strong>源</strong>发送到<strong>网络上的单个目标</strong></li>
+</ul>
+</li>
+<li><strong>多播(multicast)</strong><ul>
+<li>由发送到网络上特定节点子集的单个数据包组成，这些节点都有同样的进程进行响应</li>
+<li>发送<strong>单个数据包</strong>到<strong>网络上的特定子集节点</strong>。</li>
+</ul>
+</li>
+<li><strong>广播(broadcast)</strong><ul>
+<li>由单个数据包组成，该数据包传输到网络上的所有节点。(广播的目的地址是0x11111111)</li>
+<li>发送<strong>单个数据包</strong>到<strong>网络上的所有节点</strong></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="二、-以太网-和-带冲突检测的载波侦听多路访问-Ethernet-and-CSMA-CD"><a href="#二、-以太网-和-带冲突检测的载波侦听多路访问-Ethernet-and-CSMA-CD" class="headerlink" title="二、 以太网 和 带冲突检测的载波侦听多路访问 Ethernet and CSMA&#x2F;CD"></a>二、 以太网 和 带冲突检测的载波侦听多路访问 Ethernet and CSMA&#x2F;CD</h1><h2 id="（一）逻辑链路和介质访问控制子层-LLC-and-MAC-Sub-layers"><a href="#（一）逻辑链路和介质访问控制子层-LLC-and-MAC-Sub-layers" class="headerlink" title="（一）逻辑链路和介质访问控制子层 LLC and MAC Sub-layers"></a>（一）逻辑链路和介质访问控制子层 LLC and MAC Sub-layers</h2><ul>
+<li>(Logical Link Control)(Media Access Control)</li>
+</ul>
+<ol>
+<li>无缘电缆的方式传播电波:以太网</li>
+<li>帧传播速度提高了</li>
+<li>帧的标准没有改变</li>
+</ol>
+<h3 id="1-局域网标准"><a href="#1-局域网标准" class="headerlink" title="1. 局域网标准"></a>1. 局域网标准</h3><ul>
+<li>定义<strong>物理媒体</strong>（如双绞线、光纤）和用于将设备连接到媒体的<strong>连接器</strong></li>
+<li>定义<strong>设备在数据链路层的通信方式</strong></li>
+<li>数据链路层定义了如何<strong>在物理介质上传输数据</strong>。</li>
+<li>数据链路层还定义了<strong>如何封装(encapsulate)特定协议的流量(traffic)</strong>，以使去往不同上层协议的流量在到达堆栈时可以使用相同的通道进行传输。<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>IEEE 802.2 对应 LLC，以太网则覆盖物理层和链路层</li>
+</ul>
+<ol>
+<li><strong>IEEE 将数据链路层分为两部分</strong>：<ul>
+<li><strong>媒体访问控制（MAC）</strong>（转换为媒体）</li>
+<li><strong>逻辑链路控制（LLC）</strong>（过渡到网络层）</li>
+</ul>
+</li>
+<li>乍一看，IEEE 标准似乎以两种方式违反了 OSI 模型。<ol>
+<li><strong>定义了自己的层（LLC）</strong>：<ul>
+<li>IEEE标准定义了逻辑链路控制（LLC）层，包括其接口等，这似乎与OSI模型的层次结构不一致。</li>
+</ul>
+</li>
+<li><strong>MAC层标准跨越了第2层和第1层的接口</strong>：<ul>
+<li>IEEE 802.3（以太网）和802.5（令牌环）标准似乎跨越了数据链路层（第2层）和物理层（第1层）的接口。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>但是，802.3 和 802.5 定义了用于构建特定技术的命名，框架和媒体访问控制规则，都规范了对应的方案，不同方案不同解决标准</li>
+</ol>
+<h3 id="2-MAC-LLC"><a href="#2-MAC-LLC" class="headerlink" title="2. MAC &amp; LLC"></a>2. MAC &amp; LLC</h3><ul>
+<li>MAC子层负责数据链路层的 <strong>物理传输</strong> 和 <strong>访问控制</strong>，其主要作用是确保数据能够有效地从源设备传送到目标设备。</li>
+</ul>
+<ol>
+<li>MAC子层(802.3)<ul>
+<li>定义如何在<strong>物理线路</strong>上<strong>传输帧(frames)</strong></li>
+<li>处理<strong>物理寻址</strong><ul>
+<li>在MAC子层中，设备是通过 MAC地址 来唯一标识的，MAC地址是硬件设备的唯一标识符，每个网络接口控制器（NIC）都有一个固定的MAC地址。当数据帧从一个设备发送到另一个设备时，MAC子层根据目标设备的MAC地址进行物理寻址。</li>
+</ul>
+</li>
+<li><strong>定义网络拓扑</strong></li>
+<li><strong>定义线路规则(discipline)</strong></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>LLC子层则位于MAC子层之上，主要负责对数据的逻辑控制与协议管理</li>
+</ul>
+<ol start="2">
+<li>LLC 子层(802.2)<ul>
+<li><strong>为不同的上层协议提供逻辑上的标识</strong>，然后将其<strong>封装encapsulates</strong>，兼容不同介质的访问<ul>
+<li>LLC会在数据帧中添加适当的标识符，使得上层协议能够知道数据的类型。</li>
+</ul>
+</li>
+<li>使用SAP（Service Access Point）标识符用于标识数据包的接收方。<ul>
+<li>它帮助MAC层识别数据包的目的地协议，指示它应该交给哪个上层协议进行处理。</li>
+</ul>
+</li>
+<li>LLC帧的类型取决于上层协议期望的标识符，对于上层服务进行支持</li>
+<li>LLC已经比较规范了，后来有的厂商已经放弃继续做</li>
+</ul>
+</li>
+</ol>
+<h2 id="（一-1）Media-Access-Control-Sublayer-介质访问控制子层"><a href="#（一-1）Media-Access-Control-Sublayer-介质访问控制子层" class="headerlink" title="（一.1）Media Access Control Sublayer 介质访问控制子层"></a>（一.1）Media Access Control Sublayer 介质访问控制子层</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>以字节为单位进行<strong>帧结构描述</strong><ul>
+<li>确保数据能够正确封装和解封装。</li>
+</ul>
+</li>
+<li>有802.3的规范和以太网的规范</li>
+<li>MAC 介质访问控制子层的帧结构<ul>
+<li>控制多个设备如何共享同一物理介质，避免冲突和碰撞。</li>
+</ul>
+</li>
+<li>物理地址寻址：<ul>
+<li>使用MAC地址（物理地址）来唯一标识网络设备，确保数据帧能够正确传输到目标设备。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-前导码Preamble（8字节）"><a href="#1-前导码Preamble（8字节）" class="headerlink" title="1. 前导码Preamble（8字节）"></a>1. 前导码Preamble（8字节）</h3><ol>
+<li>格式：从1和0的交替(alternating)模式开始，称为前同步码(preamble)。<ul>
+<li><strong>告诉接收方，要来数据了</strong>，因为不是预约发数据的模式，这个码就是为了保证对方有相应准备时间，</li>
+<li><strong>前面7个字节是0x10101010</strong>，用于进行<strong>时钟同步</strong></li>
+<li>Start Frame Delimiter (SFD)（前导码）：<strong>最后一个字节是0x10101011</strong>，表示帧的开始，并且为接收方提供时钟同步的最后信号。</li>
+</ul>
+</li>
+<li>作用：<ul>
+<li>使用曼彻斯特编码的方案，无传输的时候是0电平的</li>
+<li>前同步码告诉接收站一帧即将到来。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-目标和源物理地址字段-Dest-add-和-Source-add-（6字节-6字节）"><a href="#2-目标和源物理地址字段-Dest-add-和-Source-add-（6字节-6字节）" class="headerlink" title="2. 目标和源物理地址字段 Dest.add. 和 Source add.（6字节+6字节）"></a>2. 目标和源物理地址字段 Dest.add. 和 Source add.（6字节+6字节）</h3><ol>
+<li>目的地址：单播地址，组播地址或广播地址。<ul>
+<li>用于标识<strong>接收数据的设备的MAC地址</strong></li>
+</ul>
+</li>
+<li>源地址：始终是<strong>单播地址</strong>。<ul>
+<li>用于标识<strong>发送数据的设备的MAC地址</strong>。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>MAC地址：<strong>6个字节目的地址(Dest.add) 6个字节源地址(Source.add.)</strong>，和第三层第四层报文有差别</li>
+<li><strong>先看目的地址</strong>的好处:交换机等看到目的地址就可以进行判断，<code>提高效率</code></li>
+</ul>
+<h3 id="3-长度字段Length（2字节）"><a href="#3-长度字段Length（2字节）" class="headerlink" title="3. 长度字段Length（2字节）"></a>3. 长度字段Length（2字节）</h3><ul>
+<li>长度字段指示<strong>在该字段之后</strong>且<strong>在帧检查序列字段(FCS)之前</strong>的<strong>数据字节数</strong>。</li>
+<li>确保接收方知道<strong>数据字段的长度</strong>，从而能够正确地解析和处理数据。</li>
+</ul>
+<h3 id="4-数据字段Data（字节长度可变）"><a href="#4-数据字段Data（字节长度可变）" class="headerlink" title="4. 数据字段Data（字节长度可变）"></a>4. 数据字段Data（字节长度可变）</h3><ul>
+<li>数据字段<strong>包含要发送的信息</strong>。</li>
+<li>若数据小于46字节，必须通过 填充 零来满足最小长度要求，确保帧的大小达到64字节。</li>
+<li>以太网帧头部的前8个字节（如MAC地址、类型字段等）不算作数据字段内容。</li>
+<li>发送多个64字节大小的帧可以确保链路带宽的有效利用，尤其在100M带宽的链路上，发送这些帧需要512微秒，占据了完整的传输带宽。</li>
+</ul>
+<h3 id="5-FCS字段（4个字节）"><a href="#5-FCS字段（4个字节）" class="headerlink" title="5. FCS字段（4个字节）"></a>5. FCS字段（4个字节）</h3><ul>
+<li><strong>FCS（Frame Check Sequence，帧检验序列）</strong></li>
+<li>FCS字段(四个字节)包含一个<strong>循环冗余校验值(CRC，cyclic redundancy check)</strong><ul>
+<li>用于检测<strong>数据帧在传输过程中是否发生了错误</strong></li>
+</ul>
+<ol>
+<li>发送设备生成CRC。</li>
+<li>接收设备重新计算CRC，以检查在传输过程中帧是否发生了损坏。</li>
+</ol>
+</li>
+</ul>
+<h2 id="（一-2）LLC-逻辑链路控制子层"><a href="#（一-2）LLC-逻辑链路控制子层" class="headerlink" title="（一.2）LLC 逻辑链路控制子层"></a>（一.2）LLC 逻辑链路控制子层</h2><ul>
+<li><strong>通信管理</strong>：逻辑链路控制（LLC）子层<strong>管理设备之间在单一链路上的通信</strong>。</li>
+<li><strong>支持连接和无连接服务</strong>：<ul>
+<li>无连接服务：类似于不需要建立正式连接的通信方式（例如UDP协议）。数据直接被发送，没有需要额外的握手或确认过程。</li>
+<li>面向连接的服务：类似于需要事先建立连接的通信方式（例如TCP协议）。在数据传输前，设备需要进行连接建立、数据确认等操作。</li>
+</ul>
+</li>
+<li>LLC子层允许数据链路层的一部分独立于现有技术进行工作。<ul>
+<li>单个LLC子层可以与不同的MAC子层兼容。</li>
+</ul>
+</li>
+<li>LLC子层的位置：位于MAC之上<ul>
+<li>MAC层与物理层交互, LLC层与网络层交互</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-LLC子层：封装"><a href="#1-LLC子层：封装" class="headerlink" title="1. LLC子层：封装"></a>1. LLC子层：封装</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>LLC接收网络协议数据（数据包，packet），并添加更多的控制信息，帮助将数据包传递到目的地。</li>
+<li>它在每端添加了IEEE 802.2标准中的两个地址组件，以标识上层协议：<ul>
+<li>目标服务接入点（DSAP）</li>
+<li>源服务接入点（SSAP）</li>
+</ul>
+</li>
+<li>然后，这些重新封装的数据会传递给MAC子层，进行进一步的数据封装。</li>
+</ol>
+<h2 id="（二）-MAC子层上的介质访问控制-Media-Access-Control-in-MAC-Sub-layer"><a href="#（二）-MAC子层上的介质访问控制-Media-Access-Control-in-MAC-Sub-layer" class="headerlink" title="（二） MAC子层上的介质访问控制 Media Access Control in MAC Sub-layer"></a>（二） MAC子层上的介质访问控制 Media Access Control in MAC Sub-layer</h2><h3 id="1-十六进制数-Hexadecimal-作为MAC地址"><a href="#1-十六进制数-Hexadecimal-作为MAC地址" class="headerlink" title="1. 十六进制数(Hexadecimal)作为MAC地址"></a>1. 十六进制数(Hexadecimal)作为MAC地址</h3><ul>
+<li>MAC地址<ul>
+<li>MAC地址为48位</li>
+<li>始终表示为<strong>12个十六进制数字</strong>。</li>
+<li>分隔符：MAC地址的各个字节之间通常用冒号（:）或连字符（-）分隔。</li>
+</ul>
+</li>
+<li>MAC地址的组成部分<ol>
+<li><strong>组织唯一标识符（OUI）</strong>：<ul>
+<li>前6个十六进制数字（从左到右），由IEEE管理，用于标识<strong>制造商</strong>或<strong>供应商</strong>，这部分被称为组织唯一标识符（OUI）。</li>
+<li>例如：<code>00:1A:2B</code>。</li>
+</ul>
+</li>
+<li><strong>接口序列号</strong>：<ul>
+<li>剩下的6个十六进制数字组成了接口序列号，由具体的供应商管理，用于唯一标识设备。</li>
+<li>例如：<code>3C:4D:5E</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-以太网802-3广播"><a href="#2-以太网802-3广播" class="headerlink" title="2. 以太网802.3广播"></a>2. 以太网802.3广播</h3><ul>
+<li>以太网802.3广播是指在以太网网络中，将数据帧发送给网络中的所有设备。</li>
+</ul>
+<ol>
+<li>广播Broadcast<ul>
+<li>目标MAC：48位全1(<code>FFFF.FFFF.FFFF</code>)<ul>
+<li>保证<strong>所有设备</strong>都能收到这个地址</li>
+<li>会导致非目的主机进行地址解析</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>广播会<em>不必要地打断</em> 电台(stations)，从而<strong>严重影响电台的性能</strong></li>
+<li>因此，<strong>仅在以下情况下才使用</strong>广播：<ul>
+<li><strong>目的地的MAC地址未知</strong></li>
+<li><strong>T目的地是所有主机</strong></li>
+</ul>
+</li>
+<li>非必要情况下我们不希望有很多广播，有可能会导致广播风暴</li>
+</ol>
+<h3 id="3-帧结构-Framing"><a href="#3-帧结构-Framing" class="headerlink" title="3. 帧结构 Framing"></a>3. 帧结构 Framing</h3><ul>
+<li>帧结构是 数据链路层（Layer 2） 的<strong>封装</strong>过程。</li>
+<li>一帧A frame是数据链路层<strong>协议数据单元（PDU）</strong>。</li>
+<li>一帧由多个部分（字段）组成，每个字段由字节构成。<ul>
+<li>帧开始字段（frame start field）</li>
+<li>地址字段（address field）</li>
+<li>长度&#x2F;类型&#x2F;控制字段（length&#x2F;type&#x2F;control field）</li>
+<li>数据字段（data field）</li>
+<li>帧检验序列字段（frame check sequence field）</li>
+<li>帧停止字段（frame stop field）<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-以太网的MAC机制-CSMA-CD"><a href="#4-以太网的MAC机制-CSMA-CD" class="headerlink" title="4. 以太网的MAC机制 CSMA&#x2F;CD"></a>4. 以太网的MAC机制 CSMA&#x2F;CD</h3><ol>
+<li>历史（略）</li>
+<li>CSMA&#x2F;CD（载波侦听多路访问&#x2F;碰撞检测）<ul>
+<li>使用CSMA机制来判断主机是否应该发送数据。</li>
+<li>在传输过程中，同时监听信道。<ul>
+<li>当检测到碰撞时，广播干扰信号jam signal。</li>
+<li>回退算法，确定发生碰撞的站点何时可以重新发送数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-以太网操作"><a href="#5-以太网操作" class="headerlink" title="5. 以太网操作"></a>5. 以太网操作</h3><ol>
+<li>以太网是<strong>广播网络</strong>，也就是说，<strong>每个站都可以看到所有帧</strong>，而不管它们是否是目的地</li>
+<li>通过 <strong>MAC 地址</strong>判断站点是否为<strong>目的地</strong></li>
+<li>目标站在 OSI 层上发送数据。其他节点<strong>丢弃</strong>（discard）帧<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li>上图中1是总线拓扑，1发送的数据帧会传达给所有在这个总线上的设备，非目的主机检查目的地址和本机MAC地址不同，则会将该帧丢弃。</li>
+</ul>
+<h3 id="6-广播操作步骤"><a href="#6-广播操作步骤" class="headerlink" title="6. 广播操作步骤"></a>6. 广播操作步骤</h3><ol>
+<li>听然后传送</li>
+<li>广播 jam 信号</li>
+<li>发生碰撞(Collision)</li>
+<li>设备退回(back off)适当的时间，然后重新传输(retransmit)发生冲突的设备<ul>
+<li>根据特定的回退算法<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<h3 id="7-以太网的-CSMA-CD"><a href="#7-以太网的-CSMA-CD" class="headerlink" title="7. 以太网的 CSMA&#x2F;CD"></a>7. 以太网的 CSMA&#x2F;CD</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-16.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>首先host设备要发送数据</li>
+<li>开始侦听链路是非忙，如果忙，则过一阵来再看看</li>
+<li>如果不忙，则开始准备发送<ul>
+<li>如果有冲突，则到 9，表示有冲突发送，广播一个 jam signal，把自己尝试的次数 + 1（重发有一定限度）</li>
+<li>尝试次数过多（11），会像上层协议传输网络不可用（12）</li>
+<li>尝试次数还可，则到 13 计算一个回退时间，来再次尝试，回退时间单位，会保证 A 和 D 的时间差能保证第一个人已经用完电路来避免冲突。</li>
+</ul>
+</li>
+<li>如果没有错误，则一直传输到结束为止</li>
+</ol>
+<hr>
+<h1 id="三、无线局域网Wireless-LAN和CSMA-CA"><a href="#三、无线局域网Wireless-LAN和CSMA-CA" class="headerlink" title="三、无线局域网Wireless LAN和CSMA&#x2F;CA"></a>三、无线局域网Wireless LAN和CSMA&#x2F;CA</h1><h2 id="（一）无线（Wireless）局域网"><a href="#（一）无线（Wireless）局域网" class="headerlink" title="（一）无线（Wireless）局域网"></a>（一）无线（Wireless）局域网</h2><h3 id="1-无线局域网"><a href="#1-无线局域网" class="headerlink" title="1. 无线局域网"></a>1. 无线局域网</h3><ul>
+<li>基于单元的通信</li>
+<li>电台发送的信号只能被附近的电台接收</li>
+<li>短距离传输</li>
+</ul>
+<h3 id="2-无线局域网标准"><a href="#2-无线局域网标准" class="headerlink" title="2. 无线局域网标准"></a>2. 无线局域网标准</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-17.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>Wireless LAN Standard<ul>
+<li>IEEE 802.11<ul>
+<li>一种关键技术：直接序列扩频（DSSS）</li>
+<li>DSSS适用于在1到2 Mbps范围内运行的无线设备。</li>
+<li>DSSS可以在高达11 Mbps的速率下运行，但在超过2 Mbps时将不被视为合规。</li>
+<li>也称为Wi-Fi™。</li>
+</ul>
+</li>
+<li>IEEE 802.11b<ul>
+<li>提高了传输能力，达到11 Mbps。</li>
+<li>所有802.11b系统向后兼容，支持802.11的1 Mbps和2 Mbps数据速率，仅适用于DSSS。</li>
+<li>通过使用不同于802.11的编码技术实现更高的数据吞吐率。</li>
+<li>在2.4 GHz频段内运行。</li>
+</ul>
+</li>
+<li>IEEE 802.11a<ul>
+<li>覆盖在5 GHz传输频段内运行的无线局域网设备。</li>
+<li>使用5 GHz频段。</li>
+<li>802.11a能够提供54 Mbps的数据吞吐量，并且通过称为“速率倍增”的专有技术实现了108 Mbps。</li>
+<li>实际上，更标准的速率为20-26 Mbps</li>
+</ul>
+</li>
+<li>IEEE 802.11g<ul>
+<li>提供与802.11a相同的吞吐量（54 Mbps），但向后兼容802.11b。</li>
+<li>使用正交频分复用（OFDM）技术。</li>
+</ul>
+</li>
+<li>IEEE 802.11n<ul>
+<li>下一代无线局域网（WLAN）。</li>
+<li>提供比802.11g双倍的带宽，即108 Mbps，理论上可达500-600 Mbps。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-Wireless-LAN-Topology-拓扑"><a href="#3-Wireless-LAN-Topology-拓扑" class="headerlink" title="3. Wireless LAN Topology 拓扑"></a>3. Wireless LAN Topology 拓扑</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-18.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>基础设施模式（Infrastructure Mode）</strong></li>
+</ol>
+<ul>
+<li><strong>定义</strong>：设备通过无线接入点（AP）连接到网络。</li>
+<li><strong>特点</strong>：<ul>
+<li>中心化管理：所有通信都通过AP进行。</li>
+<li>更适合大规模网络：支持更多设备和更广的覆盖范围。</li>
+<li>提供更高的安全性和管理功能。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><strong>自组织模式（Ad-hoc Mode）</strong></li>
+</ol>
+<ul>
+<li><strong>定义</strong>：设备直接相互连接，不需要AP。</li>
+<li><strong>特点</strong>：<ul>
+<li>点对点通信：设备之间直接通信。</li>
+<li>适合小规模网络：适用于临时或小范围的网络。</li>
+<li>部署简单：无需额外的网络设备。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-访问过程（Accessing-Procedure）"><a href="#4-访问过程（Accessing-Procedure）" class="headerlink" title="4. 访问过程（Accessing Procedure）"></a>4. 访问过程（Accessing Procedure）</h3><ul>
+<li>在 WLAN 中激活客户端时，它将开始“侦听”与之“关联”的兼容设备</li>
+<li>这被称为“<strong>扫描</strong>”<ul>
+<li><strong>主动扫描</strong></li>
+<li><strong>被动扫描</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="4-1-主动扫描-Active-scanning"><a href="#4-1-主动扫描-Active-scanning" class="headerlink" title="4.1. 主动扫描 Active scanning"></a>4.1. 主动扫描 Active scanning</h4><ul>
+<li>导致从寻求加入网络的无线节点发送探测（probe）请求。</li>
+<li>探测请求将包含它希望加入的网络的服务集标识符（SSID）</li>
+<li>当找到具有相同 SSID 的**接入点（AP）**时，该 AP 将发出探测响应</li>
+<li>完成认证和关联步骤。</li>
+</ul>
+<h4 id="4-2-被动扫描-Passive-scanning"><a href="#4-2-被动扫描-Passive-scanning" class="headerlink" title="4.2. 被动扫描 Passive scanning"></a>4.2. 被动扫描 Passive scanning</h4><ol>
+<li>客户端监听接入点（AP）广播的信标帧。这些帧由AP（基础设施模式）或对等节点（自组织模式）发送。</li>
+<li>当节点接收到包含要尝试加入的网络的 SSID 的信标时，将尝试加入该网络。</li>
+<li>被动扫描是一个连续的过程，节点可能会随着信号强度的变化与AP关联或取消关联。</li>
+</ol>
+<h3 id="5-无线局域网的帧结构"><a href="#5-无线局域网的帧结构" class="headerlink" title="5. 无线局域网的帧结构"></a>5. 无线局域网的帧结构</h3><ul>
+<li>WLAN不使用标准的802.3帧。</li>
+<li>有三种类型的帧：<ul>
+<li><strong>控制帧（Control Frames）</strong></li>
+<li><strong>管理帧（Management Frames）</strong></li>
+<li><strong>数据帧（Data Frames，只有数据帧类似于802.3帧）</strong></li>
+</ul>
+</li>
+<li>无线数据帧和802.3帧的有效载荷为1500字节。<ul>
+<li>然而，以太网帧不得超过1518字节，而无线帧可以大到2346字节。</li>
+<li>通常无线局域网帧的大小将限制在1518字节，因为它最常连接到有线以太网网络。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-1-数据帧结构-802-11-无线网"><a href="#5-1-数据帧结构-802-11-无线网" class="headerlink" title="5.1. 数据帧结构(802.11 无线网)"></a>5.1. 数据帧结构(802.11 无线网)</h4><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>帧控制</strong><ul>
+<li>帧控制信息包含 16 bit（2字节）</li>
+<li>去往AP和来自AP是我们需要重点确认</li>
+<li>WEP规格，Wired Equivalent Privacy(有线等效保密)</li>
+<li>持续期:参数，很重要，CSMA&#x2F;CA需要，这个信息</li>
+<li>有时间窗口，如果超时没收到信号，则进行重传</li>
+</ul>
+</li>
+<li><strong>数据帧的的地址分类</strong><ol>
+<li>ad hoc(无线网地址)用地址4</li>
+<li>有基础设施(<code>AP</code>)用的是地址1、2、3</li>
+</ol>
+</li>
+<li><strong>数据帧中的地址详解</strong><br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-19.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<h2 id="（二）CSMA-CA"><a href="#（二）CSMA-CA" class="headerlink" title="（二）CSMA&#x2F;CA"></a>（二）CSMA&#x2F;CA</h2><h3 id="1-为什么我们在WLAN需要CSMA-CA？"><a href="#1-为什么我们在WLAN需要CSMA-CA？" class="headerlink" title="1. 为什么我们在WLAN需要CSMA&#x2F;CA？"></a>1. 为什么我们在WLAN需要CSMA&#x2F;CA？</h3><ul>
+<li>CSMA&#x2F;CA（载波侦听多路访问&#x2F;碰撞避免）是无线网络中解决碰撞问题的一种机制。</li>
+<li>与有线以太网（Ethernet）中的 CSMA&#x2F;CD 不同，无线网络中的 CSMA&#x2F;CD 机制不起作用，原因在于无线信号的传播特性。</li>
+</ul>
+<ol>
+<li>碰撞(Collisions)可能发生在WLAN中，但是站点只能知道附近的传输，因此CSMA&#x2F;CD不是一个好的选择。<ol>
+<li><strong>隐藏站问题</strong>（Hidden Station Problem）:当A将数据传输到B时，C无法检测到A和B之间的传输，因此C可能会决定将数据传输到B并导致B发生碰撞。</li>
+<li><strong>暴露站问题</strong>（Exposed Station Problem）:当B将数据传输到A时，C可以检测到传输，因此C不会将数据传输到D。但这是一个错误。(<strong>听到不应该听到的信号</strong>)<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+</li>
+</ol>
+<h3 id="2-多路复用机制-Multiple-Accessing-Mechanism"><a href="#2-多路复用机制-Multiple-Accessing-Mechanism" class="headerlink" title="2. 多路复用机制 Multiple Accessing Mechanism"></a>2. 多路复用机制 Multiple Accessing Mechanism</h3><ol>
+<li>在Ethernet中：<ul>
+<li><strong>信号传输</strong>：在以太网中，信号会被传输到网络中的<strong>所有站点</strong>。</li>
+<li><strong>碰撞检测</strong>：<strong>发送站点检测</strong>碰撞的发生。</li>
+<li><strong>共享信道</strong>：在同一时间，<strong>只能有一个有效的帧</strong>（数据包）在信道上传输。</li>
+</ul>
+</li>
+<li>WLAN (无线局域网)<ul>
+<li><strong>信号传输</strong>：在无线局域网中，信号只会传输到<strong>靠近发送站的设备</strong>。<ul>
+<li>与有线以太网不同，无线信号的传输是通过空气传播的，因此它的范围受限，通常只有靠近发送设备的站点能接收到信号。</li>
+</ul>
+</li>
+<li><strong>MAC协议的作用</strong>：无线局域网中的 MAC（媒体访问控制）协议 必须<strong>确保仅有一个设备向接收站发送数据</strong>。换句话说，发送站和接收站之间的通信是独占的，避免多个发送站同时占用同一个信道。</li>
+<li><strong>碰撞检测</strong>：<strong>接收方</strong>检测确定冲突。</li>
+<li><strong>共享信道</strong>：在无线局域网中，同一时刻可以有<strong>多个有效帧</strong>在信道上传输。<ul>
+<li>通过多种机制，如时间分复用（TDMA）、频分复用（FDMA）以及载波侦听与碰撞避免（CSMA&#x2F;CA），无线网络能有效地让多个站点同时使用信道。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-CSMA-CA-避免冲突的载波侦听多路访问"><a href="#3-CSMA-CA-避免冲突的载波侦听多路访问" class="headerlink" title="3. CSMA&#x2F;CA 避免冲突的载波侦听多路访问"></a>3. CSMA&#x2F;CA 避免冲突的载波侦听多路访问</h3><ol>
+<li><strong>CSMA&#x2F;CA(Carrier Sense Multiple Access with Collision Avoidance)</strong><ul>
+<li><strong>发送站点在发送数据前</strong>，以<strong>控制短帧</strong>刺激接收站点发送<strong>应答短帧</strong>，使<strong>接收站点周围的站点监听到该帧</strong>，从而在一定时间内避免数据发送</li>
+</ul>
+</li>
+<li>基本过程：<ol>
+<li>A 向 B 发送 <strong>RTS（Request To Send，请求发送）帧</strong>，<strong>A 周围的站点</strong>在一定时间内不发送数据，以<strong>保证 CTS 帧</strong>返回给 A；</li>
+<li>B 向 A 回答 <strong>CTS（Clear To Send，清除发送）帧</strong>，<strong>B 周围的站点</strong>在一定时间内不发送数据，以保证 A 发送完数据；</li>
+<li>A 开始发送</li>
+<li>若控制帧 RTS 或 CTS 发生<strong>冲突</strong>（比如A 和 C 同时向 B 发送 RTS），采用二进制指数<strong>后退算法</strong>等待随机时间，再重新开始。</li>
+</ol>
+</li>
+<li>退避时间短的设备先传输</li>
+<li>发现冲突所有设备同时退避</li>
+<li>在ad hoc网络中比较无序，存在大量延时，比如CTS和RTS相碰撞，这种情况是比较少的，异常情况，不在本课程考虑范围内。</li>
+</ol>
+<ul>
+<li>过程<ul>
+<li>为避免冲突，802.11所有站点在完成一个事务后必须等待一段时间才能进行下一个动作，这个时间被称为IFS，具体取决于帧的类型。</li>
+<li>源站需要收到确认信息CTS才能接着发送信息</li>
+<li>多个源站向目的站发RTS给目的站，目的站发现冲突，告诉各自站点，PPT处理的是RTS<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+<li>实例<ul>
+<li>A的反应时间少，抢到使用权</li>
+<li>E加入进来的话也会计算出一个退避时间<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-实际数据传输率"><a href="#4-实际数据传输率" class="headerlink" title="4. 实际数据传输率"></a>4. 实际数据传输率</h3><ol>
+<li>当源节点发送一个帧时，接收节点会返回一个正向确认（ACK）信号。<ul>
+<li>这可能会消耗可用带宽的50%。</li>
+<li>这将导致在一个802.11b无线局域网（标称速率为11 Mbps）中，实际数据吞吐量减少到5.0到5.5 Mbps。</li>
+</ul>
+</li>
+<li>网络的性能还会受到信号强度的影响：<ul>
+<li>当信号变弱时，可能会启用自适应速率选择（ARS）。</li>
+<li>发送设备会将数据传输速率从11 Mbps降低到5.5 Mbps，再从5.5 Mbps降低到2 Mbps，或者从2 Mbps降低到1 Mbps。</li>
+</ul>
+</li>
+</ol>
+<h1 id="四-Layer-2-Devices-第二层设备"><a href="#四-Layer-2-Devices-第二层设备" class="headerlink" title="四. Layer 2 Devices 第二层设备"></a>四. Layer 2 Devices 第二层设备</h1><h2 id="1-NIC-网卡"><a href="#1-NIC-网卡" class="headerlink" title="1. NIC 网卡"></a>1. NIC 网卡</h2><ol>
+<li><strong>逻辑链路控制</strong>（Logical Link Control, <strong>LLC</strong>）：与计算机中的<strong>上层</strong>通信。</li>
+<li><strong>媒介访问控制</strong>（Media Access Control, <strong>MAC</strong>）：提供对共享访问媒介的结构化访问，确保数据不发生冲突。<ul>
+<li>MAC使用不同的协议（如CSMA&#x2F;CD用于以太网，CSMA&#x2F;CA用于无线网络）来管理数据传输，确保数据帧能够有效地发送并避免冲突。</li>
+</ul>
+</li>
+<li>【重要】<strong>命名</strong>（Naming）：<strong>提供唯一的MAC地址标识符</strong>。<ul>
+<li>网卡的每一个接口都有一个唯一的MAC地址，这是一个48位的标识符，用于唯一标识网络接口。MAC地址确保在局域网中可以准确地找到和通信。</li>
+</ul>
+</li>
+<li><strong>帧定界</strong>（Framing）：作为<strong>封装</strong>过程的一部分，<strong>将比特打包成帧</strong>以便传输。<ul>
+<li><strong>帧</strong>是数据链路层传输的<strong>数据单位</strong></li>
+<li>网卡负责将来自网络层（如IP层）的数据<strong>封装成帧</strong>，以便通过物理层进行传输。帧定界是封装过程的一部分，它确保数据在网络上传输时按照规定的格式进行封装。</li>
+</ul>
+</li>
+<li><strong>信号传输</strong>（Signaling）：生成信号并通过内置的收发器与媒介进行接口。<ul>
+<li>eg：在以太网中，网卡将数据转换成电信号通过电缆传输；在无线局域网中，网卡通过无线收发器将数据转换为电磁波并通过空气传播。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-网桥-Bridges"><a href="#2-网桥-Bridges" class="headerlink" title="2. 网桥(Bridges)"></a>2. 网桥(Bridges)</h2><ol>
+<li>网桥<strong>将流量划分为多个段</strong>，并根据<strong>MAC地址</strong>而<strong>不是协议</strong>对流量<strong>进行过滤</strong>。<ul>
+<li>桥接器并不像路由器那样根据协议（如IP协议）进行过滤，它只关注MAC地址，即设备的硬件地址。</li>
+</ul>
+</li>
+<li>网桥可以通过<strong>减少较大的冲突域</strong>来提高网络性能。<ul>
+<li>通过使用桥接器将网络划分为多个段，每个段可以独立地进行数据传输，减少了各段之间的冲突域。</li>
+</ul>
+</li>
+<li>在从网络的<em>一个网段到其他网段</em>的<strong>流量较低</strong>的情况下，网桥<strong>最有效</strong><ul>
+<li>当网段之间的流量变大时，网桥会成为<strong>瓶颈(bottleneck)</strong>，并减慢通信速度。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-1-以太网网桥的工作原理：透明网桥-Transparent-Bridge"><a href="#2-1-以太网网桥的工作原理：透明网桥-Transparent-Bridge" class="headerlink" title="2.1 以太网网桥的工作原理：透明网桥 Transparent Bridge"></a>2.1 以太网网桥的工作原理：透明网桥 Transparent Bridge</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>主要功能：是根据MAC地址来转发数据帧。</li>
+</ul>
+<ol>
+<li>MAC表放到缓存的位置，刚启动时是<strong>空表</strong>，之后逐渐学习。<ul>
+<li>Mac地址表是有生命周期的，如果计时超过一个阈值没有刺激刷新Mac表，则会刷新表</li>
+</ul>
+</li>
+<li>“<strong>透明</strong>“指局域网中的站点并不知道所发送的帧将经过哪几个网桥，因为网桥对各站来说是看不见的</li>
+<li>即插即用，其标准是IEEE 802.1D</li>
+<li>过程：<ol>
+<li>从A发出的帧从接口x进入了网桥，则从这个接口发出帧就一定能达到A。网桥每收到一个帧，就记下其<strong>源地址</strong>和进入网桥的<strong>接口</strong>，写入<strong>转发表</strong>。</li>
+<li>在收到一个<strong>新的帧</strong>时，在<strong>转发表中匹配</strong>此帧的<strong>目的地址</strong>，找到<strong>对应的接口并转发</strong>。</li>
+<li>在网桥的转发表中写入的信息除了<strong>地址和接口</strong>外，还有<strong>帧进入网桥的时间</strong>，因为<ul>
+<li>拓扑可能经常变化</li>
+<li>站点也可能会更换适配器(这就改变了站点的地址)</li>
+<li>站点并非总是处于工作状态</li>
+<li>把每个帧到达网桥的时间登记下来，就可以在转发表中只保留网络拓扑的最新状态信息，使得网桥中的转发表能反映当前网络的最新拓扑</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>问题：网络上的设备<strong>要发送数据但不知道目标地址</strong>时。<ul>
+<li>向网络上的<strong>所有设备</strong>发送<strong>广播</strong>。因为希望数据帧能够发送到全网，尽可能到达目的地</li>
+<li>由于网络上的每个设备都必须注意此类广播，因此网桥<strong>始终会转发这些广播</strong>。</li>
+</ul>
+</li>
+<li>广播过多会导致广播风暴，并且可能导致：<ul>
+<li>网络延时(network time-outs)</li>
+<li>交通减速(traffic slowdowns)</li>
+<li>低于可接受的性能</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-源路由网桥-Source-Route-Bridge"><a href="#2-2-源路由网桥-Source-Route-Bridge" class="headerlink" title="2.2 源路由网桥 Source Route Bridge"></a>2.2 源路由网桥 Source Route Bridge</h3><ul>
+<li>透明网桥容易安装，但网络资源的利用不充分</li>
+<li>源路由(source route)网桥在<strong>发送帧</strong>时将<strong>详细的路由信息放在帧的首部</strong>中</li>
+<li>原理<ul>
+<li>源站以<strong>广播方式</strong>向欲通信的<strong>目的站</strong>发送一个<strong>发现帧</strong>，每个发现帧都<strong>记录所经过的路由</strong></li>
+<li>发现帧<em>到达目的站时就沿各自的路由返回源站</em></li>
+<li>源站在<strong>得知这些路由后</strong>，从所有可能的路由中<strong>选择出一个最佳路由</strong></li>
+<li>凡从该源站向该目的站发送的帧的首部，都必须<em>携带源站所确定的这一路由信息</em></li>
+</ul>
+</li>
+<li>在令牌环网络中被广泛使用</li>
+</ul>
+<h2 id="3-交换机-Switches"><a href="#3-交换机-Switches" class="headerlink" title="3. 交换机(Switches)"></a>3. 交换机(Switches)</h2><ol>
+<li>执行两个基本操作：<ul>
+<li><strong>切换数据帧</strong>（switching data frames）：<ul>
+<li>在输入介质(medium)上接收帧，然后将其传输到输出<strong>介质</strong></li>
+</ul>
+</li>
+<li><strong>维护交换操作</strong>（maintenance of switching operations）：<ul>
+<li>交换器<strong>建立和维护交换表</strong>并<strong>搜索循环</strong>。 路由器构建并维护路由表和交换表。(STB协议避免回路)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>交换是一项通过<strong>减少流量</strong>（<strong>reduce traffic</strong>）和<strong>增加带宽</strong>（<strong>increasing bandwidth</strong>）来缓解以太网LAN拥塞(alleviates congestion)的技术.<ul>
+<li>交换机创建<em>专用的网络段或点对点连接</em>，并在交换机内连接这些段形成虚拟网络。</li>
+<li>这被称为<strong>虚拟电路</strong>，因为它仅在两个节点需要通信时存在，并在交换机内建立。</li>
+<li>可以将<em>每个交换端口</em>视为一个<em>微型网桥</em>；这个过程称为<strong>微分段</strong>（microsegmentation）。</li>
+<li>每个交换端口为每个主机提供介质的全部带宽。</li>
+<li>大多数现代交换机支持<em>全双工通信</em></li>
+</ul>
+</li>
+<li>局域网交换机可<strong>减少冲突域的大小</strong></li>
+<li>但是，连接到交换机的所有主机仍<strong>位于同一广播域</strong>中。<ul>
+<li>也就是说，通过LAN交换机连接的所有其他节点仍将看到来自一个节点的广播。</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-冲突域的分段方式"><a href="#4-冲突域的分段方式" class="headerlink" title="4. 冲突域的分段方式"></a>4. 冲突域的分段方式</h2><h3 id="4-1-网桥对冲突域的分段"><a href="#4-1-网桥对冲突域的分段" class="headerlink" title="4.1 网桥对冲突域的分段"></a>4.1 网桥对冲突域的分段</h3><ul>
+<li>使用网桥对以太网局域网（LAN）进行分段，可以为<strong>每个用户提供更多带宽</strong>，因为每个网段上的用户更少。</li>
+<li>网桥会<strong>增加网络的延迟（latency）</strong>（10%到30%），因为在转发数据之前需要进行<strong>决策过程</strong>。</li>
+<li>网桥被认为是<strong>存储转发设备（store-and-forward device）</strong>，因为它必须先<strong>接收完整的帧</strong>并**验证循环冗余校验（CRC）**后才能进行转发。</li>
+</ul>
+<h3 id="4-2-交换机对冲突域的分段"><a href="#4-2-交换机对冲突域的分段" class="headerlink" title="4.2 交换机对冲突域的分段"></a>4.2 交换机对冲突域的分段</h3><ol>
+<li>交换机转发的<strong>速度明显快于</strong>网桥，因为交换机在<strong>硬件</strong>中进行切换，而<strong>网桥</strong>在<strong>软件</strong>中进行切换。</li>
+<li>可以使用交换机连接10 Mbps以太网LAN 和 100 Mbps以太网LAN。</li>
+<li>在交换式以太网实现中，可用带宽接近100％。</li>
+<li>共享以太网网络的容量不足其全部容量的30％至40％时，其<strong>性能最佳</strong>。(因为CSMA&#x2F;CD)</li>
+<li>一些交换机<strong>支持直通交换cut-through switching</strong>，这减少了延迟和延迟，而网桥仅支持<strong>存储转发交换store-and-forward switching</strong>(存储转发，存下来检验转发)。<ul>
+<li>直通交换:快速转发，不做校验，只看前6字节的MAC地址。</li>
+<li>局域网:网速比较快，传输速率高，网线比较短，可以认为是基本没有错误的，所以可以进行直通转发</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-3-路由器对冲突域的分段"><a href="#4-3-路由器对冲突域的分段" class="headerlink" title="4.3 路由器对冲突域的分段"></a>4.3 路由器对冲突域的分段</h3><ul>
+<li>路由器可以<strong>创建最高级别的分段</strong>：<ul>
+<li><strong>创建更小的冲突域</strong>。</li>
+<li><strong>创建更小的广播域</strong>：路由器<strong>不会转发广播</strong>，除非被编程为这样做。</li>
+</ul>
+</li>
+<li>路由器通过<strong>检查数据包上的目标逻辑地址</strong>，并在其<strong>路由表中查找转发指令</strong>来<strong>完成数据包的转发</strong>。</li>
+<li>由于路由器执行的功能比网桥更多，它们的<strong>操作延迟率更高</strong>。</li>
+<li>路由器可以作为<strong>网关</strong>：<ul>
+<li>用于连接不同的网络介质和不同的局域网技术。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>3-浮点数加减乘除</title>
     <url>/2025/02/22/3.%E6%B5%AE%E7%82%B9%E6%95%B0%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4/</url>
     <content><![CDATA[<h2 id="一、计算两个浮点数真值的和"><a href="#一、计算两个浮点数真值的和" class="headerlink" title="一、计算两个浮点数真值的和"></a>一、计算两个浮点数真值的和</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol start="0">
@@ -2304,6 +3051,315 @@
       </tags>
   </entry>
   <entry>
+    <title>七、路由和路由器</title>
+    <url>/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="07-Routing-and-Routers"><a href="#07-Routing-and-Routers" class="headerlink" title="07. Routing and Routers"></a>07. Routing and Routers</h1><ul>
+<li>Router Basics</li>
+<li>Router Startup procedure</li>
+<li>Routing</li>
+<li>Router configuration</li>
+</ul>
+<h1 id="一、Router-Basics-路由器基础"><a href="#一、Router-Basics-路由器基础" class="headerlink" title="一、Router Basics 路由器基础"></a>一、Router Basics 路由器基础</h1><h2 id="1-内部组成"><a href="#1-内部组成" class="headerlink" title="1. 内部组成"></a>1. 内部组成</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>RAM</strong> 随机存取存储器<ul>
+<li>用于<strong>临时</strong>存储路由器<strong>配置文件</strong></li>
+<li><strong>断电或重启</strong>时RAM内容会<strong>丢失</strong></li>
+<li>存储内容包括：<ul>
+<li><strong>路由表</strong></li>
+<li>ARP缓存</li>
+<li>快速交换缓存</li>
+<li>数据包缓冲</li>
+<li>数据包保持队列</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>NVRAM</strong> 非易失性随机存取存储器<ul>
+<li><strong>非易失性 Non-volatile</strong> 随机存取存储器</li>
+<li>存储备份&#x2F;启动配置文件</li>
+<li>路由器断电或重启时内容<strong>不会丢失</strong></li>
+</ul>
+</li>
+<li><strong>Flash</strong><ul>
+<li><strong>EEPROM</strong>（电子可擦除可编程只读存储器）<ul>
+<li>Electronically Erasable Programmable Read-Only Memory</li>
+</ul>
+</li>
+<li>存储Cisco IOS（互联网操作系统）</li>
+<li>允许在不更换Flash芯片的情况下更新软件</li>
+<li>可以存储多个版本的IOS</li>
+<li>断电时内容<strong>不会丢失</strong></li>
+</ul>
+</li>
+<li><strong>ROM</strong> 只读存储器 Read-Only Memory<ul>
+<li>包含<strong>上电自检POST</strong>（Power On Self Test）</li>
+<li><strong>启动程序</strong>（加载Cisco IOS）</li>
+<li>操作系统软件</li>
+<li>备份的精简版IOS</li>
+<li>升级需要安装新的芯片组</li>
+</ul>
+</li>
+<li><strong>Interface</strong> 接口<ul>
+<li>网络连接，通过这些接口连接数据包进入和退出路由器</li>
+<li>附加在主板上或作为独立模块</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="Router-Startup-Procedure-路由器启动步骤"><a href="#Router-Startup-Procedure-路由器启动步骤" class="headerlink" title="Router Startup Procedure 路由器启动步骤"></a>Router Startup Procedure 路由器启动步骤</h1><h2 id="1-系统启动过程-System-Startup-Procedure"><a href="#1-系统启动过程-System-Startup-Procedure" class="headerlink" title="1. 系统启动过程: System Startup Procedure"></a>1. 系统启动过程: System Startup Procedure</h2><ol>
+<li><strong>执行上电自检（POST）</strong>：<ul>
+<li>在自检过程中，路由器从<strong>ROM</strong>中执行诊断，检查所有硬件模块。</li>
+</ul>
+</li>
+<li><strong>验证基本操作</strong>：<ul>
+<li>验证CPU、内存和网络接口端口的基本操作。</li>
+</ul>
+</li>
+<li><strong>软件初始化</strong>：<ul>
+<li>初始化操作系统和其他软件组件。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-软件启动过程"><a href="#2-软件启动过程" class="headerlink" title="2. 软件启动过程:"></a>2. 软件启动过程:</h2><ol>
+<li><strong>步骤1</strong>：通用引导加载程序在ROM中执行，在CPU卡上运行。</li>
+<li><strong>步骤2</strong>：操作系统（Cisco IOS）可以在多个位置找到。位置在配置寄存器的引导字段中指定。</li>
+<li><strong>步骤3</strong>：加载操作系统映像。</li>
+<li><strong>步骤4</strong>：将保存在NVRAM中的配置文件加载到主内存中，并逐行执行。</li>
+<li><strong>步骤5</strong>：如果NVRAM中没有有效的配置文件，则执行一个问题驱动的初始配置例程，称为系统配置对话，也称为设置模式。</li>
+</ol>
+<h2 id="3-检验基本的路由配置"><a href="#3-检验基本的路由配置" class="headerlink" title="3. 检验基本的路由配置"></a>3. 检验基本的路由配置</h2><ul>
+<li>使用show running-config 命令</li>
+<li>存储路由器基本配置copy running-config<br> startup-config</li>
+</ul>
+<hr>
+<h1 id="三、Routing-路由"><a href="#三、Routing-路由" class="headerlink" title="三、Routing 路由"></a>三、Routing 路由</h1><h2 id="1-使用网络寻址进行路由"><a href="#1-使用网络寻址进行路由" class="headerlink" title="1. 使用网络寻址进行路由"></a>1. 使用网络寻址进行路由</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>路由器通常通过两个基本功能将数据包从一个数据链路中继到另一个数据链路：<ol>
+<li><strong>path determination 路径确定功能</strong>：决定数据包的最佳传输路径。</li>
+<li><strong>switching 交换功能</strong>：将数据包从<em>输入接口</em>转发到适当的<em>输出接口</em>。</li>
+</ol>
+</li>
+<li><strong>交换功能</strong>允许路由器<strong>在一个接口上接受数据包</strong>并<strong>通过第二个接口转发</strong>。</li>
+<li><strong>路径确定功能</strong>使路由器能够<strong>选择最合适的接口</strong>来<strong>转发数据包</strong>。</li>
+<li>路由器使用地址的<strong>网络部分</strong>进行<em>路径选择</em>，以将数据包传递到<em>下一个路由器</em></li>
+<li>地址的<strong>节点部分</strong>由<em>直接连接到目标网络的路由器</em> 使用，以将数据包传递到<em>正确的主机</em>。</li>
+</ol>
+<h2 id="2-Static-and-Dynamic-Route-静态和动态路由"><a href="#2-Static-and-Dynamic-Route-静态和动态路由" class="headerlink" title="2. Static and Dynamic Route 静态和动态路由"></a>2. Static and Dynamic Route 静态和动态路由</h2><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-1-静态路由例子"><a href="#2-1-静态路由例子" class="headerlink" title="2.1. 静态路由例子"></a>2.1. 静态路由例子</h3><ul>
+<li><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>尽管（whereas）动态路由倾向于显示（reveal）有关互联网络的所有已知信息，但是出于安全原因，您可能<em>希望隐藏互联网络的某些部分</em>。</li>
+<li>当<em>只有一条路径可访问网络时</em>，到网络的静态路由就足够了。</li>
+<li>这种分区称为<strong>Stub Network</strong></li>
+</ul>
+<h3 id="2-2-静态路由配置Configuration"><a href="#2-2-静态路由配置Configuration" class="headerlink" title="2.2. 静态路由配置Configuration"></a>2.2. 静态路由配置Configuration</h3><p><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><code>ip route network [mask] &#123;address | interface&#125; [distance]</code></p>
+<ul>
+<li><strong>network</strong>：目标网络或子网</li>
+<li><strong>mask</strong>：子网掩码</li>
+<li><strong>address</strong>：下一跳路由器的IP地址</li>
+<li><strong>interface</strong>：到达目标网络所使用的接口</li>
+<li><strong>distance</strong>：管理距离 administrative distance</li>
+</ul>
+<h4 id="管理距离-Administrative-Distance"><a href="#管理距离-Administrative-Distance" class="headerlink" title="管理距离 Administrative Distance"></a>管理距离 Administrative Distance</h4><ul>
+<li>管理距离是对路由信息源<strong>可信度</strong>的评级，以0到255的数值表示。</li>
+<li><strong>数值越高，可信度越低</strong>。</li>
+<li>因此，<strong>静态路由的管理距离通常较低（默认值为1）</strong></li>
+</ul>
+<h2 id="3-动态路由"><a href="#3-动态路由" class="headerlink" title="3. 动态路由"></a>3. 动态路由</h2><ul>
+<li>动态路由协议也可以在网络中的不同路径之间重定向流量 redirect traffic（或负载共享loadshare）。</li>
+</ul>
+<ol>
+<li>动态路由依赖于路由协议在路由器之间共享知识。</li>
+<li>动态路由<em>取决于</em>两个基本路由器功能：<ul>
+<li><strong>维护（maintance）路由表</strong></li>
+<li><strong>向其他路由器分发（distribution）路由信息</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="4-收敛时间-Time-to-Convergence"><a href="#4-收敛时间-Time-to-Convergence" class="headerlink" title="4. 收敛时间 Time to Convergence"></a>4. 收敛时间 Time to Convergence</h2><ol>
+<li>收敛时间：<ul>
+<li>从刚启动到网络达到稳定的时间</li>
+<li>从（网络拓扑）发生变化到再次稳定的时间</li>
+</ul>
+</li>
+<li>收敛时间越短，路由协议越强，网络的稳定性和可靠性也越高，需要路由器的基本硬件支持。</li>
+</ol>
+<h2 id="5-动态路由协议分类"><a href="#5-动态路由协议分类" class="headerlink" title="5. 动态路由协议分类"></a>5. 动态路由协议分类</h2><ul>
+<li>距离矢量（DV,Distance Vector）</li>
+<li>链路状态（LS,Link State）</li>
+<li>混合路由（HR,Hybird Routing）</li>
+</ul>
+<h3 id="5-1-距离矢量协议-Distance-Vector-Protocol"><a href="#5-1-距离矢量协议-Distance-Vector-Protocol" class="headerlink" title="5.1 距离矢量协议 Distance-Vector Protocol"></a>5.1 距离矢量协议 Distance-Vector Protocol</h3><ul>
+<li>距离矢量算法<strong>不允许</strong>路由器知道互联网络的<strong>确切拓扑</strong>结构。</li>
+<li>基于距离矢量的路由算法（也称为<strong>Bellman-Ford算法</strong>）通过路由器之间定期传递路由表的副本来工作。<ul>
+<li>大家交换 Routing Table</li>
+<li>只知道可达，但是不知道怎么可达（知道 where,但是不知道 how），不知道整个网路的具体拓扑</li>
+</ul>
+</li>
+</ul>
+<h4 id="DVP导致问题"><a href="#DVP导致问题" class="headerlink" title="DVP导致问题"></a>DVP导致问题</h4><ol>
+<li>问题1：<strong>路由环路 Routing loops</strong>:<ul>
+<li>路由环路是指数据包在网络中不断循环，无法到达目的地。距离矢量协议由于缺乏全局拓扑信息，容易导致路由环路。</li>
+</ul>
+</li>
+<li>问题2：<strong>计数到无穷大 Couting to Infinity</strong>：<ul>
+<li>当网络中某条路径失效时，路由器可能会不断增加到该路径的距离，直到达到预设的最大值（无穷大）。这会导致网络收敛时间变长，影响网络性能。</li>
+<li>当路由器在计数到无穷大时，无效信息会导致路由环路的存在。</li>
+</ul>
+</li>
+</ol>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ol>
+<li><strong>定义最大值（最大跳数）</strong>：<ul>
+<li>通过定义一个最大跳数（例如15跳），限制路由器可以传播的最大距离。当达到这个最大值时，路由器将认为路径不可达，从而避免计数到无穷大的问题。</li>
+</ul>
+</li>
+<li><strong>路由毒化 Route Poisoning</strong>：<ul>
+<li>当路由器检测到某条路径<em>失效</em>时，将该路径的距离<em>设置为无穷大</em>，并立即<em>通知其他路由器</em>，从而加速收敛。</li>
+</ul>
+</li>
+<li><strong>水平分割 Split Horizon</strong>：<ul>
+<li>路由器从某个端口收到的报文信息，不能再从该端口发送回去，从而防止路由环路。</li>
+</ul>
+</li>
+<li><strong>持久计时器 Hold-Down Timers</strong>：<ul>
+<li>在路径失效后，路由器会等待一段时间再接受关于该路径的更新信息，从而避免无效信息的传播。</li>
+</ul>
+</li>
+</ol>
+<h4 id="防止发送路由更新"><a href="#防止发送路由更新" class="headerlink" title="防止发送路由更新"></a>防止发送路由更新</h4><ul>
+<li>为了防止接口发送任何路由更新信息，可以使用以下命令：</li>
+</ul>
+<p><code>Router(config-router)# passive-interface f0/0</code></p>
+<ul>
+<li>仅当使用距离矢量路由协议时，它才有效，因为链路状态路由协议不会直接从其邻接方的路由表中获取拓扑信息</li>
+</ul>
+<h3 id="5-2-链路状态协议-LSP-Link-state-Protocol"><a href="#5-2-链路状态协议-LSP-Link-state-Protocol" class="headerlink" title="5.2 链路状态协议 LSP Link-state Protocol"></a>5.2 链路状态协议 LSP Link-state Protocol</h3><ul>
+<li>基于链路状态的路由算法（也称为<strong>SPF（最短路径优先）算法</strong>）维护一个复杂的拓扑信息数据库。</li>
+<li>链路状态路由使用：<ul>
+<li><strong>链路状态公告（LSAs）</strong></li>
+<li><strong>拓扑数据库</strong></li>
+<li><strong>SPF算法和生成的SPF树</strong></li>
+<li><strong>到每个网络的路径和端口的路由表</strong></li>
+</ul>
+</li>
+<li>RFC 1583包含了OSPF链路状态概念和操作的描述。</li>
+<li>工作原理<ol>
+<li><strong>交换LSAs</strong>：<ul>
+<li>路由器之间交换链路状态公告（LSAs）。每个路由器从直接连接的网络开始。</li>
+</ul>
+</li>
+<li><strong>构建拓扑数据库</strong>：<ul>
+<li>每个路由器与其他路由器并行构建一个包含所有LSAs的拓扑数据库。</li>
+</ul>
+</li>
+<li><strong>SPF算法计算网络可达性</strong>：<ul>
+<li>SPF算法计算网络的可达性。路由器将这个逻辑拓扑构建为一棵树，以自身为根，包含到每个网络的所有可能路径。然后按最短路径优先（SPF）对这些路径进行排序。</li>
+</ul>
+</li>
+<li><strong>更新路由表</strong>：<ul>
+<li>路由器在路由表中列出其最佳路径和到这些目标网络的端口。它还维护其他拓扑元素和状态细节的数据库。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="LSP关注点"><a href="#LSP关注点" class="headerlink" title="LSP关注点"></a>LSP关注点</h4><ol>
+<li><strong>处理和内存需求</strong>：<ul>
+<li>运行链路状态路由协议通常需要路由器使用<strong>更多</strong>的内存和进行更多的处理，相比于距离矢量路由协议。</li>
+</ul>
+</li>
+<li><strong>带宽需求</strong>：<ul>
+<li>在初始链路状态数据包泛洪期间，所有使用链路状态路由协议的路由器会向其他所有路由器发送LSA数据包。这一行为会泛洪整个互联网络，<strong>增加带宽需求</strong>，并暂时减少用于传输用户数据的带宽。</li>
+</ul>
+</li>
+</ol>
+<h4 id="问题-链路状态更新-Link-State-Updates"><a href="#问题-链路状态更新-Link-State-Updates" class="headerlink" title="问题: 链路状态更新 Link-State Updates"></a>问题: 链路状态更新 Link-State Updates</h4><ul>
+<li>链路状态路由必须确保<em>所有路由器</em>都获取到<em>所有必要的LSA数据包</em>。</li>
+<li>拥有不同LSA集合的路由器会基于不同的拓扑数据计算路由。</li>
+</ul>
+<h3 id="比较：链路状态LSP和距离矢量DVP"><a href="#比较：链路状态LSP和距离矢量DVP" class="headerlink" title="比较：链路状态LSP和距离矢量DVP"></a>比较：链路状态LSP和距离矢量DVP</h3><ol>
+<li>DV：距离矢量<ul>
+<li>视野窄，代价小</li>
+<li>基于<strong>跳数</strong></li>
+<li>定期交换路由表，收敛慢</li>
+<li>交换<strong>路由表</strong></li>
+</ul>
+</li>
+<li>LS：链路状态<ul>
+<li>视野宽，有一定代价</li>
+<li>基于<strong>带宽</strong></li>
+<li>初期充分交换，收敛快</li>
+<li>交换 <strong>Linked State 的数据库</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="5-3-混合协议-Hybrid-Protocols"><a href="#5-3-混合协议-Hybrid-Protocols" class="headerlink" title="5.3 混合协议 Hybrid Protocols"></a>5.3 混合协议 Hybrid Protocols</h3><ol>
+<li>混合协议结合了距离矢量协议DVP和链路状态协议LSP的特性。</li>
+</ol>
+<ul>
+<li><strong>示例</strong>：<ul>
+<li><strong>OSI的IS-IS（Intermediate System-to-Intermediate System）</strong></li>
+<li><strong>Cisco的EIGRP（Enhanced Interior Gateway Routing Protocol）</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="四、Routing-Protocols-主动路由协议"><a href="#四、Routing-Protocols-主动路由协议" class="headerlink" title="四、Routing Protocols 主动路由协议"></a>四、Routing Protocols 主动路由协议</h1><ol>
+<li>IP路由协议示例<ul>
+<li><strong>RIP</strong>：距离矢量路由协议</li>
+<li><strong>IGRP</strong>：Cisco的距离矢量路由协议</li>
+<li><strong>OSPF</strong>：链路状态路由协议</li>
+<li><strong>EIGRP</strong>：平衡混合路由协议<br><img src="/2025/02/24/%E4%B8%83.%E8%B7%AF%E7%94%B1%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+<li>工作在第3层——网络层</li>
+<li>路由协议的主要目标<ul>
+<li><strong>最佳路径</strong>：Optimal<ul>
+<li>选择最佳路径</li>
+</ul>
+</li>
+<li><strong>效率</strong>：Efficiency<ul>
+<li>最小化带宽和路由器处理资源的使用</li>
+</ul>
+</li>
+<li><strong>快速收敛</strong>：Rapid Convergence<ul>
+<li>收敛速度越快越好。有些协议比其他协议收敛得更快。</li>
+</ul>
+</li>
+<li><strong>灵活性</strong>：Flexibility<ul>
+<li>能够处理各种情况，如高使用率和路由失败</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>动态路由配置 Dynamic Routing Configuration</li>
+</ol>
+<p><code>router protocol [keyword]</code> 定义一个IP路由协议<br><code>network network-number</code> network-number：指定一个直接连接的网络</p>
+<ul>
+<li>例如<ol>
+<li>启动RIP：<code>router protocol [RIP...]</code></li>
+</ol>
+</li>
+</ul>
+<ol start="5">
+<li>定义<strong>默认路由</strong></li>
+</ol>
+<ul>
+<li><strong>默认路由</strong>：保持路由表简短。</li>
+<li>当路由表中不存在目标网络的条目时，数据包将被发送到默认网络。<ol>
+<li>用动态路由协议定义默认路由</li>
+</ol>
+<p>  <code>ip default-network [network-number]</code><br>  2. 用静态路由定义默认路由<br>  <code> ip route 0.0.0.0 0.0.0.0 [next-hop-ip address| exit-interface]</code></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二、OSI第一层：物理层</title>
     <url>/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/</url>
     <content><![CDATA[<h1 id="OSI第一层：物理层"><a href="#OSI第一层：物理层" class="headerlink" title="OSI第一层：物理层"></a>OSI第一层：物理层</h1><h1 id="一、网络连接类型"><a href="#一、网络连接类型" class="headerlink" title="一、网络连接类型"></a>一、网络连接类型</h1><p><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
@@ -2582,743 +3638,2001 @@
       </tags>
   </entry>
   <entry>
-    <title>三、OSI第二层：数据链路层</title>
-    <url>/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</url>
-    <content><![CDATA[<h1 id="Layer2-Data-Link-Layer"><a href="#Layer2-Data-Link-Layer" class="headerlink" title="Layer2:Data Link Layer"></a>Layer2:Data Link Layer</h1><ul>
-<li>Overview</li>
-<li>Ethernet and CSMA&#x2F;CD<ul>
-<li>LLC and MAC Sub-layers</li>
-<li>Media Access Control in MAC Sub-layer</li>
+    <title>六、OSI第567层：会话、表示、应用层</title>
+    <url>/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/</url>
+    <content><![CDATA[<h1 id="06-会话、表示、应用层"><a href="#06-会话、表示、应用层" class="headerlink" title="06 会话、表示、应用层"></a>06 会话、表示、应用层</h1><ul>
+<li>The Session Layer</li>
+<li>The Presentation Layer</li>
+<li>The Application Layer</li>
 </ul>
-</li>
-<li>Wireless LAN and CSMA&#x2F;CA</li>
-<li>Layer 2 Devices</li>
+<h1 id="一、第5层：会话层"><a href="#一、第5层：会话层" class="headerlink" title="一、第5层：会话层"></a>一、第5层：会话层</h1><ul>
+<li>负责管理不同计算机之间的会话和数据交换。会话层主要关注如何建立、管理、终止会话以及如何确保数据传输的完整性和有效性。</li>
 </ul>
-<h1 id="一、数据链路层-Overview"><a href="#一、数据链路层-Overview" class="headerlink" title="一、数据链路层 Overview"></a>一、数据链路层 Overview</h1><ul>
-<li>数据链路层使用的信道：<ul>
-<li>点对点信道：一对一</li>
-<li>广播信道：一对多</li>
-</ul>
-</li>
-<li>本章研究：局域网的数据链路层的技术标准</li>
-<li>主要是以太网的介质和无线网的介质两大类。<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ul>
-<h2 id="1-物理层和数据链路层的区别"><a href="#1-物理层和数据链路层的区别" class="headerlink" title="1. 物理层和数据链路层的区别"></a>1. 物理层和数据链路层的区别</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1. 作用"></a>1. 作用</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <ul>
-<li>第一层<ul>
-<li>无法与上层通信    </li>
-<li>无法确定哪台主机将会传输或接受二进制数据    </li>
-<li>无法命名或标识主机    </li>
-<li>仅仅能描述比特流</li>
+<li>会话层的核心作用是负责会话的<strong>建立、管理和终止</strong>，确保<strong>数据传输在不同设备间顺畅进行</strong>。主要包括：</li>
 </ul>
-</li>
-<li>第二层<ul>
-<li>通过LLC与上层通信</li>
-<li>通过MAC确定</li>
-<li>通过寻址或命名过程来实现</li>
-<li>通过帧来组织&#x2F;分组比特</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-数据链路层-Data-Link-Layer"><a href="#2-数据链路层-Data-Link-Layer" class="headerlink" title="2. 数据链路层 Data Link Layer"></a>2. 数据链路层 Data Link Layer</h2><ol>
-<li>问题：如何在不稳定(instable)的链路上正确传输数据？</li>
-<li>数据链路层提供<ul>
-<li>网络介质访问:</li>
-<li>跨媒体物理传输(transmission)</li>
-</ul>
-</li>
-<li>第二层协议明确了<ul>
-<li>在链路上<strong>交换的数据格式</strong></li>
-<li>链路上的<strong>两个节点的行为</strong></li>
-</ul>
-</li>
-<li>在数据链路层，<em>过程就是协议</em>。</li>
-<li>在两端<strong>校验</strong>，帧是否正确，如果正确则交付第三层，否则进行相应的处理</li>
-</ol>
-<h2 id="3-局域网和数据链路"><a href="#3-局域网和数据链路" class="headerlink" title="3. 局域网和数据链路"></a>3. 局域网和数据链路</h2><ol>
-<li>主要工作<ul>
-<li><strong>错误识别(notification)</strong></li>
-<li><strong>网络拓扑(Network topology)</strong></li>
-<li><strong>流控制(Flow control)</strong></li>
-</ul>
-</li>
-<li>第一层和第二层的不同:<ul>
-<li>第一层不可以<strong>访问更高层</strong>(upper-level layers)，而第二层是通过<strong>逻辑链路LLC</strong>(Logical Link Control)访问更高层</li>
-<li>第1层<strong>无法决定哪个主机</strong>将发送(transmit)或接收(receive)来自组的二进制数据；第2层使用<strong>媒体访问控制MAC</strong>（Media Access Control）做到这一点，共用总线链路</li>
-<li>第1层无法命名或识别计算机；<strong>第2层使用寻址(或命名)过程</strong>，以太网场景下</li>
-<li>第1层只能描述比特流；第2层使用**成帧（framing）**对比特进行组织或分组。</li>
-</ul>
-</li>
-</ol>
-<h2 id="4-第二层提供的服务"><a href="#4-第二层提供的服务" class="headerlink" title="4. 第二层提供的服务"></a>4. 第二层提供的服务</h2><ol>
-<li>提供给<strong>网络层</strong>的三层服务<ol>
-<li>(最弱，最不靠谱的)<strong>没有确认(acknowledgement)的无连接(Connectionless)服务</strong><ul>
-<li>发送取出就行，不用等收到确认</li>
-<li><strong>可靠(Reliable)的链接</strong>(上层以确保数据正确性)</li>
-<li><strong>实时</strong>任务，比较高效</li>
-<li>适用于大多数<strong>局域网</strong></li>
-</ul>
-</li>
-<li><strong>带有确认的无连接服务</strong>：<ul>
-<li><strong>不可靠</strong>的链接，例如<strong>无线网络</strong>：需要保证一定的通信质量(比如无线网络的传输)，同时会损失一定的性能。</li>
-</ul>
-</li>
-<li><strong>带有确认的连接服务</strong><ul>
-<li>比如蓝牙:需要先确定绑定关系才能进行通信</li>
-<li>手机和手机之间的蓝牙连接需要确定一些信息</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>三种服务的连接的不同和区别:<ul>
-<li><strong>无线连接</strong>有<strong>确认</strong>的过程，<strong>有线连接没有</strong></li>
-<li><strong>网线连接</strong>:我们通信的对象是<strong>路由器</strong>，由路由器进行转发</li>
-<li>PPPoP是<strong>路由器和远端</strong>的服务器的连接</li>
-<li>有线无线都接给路由器，都需要连接，但是无线网相对有线网需要确认(包确认)</li>
-</ul>
-</li>
-</ol>
-<h2 id="5-常见的局域网的介质访问控制-Media-Access-Control-in-common-LANs"><a href="#5-常见的局域网的介质访问控制-Media-Access-Control-in-common-LANs" class="headerlink" title="5. 常见的局域网的介质访问控制(Media Access Control in common LANs)"></a>5. 常见的局域网的介质访问控制(Media Access Control in common LANs)</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-9.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <ol>
-<li>以太网(Ethernet):<ul>
-<li>逻辑：<strong>总线拓扑</strong>(信息流在线性总线上)</li>
-<li>物理：星形或扩展星形(连线为星形)</li>
-</ul>
-</li>
-<li>令牌环(Token Ring):<ul>
-<li>逻辑：<strong>环拓扑</strong>(信息流在一个环中)</li>
-<li>物理：星形拓扑(以星形连接)</li>
-<li>使用令牌传递机制来控制网络访问</li>
-</ul>
-</li>
-<li>光纤分布式数据接口(FDDI, Fiber Distributed Data Interface):<ul>
-<li>逻辑：<strong>环拓扑</strong>(信息流在一个环中)</li>
-<li>物理：双环拓扑(作为双环连接)</li>
-<li>光纤作为传输介质，曾经很常用，后来被以太网有线接入逐渐替代</li>
-</ul>
-</li>
+<li>基于令牌（Token）进行交互发言，通过数据同步保证数据完整性(应用逻辑)</li>
+<li>进行数据分段、拼接，保证传输的有效。</li>
+<li>同步技术，保证故障恢复</li>
 </ol>
-<h2 id="6-介质访问控制方法-Access-Methods-for-Media-Access-Control"><a href="#6-介质访问控制方法-Access-Methods-for-Media-Access-Control" class="headerlink" title="6. 介质访问控制方法 Access Methods for Media-Access Control"></a>6. 介质访问控制方法 Access Methods for Media-Access Control</h2><ol>
-<li><strong>确定性轮流 Deterministic</strong> —— taking turns<ul>
-<li>Token Ring 和 FDDI(Fiber Distributed Data Interface)</li>
+<h2 id="2-服务"><a href="#2-服务" class="headerlink" title="2. 服务"></a>2. 服务</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>双向同步通讯 TWA</strong>(Two-Way Alternate)<ul>
+<li>全双工通信</li>
+<li>半双工通信</li>
+<li>单工通信</li>
 </ul>
 </li>
-<li><strong>争用式 Non-deterministic (probabilistic)</strong> —— 先到先得 first come, first sesrved<ul>
-<li>Ethernet&#x2F;802.3</li>
+<li><strong>双向交替控制 TWS</strong>(Two-Way Simultaneous)<ul>
+<li>会话连接、活动开始、数据校验（同步）</li>
+<li>令牌转换等</li>
 </ul>
 </li>
+<li>是否同步 synchronized 了您的会话的主题？<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
 </ol>
-<h3 id="6-1-确定性轮流-Deterministic-MAC-Protocols"><a href="#6-1-确定性轮流-Deterministic-MAC-Protocols" class="headerlink" title="6.1 确定性轮流 Deterministic MAC Protocols"></a>6.1 确定性轮流 Deterministic MAC Protocols</h3><ol>
-<li>一个特殊的<strong>数据令牌token在环中循环(circulates)</strong>。</li>
-<li>当主机host收到令牌时，它可以传输数据而不是令牌。这称为“<strong>夺取(seizing)令牌</strong>”。</li>
-<li>当<strong>传输的帧回到发送者</strong>时，站点会<strong>传输一个新的令牌</strong>；<ul>
-<li>帧会从环中移除或剥离。(stripped)。</li>
+<h2 id="3-同步点-CheckPoint"><a href="#3-同步点-CheckPoint" class="headerlink" title="3. 同步点 CheckPoint"></a>3. 同步点 CheckPoint</h2><ol>
+<li>**同步点（CheckPoint）**用于分隔会话session的各个部分，以前称为对话（dialogues）<ul>
+<li>同步点：发送一定数据后设置同步点</li>
+<li>次同步点：作为同步点的一个子集，进行数据校验</li>
+<li>主同步点：按照主同步点进行校验确认</li>
+<li>如果错误，恢复到上次都已经同步的主同步点</li>
 </ul>
 </li>
+<li>对话分隔（Seperation）：会话层通过同步点分隔不同的对话（会话段），确保各个会话部分的有序启动、进行与终止。尽量保证了数据交换的效率和可靠性。</li>
 </ol>
-<h3 id="6-2-非确定性MAC协议-Non-Deterministic-MAC-Protocols"><a href="#6-2-非确定性MAC协议-Non-Deterministic-MAC-Protocols" class="headerlink" title="6.2 非确定性MAC协议 Non-Deterministic MAC Protocols"></a>6.2 非确定性MAC协议 Non-Deterministic MAC Protocols</h3><ul>
-<li>【重要！】此MAC协议称为<strong>载波监听多路访问&#x2F;碰撞检测(CSMA&#x2F;CD)</strong>，即<strong>带冲突检测的载波侦听多路访问</strong><ul>
-<li>Carrier Sense Multiple Access with Collision Detection</li>
-</ul>
-</li>
-<li>为了使用这种共享介质(shared-medium)技术，以太网允许网络设备为传输权进行仲裁(arbitrate)。</li>
-</ul>
-<h2 id="7-局域网数据传输-Transmitison-方式-三种"><a href="#7-局域网数据传输-Transmitison-方式-三种" class="headerlink" title="7. 局域网数据传输(Transmitison)方式: 三种"></a>7. 局域网数据传输(Transmitison)方式: 三种</h2><ol>
-<li><strong>单播(unicast)</strong><ul>
-<li>将<strong>单个数据包</strong>从<strong>源</strong>发送到<strong>网络上的单个目标</strong></li>
-</ul>
-</li>
-<li><strong>多播(multicast)</strong><ul>
-<li>由发送到网络上特定节点子集的单个数据包组成，这些节点都有同样的进程进行响应</li>
-<li>发送<strong>单个数据包</strong>到<strong>网络上的特定子集节点</strong>。</li>
-</ul>
-</li>
-<li><strong>广播(broadcast)</strong><ul>
-<li>由单个数据包组成，该数据包传输到网络上的所有节点。(广播的目的地址是0x11111111)</li>
-<li>发送<strong>单个数据包</strong>到<strong>网络上的所有节点</strong></li>
-</ul>
-</li>
+<h2 id="4-Some-Applications-of-Layer-5"><a href="#4-Some-Applications-of-Layer-5" class="headerlink" title="4. Some Applications of Layer 5"></a>4. Some Applications of Layer 5</h2><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>NFS</li>
+<li>SQL</li>
+<li>RPC</li>
+<li>X Window System</li>
+<li>ASP</li>
+<li>SCP</li>
 </ol>
 <hr>
-<h1 id="二、-以太网-和-带冲突检测的载波侦听多路访问-Ethernet-and-CSMA-CD"><a href="#二、-以太网-和-带冲突检测的载波侦听多路访问-Ethernet-and-CSMA-CD" class="headerlink" title="二、 以太网 和 带冲突检测的载波侦听多路访问 Ethernet and CSMA&#x2F;CD"></a>二、 以太网 和 带冲突检测的载波侦听多路访问 Ethernet and CSMA&#x2F;CD</h1><h2 id="（一）逻辑链路和介质访问控制子层-LLC-and-MAC-Sub-layers"><a href="#（一）逻辑链路和介质访问控制子层-LLC-and-MAC-Sub-layers" class="headerlink" title="（一）逻辑链路和介质访问控制子层 LLC and MAC Sub-layers"></a>（一）逻辑链路和介质访问控制子层 LLC and MAC Sub-layers</h2><ul>
-<li>(Logical Link Control)(Media Access Control)</li>
+<h1 id="二、第6层：表示层"><a href="#二、第6层：表示层" class="headerlink" title="二、第6层：表示层"></a>二、第6层：表示层</h1><ul>
+<li>The Presentation Layer</li>
 </ul>
 <ol>
-<li>无缘电缆的方式传播电波:以太网</li>
-<li>帧传播速度提高了</li>
-<li>帧的标准没有改变</li>
-</ol>
-<h3 id="1-局域网标准"><a href="#1-局域网标准" class="headerlink" title="1. 局域网标准"></a>1. 局域网标准</h3><ul>
-<li>定义<strong>物理媒体</strong>（如双绞线、光纤）和用于将设备连接到媒体的<strong>连接器</strong></li>
-<li>定义<strong>设备在数据链路层的通信方式</strong></li>
-<li>数据链路层定义了如何<strong>在物理介质上传输数据</strong>。</li>
-<li>数据链路层还定义了<strong>如何封装(encapsulate)特定协议的流量(traffic)</strong>，以使去往不同上层协议的流量在到达堆栈时可以使用相同的通道进行传输。<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-<li>IEEE 802.2 对应 LLC，以太网则覆盖物理层和链路层</li>
-</ul>
-<ol>
-<li><strong>IEEE 将数据链路层分为两部分</strong>：<ul>
-<li><strong>媒体访问控制（MAC）</strong>（转换为媒体）</li>
-<li><strong>逻辑链路控制（LLC）</strong>（过渡到网络层）</li>
+<li>表示层负责以<strong>接收设备可以理解的形式</strong>表示数据。<ul>
+<li>传送语法协商</li>
+<li>接受语法协商</li>
 </ul>
 </li>
-<li>乍一看，IEEE 标准似乎以两种方式违反了 OSI 模型。<ol>
-<li><strong>定义了自己的层（LLC）</strong>：<ul>
-<li>IEEE标准定义了逻辑链路控制（LLC）层，包括其接口等，这似乎与OSI模型的层次结构不一致。</li>
-</ul>
-</li>
-<li><strong>MAC层标准跨越了第2层和第1层的接口</strong>：<ul>
-<li>IEEE 802.3（以太网）和802.5（令牌环）标准似乎跨越了数据链路层（第2层）和物理层（第1层）的接口。</li>
+<li>表示层具有 3 个<strong>主要功能</strong>：<ul>
+<li><strong>数据格式化</strong>（formatting）</li>
+<li><strong>数据压缩</strong>（compression）：早期网络比较慢，倾向于先压缩在发送</li>
+<li><strong>数据加密</strong>（encryption）</li>
 </ul>
 </li>
 </ol>
+<h2 id="1-Data-Formatting-数据格式化"><a href="#1-Data-Formatting-数据格式化" class="headerlink" title="1. Data Formatting 数据格式化"></a>1. Data Formatting 数据格式化</h2><ol>
+<li>想象两个不同（dissimilar）的系统。<ul>
+<li>一种使用扩展二进制编码的十进制交换码（EBCDIC,Extended Binary Coded Decimal Interchange Code）格式化文本</li>
+<li>另一种使用美国信息交换标准码（ASCII）格式化文本</li>
+</ul>
 </li>
-<li>但是，802.3 和 802.5 定义了用于构建特定技术的命名，框架和媒体访问控制规则，都规范了对应的方案，不同方案不同解决标准</li>
+<li>第六层提供了<strong>这两种</strong>不同类型的代码之间的<strong>转换</strong></li>
 </ol>
-<h3 id="2-MAC-LLC"><a href="#2-MAC-LLC" class="headerlink" title="2. MAC &amp; LLC"></a>2. MAC &amp; LLC</h3><ul>
-<li>MAC子层负责数据链路层的 <strong>物理传输</strong> 和 <strong>访问控制</strong>，其主要作用是确保数据能够有效地从源设备传送到目标设备。</li>
+<h3 id="1-1-Graphic-File-Formats-图形文件格式"><a href="#1-1-Graphic-File-Formats-图形文件格式" class="headerlink" title="1.1 Graphic File Formats 图形文件格式"></a>1.1 Graphic File Formats 图形文件格式</h3><ul>
+<li>互联网通常使用两种<strong>二进制</strong>文件格式来显示图像：<ul>
+<li>图形交换格式（GIF）</li>
+<li>联合图像专家组（JPEG）</li>
+</ul>
+</li>
+<li>任何具有GIF和JPEG文件格式阅读器的计算机都可以读取这些文件类型，无论计算机类型如何。</li>
+</ul>
+<h3 id="1-2-Multimedia-File-Format-多媒体文件格式"><a href="#1-2-Multimedia-File-Format-多媒体文件格式" class="headerlink" title="1.2 Multimedia File Format 多媒体文件格式"></a>1.2 Multimedia File Format 多媒体文件格式</h3><ul>
+<li>多媒体文件格式是另一种类型的<strong>二进制</strong>文件，用于存储声音、音乐和视频。<ul>
+<li>这些文件可以完全下载后播放，或者在下载的同时播放。</li>
+<li>后一种方法称为流式音频。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Encryption-Compression-数据加密-压缩"><a href="#2-Encryption-Compression-数据加密-压缩" class="headerlink" title="2. Encryption &amp; Compression 数据加密&amp;压缩"></a>2. Encryption &amp; Compression 数据加密&amp;压缩</h2><ul>
+<li>第六层负责<strong>数据加密</strong>：<ul>
+<li>数据加密可<strong>在信息传输过程中保护信息</strong>。</li>
+</ul>
+</li>
+<li>表示层还负责文件的压缩。</li>
+</ul>
+<hr>
+<h1 id="三、第7层：应用层"><a href="#三、第7层：应用层" class="headerlink" title="三、第7层：应用层"></a>三、第7层：应用层</h1><ul>
+<li>The Application Layer<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>上图中各层的一些协议和使用：会话层对端口进行管理</li>
+<li>第七层对应了应用界面，第六层对应了各种协议</li>
+</ul>
+<h2 id="1-职责"><a href="#1-职责" class="headerlink" title="1. 职责"></a>1. 职责</h2><ol>
+<li>应用层（最接近用户）支持应用程序的<strong>通信组件</strong>。</li>
+</ol>
+<ul>
+<li><strong>应用层</strong>：<ul>
+<li>识别并建立预期通信伙伴的可用性</li>
+<li>同步协作应用程序Synchronizes cooperating applications</li>
+<li>就错误恢复程序达成一致</li>
+<li>控制数据完整性 data integrity</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-HTTP-超文本传输协议"><a href="#2-HTTP-超文本传输协议" class="headerlink" title="2. HTTP 超文本传输协议"></a>2. HTTP 超文本传输协议</h2><ul>
+<li><strong>HyperText Transfer Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="2-1-统一资源定位符URL-Uniform-Resource-Locator"><a href="#2-1-统一资源定位符URL-Uniform-Resource-Locator" class="headerlink" title="2.1 统一资源定位符URL (Uniform Resource Locator)"></a>2.1 统一资源定位符URL (Uniform Resource Locator)</h3><ul>
+<li>统一资源定位符URL 是对可以从因特网上得到的资源的<strong>位置</strong>和<strong>访问方法</strong>的一种简洁的表示</li>
+<li>URL 给<strong>资源的位置</strong>提供一种抽象的识别方法，并用这种方法给资源<strong>定位</strong></li>
+<li>只要能够对资源定位，系统就可以对资源进行各种<strong>操作</strong>，如存取、更新、替换和查找其属性</li>
+<li>URL 相当于<strong>一个文件名在网络范围的扩展</strong>。因此URL 是<strong>与因特网相连的机器上的任何可访问对象的一个指针</strong></li>
+<li><code>&lt;URL的访问方式&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;</code><ol>
+<li>访问方式：协议 HTTPS 或者 HTTP</li>
+<li>主机：域名的方式</li>
+<li>端口对应进程</li>
+<li>路径对应具体的文件</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-2-HTTP"><a href="#2-2-HTTP" class="headerlink" title="2.2 HTTP"></a>2.2 HTTP</h3><ul>
+<li>HTTP 是<strong>面向事务</strong>的客户服务器协议</li>
+<li>HTTP 1.0 协议是<strong>无状态</strong>的(stateless)</li>
+<li>HTTP 协议本身也是<strong>无连接</strong>的，虽然它使用了面向连接的TCP 向上提供的服务</li>
+<li>万维网浏览器就是一个HTTP 客户，而在万维网服务器等待HTTP 请求的进程常称为HTTP daemon，有的文献将它缩写为HTTPD</li>
+<li>HTTP daemon 在收到 HTTP 客户的请求后，把所需的文件返回给HTTP 客户</li>
+</ul>
+<h3 id="2-3-HTTP的报文结构-请求报文"><a href="#2-3-HTTP的报文结构-请求报文" class="headerlink" title="2.3 HTTP的报文结构(请求报文)"></a>2.3 HTTP的报文结构(请求报文)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>报文由三个部分组成，即<strong>开始行</strong>、<strong>首部行</strong>和<strong>实体主体</strong>。</li>
+<li>在请求报文中，<strong>开始行就是请求行</strong>。</li>
+</ol>
+<h3 id="2-4-HTTP-请求报文的一些方法"><a href="#2-4-HTTP-请求报文的一些方法" class="headerlink" title="2.4 HTTP 请求报文的一些方法"></a>2.4 HTTP 请求报文的一些方法</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-5-HTML-HyperText-Markup-Language-超文本标记语言"><a href="#2-5-HTML-HyperText-Markup-Language-超文本标记语言" class="headerlink" title="2.5 HTML(HyperText Markup Language) 超文本标记语言"></a>2.5 HTML(HyperText Markup Language) 超文本标记语言</h3><ul>
+<li>定义了许多用于排版的命令（标签）</li>
+<li>HTML 文档是一种可以用任何文本编辑器创建的ASCII 码文件</li>
+<li>仅当HTML 文档是以.html 或.htm 为后缀时，浏览器才对此文档的各种标签进行解释</li>
+<li>当浏览器从服务器读取HTML 文档，针对HTML 文档中的各种标签，根据浏览器所使用的显示器的尺寸和分辨率大小，重新进行排版并恢复出所读取的页面</li>
+<li>HTML 用一对标签（一个开始标签和一个结束标签）或几对标签来标识一个元素</li>
+</ul>
+<h2 id="3-FTP-and-TFTP-文件传输协议"><a href="#3-FTP-and-TFTP-文件传输协议" class="headerlink" title="3. FTP and TFTP 文件传输协议"></a>3. FTP and TFTP 文件传输协议</h2><ul>
+<li>File Transfer Protocol</li>
+<li><strong>Trivial</strong> File Transfer Protocol 简单文件传输协议</li>
 </ul>
 <ol>
-<li>MAC子层(802.3)<ul>
-<li>定义如何在<strong>物理线路</strong>上<strong>传输帧(frames)</strong></li>
-<li>处理<strong>物理寻址</strong><ul>
-<li>在MAC子层中，设备是通过 MAC地址 来唯一标识的，MAC地址是硬件设备的唯一标识符，每个网络接口控制器（NIC）都有一个固定的MAC地址。当数据帧从一个设备发送到另一个设备时，MAC子层根据目标设备的MAC地址进行物理寻址。</li>
-</ul>
-</li>
-<li><strong>定义网络拓扑</strong></li>
-<li><strong>定义线路规则(discipline)</strong></li>
+<li><strong>FTP</strong>： 是一种<em>可</em>靠的、面向连接<strong>的服务，使用</strong>TCP**传输文件。<ul>
+<li>FTP首先在<strong>客户端和服务器</strong>之间建立<strong>控制连接</strong>（端口21）。</li>
+<li>然后建立第二个连接，通过该连接在<strong>计算机之间传输数据</strong>（端口20）。</li>
 </ul>
 </li>
 </ol>
 <ul>
-<li>LLC子层则位于MAC子层之上，主要负责对数据的逻辑控制与协议管理</li>
+<li>Trivial File Transfer Protocol</li>
 </ul>
 <ol start="2">
-<li>LLC 子层(802.2)<ul>
-<li><strong>为不同的上层协议提供逻辑上的标识</strong>，然后将其<strong>封装encapsulates</strong>，兼容不同介质的访问<ul>
-<li>LLC会在数据帧中添加适当的标识符，使得上层协议能够知道数据的类型。</li>
-</ul>
-</li>
-<li>使用SAP（Service Access Point）标识符用于标识数据包的接收方。<ul>
-<li>它帮助MAC层识别数据包的目的地协议，指示它应该交给哪个上层协议进行处理。</li>
-</ul>
-</li>
-<li>LLC帧的类型取决于上层协议期望的标识符，对于上层服务进行支持</li>
-<li>LLC已经比较规范了，后来有的厂商已经放弃继续做</li>
+<li><strong>TFTP</strong>：是一种<strong>无连接</strong>的服务，使用<strong>UDP</strong>。<ul>
+<li>小巧且易于实现。</li>
+<li>例如，TFTP用于路由器传输配置文件和Cisco IOS镜像。</li>
 </ul>
 </li>
 </ol>
-<h2 id="（一-1）Media-Access-Control-Sublayer-介质访问控制子层"><a href="#（一-1）Media-Access-Control-Sublayer-介质访问控制子层" class="headerlink" title="（一.1）Media Access Control Sublayer 介质访问控制子层"></a>（一.1）Media Access Control Sublayer 介质访问控制子层</h2><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="3-1-FTP主进程工作步骤"><a href="#3-1-FTP主进程工作步骤" class="headerlink" title="3.1 FTP主进程工作步骤"></a>3.1 FTP主进程工作步骤</h3><ol>
+<li><strong>打开熟知端口</strong>（端口号为21），使客户进程能够连接上</li>
+<li><strong>等待客户进程发出连接请求</strong></li>
+<li>启动<strong>从属进程</strong>来处理客户进程发来的请求。从属进程对客户进程的请求处理完毕后即终止，但从属进程在运行期间根据需要还可能创建其他一些子进程</li>
+<li>回到<strong>等待</strong>状态，继续接受其他客户进程发来的请求。主进程与从属进程的处理是<strong>并发地进行</strong></li>
+</ol>
+<h3 id="3-2-FTP的屏幕信息举例"><a href="#3-2-FTP的屏幕信息举例" class="headerlink" title="3.2 FTP的屏幕信息举例"></a>3.2 FTP的屏幕信息举例</h3><ul>
+<li>[01] ftp nic.ddn.mil<ul>
+<li>用户要用 FTP 和远地主机（网络信息中心 NIC 上的主机）建立连接。域名：nic.ddn.mil</li>
+</ul>
+</li>
+<li>[02] connected to nic.ddn.mil<ul>
+<li>本地 FTP 发送的连接成功信息</li>
+</ul>
+</li>
+<li>[03] 220 nic FTP server（Sunos 4.1）ready.<ul>
+<li>从远地服务器返回的信息，220 表示“服务就绪”</li>
+</ul>
+</li>
+<li>[04] Name： anonymous<ul>
+<li>本地 FTP 提示用户键入名字。用户键入的名字表示“匿名”。用户只需键入 anonymous 即可（匿名）</li>
+</ul>
+</li>
+<li>[05] 331 Guest login ok, send ident as password.<ul>
+<li>数字 331 表示“用户名正确”，需要口令</li>
+</ul>
+</li>
+<li>[06] Password： <a href="mailto:&#x61;&#x62;&#99;&#x40;&#120;&#121;&#122;&#46;&#x6d;&#x61;&#x74;&#104;&#46;&#x79;&#x61;&#x6c;&#x65;&#46;&#x65;&#x64;&#x75;">abc@xyz.math.yale.edu</a><ul>
+<li>本地 FTP 提示用户键入口令。用户这时可键入 guest 作为匿名的口令，也可以键入自己的电子邮件地址，即耶鲁大学数学系名为 xyz 的主机上的 abd（匿名密码是随意输入的）</li>
+</ul>
+</li>
+<li>[07] 230 Guest login ok, access restrictions apply.<ul>
+<li>数字 230 表示用户已经注册完毕</li>
+</ul>
+</li>
+<li>[08] ftp&gt; cd rfc<ul>
+<li>“ftp&gt;”是 FTP 的提示信息。用户键入的是将目录改变为包含 RFC 文件的目录</li>
+</ul>
+</li>
+<li>[09] 250 CWD command successful.<ul>
+<li>字符”CWD”是 FTP 的标准命令，表示 Change Working Directory</li>
+</ul>
+</li>
+<li>[10] ftp&gt; get rfc1261.txt nicinfo<ul>
+<li>用户要求将名为 rfc1261.txt 的文件复制到本地主机上，并改名为 nicinfo（get 获取到本地）</li>
+</ul>
+</li>
+<li>[11] 200 PORT command successful.<ul>
+<li>字符 PORT 是 FTP 的标准命令，表示要建立数据连接。200 表示“命令正确”</li>
+</ul>
+</li>
+<li>[12] 150 ASCII data connection for rfc1261.txt（128.36.12.27,1401）（4318 bytes）.<ul>
+<li>数字 150 表示”文件状态正确，即将建立数据连接”</li>
+</ul>
+</li>
+<li>[13] 226 ASCII Transfer complete. local： nicinfo remote： rfc1261.txt 4488 bytes received in 15 seconds（0.3 Kbytes&#x2F;s）.<ul>
+<li>数字 226 是“释放数据连接”，现在一个新的本地文件已经生成。</li>
+</ul>
+</li>
+<li>[14] ftp&gt; quit<ul>
+<li>用户键入退出命令。</li>
+</ul>
+</li>
+<li>[15] 221 Goodbye.<ul>
+<li>表示 FTP 工作结束</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Telnet-远程终端协议"><a href="#4-Telnet-远程终端协议" class="headerlink" title="4. Telnet 远程终端协议"></a>4. Telnet 远程终端协议</h2><ul>
+<li>用于通过网络远程访问和控制另一台计算机</li>
+<li>Telnet客户端软件提供“<strong>登录</strong>到<strong>运行Telnet服务器应用程序</strong>的<strong>远程互联网主机</strong>”的能力，然后从命令行执行命令。</li>
+</ul>
+<h2 id="5-SMTP-and-POP-收发邮件协议"><a href="#5-SMTP-and-POP-收发邮件协议" class="headerlink" title="5. SMTP and POP 收发邮件协议"></a>5. SMTP and POP 收发邮件协议</h2><ul>
+<li>电子邮件服务器相互通信，使用<strong>SMTP</strong>协议<strong>发送</strong>邮件，使用<strong>POP3</strong>协议<strong>接收</strong>邮件。</li>
+<li><strong>SMTP（Simple Mail Transfer Protocol）</strong>：邮件发送</li>
+<li><strong>POP3（Post Office Protocol version 3）</strong>：邮件接收<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送者先登录到服务器，通过服务器根据SMTP传输到对应的服务器，然后用户登录后通过POP3协议收邮件到本地</li>
+</ul>
+<h3 id="5-1-MIME-和-SMTP-的关系"><a href="#5-1-MIME-和-SMTP-的关系" class="headerlink" title="5.1 MIME 和 SMTP 的关系"></a>5.1 MIME 和 SMTP 的关系</h3><ul>
+<li>MIME（Multipurpose Internet Mail Extensions）<ul>
+<li>是一种扩展了电子邮件格式的标准，它允许邮件发送<strong>非ASCII字符</strong>（如图像、音频、视频等二进制文件），并使邮件能够包含多种类型的内容。</li>
+</ul>
+</li>
+<li>MIME 是通过<strong>对非 ASCII 内容进行编码</strong>，使其能够通过原本**仅支持 ASCII 的协议（如 SMTP）**进行传输。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h3 id="5-2-MIME-增加-5-个新的邮件首部"><a href="#5-2-MIME-增加-5-个新的邮件首部" class="headerlink" title="5.2 MIME 增加 5 个新的邮件首部"></a>5.2 MIME 增加 5 个新的邮件首部</h3><ol>
+<li>MIME-Version: 标志 MIME 的版本。现在的版本号是1.0。若无此行，则为英文文本<ul>
+<li><code>MIME-Version: 1.0</code></li>
+</ul>
+</li>
+<li>Content-Description: 这是可读字符串，说明此邮件主体是否是图像、音频或视频<ul>
+<li><code>Content-Description: This is a picture of a cat</code></li>
+</ul>
+</li>
+<li>Content-Id: 邮件的惟一标识符<ul>
+<li><code>Content-Id: &lt;image1234@domain.com&gt;</code></li>
+</ul>
+</li>
+<li>Content-Transfer-Encoding: 在传送时邮件的主体是如何编码的<ul>
+<li><code>Content-Transfer-Encoding: base64</code></li>
+</ul>
+</li>
+<li>Content-Type:说明邮件主体的数据类型和子类型<ul>
+<li><code>Content-Type: text/plain; charset=&quot;UTF-8&quot;</code> 或 <code>Content-Type: image/jpeg</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="6-SNMP-简单网络管理协议"><a href="#6-SNMP-简单网络管理协议" class="headerlink" title="6. SNMP 简单网络管理协议"></a>6. SNMP 简单网络管理协议</h2><ul>
+<li><strong>Simple Network Management Protocol</strong><br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>简单网络管理协议（SNMP）是一种<strong>应用层协议</strong>，促进网络设备之间管理信息的交换。</li>
+<li><strong>NMS（Network Management System）：网管</strong>,通过下发请求对上网的所有的主机关于流量等等信息进行管理（监控）</li>
+</ul>
+<h2 id="7-DNS-域名系统-Domain-Name-System"><a href="#7-DNS-域名系统-Domain-Name-System" class="headerlink" title="7. DNS 域名系统 Domain Name System"></a>7. DNS 域名系统 Domain Name System</h2><ul>
+<li>域名系统（DNS）是一种<strong>网络服务</strong>，<strong>管理域名</strong>并响应<strong>客户端请求——将域名转换为相应的IP地址</strong></li>
+</ul>
+<h3 id="7-1-Dnmain-Name-域名"><a href="#7-1-Dnmain-Name-域名" class="headerlink" title="7.1 Dnmain Name 域名"></a>7.1 Dnmain Name 域名</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><p>使用圆点 <code>.</code> 将字符串进行分隔开，字符串不应该太长</p>
+</li>
+<li><p>越靠后域名级别越高</p>
+</li>
+<li><p>www 就是对应到主机群</p>
+</li>
+<li><p><strong>根域（Root Domain）</strong>：</p>
 <ul>
-<li>以字节为单位进行<strong>帧结构描述</strong><ul>
-<li>确保数据能够正确封装和解封装。</li>
+<li>位于域名层次结构的顶端，表示为空字符串。</li>
+<li>由一组根服务器管理，负责顶级域名的解析。</li>
 </ul>
 </li>
-<li>有802.3的规范和以太网的规范</li>
-<li>MAC 介质访问控制子层的帧结构<ul>
-<li>控制多个设备如何共享同一物理介质，避免冲突和碰撞。</li>
+<li><p><strong>顶级域（Top-Level Domain, TLD）</strong>：</p>
+<ul>
+<li>位于根域之下，分为通用顶级域（gTLD）和国家顶级域（ccTLD）。</li>
+<li>例如：.com、.org、.net（通用顶级域），.cn、.us、.uk（国家顶级域）。</li>
+<li><strong>唯一的基础设施域</strong>：arpa，用于反向解析域名</li>
 </ul>
 </li>
-<li>物理地址寻址：<ul>
-<li>使用MAC地址（物理地址）来唯一标识网络设备，确保数据帧能够正确传输到目标设备。</li>
+<li><p><strong>二级域（Second-Level Domain, SLD）</strong>：</p>
+<ul>
+<li>位于顶级域之下，通常由组织或个人注册。</li>
+<li>例如：example.com中的example。</li>
 </ul>
 </li>
-</ul>
-<h3 id="1-前导码Preamble（8字节）"><a href="#1-前导码Preamble（8字节）" class="headerlink" title="1. 前导码Preamble（8字节）"></a>1. 前导码Preamble（8字节）</h3><ol>
-<li>格式：从1和0的交替(alternating)模式开始，称为前同步码(preamble)。<ul>
-<li><strong>告诉接收方，要来数据了</strong>，因为不是预约发数据的模式，这个码就是为了保证对方有相应准备时间，</li>
-<li><strong>前面7个字节是0x10101010</strong>，用于进行<strong>时钟同步</strong></li>
-<li>Start Frame Delimiter (SFD)（前导码）：<strong>最后一个字节是0x10101011</strong>，表示帧的开始，并且为接收方提供时钟同步的最后信号。</li>
+<li><p><strong>子域（Subdomain）</strong>：</p>
+<ul>
+<li>位于二级域之下，可以由域名所有者自由创建。</li>
+<li>例如：mail.example.com中的mail。</li>
 </ul>
 </li>
-<li>作用：<ul>
-<li>使用曼彻斯特编码的方案，无传输的时候是0电平的</li>
-<li>前同步码告诉接收站一帧即将到来。</li>
+<li><p><strong>主机名（Hostname）</strong>：</p>
+<ul>
+<li>最具体的层次，指向具体的设备或服务。</li>
+<li>例如：<a href="http://www.example.com中的www./">www.example.com中的www。</a></li>
 </ul>
 </li>
 </ol>
-<h3 id="2-目标和源物理地址字段-Dest-add-和-Source-add-（6字节-6字节）"><a href="#2-目标和源物理地址字段-Dest-add-和-Source-add-（6字节-6字节）" class="headerlink" title="2. 目标和源物理地址字段 Dest.add. 和 Source add.（6字节+6字节）"></a>2. 目标和源物理地址字段 Dest.add. 和 Source add.（6字节+6字节）</h3><ol>
-<li>目的地址：单播地址，组播地址或广播地址。<ul>
-<li>用于标识<strong>接收数据的设备的MAC地址</strong></li>
+<h3 id="7-2-TLD-顶级域-Top-Level-Domain"><a href="#7-2-TLD-顶级域-Top-Level-Domain" class="headerlink" title="7.2 TLD 顶级域 Top Level Domain"></a>7.2 TLD 顶级域 Top Level Domain</h3><ol>
+<li>国家 TLD（nTLD）<ul>
+<li>.cn（CHINA） 中国</li>
+<li>.us（United States） 美国</li>
+<li>.uk（United kingdom）, etc. 英国等等</li>
 </ul>
 </li>
-<li>源地址：始终是<strong>单播地址</strong>。<ul>
-<li>用于标识<strong>发送数据的设备的MAC地址</strong>。</li>
+<li>通用 TLD（gTLD），最早的域包括：<ul>
+<li>.com Enterprises and companies 企业和公司</li>
+<li>.net Network services providers 网络服务提供者</li>
+<li>.org Nonprofit organizations 非盈利组织</li>
+<li>.edu Educational facilities 教育机构</li>
+</ul>
+</li>
+<li>基础设施领域（Infrastructure domain）<ul>
+<li>Only one： <strong>arpa</strong>, for resolving domain names reversely 仅一个：arpa，用于<strong>反向解析域名</strong></li>
+</ul>
+</li>
+<li>Recently, new TLD domain added：<ul>
+<li>.aero（航空运输企业）</li>
+<li>.biz（公司和企业）</li>
+<li>.coop（合作团体）</li>
+<li>.info（各种资讯）</li>
+<li>.jobs（人力资源管理者）</li>
+<li>.mobi（移动产品与服务的用户和提供者）</li>
+<li>.museum（博物馆）</li>
+<li>.name（个人）</li>
+<li>.pro（经过认证的专业人员）</li>
+<li>.travel（旅游业）</li>
+</ul>
+</li>
+</ol>
+<h3 id="7-3-域名服务器Domain-Name-Server-DNS"><a href="#7-3-域名服务器Domain-Name-Server-DNS" class="headerlink" title="7.3 域名服务器Domain Name Server (DNS)"></a>7.3 域名服务器Domain Name Server (DNS)</h3><p><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>顶级域名底下的域名就是由顶级域名下面进行管理</li>
+<li>根域名服务器存储位置，所以子服务器知道根服务器的地址即可</li>
+</ul>
+<h3 id="7-4-结合域名服务器查找-IP-地址"><a href="#7-4-结合域名服务器查找-IP-地址" class="headerlink" title="7.4 结合域名服务器查找 IP 地址"></a>7.4 结合域名服务器查找 IP 地址</h3><ul>
+<li>DNS 系统以层次（hierarchy）结构设置，该层次结构创建<strong>不同级别的 DNS 服务器</strong>。</li>
+<li>此级别的 DNS 服务器<strong>判断其自身</strong>是否能够将<strong>域名</strong>转换为<strong>关联的 IP 地址</strong>：<ol>
+<li>如果<strong>可以</strong>，则将<strong>结果返回给客户端</strong></li>
+<li>如果<strong>没有</strong>，它将请求发送到更高级别。（<strong>向上级请求</strong>）<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+</li>
+<li>请求分为两种：<ul>
+<li>能够应答</li>
+<li>不能够应答</li>
+</ul>
+</li>
+<li>递归地进行查找：具体过程在上图</li>
+<li>下面递归，上面迭代</li>
+</ul>
+<h2 id="8-应用层通信处理的两种方式"><a href="#8-应用层通信处理的两种方式" class="headerlink" title="8. 应用层通信处理的两种方式"></a>8. 应用层通信处理的两种方式</h2><ol>
+<li><strong>第一种方式</strong>：（短连接）<ul>
+<li>在这种模式下，客户端每次向服务器请求资源时，都会建立一次新的连接，并且在请求处理完成后，连接会立即断开。</li>
+<li>当浏览器打开时，它连接到<strong>默认页面</strong>，并将<em>页面的文件传输到客户端</em>。</li>
+<li>处理完成后，连接断开。</li>
+</ul>
+</li>
+<li><strong>第二种方式</strong>：（长连接&#x2F;持久连接）<ul>
+<li>长连接（也称持久连接）会在客户端和服务器之间建立一个持久的连接，在整个会话期间保持连接，直到客户端显式地断开连接。通常用于需要持续<strong>交互</strong>的应用。</li>
+<li>如Telnet（远程登录）和FTP（文件传输），建立与服务器的连接，并保持该连接直到所有处理完成。</li>
+<li>当用户确定已完成时，客户端终止连接。</li>
 </ul>
 </li>
 </ol>
 <ul>
-<li>MAC地址：<strong>6个字节目的地址(Dest.add) 6个字节源地址(Source.add.)</strong>，和第三层第四层报文有差别</li>
-<li><strong>先看目的地址</strong>的好处:交换机等看到目的地址就可以进行判断，<code>提高效率</code></li>
+<li>所有通信活动都属于这两种类别之一。<br><img src="/2025/02/24/%E5%85%AD%E3%80%81Layer567.Application/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
 </ul>
-<h3 id="3-长度字段Length（2字节）"><a href="#3-长度字段Length（2字节）" class="headerlink" title="3. 长度字段Length（2字节）"></a>3. 长度字段Length（2字节）</h3><ul>
-<li>长度字段指示<strong>在该字段之后</strong>且<strong>在帧检查序列字段(FCS)之前</strong>的<strong>数据字节数</strong>。</li>
-<li>确保接收方知道<strong>数据字段的长度</strong>，从而能够正确地解析和处理数据。</li>
-</ul>
-<h3 id="4-数据字段Data（字节长度可变）"><a href="#4-数据字段Data（字节长度可变）" class="headerlink" title="4. 数据字段Data（字节长度可变）"></a>4. 数据字段Data（字节长度可变）</h3><ul>
-<li>数据字段<strong>包含要发送的信息</strong>。</li>
-<li>若数据小于46字节，必须通过 填充 零来满足最小长度要求，确保帧的大小达到64字节。</li>
-<li>以太网帧头部的前8个字节（如MAC地址、类型字段等）不算作数据字段内容。</li>
-<li>发送多个64字节大小的帧可以确保链路带宽的有效利用，尤其在100M带宽的链路上，发送这些帧需要512微秒，占据了完整的传输带宽。</li>
-</ul>
-<h3 id="5-FCS字段（4个字节）"><a href="#5-FCS字段（4个字节）" class="headerlink" title="5. FCS字段（4个字节）"></a>5. FCS字段（4个字节）</h3><ul>
-<li><strong>FCS（Frame Check Sequence，帧检验序列）</strong></li>
-<li>FCS字段(四个字节)包含一个<strong>循环冗余校验值(CRC，cyclic redundancy check)</strong><ul>
-<li>用于检测<strong>数据帧在传输过程中是否发生了错误</strong></li>
-</ul>
-<ol>
-<li>发送设备生成CRC。</li>
-<li>接收设备重新计算CRC，以检查在传输过程中帧是否发生了损坏。</li>
-</ol>
-</li>
-</ul>
-<h2 id="（一-2）LLC-逻辑链路控制子层"><a href="#（一-2）LLC-逻辑链路控制子层" class="headerlink" title="（一.2）LLC 逻辑链路控制子层"></a>（一.2）LLC 逻辑链路控制子层</h2><ul>
-<li><strong>通信管理</strong>：逻辑链路控制（LLC）子层<strong>管理设备之间在单一链路上的通信</strong>。</li>
-<li><strong>支持连接和无连接服务</strong>：<ul>
-<li>无连接服务：类似于不需要建立正式连接的通信方式（例如UDP协议）。数据直接被发送，没有需要额外的握手或确认过程。</li>
-<li>面向连接的服务：类似于需要事先建立连接的通信方式（例如TCP协议）。在数据传输前，设备需要进行连接建立、数据确认等操作。</li>
-</ul>
-</li>
-<li>LLC子层允许数据链路层的一部分独立于现有技术进行工作。<ul>
-<li>单个LLC子层可以与不同的MAC子层兼容。</li>
-</ul>
-</li>
-<li>LLC子层的位置：位于MAC之上<ul>
-<li>MAC层与物理层交互, LLC层与网络层交互</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-LLC子层：封装"><a href="#1-LLC子层：封装" class="headerlink" title="1. LLC子层：封装"></a>1. LLC子层：封装</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li>LLC接收网络协议数据（数据包，packet），并添加更多的控制信息，帮助将数据包传递到目的地。</li>
-<li>它在每端添加了IEEE 802.2标准中的两个地址组件，以标识上层协议：<ul>
-<li>目标服务接入点（DSAP）</li>
-<li>源服务接入点（SSAP）</li>
-</ul>
-</li>
-<li>然后，这些重新封装的数据会传递给MAC子层，进行进一步的数据封装。</li>
-</ol>
-<h2 id="（二）-MAC子层上的介质访问控制-Media-Access-Control-in-MAC-Sub-layer"><a href="#（二）-MAC子层上的介质访问控制-Media-Access-Control-in-MAC-Sub-layer" class="headerlink" title="（二） MAC子层上的介质访问控制 Media Access Control in MAC Sub-layer"></a>（二） MAC子层上的介质访问控制 Media Access Control in MAC Sub-layer</h2><h3 id="1-十六进制数-Hexadecimal-作为MAC地址"><a href="#1-十六进制数-Hexadecimal-作为MAC地址" class="headerlink" title="1. 十六进制数(Hexadecimal)作为MAC地址"></a>1. 十六进制数(Hexadecimal)作为MAC地址</h3><ul>
-<li>MAC地址<ul>
-<li>MAC地址为48位</li>
-<li>始终表示为<strong>12个十六进制数字</strong>。</li>
-<li>分隔符：MAC地址的各个字节之间通常用冒号（:）或连字符（-）分隔。</li>
-</ul>
-</li>
-<li>MAC地址的组成部分<ol>
-<li><strong>组织唯一标识符（OUI）</strong>：<ul>
-<li>前6个十六进制数字（从左到右），由IEEE管理，用于标识<strong>制造商</strong>或<strong>供应商</strong>，这部分被称为组织唯一标识符（OUI）。</li>
-<li>例如：<code>00:1A:2B</code>。</li>
-</ul>
-</li>
-<li><strong>接口序列号</strong>：<ul>
-<li>剩下的6个十六进制数字组成了接口序列号，由具体的供应商管理，用于唯一标识设备。</li>
-<li>例如：<code>3C:4D:5E</code>。</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<h3 id="2-以太网802-3广播"><a href="#2-以太网802-3广播" class="headerlink" title="2. 以太网802.3广播"></a>2. 以太网802.3广播</h3><ul>
-<li>以太网802.3广播是指在以太网网络中，将数据帧发送给网络中的所有设备。</li>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>五、OSI第四层:运输层</title>
+    <url>/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="第五章-第四层-运输层-Transport-Layer"><a href="#第五章-第四层-运输层-Transport-Layer" class="headerlink" title="第五章 第四层:运输层 Transport Layer"></a>第五章 第四层:运输层 Transport Layer</h1><ul>
+<li>第四层运输层主要是实现了主机之间的通信。</li>
+<li>数据通信是服务于主机上的进程(Session)</li>
 </ul>
 <ol>
-<li>广播Broadcast<ul>
-<li>目标MAC：48位全1(<code>FFFF.FFFF.FFFF</code>)<ul>
-<li>保证<strong>所有设备</strong>都能收到这个地址</li>
-<li>会导致非目的主机进行地址解析</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>广播会<em>不必要地打断</em> 电台(stations)，从而<strong>严重影响电台的性能</strong></li>
-<li>因此，<strong>仅在以下情况下才使用</strong>广播：<ul>
-<li><strong>目的地的MAC地址未知</strong></li>
-<li><strong>T目的地是所有主机</strong></li>
-</ul>
-</li>
-<li>非必要情况下我们不希望有很多广播，有可能会导致广播风暴</li>
+<li>An overview of layer 4</li>
+<li>TCP (Transmission Control Protocol)</li>
+<li>UDP(User Datagram Protocol)</li>
+<li>An application: NAT and PAT</li>
 </ol>
-<h3 id="3-帧结构-Framing"><a href="#3-帧结构-Framing" class="headerlink" title="3. 帧结构 Framing"></a>3. 帧结构 Framing</h3><ul>
-<li>帧结构是 数据链路层（Layer 2） 的<strong>封装</strong>过程。</li>
-<li>一帧A frame是数据链路层<strong>协议数据单元（PDU）</strong>。</li>
-<li>一帧由多个部分（字段）组成，每个字段由字节构成。<ul>
-<li>帧开始字段（frame start field）</li>
-<li>地址字段（address field）</li>
-<li>长度&#x2F;类型&#x2F;控制字段（length&#x2F;type&#x2F;control field）</li>
-<li>数据字段（data field）</li>
-<li>帧检验序列字段（frame check sequence field）</li>
-<li>帧停止字段（frame stop field）<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<h1 id="一、第四层综述"><a href="#一、第四层综述" class="headerlink" title="一、第四层综述"></a>一、第四层综述</h1><h2 id="1、第4层执行多项功能："><a href="#1、第4层执行多项功能：" class="headerlink" title="1、第4层执行多项功能："></a>1、第4层执行多项功能：</h2><ol>
+<li>对上层应用数据进行分段（segmenting upper-layer application data）</li>
+<li>建立<strong>端到端</strong>(end to end)的运营</li>
+<li>将段从一个端主机发送到另一个端主机<ul>
+<li>(第三层和第二层不进行可靠性检验，第四层完成可靠性检验，接受方认为数据错误，在第四层进行要求重传)</li>
 </ul>
 </li>
-</ul>
-<h3 id="4-以太网的MAC机制-CSMA-CD"><a href="#4-以太网的MAC机制-CSMA-CD" class="headerlink" title="4. 以太网的MAC机制 CSMA&#x2F;CD"></a>4. 以太网的MAC机制 CSMA&#x2F;CD</h3><ol>
-<li>历史（略）</li>
-<li>CSMA&#x2F;CD（载波侦听多路访问&#x2F;碰撞检测）<ul>
-<li>使用CSMA机制来判断主机是否应该发送数据。</li>
-<li>在传输过程中，同时监听信道。<ul>
-<li>当检测到碰撞时，广播干扰信号jam signal。</li>
-<li>回退算法，确定发生碰撞的站点何时可以重新发送数据。</li>
-</ul>
-</li>
+<li><strong>流量控制</strong>和<strong>可靠性</strong><ul>
+<li>可以比喻为<em>与外国人交谈</em>:通常，您会要求外国人<em>重复他&#x2F;她的话(可靠性)</em> 并<em>慢声说话(流量控制)</em></li>
+<li>双方主机的网络的处理能力不同，缓存能力不同</li>
 </ul>
 </li>
 </ol>
-<h3 id="5-以太网操作"><a href="#5-以太网操作" class="headerlink" title="5. 以太网操作"></a>5. 以太网操作</h3><ol>
-<li>以太网是<strong>广播网络</strong>，也就是说，<strong>每个站都可以看到所有帧</strong>，而不管它们是否是目的地</li>
-<li>通过 <strong>MAC 地址</strong>判断站点是否为<strong>目的地</strong></li>
-<li>目标站在 OSI 层上发送数据。其他节点<strong>丢弃</strong>（discard）帧<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<h2 id="2-两个特别重要的第4层协议："><a href="#2-两个特别重要的第4层协议：" class="headerlink" title="2. 两个特别重要的第4层协议："></a>2. 两个特别重要的第4层协议：</h2><ol>
+<li><strong>传输控制协议</strong>(<strong>TCP</strong>, Transmission Control Protocol)</li>
+<li><strong>用户数据报协议</strong>(<strong>UDP</strong>, User Datagram Protocol)</li>
+</ol>
+<h2 id="3-Layer-4-The-Transport-Layer"><a href="#3-Layer-4-The-Transport-Layer" class="headerlink" title="3. Layer 4:  The Transport Layer"></a>3. Layer 4:  The Transport Layer</h2><ol>
+<li>将传出消息划分为多个<strong>段</strong> + 在目标站重新<strong>组合</strong>消息</li>
+<li><strong>传输控制协议（TCP）</strong>：<ul>
+<li><strong>可靠</strong></li>
+<li><strong>面向连接 Connection -oriented</strong></li>
+<li>软件<strong>检查</strong>段</li>
+<li><strong>重新发送</strong>任何丢失或出错的段</li>
+<li>使用<strong>确认 acknowledgments</strong></li>
+<li>提供<strong>流量控制</strong></li>
+</ul>
+</li>
+<li><strong>用户数据报协议（UDP）</strong>：<ul>
+<li>不可靠</li>
+<li>无连接 connectionless</li>
+<li>不提供段的软件检查</li>
+<li>（直接丢弃错误的报文，而不进行其他操作）</li>
+<li>不使用确认</li>
+<li>不提供流量控制</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-服务模型"><a href="#4-服务模型" class="headerlink" title="4. 服务模型"></a>4. 服务模型</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>TCP和UDP都使用<strong>端口 port</strong>来跟踪(track)同时穿越网络的不同会话</li>
+<li>应用软件开发人员同意使用在RFC1700中定义的知名端口号。</li>
+<li>端口号低于255的端口保留用于TCP和UDP公共应用程序。<ul>
+<li>端口号<strong>0-255是public</strong>的，<strong>不可以随意分给其他的进程</strong>，如果分发则不符合规范</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-套接字-Socket-第四层的单位"><a href="#5-套接字-Socket-第四层的单位" class="headerlink" title="5. 套接字(Socket, 第四层的单位)"></a>5. 套接字(Socket, 第四层的单位)</h2><ul>
+<li>套接字<strong>表示为（IP地址，端口）</strong>。</li>
+<li>每个<strong>连接</strong>表示为（<strong>源套接字，目标套接字</strong>），这是一个<strong>点对点</strong>的<strong>全双工</strong>通道。</li>
+<li>TCP不支持多播和广播。</li>
+</ul>
+<hr>
+<h1 id="二、-TCP-Transmission-Control-Protocol"><a href="#二、-TCP-Transmission-Control-Protocol" class="headerlink" title="二、 TCP (Transmission Control Protocol)"></a>二、 TCP (Transmission Control Protocol)</h1><ul>
+<li><strong>传输控制协议</strong></li>
+</ul>
+<h2 id="1-TCP-服务模型"><a href="#1-TCP-服务模型" class="headerlink" title="1. TCP 服务模型"></a>1. TCP 服务模型</h2><h3 id="1-1-TCP必须解决的问题"><a href="#1-1-TCP必须解决的问题" class="headerlink" title="1.1 TCP必须解决的问题"></a>1.1 TCP必须解决的问题</h3><ol>
+<li><strong>可靠传输</strong> Reliable transfer</li>
+<li><strong>流量传输</strong> Flow control<ul>
+<li>滑动窗口 Sliding window</li>
+<li>避免拥塞 congestion avoidance</li>
+</ul>
+</li>
+<li><strong>连接控制</strong> Connection management<ul>
+<li>建立连接:三次握手</li>
+<li>断开连接:四次握手</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-TCP数据段的格式"><a href="#1-2-TCP数据段的格式" class="headerlink" title="1.2 TCP数据段的格式"></a>1.2 TCP数据段的格式</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-1-首部情况"><a href="#1-2-1-首部情况" class="headerlink" title="1.2.1. 首部情况"></a>1.2.1. 首部情况</h4><ul>
+<li>一行共计4字节，段首在前，<strong>固定首部长度为20字节</strong>。</li>
+</ul>
+<h4 id="1-2-2-源端口和目的端口"><a href="#1-2-2-源端口和目的端口" class="headerlink" title="1.2.2. 源端口和目的端口"></a>1.2.2. 源端口和目的端口</h4><ul>
+<li>源端口和目的端口字段:各占 <strong>2 字节</strong></li>
+</ul>
+<ol>
+<li>端口是运输层与<strong>应用层</strong>的服务接口</li>
+<li>运输层的复用和分用功能都要通过端口才能实现</li>
+</ol>
+<h4 id="1-2-3-序号"><a href="#1-2-3-序号" class="headerlink" title="1.2.3. 序号"></a>1.2.3. 序号</h4><ul>
+<li>序号字段：占<strong>4 字节</strong></li>
+</ul>
+<ol>
+<li>TCP 传送的数据流中的每一个字节都编上一个序号</li>
+<li>序号字段的值指本报文段所发送的数据的第一个字节的序号</li>
+</ol>
+<h4 id="1-2-4-确认号"><a href="#1-2-4-确认号" class="headerlink" title="1.2.4. 确认号"></a>1.2.4. 确认号</h4><ul>
+<li>确认号字段：占 <strong>4 字节</strong>，是<strong>期望</strong>收到对方的<strong>下一个报文段的数据的第一个字节的序号</strong></li>
+</ul>
+<ol>
+<li>确认对方的数据号(发送同时对上一次传输进行确认)</li>
+<li>体现出了全双工通信的优点，比如上回收到最后序号是700，那么确认号就是701</li>
+</ol>
+<h4 id="1-2-5-数据偏移"><a href="#1-2-5-数据偏移" class="headerlink" title="1.2.5. 数据偏移"></a>1.2.5. 数据偏移</h4><ul>
+<li>数据偏移(即<em>首部长度</em>)：占 <strong>4 位</strong></li>
+</ul>
+<ol>
+<li>指出 TCP 报文段的<strong>数据起始处距 TCP 报文段的起始处的长度</strong><ul>
+<li>(Data部分从什么地方开始算)</li>
+</ul>
+</li>
+<li>单位是 32 位字(以 4 字节为计算单位)</li>
+<li>不满足的话<strong>使用填充位保证为4字节的整数倍</strong>(保证对齐问题)</li>
+</ol>
+<h4 id="1-2-6-保留"><a href="#1-2-6-保留" class="headerlink" title="1.2.6. 保留"></a>1.2.6. 保留</h4><ul>
+<li>保留字段：占 <strong>6 位</strong>，保留为今后使用，<strong>目前置 0</strong><ul>
+<li>也就是说截止到现在也没有使用这部分的字段。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-7-URG"><a href="#1-2-7-URG" class="headerlink" title="1.2.7. URG"></a>1.2.7. URG</h4><ul>
+<li><strong>紧急 URG &#x3D; 1 时</strong>，表明紧急指针字段有效。</li>
+</ul>
+<ol>
+<li>告诉系统此报文段中<strong>有紧急数据</strong>，应尽快传送(相当于<strong>高优先级</strong>的数据)</li>
+</ol>
+<h4 id="1-2-8-ACK"><a href="#1-2-8-ACK" class="headerlink" title="1.2.8. ACK"></a>1.2.8. ACK</h4><ul>
+<li>ACK &#x3D; 1 时<strong>确认号字段</strong>有效;</li>
+<li>ACK &#x3D; 0 时确认号字段无效</li>
+</ul>
+<h4 id="1-2-9-PSH-PuSH-推送"><a href="#1-2-9-PSH-PuSH-推送" class="headerlink" title="1.2.9. PSH(PuSH) 推送"></a>1.2.9. PSH(PuSH) 推送</h4><ol>
+<li>接收 TCP 收到 <strong>PSH &#x3D; 1</strong> 的报文段，就<strong>尽快地交付接收应用进程</strong>，而<strong>不再等到整个缓存都填满了后再向上交付</strong><ul>
+<li>此时<strong>将缓存所有部分都传输</strong>，而<em>并不是只将这个报文段的信息进行传输</em>。</li>
+<li>TCP在正常条件下并不是立马传输的，首先要缓存满了才发送，其次还有就是要保证网络可信的时候才发送</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-2-10-RST-复位"><a href="#1-2-10-RST-复位" class="headerlink" title="1.2.10. RST 复位"></a>1.2.10. RST 复位</h4><ol>
+<li><strong>ReSeT &#x3D; 1时</strong>，表明TCP连接中出现<strong>严重差错</strong>(如由于主机崩溃或其他原因)，<strong>必须释放连接，然后再重新建立运输连接</strong></li>
+</ol>
+<h4 id="1-2-11-SYN"><a href="#1-2-11-SYN" class="headerlink" title="1.2.11. SYN"></a>1.2.11. SYN</h4><ol>
+<li>同步 <strong>SYN &#x3D; 1</strong>:表示<strong>这是一个连接请求或连接接受报文</strong><ul>
+<li>(初始的时候才出现)</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-2-12-FIN-FINis-终止"><a href="#1-2-12-FIN-FINis-终止" class="headerlink" title="1.2.12. FIN(FINis) 终止"></a>1.2.12. FIN(FINis) 终止</h4><ul>
+<li>用来<strong>释放一个连接</strong>。</li>
+<li><strong>FIN &#x3D; 1</strong> 表明<strong>此报文段的发送端的数据已发送完毕</strong>，并<em>要求释放运输连接</em>。 <ul>
+<li>(发送方没有传输数据了)</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h4 id="1-2-13-窗口"><a href="#1-2-13-窗口" class="headerlink" title="1.2.13. 窗口"></a>1.2.13. 窗口</h4><ul>
+<li>占 <strong>2 字节</strong>，用来让对方设置发送窗口的依据，单位为字节。<ul>
+<li>表示<strong>可以进行传输的窗口大小</strong>是多少。</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-2-14-检验和"><a href="#1-2-14-检验和" class="headerlink" title="1.2.14. 检验和"></a>1.2.14. 检验和</h4><ul>
+<li>检验和:占<strong>2字节</strong>。检验和字段检验的范围包括<strong>首部</strong>和<strong>数据</strong>这两部分</li>
+</ul>
+<h4 id="1-2-15-紧急指针字段"><a href="#1-2-15-紧急指针字段" class="headerlink" title="1.2.15. 紧急指针字段"></a>1.2.15. 紧急指针字段</h4><ul>
+<li>紧急指针字段:占<strong>16位</strong>，指出在本报文段中<strong>紧急数据共有多少个字节</strong>（紧急数据放在本报文段数据的<strong>最前面</strong>）</li>
+</ul>
+<h4 id="1-2-16-选项（长度可变）"><a href="#1-2-16-选项（长度可变）" class="headerlink" title="1.2.16. 选项（长度可变）"></a>1.2.16. 选项（长度可变）</h4><ol>
+<li>TCP 最初只有一种选项，即最大报文段长度 MSS(Maximum Segment Size)</li>
+<li>MSS 告诉对方缓存所能接收的报文段的数据字段的最大长度是 MSS 个字节</li>
+<li>数据字段加上 TCP 首部才等于整个的 TCP 报文段</li>
+</ol>
+<h4 id="1-2-17-填充字段"><a href="#1-2-17-填充字段" class="headerlink" title="1.2.17. 填充字段"></a>1.2.17. 填充字段</h4><ul>
+<li>填充字段：这是为了<strong>使整个首部长度是 4 字节的整数倍</strong>。</li>
+</ul>
+<hr>
+<h2 id="2-TCP协议"><a href="#2-TCP协议" class="headerlink" title="2. TCP协议"></a>2. TCP协议</h2><ol>
+<li>主机使用**段（TPDU传输层PDU）**交换数据</li>
+<li>每个段都有：<ul>
+<li>一个<strong>20字节的首部</strong>（不包括可选部分）</li>
+<li><strong>0 或更多数据字节</strong>（请求连接的时候）</li>
+</ul>
+</li>
+<li>段的大小必须与 IP 数据包匹配，并且还必须满足底层的需求<ul>
+<li>例如，以太网的 MTU（最大传输单位）为 1500 字节</li>
+</ul>
+</li>
+<li><strong>每个字节 byte</strong> 都有一个 32 位的序号<strong>seq</strong></li>
+</ol>
+<h3 id="2-1-Reliable-Connection-可靠连接"><a href="#2-1-Reliable-Connection-可靠连接" class="headerlink" title="2.1 Reliable Connection 可靠连接"></a>2.1 Reliable Connection 可靠连接</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>“红蓝两军问题”是一个经典的计算机网络中的死锁（Deadlock）问题，或者说是资源竞争的一个类比。通常是用于阐述一些竞争、阻塞和同步问题。</li>
+</ul>
+<hr>
+<h2 id="3-TCP-Establish-Connection"><a href="#3-TCP-Establish-Connection" class="headerlink" title="3. TCP:Establish Connection"></a>3. TCP:Establish Connection</h2><h3 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器Server</strong>：执行LISTEN和ACCEPT原语，被动监听。</li>
+<li><strong>客户端Client</strong>：执行CONNECT原语，生成一个<strong>SYN&#x3D;1和ACK&#x3D;0</strong>的TCP段，表示连<strong>接请求</strong>。<ul>
+<li>SYN&#x3D;1：连接请求</li>
+<li>ACK&#x3D;0：确认号无效</li>
+</ul>
+</li>
+</ul>
+<h3 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>：检查<strong>是否有服务进程在监听端口</strong></li>
+</ul>
+<ol>
+<li>如果<strong>没有</strong>进程，回复一个<strong>RST&#x3D;1</strong>的TCP段<ul>
+<li>差错，要重连</li>
+</ul>
+</li>
+<li>如果<strong>有</strong>进程，决定拒绝或接受请求</li>
+<li>如果接受连接请求，发送一个SYN&#x3D;1和ACK&#x3D;1的TCP段<ul>
+<li>连接请求</li>
+<li>确认号有效</li>
+</ul>
+</li>
+</ol>
+<h3 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><p><strong>客户端</strong>：发送一个<strong>SYN&#x3D;0和ACK&#x3D;1</strong>的TCP段，以<strong>确认连接</strong>。</p>
+</li>
+<li><p><strong>服务器</strong>：接收到确认后，通知上层应用程序连接已建立。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+</li>
+<li><p>默认三次握手就认为可靠了，之后就进行数据传输</p>
+</li>
+<li><p>有时候我们会选择，第三次握手的时候同时携带数据。</p>
+</li>
 </ol>
 <ul>
-<li>上图中1是总线拓扑，1发送的数据帧会传达给所有在这个总线上的设备，非目的主机检查目的地址和本机MAC地址不同，则会将该帧丢弃。</li>
+<li>TCP头部中的<strong>SEQ（序列号）字段</strong>：<ul>
+<li>32位，用来标识当前数据段的序列号。每发送一个数据段时，序列号会<strong>根据数据段的大小递增</strong>。</li>
+<li>通过与ACK（确认号）一起使用，确保了数据的可靠性和完整性。<ul>
+<li>此ACK指的是32位的那个</li>
 </ul>
-<h3 id="6-广播操作步骤"><a href="#6-广播操作步骤" class="headerlink" title="6. 广播操作步骤"></a>6. 广播操作步骤</h3><ol>
-<li>听然后传送</li>
-<li>广播 jam 信号</li>
-<li>发生碰撞(Collision)</li>
-<li>设备退回(back off)适当的时间，然后重新传输(retransmit)发生冲突的设备<ul>
-<li>根据特定的回退算法<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>seq和ack的关系：<ul>
+<li>在三次握手（TCP连接建立过程）中，序列号用于确保双方都准备好建立连接。</li>
+<li>在数据传输过程中，SEQ标识发送的数据包的顺序，而ACK确认已收到的数据。</li>
+<li>例如，客户端发送的数据包的SEQ为1000，服务器确认收到后返回ACK为1001，表示它已经成功接收到序列号为1000的数据包。</li>
+</ul>
+</li>
+</ul>
+<h2 id="建立连接实例"><a href="#建立连接实例" class="headerlink" title="建立连接实例"></a>建立连接实例</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-9.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>基本的三次握手用于连接同步Synchronization</li>
+<li>注意，<strong>ACK不占用序列号空间</strong>（如果占用，我们将最终确认ACK的ACK！）</li>
+</ul>
+<hr>
+<h2 id="4-数据传输——停止等待协议-Data-transfer——stop-and-wait-protocol"><a href="#4-数据传输——停止等待协议-Data-transfer——stop-and-wait-protocol" class="headerlink" title="4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol"></a>4. 数据传输——停止等待协议 Data transfer——stop-and-wait protocol</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>发送段后，<strong>暂时保留备份 backup</strong><ul>
+<li>在发送后没有收到确认的时候，要保存备份来重传</li>
+<li>收到确认的时候，抛弃备份</li>
+<li><strong>超时</strong>计时器：如果对方的应答超过一定时间后则<strong>直接进行重发</strong>（时间要比正常往返时间稍微长一点）</li>
+</ul>
+</li>
+<li>每个<strong>segment和 ACK 必须具有 ID</strong></li>
+<li>重新发送时间必须大于<strong>平均传输时间 * 2</strong></li>
+<li>停止等待协议是一个简单的协议，但是效率很低</li>
+</ol>
+<h2 id="5-数据传输——丢失-延迟-Lost-ACK-and-Late-ACK"><a href="#5-数据传输——丢失-延迟-Lost-ACK-and-Late-ACK" class="headerlink" title="5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK"></a>5. 数据传输——丢失&#x2F;延迟 Lost ACK and Late ACK</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>丢失ACK情况:</li>
+</ol>
+<ul>
+<li><strong>发送方</strong>：<strong>重新发送一份</strong>M1数据段</li>
+<li><strong>接收方</strong>：如果<strong>接收到重复</strong>的M1数据段，接收方将<strong>丢弃</strong>重复的数据段。<ul>
+<li>将<strong>重新发送ACK</strong>，以确认已经接收到的M1数据段。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>ACK迟到情况:</li>
+</ol>
+<ul>
+<li><strong>发送方</strong>：<strong>重新发送一份</strong>M1数据段</li>
+<li><strong>接收方</strong>：如果<strong>接收到重复</strong>的M1数据段，接收方将<strong>丢弃</strong>重复的数据段。<ul>
+<li>将<strong>重新发送ACK</strong>，以确认已经接收到的M1数据段。</li>
+</ul>
+</li>
+<li>发送方收到迟到的ACK不做理会<ul>
+<li>晚到的应答直接丢弃（不做处理）</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-可靠通信——自动重传请求（ARQ）"><a href="#6-可靠通信——自动重传请求（ARQ）" class="headerlink" title="6. 可靠通信——自动重传请求（ARQ）"></a>6. 可靠通信——自动重传请求（ARQ）</h2><ul>
+<li><strong>ARQ (Automatic Repeat reQuest)</strong></li>
+<li>这意味着“重传请求”是<strong>自动发送</strong>的，接收方<strong>无需请求发送方重传出错的数据段</strong>。</li>
+</ul>
+<h3 id="6-1-连续-ARQ-协议"><a href="#6-1-连续-ARQ-协议" class="headerlink" title="6.1 连续 ARQ 协议"></a>6.1 连续 ARQ 协议</h3><ul>
+<li>连续 ARQ 协议（<strong>Contiguous ARQ Protocol</strong>）<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>ARQ的工作原理</li>
+</ul>
+<ol>
+<li><strong>发送方维持发送窗口</strong></li>
+<li>收到<strong>一个确认</strong>后，发送窗口<strong>向前滑动</strong></li>
+<li>只可发送发送窗口内的数据</li>
+</ol>
+<h3 id="6-2-具体实例"><a href="#6-2-具体实例" class="headerlink" title="6.2 具体实例"></a>6.2 具体实例</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>发送端要发送 900 字节长的数据，划分为 9 个 100 字节长的报文段，而<strong>发送窗口确定为 500 字节</strong>。</li>
+<li><strong>发送端只要收到了对方的确认，发送窗口就可前移</strong>。</li>
+<li>发送 TCP 要维护一个指针。每发送一个报文段，指针就向前移动一个报文段的距离。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送端已发送了 400 字节的数据，但只收到对前 200 字节数据的确认，同时窗口大小不变。</li>
+<li>现在发送端还可发送 300 字节。</li>
+<li>发送端收到了对方对前 400 字节数据的确认，但对方<strong>通知发送端必须把窗口减小到 400 字节</strong>。</li>
+<li>现在发送端最多还可发送 400 字节的数据。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-16.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>利用可变窗口大小进行流量控制，双方确定的窗口值是 400<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-17.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li><strong>WIN：窗口的大小</strong>：双方动态协商，收到确认调整窗口</li>
+<li>ACK：是指可以继续发送的数据的位置。</li>
+<li>为什么 201 在 401 后面发送？<strong>超时重传</strong>（<strong>要超过两倍的平均传输时间后才进行重传</strong>）</li>
+</ul>
+<hr>
+<h2 id="7-TCP-Release-Connection-中断连接"><a href="#7-TCP-Release-Connection-中断连接" class="headerlink" title="7. TCP: Release Connection 中断连接"></a>7. TCP: Release Connection 中断连接</h2><h3 id="第一次握手：A发起断开连接请求"><a href="#第一次握手：A发起断开连接请求" class="headerlink" title="第一次握手：A发起断开连接请求"></a>第一次握手：A发起断开连接请求</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-18.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>客户端</strong>：发送一个<strong>FIN&#x3D;1</strong>的TCP段，表示<strong>请求中断连接</strong>。</li>
+<li>这表示发送方已经没有数据要发送了，但仍然可以接收数据</li>
+</ul>
+<h3 id="第二次握手：B-Ack-1-允许断开"><a href="#第二次握手：B-Ack-1-允许断开" class="headerlink" title="第二次握手：B:Ack &#x3D; 1:允许断开"></a>第二次握手：B:Ack &#x3D; 1:允许断开</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-21.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>：发送一个ACK&#x3D;1的TCP段，表示确认接收到中断连接请求.</li>
+<li>此时，<em>接收方可能还有未发送完的数据</em>，因此<strong>连接仍然保持</strong>，只是<strong>不再发送新的数据</strong>，此时我们需要完成之前未处理完成的数据的处理。(这里只是说我已经收到了你请求停止传输的请求)</li>
+</ul>
+<h3 id="第三次握手：B-FIN-1-数据处理完成"><a href="#第三次握手：B-FIN-1-数据处理完成" class="headerlink" title="第三次握手：B:FIN &#x3D; 1:数据处理完成"></a>第三次握手：B:FIN &#x3D; 1:数据处理完成</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-22.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>服务器</strong>: 发送一个FIN&#x3D;1的TCP段, 表示它也没有数据要发送了，准备中断连接</li>
+</ul>
+<h3 id="第四次握手：A：ACK-1，确认收到B的断开信息"><a href="#第四次握手：A：ACK-1，确认收到B的断开信息" class="headerlink" title="第四次握手：A：ACK&#x3D;1，确认收到B的断开信息"></a>第四次握手：A：ACK&#x3D;1，确认收到B的断开信息</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-23.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>客户端</strong>: 发送一个ACK&#x3D;1的TCP段, 表示确认中断连接. 此时<strong>连接正式关闭</strong></li>
+</ul>
+<h3 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h3><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-24.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>在<strong>释放连接之前</strong>，<strong>客户端</strong>必须等待<strong>2倍的最大报文段生存时间（2MSL）</strong></li>
+</ul>
+<h2 id="7-为什么要等待2MSL"><a href="#7-为什么要等待2MSL" class="headerlink" title="7. 为什么要等待2MSL"></a>7. 为什么要等待2MSL</h2><ul>
+<li>确保A发送的最后一个ACK能够到达B</li>
+<li>防止任何无效的连接请求段出现<ul>
+<li>等待2MSL后，我们可以确保连接上的所有段都已消失</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="9-TCP的计时器"><a href="#9-TCP的计时器" class="headerlink" title="9. TCP的计时器"></a>9. TCP的计时器</h2><ol>
+<li>重传计时器</li>
+<li>坚持计时器<ul>
+<li><strong>作用</strong>：用于解决TCP连接中的“零窗口”问题。当接收方的接收窗口为零时，发送方会停止发送数据，并启动坚持计时器。坚持计时器到期后，发送方会发送一个小的探测报文段（窗口探测），询问接收方的窗口大小是否已经更新。</li>
+<li><strong>目的</strong>：防止发送方和接收方在“零窗口”状态下进入死锁。</li>
+</ul>
+</li>
+<li>保持计时器<ul>
+<li><strong>作用</strong>：用于检测TCP连接是否仍然有效。当一段时间内没有数据传输时，保持计时器会启动，并定期发送探测报文段。如果在多次探测后没有收到对方的响应，连接将被认为已经失效。</li>
+<li><strong>目的</strong>：确保连接的有效性，及时发现和关闭失效的连接，释放资源。</li>
+</ul>
+</li>
+<li>时间等待计时器</li>
+</ol>
+<h2 id="10-TCP的有限状态机"><a href="#10-TCP的有限状态机" class="headerlink" title="10. TCP的有限状态机"></a>10. TCP的有限状态机</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-25.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>粗线：正常的服务器端</li>
+<li>虚线：正常客户端</li>
+<li>细线：异常状态的问题</li>
+</ul>
+<hr>
+<h1 id="三、UDP-User-Datagram-Protocol"><a href="#三、UDP-User-Datagram-Protocol" class="headerlink" title="三、UDP (User Datagram Protocol)"></a>三、UDP (User Datagram Protocol)</h1><ul>
+<li><strong>用户数据报协议</strong></li>
+</ul>
+<h2 id="1-为什么需要UDP"><a href="#1-为什么需要UDP" class="headerlink" title="1. 为什么需要UDP"></a>1. 为什么需要UDP</h2><ul>
+<li><strong>无需连接建立</strong>：不需要连接建立过程（比如TCP三次握手，这可能会增加<strong>延迟</strong>）。</li>
+<li><strong>简单</strong>：发送方和接收方<strong>没有连接状态</strong>。</li>
+<li><strong>小的段头部</strong>：段头部较小，只有<strong>8个字节</strong>。</li>
+<li><strong>无拥塞控制</strong>：UDP可以根据需要快速发送数据。</li>
+</ul>
+<h2 id="2-介绍（特点与应用）"><a href="#2-介绍（特点与应用）" class="headerlink" title="2. 介绍（特点与应用）"></a>2. 介绍（特点与应用）</h2><ol>
+<li>无连接 Connectionless：<ul>
+<li><strong>无握手</strong>：UDP发送方sender和接收方receiver之间没有握手过程。</li>
+<li><strong>独立处理</strong>：UDP中的每个数据报文（Datagram）是独立处理的</li>
+</ul>
+</li>
+<li>常用于流媒体应用 streaming multimedia applications：<ul>
+<li><strong>容错</strong>：对丢失容忍。loss tolerant</li>
+<li><strong>速率敏感</strong>：对传输速率敏感，而UDP允许尽可能快。rate sensitive</li>
+<li>流媒体应用eg：音频、视频</li>
+</ul>
+</li>
+<li>UDP的应用：<ul>
+<li><strong>RIP（路由信息协议）</strong>：定期发送路由信息。<ul>
+<li>由于RIP的数据包较小且定期发送，使用UDP可以避免TCP的连接建立和关闭带来的延迟。</li>
+</ul>
+</li>
+<li><strong>DNS（域名系统）</strong>：DNS查询通常使用UDP<ul>
+<li>因为DNS查询通常是短小的请求和响应，且不需要建立连接，使用UDP可以避免TCP建立连接时的延迟。</li>
+</ul>
+</li>
+<li><strong>SNMP（简单网络管理协议）</strong>：SNMP用于网络设备的监控和管理<ul>
+<li>尤其是在拥塞的情况下，UDP能够比TCP提供更高的性能，因为TCP在拥塞情况下会出现重传和延迟。</li>
+</ul>
+</li>
+<li><strong>其他协议</strong>：包括TFTP（简单文件传输协议）、DHCP（动态主机配置协议）等不需要建立可靠连接的协议。</li>
+</ul>
+</li>
+<li>必要时在应用层添加可靠性<ul>
+<li>由于UDP本身不提供可靠性，应用层可以根据需要自己实现数据的可靠性控制。</li>
 </ul>
 </li>
 </ol>
-<h3 id="7-以太网的-CSMA-CD"><a href="#7-以太网的-CSMA-CD" class="headerlink" title="7. 以太网的 CSMA&#x2F;CD"></a>7. 以太网的 CSMA&#x2F;CD</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-16.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="3-UDP段格式"><a href="#3-UDP段格式" class="headerlink" title="3. UDP段格式"></a>3. UDP段格式</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-26.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>UDP 的数据段很简单</li>
+<li>UDP 只有 <strong>8 个字节的首部</strong>，所以 <strong>UDP 报文最少是 8 个字节</strong></li>
+</ul>
 <ol>
-<li>首先host设备要发送数据</li>
-<li>开始侦听链路是非忙，如果忙，则过一阵来再看看</li>
-<li>如果不忙，则开始准备发送<ul>
-<li>如果有冲突，则到 9，表示有冲突发送，广播一个 jam signal，把自己尝试的次数 + 1（重发有一定限度）</li>
-<li>尝试次数过多（11），会像上层协议传输网络不可用（12）</li>
-<li>尝试次数还可，则到 13 计算一个回退时间，来再次尝试，回退时间单位，会保证 A 和 D 的时间差能保证第一个人已经用完电路来避免冲突。</li>
+<li>源端口（Source Port）：16位，发送方的端口号。</li>
+<li>目的端口（Destination Port）：16位，接收方的端口号。</li>
+<li>长度（Length）：16位，UDP数据报的总长度（包括头部和数据部分）。</li>
+<li>校验和（Checksum）：16位，UDP数据的校验和，用于检验数据在传输过程中是否出错。校验和覆盖数据部分，如果发生错误，接收方会丢弃数据报。</li>
+</ol>
+<ul>
+<li><strong>校验</strong>也要对 data 一并校验，如果出现错误，直接丢弃。</li>
+<li>数据：UDP 直接发送，UDP 不会再自己分片了；应用层根据需要决定如何将数据分割成适合传输的大小。</li>
+</ul>
+<h2 id="TCP和UDP对比"><a href="#TCP和UDP对比" class="headerlink" title="TCP和UDP对比"></a>TCP和UDP对比</h2><h2 id><a href="#" class="headerlink" title></a><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-27.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></h2><h1 id="四、An-application-NAT-and-PAT"><a href="#四、An-application-NAT-and-PAT" class="headerlink" title="四、An application: NAT and PAT"></a>四、An application: NAT and PAT</h1><h2 id="1-什么是NAT（Network-Address-Translation）"><a href="#1-什么是NAT（Network-Address-Translation）" class="headerlink" title="1. 什么是NAT（Network Address Translation）"></a>1. 什么是NAT（Network Address Translation）</h2><ol>
+<li><strong>定义</strong>：NAT（<strong>网络地址转换</strong>）是将<strong>IP数据包头中</strong>的<strong>一个地址</strong>替换为<strong>另一个地址</strong>的过程。</li>
+<li><strong>用途</strong>：NAT用于允许<strong>使用私有地址的主机</strong> <strong>访问互联网</strong>。</li>
+<li><strong>解决IP地址耗尽的方案之一</strong>：<ul>
+<li>节省注册（合法）地址</li>
+<li>增加连接互联网的灵活性</li>
 </ul>
 </li>
-<li>如果没有错误，则一直传输到结束为止</li>
+<li><strong>相关标准</strong>：RFC 1631 - 网络地址转换器（NAT）</li>
+</ol>
+<h2 id="2-NAT-a-simple-concept"><a href="#2-NAT-a-simple-concept" class="headerlink" title="2. NAT a simple concept"></a>2. NAT a simple concept</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-28.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="3-NAT-类型"><a href="#3-NAT-类型" class="headerlink" title="3. NAT 类型"></a>3. NAT 类型</h2><ol>
+<li><strong>静态NAT</strong>：Static NAT<ul>
+<li>固定映射：一个内部地址到一个注册地址。</li>
+</ul>
+</li>
+<li><strong>动态NAT</strong>：Dynamic NAT<ul>
+<li>映射是动态完成的，基于<strong>先到先得</strong>的原则。</li>
+</ul>
+</li>
+<li><strong>PAT（端口地址转换&#x2F;重载）</strong>： PAT (Overload)<ul>
+<li>使用端口地址转换允许<strong>多个内部用户共享一个“内部全局”地址</strong>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-NAT中的地址类型"><a href="#4-NAT中的地址类型" class="headerlink" title="4. NAT中的地址类型"></a>4. NAT中的地址类型</h2><ol>
+<li>Inside Local address 内部本地地址: <strong>内网IP地址</strong></li>
+<li>Inside Global address 内部全局地址: <strong>注册IP地址</strong>, 对外部展示的内部地址</li>
+<li>Outside Global address外部全局地址: 由<strong>主机所有者分配</strong>的IP地址, 通常是<strong>注册地址</strong>。<br><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-29.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li>内部主机发送报文给网关，网关根据 NAT Table 进行翻译，转换成内部全局地址，然后进行转发</li>
+</ul>
+<h2 id="5-Static-NAT-例子"><a href="#5-Static-NAT-例子" class="headerlink" title="5. Static NAT 例子"></a>5. Static NAT 例子</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-30.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>静态映射</strong>：静态NAT通过<strong>手动配置</strong>，将每个内部私有IP地址<strong>固定映射</strong>到一个公网IP地址。</li>
+<li><strong>转换表</strong>：NAT设备维护一个<strong>静态转换表</strong>，记录内部私有IP地址和对应的公网IP地址之间的映射关系。</li>
+<li><strong>地址转换</strong>：当内部主机发起连接请求时，NAT设备根据静态转换表，将内部私有IP地址替换为对应的公网IP地址。</li>
+<li><strong>固定映射</strong>：映射关系是固定的，不会随时间变化，确保每个内部主机始终使用相同的公网IP地址进行通信。</li>
+</ol>
+<h2 id="6-Dynamic-NAT-例子"><a href="#6-Dynamic-NAT-例子" class="headerlink" title="6. Dynamic NAT 例子"></a>6. Dynamic NAT 例子</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-31.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>地址池</strong>：动态NAT使用一个公网IP地址池来动态映射内部私有IP地址。</li>
+<li><strong>请求映射</strong>：当内部主机发起连接请求时，NAT设备从地址池中选择一个未使用的公网IP地址，并将其映射到内部私有IP地址。</li>
+<li><strong>建立映射</strong>：NAT设备在内部私有IP地址和选定的公网IP地址之间建立临时映射。</li>
+<li><strong>释放映射</strong>：当连接结束或超时时，NAT设备释放该映射，使公网IP地址返回地址池供其他内部主机使用。</li>
+</ol>
+<ul>
+<li>先到先得</li>
+</ul>
+<h2 id="7-NAT-的优缺点"><a href="#7-NAT-的优缺点" class="headerlink" title="7. NAT 的优缺点"></a>7. NAT 的优缺点</h2><ol>
+<li><strong>优点</strong>：<ul>
+<li>由于<strong>并非每个内部主机同时需要外部访问</strong>，可以使用一个较小的公网IP地址池来服务相对较多的私有地址主机。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li><strong>一对一映射 one-to-one mapping</strong>。</li>
+<li>例如，如果私有地址空间是&#x2F;8，但公网地址是&#x2F;24，则只有254个主机可以同时访问互联网。</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-PAT-端口地址转换-Port-Address-Translation"><a href="#8-PAT-端口地址转换-Port-Address-Translation" class="headerlink" title="8. PAT 端口地址转换 Port Address Translation"></a>8. PAT 端口地址转换 Port Address Translation</h2><ul>
+<li>一种特殊类型的动态NAT</li>
+<li>将<strong>私有IP地址</strong>和<strong>公网IP地址</strong>映射到<strong>不同的端口号</strong>来实现<strong>多个私有IP地址共享一个公网IP地址</strong>。</li>
+<li>每个私有IP地址的每个连接都通过<strong>不同的端口号</strong>进行区分。</li>
+</ul>
+<h2 id="9-PAT-工作原理"><a href="#9-PAT-工作原理" class="headerlink" title="9. PAT 工作原理"></a>9. PAT 工作原理</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-32.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>端口重载</strong>：PAT使用一个公网IP地址，并通过<strong>不同的端口号</strong>来区分内部主机的连接请求。</li>
+<li><strong>端口映射</strong>：当内部主机发起连接请求时，NAT设备将内部私有IP地址和端口号映射到<strong>公网IP地址和唯一的端口号</strong>。</li>
+<li><strong>建立映射</strong>：NAT设备在内部私有IP地址和端口号与公网IP地址和唯一端口号之间建立临时映射。</li>
+<li><strong>转换表</strong>：NAT设备维护一个转换表，记录内部私有IP地址和端口号与公网IP地址和唯一端口号之间的映射关系。</li>
+<li><strong>地址转换</strong>：当数据包通过NAT设备时，NAT设备根据转换表将内部私有IP地址和端口号替换为公网IP地址和唯一端口号，反之亦然。</li>
+<li><strong>释放映射</strong>：当连接结束或超时时，NAT设备释放该映射，使端口号返回端口池供其他内部主机使用。</li>
+</ol>
+<h2 id="10-PAT-操作"><a href="#10-PAT-操作" class="headerlink" title="10. PAT 操作"></a>10. PAT 操作</h2><p><img src="/2025/02/24/%E4%BA%94%E3%80%81%E8%BF%90%E8%BE%93%E5%B1%82/image-33.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+]]></content>
+      <categories>
+        <category>互联网计算</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>四、OSI第三层：数据链路层</title>
+    <url>/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/</url>
+    <content><![CDATA[<h1 id="第三层：网络层"><a href="#第三层：网络层" class="headerlink" title="第三层：网络层"></a>第三层：网络层</h1><ul>
+<li>Overview of the Network Layer</li>
+<li>IP Addresses and Subnets</li>
+<li>Layer 3 Devices </li>
+<li>ARP Protocol</li>
+<li>Network Layer Services</li>
+<li>Routed and Routing Protocols</li>
+<li>VLSM</li>
+<li>ICMP</li>
+<li>为什么我们不用硬件地址进行通信?<ol>
+<li>(设备数量问题)因为设备比较多，供应商也比较多</li>
+<li>(规格问题)不同供应商的解决方案不同，所以使用硬件地址进行通信的通用性比较低。</li>
+<li>(寻址问题)全球设备太多，如果使用硬件设备，那么进行定位比较复杂</li>
+</ol>
+<ul>
+<li>因为如上情况我们选择使用IP地址(逻辑地址)。</li>
+</ul>
+</li>
+</ul>
+<h1 id="一、网络层概述"><a href="#一、网络层概述" class="headerlink" title="一、网络层概述"></a>一、网络层概述</h1><h2 id="1-第三层职责"><a href="#1-第三层职责" class="headerlink" title="1. 第三层职责"></a>1. 第三层职责</h2><ol>
+<li><strong>通过网络移动数据</strong></li>
+<li>使用<strong>分层寻址 hierarchical addressing</strong>方案(与MAC寻址相反，后者平坦)<ul>
+<li>分层寻址（Hierarchical Addressing）是一种网络地址分配和管理方法，它将地址空间划分为多个层次，每个层次都有不同的作用和范围（网络+子网+主机）。</li>
+</ul>
+</li>
+<li><strong>分段网络</strong>（segment network）和<strong>控制流量</strong>（control flow of traffic）<ul>
+<li>根据网络的大小和流量需求，将大型网络分割成多个较小的子网络（子网）。这些子网通常使用子网掩码来划分。</li>
+</ul>
+</li>
+<li><strong>减少交通拥堵</strong>（Reduce congestion）</li>
+<li><strong>与其它网络通信</strong></li>
+</ol>
+<h2 id="2-Devices"><a href="#2-Devices" class="headerlink" title="2. Devices"></a>2. Devices</h2><ul>
+<li><strong>Routers</strong>（重点！）<ul>
+<li><strong>互连</strong>网段或网络(不同网段的分割)</li>
+<li>根据<strong>IP地址</strong>做出合理的<strong>决定</strong></li>
+<li>确定<strong>最佳路径</strong>（根据<strong>路由表</strong>）</li>
+<li>将<strong>数据包</strong>从入站端口切换到<strong>出站端口</strong></li>
+</ul>
+</li>
+</ul>
+<h1 id="二、IP地址和子网划分-IP-Addresses-and-Subnets"><a href="#二、IP地址和子网划分-IP-Addresses-and-Subnets" class="headerlink" title="二、IP地址和子网划分(IP Addresses and Subnets)"></a>二、IP地址和子网划分(IP Addresses and Subnets)</h1><h2 id="1-Layer-3-Packet-Datagram-第三层数据报格式"><a href="#1-Layer-3-Packet-Datagram-第三层数据报格式" class="headerlink" title="1. Layer 3 Packet&#x2F;Datagram 第三层数据报格式"></a>1. Layer 3 Packet&#x2F;Datagram 第三层数据报格式</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>IP地址在报文中占据一部分(一个IP地址32bit)</li>
+</ul>
+<h2 id="2-IPv4报文主要结构"><a href="#2-IPv4报文主要结构" class="headerlink" title="2. IPv4报文主要结构"></a>2. IPv4报文主要结构</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>首部部分</strong>：上面蓝框部分的整体<ul>
+<li><strong>固定部分+可变部分</strong></li>
+</ul>
+</li>
+<li><strong>版本号</strong>:占 <strong>4 bit</strong>，指IP协议的版本。目前的 IP 协议版本号为 <strong>4</strong> (即 IPv4)(6也就对应IPv6)</li>
+<li><strong>首部长度</strong>:占 <strong>4 bit</strong>，可表示的最大数值是15个单位(一个单位为 4 字节)， 因此IP的首部长度的最大值是<strong>60字节（15个单位）</strong>。<ul>
+<li>首部长度不确定，所以需要进行标识</li>
+<li>4bit-&gt;15个单位；</li>
+<li>首部长度的32 bit为一行，也就是4个字节为一个单位</li>
+</ul>
+</li>
+<li><strong>服务类型</strong>:占<strong>8 bit</strong>，用来获得更好的服务，这个字段以前一直没有被人们使用。</li>
+<li><strong>总长度</strong>:占 <strong>16 bit</strong>，指<strong>首部和数据之和</strong>的长度，单位为字节，因此数据报的最大长度为 <strong>65535 字节</strong>(由于放到帧里面，所以大多数不比1500字节长)。总长度必须不超过最大传送单元 MTU。</li>
+<li><strong>标识</strong>(identification):占 <strong>16 bit</strong>，它是一个计数器，用来产生数据报的标识。</li>
+<li><strong>标志</strong>：占 <strong>3 bit</strong>，最高位为 0;<ul>
+<li>MF（More fragement）：MF 为 0 表示最后一个分片；1 是指后面还有分片</li>
+<li>DF（Don’t fragement）：是否允许做分片，0 允许做分片，1 不允许做分片</li>
+</ul>
+</li>
+<li><strong>片偏移</strong> (<strong>13 bit</strong>) 指出：较长的分组在分片后某片<em>在原分组中的相对位置</em>。<ul>
+<li>片偏移以<strong>8个字节</strong>为<strong>偏移单位</strong><ul>
+<li>分片：由于网络中传输的数据报可能会超过某些网络的最大传输单元（MTU），因此需要将较大的数据报分成多个较小的片段进行传输。</li>
+<li>片偏移字段帮助接收方正确地<em>重组</em>这些片段。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>报文分片举例<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-9.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<ol start="9">
+<li><strong>生存时间</strong>：<strong>8 bit</strong>，记为 TTL (Time To Live)，表示<strong>数据报在网络中可通过的路由器数的最大值</strong>。<ul>
+<li>是通过计数的方式来进行统计</li>
+<li>最大值是255(最多经过255个路由器)</li>
+<li>路由器每转发一次，就会对生存时间-1</li>
+<li>减小为0后，就会丢弃掉，并且通知给发送方我已经丢弃掉这个报文。</li>
+<li>防止在环上进行传输，避免由于回路问题，造成过大的网络资源浪费</li>
+</ul>
+</li>
+<li><strong>协议</strong>：<strong>8 bit</strong>，协议字段指出此数据报<em>携带的数据使用何种协议</em> ，以便目的主机的IP层将数据部分上交给哪个处理过程<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li><strong>首部检验和</strong>:<strong>(16 bit)<strong>只检验数据报的</strong>首部</strong>，不包括数据部分。<ul>
+<li>这里不采用 CRC 检验码而采用简单的计算方法。算法过程如下(比较形式化的问题，并不能解决数据报错误的形式)<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+<li><strong>源地址和目的地址</strong>都各占 4 字节（32 bit）</li>
+</ol>
+<h2 id="3-网络层地址-Network-Layer-Addresses"><a href="#3-网络层地址-Network-Layer-Addresses" class="headerlink" title="3. 网络层地址 Network Layer Addresses"></a>3. 网络层地址 Network Layer Addresses</h2><ol>
+<li><strong>IP地址</strong>为<strong>32位长</strong>（32 bits long）</li>
+<li>它们以<em>点分十进制格式</em>表示为<strong>四个(八位)字节</strong>：133.14.17.0<ul>
+<li>点分十进制：用十进制表示每个字节的值，然后用点（.）分隔这些字节</li>
+</ul>
+</li>
+<li>IP地址包含两个组成部分：<ul>
+<li><strong>网络ID(The network ID)</strong><ul>
+<li>由ARIN（American Registry for Internet Numbers，<a href="http://www.arin.net)分配/">www.arin.net）分配</a></li>
+<li>标识设备所连接(attached)的网络</li>
+<li>可以由前三个八位位组(octets)中的一个，两个或三个来标识</li>
+</ul>
+</li>
+<li><strong>主机ID(The host ID)</strong><ul>
+<li>由网络管理员分配</li>
+<li>识别该网络上的特定设备</li>
+<li>可以由最后三个八位位组中的一个，两个或三个来标识</li>
+</ul>
+</li>
+<li><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<h2 id="4-IP地址"><a href="#4-IP地址" class="headerlink" title="4. IP地址"></a>4. IP地址</h2><ol>
+<li>不同的类地址为地址的网络部分和主机部分保留不同数量的位<ul>
+<li>N是Net ID,H 是 Host ID</li>
+</ul>
+<ol>
+<li>A: NHHH</li>
+<li>B: NNHH</li>
+<li>C: NNNH<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+</li>
+</ol>
+<h3 id="4-1-分类"><a href="#4-1-分类" class="headerlink" title="4.1 分类"></a>4.1 分类</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-10.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>IP 地址主要通过<strong>第一个字节</strong>进行划分</li>
+</ul>
+<ol>
+<li><strong>0–127</strong> （0xxxxxxx）：Class A address</li>
+<li><strong>128-191</strong> （10xxxxxx）：Class B address</li>
+<li><strong>192–223</strong> （110xxxxx）：Class C address</li>
+<li>224–239 （1110xxxx）：Class D – Multicast 多播地址</li>
+<li>240–255 （1111xxxx）：Class E - Research 研究地址</li>
+</ol>
+<ul>
+<li><strong>host 不能全取 0，也不能全取 1</strong>。<ul>
+<li>全取 0 时用来标识网段地址</li>
+<li>全取 1 时用来标识网段的广播地址</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-主机-Hosts-的数量"><a href="#4-2-主机-Hosts-的数量" class="headerlink" title="4.2 主机(Hosts)的数量"></a>4.2 主机(Hosts)的数量</h3><ul>
+<li>每个类别的最大主机数量各不相同。（不包含网络号）</li>
+</ul>
+<ol>
+<li>A 类拥有 16,777,214 个可用主机（<strong>2^24 - 2</strong>）</li>
+<li>B 类具有 65,534 个可用主机（<strong>2^16 - 2</strong>）</li>
+<li>C 类具有 254 个可用主机（<strong>2^8 -2</strong>）</li>
+</ol>
+<ul>
+<li>为什么每一类地址中都要减去 2？<ul>
+<li>每个网络中的<strong>第一个地址</strong>都保留用于<strong>该网络地址</strong>（全取1）<ul>
+<li><strong>最后是.0</strong></li>
+</ul>
+</li>
+<li><strong>最后一个地址</strong>是为<strong>广播地址</strong>保留的（全取1）。<ul>
+<li><strong>最后是.255</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-保留-Reserved-地址"><a href="#4-3-保留-Reserved-地址" class="headerlink" title="4.3 保留(Reserved)地址"></a>4.3 保留(Reserved)地址</h3><ol>
+<li><strong>网络地址</strong>：在地址的<strong>主机部分</strong>中<strong>以二进制 0 结尾</strong>的 IP 地址<ul>
+<li>A 类网络地址示例：113.0.0.0</li>
+<li>网络上的主机只有具有相同网络 ID 的其他主机才能直接通信。（用来确定是不是在一个网段里面）</li>
+</ul>
+</li>
+<li><strong>广播地址</strong>：用于将数据发送到网络上的所有设备。（一般是一个网段之间的）<ul>
+<li>广播 IP 地址在地址的<strong>主机部分</strong>中<strong>以二进制 1 结尾</strong>。</li>
+<li>B 类地址的广播地址的示例：176.10.255.255（decimal 255 &#x3D; binary 11111111）</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>类别示例</li>
+</ul>
+<ol>
+<li>Class A<ul>
+<li>99.0.0.0： a reserved network number</li>
+<li>99.255.255.255： a broadcast number</li>
+</ul>
+</li>
+<li>Class B<ul>
+<li>156.1.0.0： a reserved network number</li>
+<li>156.1.255.255： a broadcast number</li>
+</ul>
+</li>
+<li>Class C<ul>
+<li>203.1.17.0： a reserved network number</li>
+<li>203.1.17.255：a broadcast number</li>
+</ul>
+</li>
+</ol>
+<h4 id="私有地址空间-Private-Address-Space"><a href="#私有地址空间-Private-Address-Space" class="headerlink" title="私有地址空间 Private Address Space"></a>私有地址空间 Private Address Space</h4><ul>
+<li>私有IP地址是指在<strong>内部网络中使用的IP地址</strong>，这些地址在互联网中是不可路由的。</li>
+<li>私有IP地址用于<strong>局域网（LAN）中的设备之间的通信</strong>，<strong>避免了公共IP地址的浪费</strong>。</li>
+<li>私有IP地址与公网IP地址的区别：<ul>
+<li>公网IP地址是<strong>唯一的、全球可访问</strong>的IP地址，用于设备之间的互联互通。</li>
+<li>私有IP地址是<strong>保留给内网使用的</strong>，不会在互联网中传递，因此它们在全球范围内<strong>不唯一</strong>。多个不同的私有网络可以使用相同的私有IP地址范围。</li>
+</ul>
+</li>
+<li>私有IP地址范围由IANA（互联网号码分配机构）定义，常见的私有IP地址范围包括：</li>
+</ul>
+<ol>
+<li><strong>10.0.0.0 - 10.255.255.255</strong></li>
+<li><strong>172.16.0.0 - 172.31.255.255</strong></li>
+<li><strong>192.168.0.0 - 192.168.255.255</strong></li>
+</ol>
+<ul>
+<li>**IP地址耗尽（IP address depletion）**及其解决方案：<ul>
+<li>NAT（网络地址转换）<ul>
+<li>通过在路由器或防火墙上将私有网络的IP地址转换为公网IP地址，使得多个内网设备可以共享一个公网IP地址访问互联网。</li>
+</ul>
+</li>
+<li>CIDR（无类别域间路由）<ul>
+<li>一种更灵活的IP地址分配方法，它突破了传统的类A、类B、类C的限制，通过可变子网掩码（VLSM）来实现更精细的IP地址划分，从而提高IP地址的利用率，延缓了IPv4地址的枯竭。</li>
+</ul>
+</li>
+<li>IPv6<ul>
+<li>是IPv4的继任者，采用128位的地址格式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Subnet-子网"><a href="#5-Subnet-子网" class="headerlink" title="5. Subnet(子网)"></a>5. Subnet(子网)</h2><ul>
+<li>网络管理员有时需要<strong>将网络划分为较小的网络</strong>，称为<strong>子网 subnet</strong>，以提供额外的灵活性.</li>
+<li>从主机字段借来的位被指定为<strong>子网字段（Subnet Fields）</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">借的是Host字段从左往右开始数的位数！！</span><br><span class="line">Netwoek|Subnet|Host</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-11.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="5-1-Basics-of-Subnetting"><a href="#5-1-Basics-of-Subnetting" class="headerlink" title="5.1.Basics of Subnetting"></a>5.1.Basics of Subnetting</h3><ul>
+<li>子网是网络的更小划分，提供<strong>地址灵活性</strong>。</li>
+<li>子网地址是<strong>本地分配</strong>的，通常由网络管理员分配。</li>
+<li>子网<strong>减少了广播域</strong>。</li>
+</ul>
+<h3 id="5-2-How-many-bits-can-I-borrow-可以借多少位给子网"><a href="#5-2-How-many-bits-can-I-borrow-可以借多少位给子网" class="headerlink" title="5.2.How many bits can I borrow(可以借多少位给子网)"></a>5.2.How many bits can I borrow(可以借多少位给子网)</h3><ul>
+<li>可以借用的<strong>最小位数</strong>是<strong>2</strong>。<ul>
+<li>如果只借用 1 位以创建一个子网，那么将只有一个<strong>网络号</strong>&lt;.0 网络&gt;和<strong>广播号</strong>&lt;.1 网络&gt;，没有可以使用的专用网络。</li>
+<li>两位的时候，01 和 10 给 Host，00 表示网络 ID，11 表示广播地址</li>
+<li>全 0 可能导致误判</li>
+</ul>
+</li>
+<li>最大位数:<strong>保留至少2位主机号</strong>的<strong>任何</strong>数字<ul>
+<li>原因也同上<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-子网划分的副产品：地址浪费Waste-Addresses"><a href="#5-3-子网划分的副产品：地址浪费Waste-Addresses" class="headerlink" title="5.3.子网划分的副产品：地址浪费Waste Addresses"></a>5.3.子网划分的副产品：地址浪费Waste Addresses</h3><ul>
+<li>我们必须在<strong>所需的子网数</strong>，<strong>每个子网可接受的主机</strong>以及<strong>地址的浪费</strong>之间取得平衡（strike a balance）。</li>
+<li>hostID 里面的全 0 和全 1 不能使用</li>
+<li>subnet 不可以使用全 0 和全 1</li>
+<li>借用 4 位是最高效率的，提升了划分灵活性，影响了效率</li>
+<li>C类例图<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<ol>
+<li><strong>（C类）</strong> 借用n位，则有了<strong>2^n-2个子网</strong>，每个子网可以有<strong>2^(8-n)-2台主机</strong>(host)<ul>
+<li><strong>主机总数量&#x3D;子网数×每个子网的主机数</strong></li>
+<li><strong>使用率&#x3D;主机总数量&#x2F;255</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="5-4-Subnet-Mask子网掩码"><a href="#5-4-Subnet-Mask子网掩码" class="headerlink" title="5.4 Subnet Mask子网掩码"></a>5.4 Subnet Mask子网掩码</h3><ul>
+<li>把<strong>网络位全赋值为 1</strong>，<strong>host 位全部赋值为 0</strong>，这样我们就明白哪些位上面是 net，哪些位上面是 host</li>
+</ul>
+<ol>
+<li>别名：扩展网络前缀</li>
+<li>定义我们用来<strong>构建网络</strong>的位数，以及<strong>描述主机地址</strong>的位数</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- Class A 255.0.0.0</span><br><span class="line">- Class B 255.255.0.0</span><br><span class="line">- Class C 255.255.255.0</span><br></pre></td></tr></table></figure>
+<h2 id="6-计算子网"><a href="#6-计算子网" class="headerlink" title="6. 计算子网"></a>6. 计算子网</h2><p>例子: </p>
+<ul>
+<li>我们将对IP地址进行子网划分：<ul>
+<li>223.14.17.0</li>
+</ul>
+</li>
+<li>需要：13个子网，每个子网10台主机</li>
+</ul>
+<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><ol>
+<li>确定默认的子网掩码<ul>
+<li>C类：192~223，所以此IP地址在C类</li>
+</ul>
+</li>
+<li>C 类网络的默认子网掩码是：255.255.255.0</li>
+</ol>
+<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><ol>
+<li>通过从主机 ID 借用位来计算子网和主机的实际数量<ul>
+<li>13 subnets</li>
+<li>10 hosts on each subnet</li>
+</ul>
+<ol>
+<li>2^4-2&#x3D;14，由此：子网借4位</li>
+<li>每个子网10个主机, 也是至少需要4位(2^4 - 2 &#x3D;14), 主机位数为4位</li>
+</ol>
+</li>
+<li>我们对每一个子网需要<strong>借用 4 位</strong>来满足一个子网有 <strong>10 台可用的主机</strong>。</li>
+</ol>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-12.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>产生16个子网和每个子网16台主机<ul>
+<li>对于借用的 4 位，每个位可以是 1 或 0，从而有 16 种可能的组合。</li>
+<li>4 个剩余主机位也是如此。</li>
+</ul>
+</li>
+<li>【重要】<strong>每个子网上只有14个可用子网和14台主机</strong><ol>
+<li>因为不能使用<strong>第一个和最后一个子网</strong>。（即全 0 和全 1）</li>
+<li>因为不能使用<strong>每个子网中的第一个和最后一个地址</strong>。</li>
+</ol>
+<ul>
+<li>对于每个，一个是广播地址，一个是网络地址。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h3><ol>
+<li>确定子网掩码。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-13.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>其中<strong>X表示用于子网划分的借用位</strong>。</li>
+</ol>
+<ul>
+<li>将<strong>X的位值相加</strong>，得到子网掩码的最后一个八位字节的十进制值：128 + 64 + 32 + 16 &#x3D; 240<ul>
+<li>也等于255-15</li>
+</ul>
+</li>
+<li>子网掩码是：<strong>255.255.255.240</strong></li>
+<li>子网掩码用于<strong>显示IP地址中的子网和主机地址字段</strong></li>
+</ul>
+<h3 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h3><ol>
+<li>确定主机地址的范围<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-14.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-15.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>16个子网，14个可用子网</li>
+<li>每个子网16个主机，14个可用主机</li>
+</ol>
+<h2 id="7-计算子网网络地址"><a href="#7-计算子网网络地址" class="headerlink" title="7. 计算子网网络地址"></a>7. 计算子网网络地址</h2><ol>
+<li>第一步：将 <strong>IP 主机地址</strong>转换为<strong>二进制</strong>。</li>
+<li>第二步：将<strong>子网掩码</strong>转换为<strong>二进制</strong>。</li>
+<li>第三步：使用<strong>布尔运算符 AND</strong> 将两者进行运算。</li>
+<li>第四步：将网络二进制地址<strong>转换为点分十进制</strong>。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-16.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ol>
+<ul>
+<li>这是<em>子网的<strong>网络地址</strong></em></li>
+<li>它可以帮助确定路径（即<strong>发送到哪一个具体的子网（网段）</strong>）：用来确定是否是一个网段，是否可以通过网关进行转发</li>
+</ul>
+<h3 id="7-1-路由器与IP地址"><a href="#7-1-路由器与IP地址" class="headerlink" title="7.1 路由器与IP地址"></a>7.1 路由器与IP地址</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-17.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>为了找到子网的网络 ID，路由器必须采用 <strong>IP 地址</strong>和<strong>子网掩码</strong>，并且在逻辑上将它们取<strong>与</strong></li>
+<li>131开头，说明是B类</li>
+<li>上图中的子网掩码 255.255.255.0 是 255.255.0.0 借用了 8 位产生的（而不要理解成为 C 类地址的子网掩码）</li>
+</ul>
+<h3 id="实践：IP寻址问题"><a href="#实践：IP寻址问题" class="headerlink" title="实践：IP寻址问题"></a>实践：IP寻址问题</h3><ul>
+<li>给定195.137.92.0并且需要8个可用子网，请找到子网号，主机号范围和子网广播号。</li>
+<li>借用2位会产生2个可用子网，借用3位会产生6个可用子网，因此我们<strong>借用4位</strong>才能获得14个可用子网，其中我们需要8个可用地址。</li>
+<li>这将使子网掩码为255.255.255.240。 因此，网络号为195.137.92.NNNN HHHH，其中Ns代表网络扩展位(子网)，Hs代表主机号。</li>
+<li>接下来，我们必须为子网编号。 4位二进制数有16种组合，但它们在最后一个八位位组中保留其位置值。</li>
+<li>借用<strong>4-6位都可以</strong>，因为<strong>并没有规定子网中主机数量</strong>。<ul>
+<li><strong>为什么是6位</strong>是因为<strong>一个子网中最少用2位给主机</strong>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="三、第三层设备"><a href="#三、第三层设备" class="headerlink" title="三、第三层设备"></a>三、第三层设备</h1><ul>
+<li><strong>路由器</strong></li>
+<li>路由器2个功能：<ol>
+<li><strong>路径选择</strong></li>
+<li><strong>路径转发</strong></li>
+</ol>
+</li>
+</ul>
+<h2 id="1-路径选择-Path-determination"><a href="#1-路径选择-Path-determination" class="headerlink" title="1. 路径选择 Path determination"></a>1. 路径选择 Path determination</h2><ul>
+<li>路由器根据链路带宽、跳数、延迟等因素，选择数据包到达目的地路径中的下一跳。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-18.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h2 id="2-IP-地址"><a href="#2-IP-地址" class="headerlink" title="2. IP 地址"></a>2. IP 地址</h2><ul>
+<li>IP地址在软件中实现，指的是<strong>设备所在的网络</strong>。<ul>
+<li>IP地址是网络中每个设备的<em>唯一标识符</em>。每个设备（例如电脑、手机、服务器等）在连接到网络时都会被分配一个IP地址。</li>
+<li>IP地址通过软件协议来进行分配、识别和管理，而非硬件本身决定的。</li>
+</ul>
+</li>
+<li>路由器连接网络，每个网络必须<strong>有一个唯一的网络号</strong>，以确保路由成功。<ul>
+<li>路由器根据<em>IP地址</em>和<em>子网掩码</em>来判断数据包应该发送到哪个网络。</li>
+</ul>
+</li>
+<li><strong>唯一的网络号</strong>被包含在分配给<strong>连接到该网络的每个设备的IP地址</strong>中。<ul>
+<li>假设一个设备的IP地址是 192.168.1.5，并且子网掩码是 &#x2F;24，这表示：<ul>
+<li>网络号是 192.168.1.0</li>
+<li>主机号是 5</li>
+</ul>
+</li>
+<li><strong>所有属于同一网络的设备的IP地址都会共享相同的网络号</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="3-路由器端口-Router-Interface"><a href="#3-路由器端口-Router-Interface" class="headerlink" title="3. 路由器端口 Router Interface"></a>3. 路由器端口 Router Interface</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-19.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>路由器端口记录了<strong>网段的 IP 地址</strong>（和连接的地方是相同的）</li>
+<li>在计算<strong>需要分配的端口总数</strong>时，注意<strong>路由器端口也需要被计算上</strong></li>
+</ol>
+<h2 id="4-路由器发送的过程-Router-function"><a href="#4-路由器发送的过程-Router-function" class="headerlink" title="4. 路由器发送的过程 Router function"></a>4. 路由器发送的过程 Router function</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-20.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>A5 主机发送报文给 B5 主机，这个报文的 IP 地址是 B5 所在的 IP 地址，形成帧，然后放上总线。</li>
+</ol>
+<ul>
+<li>路由器剥离由帧携带的<strong>数据链路层头部</strong>。<ul>
+<li>（数据链路层头部包含<strong>源和目的地的MAC地址</strong>。）<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-21.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>路由器收到帧，然后进行理解，看到报文，知道目的地是B5(解封装)</li>
+</ol>
+<ul>
+<li><strong>检查网络层地址以确定目的网络</strong>。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-22.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<ol start="3">
+<li>检查自己的<strong>路由表</strong>，找到目的地对应的<strong>端口</strong></li>
+</ol>
+<ul>
+<li>查询其<strong>路由表</strong>以确定将使用哪个<strong>接口</strong>发送数据，以便到达目的网络。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-23.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<ol start="4">
+<li>在B1端口进行转发，形成新的帧</li>
+</ol>
+<ul>
+<li>通过接口B1发送数据，路由器会<em>将数据封装在适当的数据链路层帧</em>中。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-24.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<ol start="5">
+<li>形成一个全新的帧，<strong>这个帧的MAC地址是B1的MAC的地址</strong>。</li>
+</ol>
+<h2 id="5-路由器端口示例"><a href="#5-路由器端口示例" class="headerlink" title="5. 路由器端口示例"></a>5. 路由器端口示例</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-25.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>接口是路由器连接到网络的方式，在IP路由中也可以称为<strong>端口</strong>。</li>
+<li><strong>每个接口</strong>必须有一个<strong>单独的、唯一的网络地址</strong>。<ul>
+<li>比如上图中 S1 和 S2 不能是相同的 IP 地址</li>
+<li>路由器的连接的网段一定要是不同的</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-IP地址分配-IP-address-assignment"><a href="#6-IP地址分配-IP-address-assignment" class="headerlink" title="6. IP地址分配 IP address assignment"></a>6. IP地址分配 IP address assignment</h2><ol>
+<li><strong>静态地址分配（Static addressing）</strong></li>
+</ol>
+<ul>
+<li>为每个设备配置一个IP地址。</li>
+<li>你应该保持非常详细的记录，因为使用重复的IP地址可能会导致问题。</li>
+</ul>
+<ol start="2">
+<li><strong>动态地址分配（Dynamic addressing）</strong></li>
+</ol>
+<ul>
+<li>有几种不同的方法可以用来动态分配IP地址：<ul>
+<li>RARP: 反向地址解析协议（Reverse Address Resolution Protocol）</li>
+<li>BOOTP: 引导协议（BOOTstrap Protocol）</li>
+<li>DHCP: 动态主机配置协议（Dynamic Host Configuration Protocol）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="四、ARP-Protocol"><a href="#四、ARP-Protocol" class="headerlink" title="四、ARP Protocol"></a>四、ARP Protocol</h1><h2 id="1-Address-Resolution-Protocol（ARP）地址解析协议"><a href="#1-Address-Resolution-Protocol（ARP）地址解析协议" class="headerlink" title="1. Address Resolution Protocol（ARP）地址解析协议"></a>1. Address Resolution Protocol（ARP）地址解析协议</h2><ol>
+<li>为了使设备能够通信，<strong>发送设备</strong>需要<strong>目标设备</strong>的<strong>IP地址和MAC地址</strong>。</li>
+</ol>
+<ul>
+<li>ARP使计算机能够找到<strong>与IP地址关联的计算机的MAC地址</strong>。</li>
+</ul>
+<h2 id="2-ARP示例"><a href="#2-ARP示例" class="headerlink" title="2. ARP示例"></a>2. ARP示例</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-26.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>source主机访问destination</li>
+<li>不知道目的主机在哪里</li>
+</ol>
+<h2 id="3-ARP表的缓存"><a href="#3-ARP表的缓存" class="headerlink" title="3. ARP表的缓存"></a>3. ARP表的缓存</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-27.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>可以通过lookup命令进行。</li>
+<li>在RAM里面，如果ARP没有本条目的对应MAC地址。</li>
+<li>MAC地址在ARP中是有时效性的。到时间不更新不激活就会删除</li>
+</ol>
+<h2 id="4-ARP-操作"><a href="#4-ARP-操作" class="headerlink" title="4. ARP 操作"></a>4. ARP 操作</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-28.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>使用ARP机制</li>
+<li>上图中是一个示意图</li>
+<li>此时ARP table中<strong>没有缓存</strong></li>
+<li>图的一个问题:目的MAC地址应该在前面，源MAC地址在后面</li>
+</ol>
+<ul>
+<li>步骤如下</li>
+</ul>
+<h3 id="4-1-ARP-request"><a href="#4-1-ARP-request" class="headerlink" title="4.1 ARP request"></a>4.1 ARP request</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-29.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>向目的方请求MAC地址</strong><br>2。 命令如图：<strong>广播询问</strong>找谁是这个主机，你的MAC地址是啥</li>
+<li><strong>将MAC地址设置为全1，作为广播发送</strong></li>
+</ol>
+<h3 id="4-2-Checking"><a href="#4-2-Checking" class="headerlink" title="4.2 Checking"></a>4.2 Checking</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-30.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>10.0.2.5发现不是自己的主机，那么解析到这里<strong>丢掉</strong>就行，同样会记录下来对应的发送方的MAC地址。(攻击原理)</li>
+<li>10.0.2.9<strong>发现自己的MAC地址</strong>，然后形成<strong>ARP应答</strong></li>
+<li>同时10.0.2.9会同时记录下A主机的MAC地址，更新到自己ARP地址中去(会记录对方的)</li>
+</ol>
+<h3 id="4-3-ARP-reply"><a href="#4-3-ARP-reply" class="headerlink" title="4.3 ARP reply"></a>4.3 ARP reply</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-31.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>向A主机进行MAC地址应答</li>
+</ol>
+<h3 id="4-4-Caching"><a href="#4-4-Caching" class="headerlink" title="4.4 Caching"></a>4.4 Caching</h3><ol>
+<li>A的主机将刚刚得到的目标主机的<strong>MAC地址和IP地址的映射关系</strong>存储到ARP Table中</li>
+<li>然后再次形成一个数据帧发送出去即可。</li>
+</ol>
+<h3 id="总结-ARP协议工作原理"><a href="#总结-ARP协议工作原理" class="headerlink" title="总结 ARP协议工作原理:"></a>总结 ARP协议工作原理:</h3><ol>
+<li>ARP请求:<ol>
+<li>数据链路层中目标地址(MAC地址)未知, 网络层中目标地址(IP地址)已知, 广播询问IP地址为目标地址(IP地址)的主机</li>
+<li>你的MAC地址是多少</li>
+</ol>
+</li>
+<li>ARP检查<ol>
+<li>目标主机发现, 这个IP地址就是自己</li>
+</ol>
+</li>
+<li>ARP回复<ol>
+<li>目标主机将自己的MAC地址回复给源主机</li>
+</ol>
+</li>
+<li>ARP缓存<ol>
+<li>将刚刚得到的目标主机的MAC地址和IP地址的映射关系存储到ARP表中</li>
+</ol>
+</li>
+</ol>
+<h2 id="5-ARP-Destination-local-目的地址为本地"><a href="#5-ARP-Destination-local-目的地址为本地" class="headerlink" title="5. ARP: Destination local 目的地址为本地"></a>5. ARP: Destination local 目的地址为本地</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-32.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>当目标设备在<strong>本地网络</strong>中时，ARP协议用于解析目标设备的MAC地址。</li>
+<li><strong>发送设备</strong>会<strong>广播ARP请求</strong>，询问<em>目标IP地址</em> 对应的<em>MAC地址</em>。</li>
+<li><strong>目标设备</strong>收到ARP请求后，会<strong>回复其MAC地址</strong>。</li>
+<li>发送设备将目标设备的IP地址和MAC地址映射关系<strong>存储在ARP缓存</strong>中，以便后续通信使用。</li>
+</ul>
+<h2 id="6-ARP-Internetwork-Communication-网络交流"><a href="#6-ARP-Internetwork-Communication-网络交流" class="headerlink" title="6. ARP: Internetwork Communication 网络交流"></a>6. ARP: Internetwork Communication 网络交流</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-33.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>如何与<strong>不在同一物理网段上的设备</strong>通信？如下是两种解决方案。<ul>
+<li>Default gateway <strong>默认网关</strong></li>
+<li>Proxy ARP <strong>代理ARP</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="6-1-默认网关-Default-gateway"><a href="#6-1-默认网关-Default-gateway" class="headerlink" title="6.1 默认网关 Default gateway:"></a>6.1 默认网关 Default gateway:</h3><ul>
+<li>为了使设备能够与<strong>另一个网络上</strong>的设备通信，必须为其提供一个<strong>默认网关</strong>。</li>
+<li>默认网关是<strong>路由器上连接到源主机所在网络段</strong>的<strong>接口的IP地址</strong>。</li>
+<li>为了使设备将数据发送到另一个网络段上的设备地址，<strong>源设备将数据发送到默认网关</strong>。</li>
+</ul>
+<h3 id="6-2-Proxy-ARP-代理ARP："><a href="#6-2-Proxy-ARP-代理ARP：" class="headerlink" title="6.2 Proxy ARP 代理ARP："></a>6.2 Proxy ARP 代理ARP：</h3><ul>
+<li>代理ARP代理ARP是ARP的一种变体。</li>
+<li>在源主机没有配置默认网关的情况下，代理ARP可以发挥作用。<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-34.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>发送ARP请求，然后路由器给你一个ARP的reply，告诉你MAC地址(一般为本端口的IP地址)</li>
+</ul>
+<ol>
+<li><strong>源主机发送ARP请求</strong>：<ul>
+<li>当源主机没有配置默认网关时，它会发送ARP请求，询问目标IP地址的MAC地址。</li>
+</ul>
+</li>
+<li><strong>路由器响应ARP请求</strong>：<ul>
+<li>路由器配置了代理ARP功能，会拦截并响应这个ARP请求。</li>
+<li><strong>路由器会回复其自己的MAC地址</strong>，作为目标IP地址的MAC地址。</li>
+</ul>
+</li>
+<li><strong>源主机发送数据</strong>：<ul>
+<li>源主机接收到路由器的ARP回复后，会将数据发送到路由器的MAC地址。</li>
+</ul>
+</li>
+<li><strong>路由器转发数据</strong>：<ul>
+<li>路由器接收到数据后，会根据其路由表将数据<strong>转发</strong>到目标网络上的实际目标设备。</li>
+</ul>
+</li>
+</ol>
+<h2 id="7-ARP-Destination-not-local"><a href="#7-ARP-Destination-not-local" class="headerlink" title="7. ARP: Destination not local"></a>7. ARP: Destination not local</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-35.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>路由器会把<strong>Router MAC</strong>的地址给你(连接本网段的MAC地址)</li>
+</ul>
+<h2 id="8-ARP-Flowchart-ARP流程图"><a href="#8-ARP-Flowchart-ARP流程图" class="headerlink" title="8. ARP Flowchart ARP流程图"></a>8. ARP Flowchart ARP流程图</h2><h2 id><a href="#" class="headerlink" title></a><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-36.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></h2><h1 id="五、网络层服务"><a href="#五、网络层服务" class="headerlink" title="五、网络层服务"></a>五、网络层服务</h1><h2 id="1-面向连接的网络服务-Connection-oriented"><a href="#1-面向连接的网络服务-Connection-oriented" class="headerlink" title="1. 面向连接的网络服务 Connection-oriented"></a>1. 面向连接的网络服务 Connection-oriented</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-37.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>在数据传输之前先建立连接</li>
+</ul>
+<h2 id="1-1-电路交换-Circuit-switched"><a href="#1-1-电路交换-Circuit-switched" class="headerlink" title="1.1 电路交换 Circuit-switched"></a>1.1 电路交换 Circuit-switched</h2><ol>
+<li>面向连接vs电路交换<ul>
+<li>这两个术语并不相同</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>面向连接：首先与接收方建立连接，然后开始数据传输。</li>
+<li>电路交换：所有数据包依次通过相同的通道传输，或者更常见的是，通过<strong>相同的虚拟电路</strong>传输。</li>
+</ul>
+<h2 id="2-无连接的网络服务-Connectionless"><a href="#2-无连接的网络服务-Connectionless" class="headerlink" title="2. 无连接的网络服务 Connectionless"></a>2. 无连接的网络服务 Connectionless</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-38.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>他们<strong>分别separately</strong>对待每个数据包。</li>
+<li><strong>IP 是无连接系统</strong>。 IP 就是提供无连接的网络服务</li>
+</ol>
+<ul>
+<li>不要求发送方和接收方在发送前先建立一个连接(不打招呼)。</li>
+</ul>
+<h2 id="2-1-数据包交换-Packet-switched"><a href="#2-1-数据包交换-Packet-switched" class="headerlink" title="2.1 数据包交换 Packet switched"></a>2.1 数据包交换 Packet switched</h2><ol>
+<li>无连接网络vs数据包交换<ul>
+<li>这两个术语并不相同</li>
+</ul>
+</li>
+<li>当数据包从源传输到目的地时，它们可以：<ul>
+<li><strong>切换</strong>到不同的<strong>路径</strong>。</li>
+<li>到达<strong>顺序可能不同</strong>。</li>
+</ul>
+</li>
+<li>设备会<strong>根据多种标准</strong>为每个数据包<strong>确定传输路径</strong>。某些标准可能会因数据包而异。</li>
 </ol>
 <hr>
-<h1 id="三、无线局域网Wireless-LAN和CSMA-CA"><a href="#三、无线局域网Wireless-LAN和CSMA-CA" class="headerlink" title="三、无线局域网Wireless LAN和CSMA&#x2F;CA"></a>三、无线局域网Wireless LAN和CSMA&#x2F;CA</h1><h2 id="（一）无线（Wireless）局域网"><a href="#（一）无线（Wireless）局域网" class="headerlink" title="（一）无线（Wireless）局域网"></a>（一）无线（Wireless）局域网</h2><h3 id="1-无线局域网"><a href="#1-无线局域网" class="headerlink" title="1. 无线局域网"></a>1. 无线局域网</h3><ul>
-<li>基于单元的通信</li>
-<li>电台发送的信号只能被附近的电台接收</li>
-<li>短距离传输</li>
+<h1 id="六、Routed-and-Routing-protocol-路由和路由协议"><a href="#六、Routed-and-Routing-protocol-路由和路由协议" class="headerlink" title="六、Routed and Routing protocol 路由和路由协议"></a>六、Routed and Routing protocol 路由和路由协议</h1><ul>
+<li>网络协议操作<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-39.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
 </ul>
-<h3 id="2-无线局域网标准"><a href="#2-无线局域网标准" class="headerlink" title="2. 无线局域网标准"></a>2. 无线局域网标准</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-17.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="1-Routed-protocol-被动可路由协议"><a href="#1-Routed-protocol-被动可路由协议" class="headerlink" title="1. Routed protocol 被动可路由协议"></a>1. Routed protocol 被动可路由协议</h2><ol>
+<li>为网络层提供支持的协议称为<strong>路由协议</strong>或<strong>可路由协议</strong>。</li>
+<li>IP 是网络层协议，因此，它可以通过互联网进行路由。</li>
+</ol>
+<h2 id="2-Non-routable-protocol-不可路由协议"><a href="#2-Non-routable-protocol-不可路由协议" class="headerlink" title="2. Non-routable protocol 不可路由协议"></a>2. Non-routable protocol 不可路由协议</h2><ol>
+<li>不支持第三层</li>
+<li>这些不可路由协议中最常见的是 NetBEUI。</li>
+<li>NetBEUI 是一种小型，快速且高效的协议，仅限于在一个网段上运行。</li>
+</ol>
+<h2 id="3-被动可路由协议的寻址-Addressing-of-a-routable-protocol"><a href="#3-被动可路由协议的寻址-Addressing-of-a-routable-protocol" class="headerlink" title="3. 被动可路由协议的寻址 Addressing of a routable protocol"></a>3. 被动可路由协议的寻址 Addressing of a routable protocol</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-40.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-41.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <ul>
-<li>Wireless LAN Standard<ul>
-<li>IEEE 802.11<ul>
-<li>一种关键技术：直接序列扩频（DSSS）</li>
-<li>DSSS适用于在1到2 Mbps范围内运行的无线设备。</li>
-<li>DSSS可以在高达11 Mbps的速率下运行，但在超过2 Mbps时将不被视为合规。</li>
-<li>也称为Wi-Fi™。</li>
+<li>路由器连接三个网段(列出来的是网络号)</li>
 </ul>
-</li>
-<li>IEEE 802.11b<ul>
-<li>提高了传输能力，达到11 Mbps。</li>
-<li>所有802.11b系统向后兼容，支持802.11的1 Mbps和2 Mbps数据速率，仅适用于DSSS。</li>
-<li>通过使用不同于802.11的编码技术实现更高的数据吞吐率。</li>
-<li>在2.4 GHz频段内运行。</li>
-</ul>
-</li>
-<li>IEEE 802.11a<ul>
-<li>覆盖在5 GHz传输频段内运行的无线局域网设备。</li>
-<li>使用5 GHz频段。</li>
-<li>802.11a能够提供54 Mbps的数据吞吐量，并且通过称为“速率倍增”的专有技术实现了108 Mbps。</li>
-<li>实际上，更标准的速率为20-26 Mbps</li>
-</ul>
-</li>
-<li>IEEE 802.11g<ul>
-<li>提供与802.11a相同的吞吐量（54 Mbps），但向后兼容802.11b。</li>
-<li>使用正交频分复用（OFDM）技术。</li>
-</ul>
-</li>
-<li>IEEE 802.11n<ul>
-<li>下一代无线局域网（WLAN）。</li>
-<li>提供比802.11g双倍的带宽，即108 Mbps，理论上可达500-600 Mbps。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-Wireless-LAN-Topology-拓扑"><a href="#3-Wireless-LAN-Topology-拓扑" class="headerlink" title="3. Wireless LAN Topology 拓扑"></a>3. Wireless LAN Topology 拓扑</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-18.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <ol>
-<li><strong>基础设施模式（Infrastructure Mode）</strong></li>
+<li>目的主机131.108.2.2</li>
+<li>将目的主机和掩码进行逻辑AND操作，得到对应的网段，为131.108.2.0</li>
+<li>请求路由表可以发现，E2端口为目的网段</li>
+<li>再次将报文封装，转发给对应的主机</li>
+<li>路由表是存储在内存中的</li>
+</ol>
+<h2 id="4-路由协议分类1：Static-and-Dynamic-静态和动态"><a href="#4-路由协议分类1：Static-and-Dynamic-静态和动态" class="headerlink" title="4. 路由协议分类1：Static and Dynamic 静态和动态"></a>4. 路由协议分类1：Static and Dynamic 静态和动态</h2><ol>
+<li>静态路由 Static routes：<ul>
+<li><strong>网络管理员</strong>在路由器中<strong>手动输入</strong>路由信息。</li>
+</ul>
+</li>
+<li>动态路由 Dynamic routes：<ul>
+<li>路由器可以在运行过程中互相学习信息。</li>
+<li>使用**路由协议 (routing protocol)**更新路由信息。</li>
+<li>RIP, IGRP, EIGRP, OSPF …</li>
+<li>人工维护的代价比较大</li>
+</ul>
+</li>
 </ol>
 <ul>
-<li><strong>定义</strong>：设备通过无线接入点（AP）连接到网络。</li>
-<li><strong>特点</strong>：<ul>
-<li>中心化管理：所有通信都通过AP进行。</li>
-<li>更适合大规模网络：支持更多设备和更广的覆盖范围。</li>
-<li>提供更高的安全性和管理功能。</li>
+<li>区别：</li>
+</ul>
+<ol>
+<li>静态路由<ul>
+<li>用于隐藏部分网络。安全(不必进行路由表的交换)</li>
+<li>测试网络中的特定链接。</li>
+<li>用于在只有一条路径到目标网络时维护路由表。</li>
 </ul>
 </li>
+<li>动态路由<ul>
+<li>维护路由表。</li>
+<li>以路由更新的形式及时分发信息。</li>
+<li>依靠路由协议共享知识。</li>
+<li>路由器可以调整以适应不断变化的网络状况。</li>
+<li>打开后会启动进程，按照不同的协议，和网上的不同设备学习信息，然后根据算法生成路由表</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-1-Routing-protocol-主动路由协议-Routing"><a href="#4-1-Routing-protocol-主动路由协议-Routing" class="headerlink" title="4.1 Routing protocol 主动路由协议(Routing)"></a>4.1 Routing protocol 主动路由协议(Routing)</h3><ol>
+<li>Routing protocols <em>确定</em> routed protocols遵循的到达目的地的路径。</li>
+<li>是用来<strong>构建路由表</strong>的，<strong>所以叫做routing</strong></li>
+<li>公平、简单、适应变化等特点</li>
+</ol>
+<h3 id="4-2-Routed-vs-Routing-protocol"><a href="#4-2-Routed-vs-Routing-protocol" class="headerlink" title="4.2 Routed vs. Routing protocol"></a>4.2 Routed vs. Routing protocol</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-42.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>Routed Portocol</strong> 用于路由器之间，用来保证路由器之间连通（完成转发），保证路由器有效连通。<ul>
+<li><ul>
+<li><strong>功能</strong>：实际承载和传输数据。</li>
+</ul>
+</li>
+<li>示例：IP、IPX等</li>
+</ul>
+</li>
+<li><strong>Routing Protocol</strong> 用于做各自的<strong>路由表的生成</strong>：路由器彼此交换信息。<ul>
+<li><ul>
+<li><strong>功能</strong>：帮助路由器构建和维护路由表。</li>
+</ul>
+</li>
+<li>示例：RIP、OSPF、EIGRP、BGP等。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Routing Protocol 决定 Routed Protocals</li>
+</ul>
+<ol start="3">
+<li>简单来说，路由协议(routing)用于<strong>帮助路由器决定数据包的最佳传输路径</strong>，而路由协议(routed)是<strong>实际用于传输数据</strong>的协议。</li>
+</ol>
+<h2 id="5-路由协议分类2（动态路由协议）：IGP-and-EGP"><a href="#5-路由协议分类2（动态路由协议）：IGP-and-EGP" class="headerlink" title="5. 路由协议分类2（动态路由协议）：IGP and EGP"></a>5. 路由协议分类2（动态路由协议）：IGP and EGP</h2><ul>
+<li>皆为动态路由</li>
+</ul>
+<ol>
+<li><strong>内部网关协议 IGP</strong>(Interior Gateway Protocols)</li>
+</ol>
+<ul>
+<li>示例：RIP、IGRP、EIGRP、OSPF</li>
+<li>用途：在<strong>一个自治系统内</strong>使用，例如公司网络、学校网络或政府机构网络。</li>
 </ul>
 <ol start="2">
-<li><strong>自组织模式（Ad-hoc Mode）</strong></li>
+<li><strong>外部网关协议 EGP</strong>(Exterior Gateway Protocols)</li>
 </ol>
 <ul>
-<li><strong>定义</strong>：设备直接相互连接，不需要AP。</li>
-<li><strong>特点</strong>：<ul>
-<li>点对点通信：设备之间直接通信。</li>
-<li>适合小规模网络：适用于临时或小范围的网络。</li>
-<li>部署简单：无需额外的网络设备。</li>
+<li>示例：EGP、BGP</li>
+<li>用途：在<strong>不同自治系统之间路由数据包</strong>，例如跨组织或跨地区的互联网连接。</li>
 </ul>
-</li>
-</ul>
-<h3 id="4-访问过程（Accessing-Procedure）"><a href="#4-访问过程（Accessing-Procedure）" class="headerlink" title="4. 访问过程（Accessing Procedure）"></a>4. 访问过程（Accessing Procedure）</h3><ul>
-<li>在 WLAN 中激活客户端时，它将开始“侦听”与之“关联”的兼容设备</li>
-<li>这被称为“<strong>扫描</strong>”<ul>
-<li><strong>主动扫描</strong></li>
-<li><strong>被动扫描</strong></li>
-</ul>
-</li>
-</ul>
-<h4 id="4-1-主动扫描-Active-scanning"><a href="#4-1-主动扫描-Active-scanning" class="headerlink" title="4.1. 主动扫描 Active scanning"></a>4.1. 主动扫描 Active scanning</h4><ul>
-<li>导致从寻求加入网络的无线节点发送探测（probe）请求。</li>
-<li>探测请求将包含它希望加入的网络的服务集标识符（SSID）</li>
-<li>当找到具有相同 SSID 的**接入点（AP）**时，该 AP 将发出探测响应</li>
-<li>完成认证和关联步骤。</li>
-</ul>
-<h4 id="4-2-被动扫描-Passive-scanning"><a href="#4-2-被动扫描-Passive-scanning" class="headerlink" title="4.2. 被动扫描 Passive scanning"></a>4.2. 被动扫描 Passive scanning</h4><ol>
-<li>客户端监听接入点（AP）广播的信标帧。这些帧由AP（基础设施模式）或对等节点（自组织模式）发送。</li>
-<li>当节点接收到包含要尝试加入的网络的 SSID 的信标时，将尝试加入该网络。</li>
-<li>被动扫描是一个连续的过程，节点可能会随着信号强度的变化与AP关联或取消关联。</li>
-</ol>
-<h3 id="5-无线局域网的帧结构"><a href="#5-无线局域网的帧结构" class="headerlink" title="5. 无线局域网的帧结构"></a>5. 无线局域网的帧结构</h3><ul>
-<li>WLAN不使用标准的802.3帧。</li>
-<li>有三种类型的帧：<ul>
-<li><strong>控制帧（Control Frames）</strong></li>
-<li><strong>管理帧（Management Frames）</strong></li>
-<li><strong>数据帧（Data Frames，只有数据帧类似于802.3帧）</strong></li>
-</ul>
-</li>
-<li>无线数据帧和802.3帧的有效载荷为1500字节。<ul>
-<li>然而，以太网帧不得超过1518字节，而无线帧可以大到2346字节。</li>
-<li>通常无线局域网帧的大小将限制在1518字节，因为它最常连接到有线以太网网络。</li>
-</ul>
-</li>
-</ul>
-<h4 id="5-1-数据帧结构-802-11-无线网"><a href="#5-1-数据帧结构-802-11-无线网" class="headerlink" title="5.1. 数据帧结构(802.11 无线网)"></a>5.1. 数据帧结构(802.11 无线网)</h4><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<ol>
-<li><strong>帧控制</strong><ul>
-<li>帧控制信息包含 16 bit（2字节）</li>
-<li>去往AP和来自AP是我们需要重点确认</li>
-<li>WEP规格，Wired Equivalent Privacy(有线等效保密)</li>
-<li>持续期:参数，很重要，CSMA&#x2F;CA需要，这个信息</li>
-<li>有时间窗口，如果超时没收到信号，则进行重传</li>
-</ul>
-</li>
-<li><strong>数据帧的的地址分类</strong><ol>
-<li>ad hoc(无线网地址)用地址4</li>
-<li>有基础设施(<code>AP</code>)用的是地址1、2、3</li>
-</ol>
-</li>
-<li><strong>数据帧中的地址详解</strong><br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-19.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ol>
-<h2 id="（二）CSMA-CA"><a href="#（二）CSMA-CA" class="headerlink" title="（二）CSMA&#x2F;CA"></a>（二）CSMA&#x2F;CA</h2><h3 id="1-为什么我们在WLAN需要CSMA-CA？"><a href="#1-为什么我们在WLAN需要CSMA-CA？" class="headerlink" title="1. 为什么我们在WLAN需要CSMA&#x2F;CA？"></a>1. 为什么我们在WLAN需要CSMA&#x2F;CA？</h3><ul>
-<li>CSMA&#x2F;CA（载波侦听多路访问&#x2F;碰撞避免）是无线网络中解决碰撞问题的一种机制。</li>
-<li>与有线以太网（Ethernet）中的 CSMA&#x2F;CD 不同，无线网络中的 CSMA&#x2F;CD 机制不起作用，原因在于无线信号的传播特性。</li>
-</ul>
-<ol>
-<li>碰撞(Collisions)可能发生在WLAN中，但是站点只能知道附近的传输，因此CSMA&#x2F;CD不是一个好的选择。<ol>
-<li><strong>隐藏站问题</strong>（Hidden Station Problem）:当A将数据传输到B时，C无法检测到A和B之间的传输，因此C可能会决定将数据传输到B并导致B发生碰撞。</li>
-<li><strong>暴露站问题</strong>（Exposed Station Problem）:当B将数据传输到A时，C可以检测到传输，因此C不会将数据传输到D。但这是一个错误。(<strong>听到不应该听到的信号</strong>)<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ol>
-</li>
-</ol>
-<h3 id="2-多路复用机制-Multiple-Accessing-Mechanism"><a href="#2-多路复用机制-Multiple-Accessing-Mechanism" class="headerlink" title="2. 多路复用机制 Multiple Accessing Mechanism"></a>2. 多路复用机制 Multiple Accessing Mechanism</h3><ol>
-<li>在Ethernet中：<ul>
-<li><strong>信号传输</strong>：在以太网中，信号会被传输到网络中的<strong>所有站点</strong>。</li>
-<li><strong>碰撞检测</strong>：<strong>发送站点检测</strong>碰撞的发生。</li>
-<li><strong>共享信道</strong>：在同一时间，<strong>只能有一个有效的帧</strong>（数据包）在信道上传输。</li>
-</ul>
-</li>
-<li>WLAN (无线局域网)<ul>
-<li><strong>信号传输</strong>：在无线局域网中，信号只会传输到<strong>靠近发送站的设备</strong>。<ul>
-<li>与有线以太网不同，无线信号的传输是通过空气传播的，因此它的范围受限，通常只有靠近发送设备的站点能接收到信号。</li>
-</ul>
-</li>
-<li><strong>MAC协议的作用</strong>：无线局域网中的 MAC（媒体访问控制）协议 必须<strong>确保仅有一个设备向接收站发送数据</strong>。换句话说，发送站和接收站之间的通信是独占的，避免多个发送站同时占用同一个信道。</li>
-<li><strong>碰撞检测</strong>：<strong>接收方</strong>检测确定冲突。</li>
-<li><strong>共享信道</strong>：在无线局域网中，同一时刻可以有<strong>多个有效帧</strong>在信道上传输。<ul>
-<li>通过多种机制，如时间分复用（TDMA）、频分复用（FDMA）以及载波侦听与碰撞避免（CSMA&#x2F;CA），无线网络能有效地让多个站点同时使用信道。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-CSMA-CA-避免冲突的载波侦听多路访问"><a href="#3-CSMA-CA-避免冲突的载波侦听多路访问" class="headerlink" title="3. CSMA&#x2F;CA 避免冲突的载波侦听多路访问"></a>3. CSMA&#x2F;CA 避免冲突的载波侦听多路访问</h3><ol>
-<li><strong>CSMA&#x2F;CA(Carrier Sense Multiple Access with Collision Avoidance)</strong><ul>
-<li><strong>发送站点在发送数据前</strong>，以<strong>控制短帧</strong>刺激接收站点发送<strong>应答短帧</strong>，使<strong>接收站点周围的站点监听到该帧</strong>，从而在一定时间内避免数据发送</li>
-</ul>
-</li>
-<li>基本过程：<ol>
-<li>A 向 B 发送 <strong>RTS（Request To Send，请求发送）帧</strong>，<strong>A 周围的站点</strong>在一定时间内不发送数据，以<strong>保证 CTS 帧</strong>返回给 A；</li>
-<li>B 向 A 回答 <strong>CTS（Clear To Send，清除发送）帧</strong>，<strong>B 周围的站点</strong>在一定时间内不发送数据，以保证 A 发送完数据；</li>
-<li>A 开始发送</li>
-<li>若控制帧 RTS 或 CTS 发生<strong>冲突</strong>（比如A 和 C 同时向 B 发送 RTS），采用二进制指数<strong>后退算法</strong>等待随机时间，再重新开始。</li>
-</ol>
-</li>
-<li>退避时间短的设备先传输</li>
-<li>发现冲突所有设备同时退避</li>
-<li>在ad hoc网络中比较无序，存在大量延时，比如CTS和RTS相碰撞，这种情况是比较少的，异常情况，不在本课程考虑范围内。</li>
+<h2 id="6-路由协议分类3（内部网关协议）：DVP-and-LSP"><a href="#6-路由协议分类3（内部网关协议）：DVP-and-LSP" class="headerlink" title="6. 路由协议分类3（内部网关协议）：DVP and LSP"></a>6. 路由协议分类3（内部网关协议）：DVP and LSP</h2><ol>
+<li><strong>距离矢量协议 (Distance-Vector Protocols)：RIP, IGRP</strong></li>
 </ol>
 <ul>
-<li>过程<ul>
-<li>为避免冲突，802.11所有站点在完成一个事务后必须等待一段时间才能进行下一个动作，这个时间被称为IFS，具体取决于帧的类型。</li>
-<li>源站需要收到确认信息CTS才能接着发送信息</li>
-<li>多个源站向目的站发RTS给目的站，目的站发现冲突，告诉各自站点，PPT处理的是RTS<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+<li>从<strong>邻居的角度</strong>查看网络拓扑。</li>
+<li>添加从路由器到路由器的<strong>距离+矢量</strong>。<ul>
+<li>距离 (Distance)：通常是路由器与目标网络之间的<strong>跳数</strong>（hop count）。每个跳数代表从一个路由器到另一个路由器的路径。</li>
+<li>矢量 (Vector)：在距离矢量协议中，矢量通常指的是<em>从源路由器到目标路由器的下一跳信息</em>。每个路由器会保存一张路由表，记录到每个目标网络的最短跳数和下一跳路由器。</li>
 </ul>
 </li>
-<li>实例<ul>
-<li>A的反应时间少，抢到使用权</li>
-<li>E加入进来的话也会计算出一个退避时间<br><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
-</ul>
-</li>
-</ul>
-<h3 id="4-实际数据传输率"><a href="#4-实际数据传输率" class="headerlink" title="4. 实际数据传输率"></a>4. 实际数据传输率</h3><ol>
-<li>当源节点发送一个帧时，接收节点会返回一个正向确认（ACK）信号。<ul>
-<li>这可能会消耗可用带宽的50%。</li>
-<li>这将导致在一个802.11b无线局域网（标称速率为11 Mbps）中，实际数据吞吐量减少到5.0到5.5 Mbps。</li>
-</ul>
-</li>
-<li>网络的性能还会受到信号强度的影响：<ul>
-<li>当信号变弱时，可能会启用自适应速率选择（ARS）。</li>
-<li>发送设备会将数据传输速率从11 Mbps降低到5.5 Mbps，再从5.5 Mbps降低到2 Mbps，或者从2 Mbps降低到1 Mbps。</li>
-</ul>
-</li>
+<li><strong>频繁、定期periodic更新</strong>。<ul>
+<li>周期性地交换路由信息来计算最佳路径<ol>
+<li>到达每个目标网络的跳数（距离）。</li>
+<li>用于到达目标网络的下一跳路由器（方向）。</li>
 </ol>
-<h1 id="四-Layer-2-Devices-第二层设备"><a href="#四-Layer-2-Devices-第二层设备" class="headerlink" title="四. Layer 2 Devices 第二层设备"></a>四. Layer 2 Devices 第二层设备</h1><h2 id="1-NIC-网卡"><a href="#1-NIC-网卡" class="headerlink" title="1. NIC 网卡"></a>1. NIC 网卡</h2><ol>
-<li><strong>逻辑链路控制</strong>（Logical Link Control, <strong>LLC</strong>）：与计算机中的<strong>上层</strong>通信。</li>
-<li><strong>媒介访问控制</strong>（Media Access Control, <strong>MAC</strong>）：提供对共享访问媒介的结构化访问，确保数据不发生冲突。<ul>
-<li>MAC使用不同的协议（如CSMA&#x2F;CD用于以太网，CSMA&#x2F;CA用于无线网络）来管理数据传输，确保数据帧能够有效地发送并避免冲突。</li>
+</li>
 </ul>
 </li>
-<li>【重要】<strong>命名</strong>（Naming）：<strong>提供唯一的MAC地址标识符</strong>。<ul>
-<li>网卡的每一个接口都有一个唯一的MAC地址，这是一个48位的标识符，用于唯一标识网络接口。MAC地址确保在局域网中可以准确地找到和通信。</li>
+<li>将<strong>路由表的副本</strong>传递给邻居路由器。</li>
 </ul>
-</li>
-<li><strong>帧定界</strong>（Framing）：作为<strong>封装</strong>过程的一部分，<strong>将比特打包成帧</strong>以便传输。<ul>
-<li><strong>帧</strong>是数据链路层传输的<strong>数据单位</strong></li>
-<li>网卡负责将来自网络层（如IP层）的数据<strong>封装成帧</strong>，以便通过物理层进行传输。帧定界是封装过程的一部分，它确保数据在网络上传输时按照规定的格式进行封装。</li>
-</ul>
-</li>
-<li><strong>信号传输</strong>（Signaling）：生成信号并通过内置的收发器与媒介进行接口。<ul>
-<li>eg：在以太网中，网卡将数据转换成电信号通过电缆传输；在无线局域网中，网卡通过无线收发器将数据转换为电磁波并通过空气传播。</li>
-</ul>
-</li>
+<ol start="2">
+<li><strong>链路状态协议 (Link State Protocols)：OSPF</strong>*</li>
 </ol>
-<h2 id="2-网桥-Bridges"><a href="#2-网桥-Bridges" class="headerlink" title="2. 网桥(Bridges)"></a>2. 网桥(Bridges)</h2><ol>
-<li>网桥<strong>将流量划分为多个段</strong>，并根据<strong>MAC地址</strong>而<strong>不是协议</strong>对流量<strong>进行过滤</strong>。<ul>
-<li>桥接器并不像路由器那样根据协议（如IP协议）进行过滤，它只关注MAC地址，即设备的硬件地址。</li>
-</ul>
-</li>
-<li>网桥可以通过<strong>减少较大的冲突域</strong>来提高网络性能。<ul>
-<li>通过使用桥接器将网络划分为多个段，每个段可以独立地进行数据传输，减少了各段之间的冲突域。</li>
-</ul>
-</li>
-<li>在从网络的<em>一个网段到其他网段</em>的<strong>流量较低</strong>的情况下，网桥<strong>最有效</strong><ul>
-<li>当网段之间的流量变大时，网桥会成为<strong>瓶颈(bottleneck)</strong>，并减慢通信速度。</li>
-</ul>
-</li>
-</ol>
-<h3 id="2-1-以太网网桥的工作原理：透明网桥-Transparent-Bridge"><a href="#2-1-以太网网桥的工作原理：透明网桥-Transparent-Bridge" class="headerlink" title="2.1 以太网网桥的工作原理：透明网桥 Transparent Bridge"></a>2.1 以太网网桥的工作原理：透明网桥 Transparent Bridge</h3><p><img src="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <ul>
-<li>主要功能：是根据MAC地址来转发数据帧。</li>
+<li>每个路由器获取<strong>整个网络拓扑</strong>的共同视图。</li>
+<li><strong>计算</strong>到其他路由器的<strong>最短路径</strong>。</li>
+<li><strong>事件触发更新</strong>。</li>
+<li>传递<strong>链路状态路由更新</strong>到其他路由器。</li>
+</ul>
+<h3 id="6-1-距离矢量协议DVP的示例"><a href="#6-1-距离矢量协议DVP的示例" class="headerlink" title="6.1 距离矢量协议DVP的示例"></a>6.1 距离矢量协议DVP的示例</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-43.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>初始的时候，各自持有的是黑色的部分（直连的线路）</li>
+<li>定时路由表会相互交换给邻居，下一时刻 C 学习到 B，B 学习到 AC，A 学习到 B，在下一刻进行再次的转发。</li>
+<li>DVP 只知道<strong>到达一个网段的最少跳数hops</strong>（但是不知道最佳路径）。</li>
+<li>可能导致问题：生成路由回路</li>
+</ul>
+<h4 id="6-1-1-RIP-Route-Information-Protocol-路由信息协议"><a href="#6-1-1-RIP-Route-Information-Protocol-路由信息协议" class="headerlink" title="6.1.1 RIP (Route Information Protocol)路由信息协议"></a>6.1.1 RIP (Route Information Protocol)路由信息协议</h4><ul>
+<li>最流行的协议。</li>
+<li><strong>内部网关协议TGP</strong>。</li>
+<li><strong>距离矢量协议DVP</strong>。</li>
+<li>唯一的度量是跳数hops。</li>
+<li>最大跳数为15。</li>
+<li>每30秒更新一次。</li>
+<li>并不总是选择最快的路径。</li>
+<li>生成大量网络流量。</li>
+<li>RIP v2是RIP v1的改进版本。</li>
+</ul>
+<h4 id="6-1-2-IGRP-Interior-Gateway-Route-Protocol-and-EIGRP-Enhanced-IGRP"><a href="#6-1-2-IGRP-Interior-Gateway-Route-Protocol-and-EIGRP-Enhanced-IGRP" class="headerlink" title="6.1.2 IGRP (Interior Gateway Route Protocol) and EIGRP (Enhanced IGRP)"></a>6.1.2 IGRP (Interior Gateway Route Protocol) and EIGRP (Enhanced IGRP)</h4><ul>
+<li>IGRP（内部网关路由协议）和EIGRP（增强型IGRP）</li>
+<li>Cisco专有协议。</li>
+<li><strong>内部网关协议IGP</strong>。</li>
+<li><strong>距离矢量协议DVP</strong>。</li>
+<li>度量由带宽、负载、延迟和可靠性组成。</li>
+<li>最大跳数为255。</li>
+<li>每90秒更新一次。</li>
+<li>EIGRP是IGRP的高级版本，是一种混合路由协议。</li>
+</ul>
+<h3 id="6-2-链路状态协议LSP的示例"><a href="#6-2-链路状态协议LSP的示例" class="headerlink" title="6.2 链路状态协议LSP的示例"></a>6.2 链路状态协议LSP的示例</h3><ul>
+<li>下图中的 Routing table 应该叫做初始时刻的 Routing Table（本图的问题）<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-44.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
 </ul>
 <ol>
-<li>MAC表放到缓存的位置，刚启动时是<strong>空表</strong>，之后逐渐学习。<ul>
-<li>Mac地址表是有生命周期的，如果计时超过一个阈值没有刺激刷新Mac表，则会刷新表</li>
+<li>彼此交换连接情况，<strong>交换的是Link state</strong>而不是路由表，包含 link 的信息，以 NetID 作为主键（无相同网段），包含的是 link 上的路由器邻接关系、链路类型（4 种）、链路带宽，会指定谁连接了谁，这个条目就被称为 Database（表）。这样子就不仅仅知道链路，还知道更多的全局信息。</li>
+<li>LSP 操作过程：<ul>
+<li>相互交换彼此学到对应的 Tpological Database（是全局的信息）</li>
+<li>之后使用 SPF 算法，以自己为根，通过最短路径优先算法，生成以自己为根的树</li>
+<li>根据这一个树再生成路由表（了解全局的信息），逻辑是树的逻辑。</li>
 </ul>
 </li>
-<li>“<strong>透明</strong>“指局域网中的站点并不知道所发送的帧将经过哪几个网桥，因为网桥对各站来说是看不见的</li>
-<li>即插即用，其标准是IEEE 802.1D</li>
-<li>过程：<ol>
-<li>从A发出的帧从接口x进入了网桥，则从这个接口发出帧就一定能达到A。网桥每收到一个帧，就记下其<strong>源地址</strong>和进入网桥的<strong>接口</strong>，写入<strong>转发表</strong>。</li>
-<li>在收到一个<strong>新的帧</strong>时，在<strong>转发表中匹配</strong>此帧的<strong>目的地址</strong>，找到<strong>对应的接口并转发</strong>。</li>
-<li>在网桥的转发表中写入的信息除了<strong>地址和接口</strong>外，还有<strong>帧进入网桥的时间</strong>，因为<ul>
-<li>拓扑可能经常变化</li>
-<li>站点也可能会更换适配器(这就改变了站点的地址)</li>
-<li>站点并非总是处于工作状态</li>
-<li>把每个帧到达网桥的时间登记下来，就可以在转发表中只保留网络拓扑的最新状态信息，使得网桥中的转发表能反映当前网络的最新拓扑</li>
+<li>LSP 不是进行定时进行交换的，而是<em>初始的时候进行交换</em>，稳定之后，根据<strong>事件触发</strong>的时候才会更新数据。<ul>
+<li>更新后发送给所有的路由器，需要将 Database 发送给所有的路由器</li>
+<li>收到的路由器的，根据 database 更新自己的树，然后再次生成路由表。</li>
+</ul>
+</li>
+<li>LSP 是指从所有可达的道路上找到代价最小的路径。</li>
+<li>全局可能会比较大，考虑负载进行处理</li>
+<li>但是没有路由回路，单域内一般不超过 20 个路由器</li>
+<li>路由表一般只保存一个最优的转发点的（负载均衡）</li>
+</ol>
+<h4 id="6-2-1-OSPF（Open-Shortest-Path-First）开放最短路径优先"><a href="#6-2-1-OSPF（Open-Shortest-Path-First）开放最短路径优先" class="headerlink" title="6.2.1 OSPF（Open Shortest Path First）开放最短路径优先"></a>6.2.1 OSPF（Open Shortest Path First）开放最短路径优先</h4><ul>
+<li>开放最短路径优先。</li>
+<li><strong>内部网关协议IGP</strong>。</li>
+<li><strong>链路状态协议LSP</strong>。</li>
+<li>度量由成本、速度、流量、可靠性和安全性组成。</li>
+<li>事件触发更新。</li>
+</ul>
+<h1 id="七、VLSM-可变长度子网掩码"><a href="#七、VLSM-可变长度子网掩码" class="headerlink" title="七、VLSM 可变长度子网掩码"></a>七、VLSM 可变长度子网掩码</h1><ul>
+<li>Variable Length Subnet Mask</li>
+</ul>
+<h2 id="1-Classful-Routing（类路由）"><a href="#1-Classful-Routing（类路由）" class="headerlink" title="1. Classful Routing（类路由）"></a>1. Classful Routing（类路由）</h2><ol>
+<li>类路由协议要求<strong>一个网络</strong>使用<strong>相同的子网掩码</strong>。</li>
+<li>例如：如果网络是 192.168.187.0，那么它必须使用一个单一的子网掩码，如 255.255.255.0。</li>
+</ol>
+<ul>
+<li>也就是说，类路由协议不允许在同一个网络中存在多个子网掩码，<strong>所有子网都需要使用相同的掩码</strong>。</li>
+<li>类路由的这种特性比较简单，但它不具备灵活性，无法根据需求进行更精细的子网划分。<ul>
+<li>会造成一些浪费</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-VLSM-—-Variable-Length-Subnet-Mask"><a href="#2-VLSM-—-Variable-Length-Subnet-Mask" class="headerlink" title="2. VLSM — Variable Length Subnet Mask"></a>2. VLSM — Variable Length Subnet Mask</h2><ol>
+<li>VLSM是一种允许在<strong>同一个自治系统内使用不同子网掩码</strong>的特性。<ul>
+<li>有效地解决浪费问题</li>
+</ul>
+</li>
+<li>为什么要使用VLSM<ul>
+<li>VLSM允许一个组织在同一个网络地址空间内使用多个子网掩码。</li>
+<li>实施VLSM通常被称为“子网的子网”，可以用来最大化地址分配的效率。</li>
+<li>VLSM是帮助弥合IPv4和IPv6之间差距的修改之一。</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>高效使用IP地址 Efficient use of IP addresses</li>
+<li>更好的路由聚合 Better route aggregation</li>
+</ul>
+</li>
+<li>支持VLSM的 Routing Protocol：<ul>
+<li>开放最短路径优先Open Shortest Path First (OSPF) </li>
+<li>集成中间系统到中间系统 Integrated Intermediate System to Intermediate System (Integrated IS-IS) </li>
+<li>增强型内部网关路由协议 Enhanced Interior Gateway Routing Protocol (EIGRP)</li>
+<li>RIP v2 </li>
+<li>静态路由 Static routing</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>地址空间的浪费:广播地址和网络号都无法被使用。<ul>
+<li>过去，建议不要使用第一个和最后一个子网。但从Cisco IOS 12.0版本开始，可以使用子网0。</li>
+<li>从IOS 12.0版本开始，Cisco路由器默认使用子网0。</li>
+</ul>
+</li>
+<li>如果想要禁止零子网，使用该指令:<code>router(config)#no ip subnet-zero()</code><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-45.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>上图解释了子网长度相同会造成怎样的浪费(在路由器所在的子网段我们只需要满足2个主机，也就是需要2位的主机号就可以完成操作)</li>
+</ul>
+<h2 id="3-如何使用VLSM"><a href="#3-如何使用VLSM" class="headerlink" title="3. 如何使用VLSM"></a>3. 如何使用VLSM</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-47.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li><strong>斜杠的含义</strong>是指<strong>前面多少位保留给网络位</strong></li>
+<li><strong>此时也就是&#x2F;30 就可以满足路由器之间的网络连通所需（减少浪费），剩下的网络地址可以在以后网络进行扩展</strong><ul>
+<li>这个例子中不使用 VLSM 还是可以进行解决的<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-48.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-0-划分背景"><a href="#3-0-划分背景" class="headerlink" title="3.0 划分背景"></a>3.0 划分背景</h3><ul>
+<li>已分配 192.168.10.0&#x2F;24 的 C 类地址。<ul>
+<li>珀斯、悉尼和新加坡有一个到吉隆坡（KL）的广域网连接。</li>
+<li>珀斯需要60个主机。</li>
+<li>吉隆坡需要28个主机。</li>
+<li>悉尼和新加坡各需要12个主机。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>要计算 VLSM，子网和相应的主机首先从地址范围中分配<strong>最大的要求</strong>。需求级别应<strong>从大到小</strong>列出。</li>
+</ol>
+<h3 id="3-1-第一步：满足珀斯的主机需求（需求最大）"><a href="#3-1-第一步：满足珀斯的主机需求（需求最大）" class="headerlink" title="3.1 第一步：满足珀斯的主机需求（需求最大）"></a>3.1 第一步：满足珀斯的主机需求（需求最大）</h3><ol>
+<li>珀斯需要60个主机。</li>
+<li>2^6-2&#x3D;62个可用主机地址，所以使用6位<ul>
+<li>将从第四个八位位组开始使用 2 位来表示&#x2F;26 的扩展网络前缀，其余 6 位将用于主机地址。</li>
+</ul>
+</li>
+<li>在地址 192.168.10.0&#x2F;24 上应用 VLSM 可得到：<ul>
+<li><strong>子网掩码：255.255.255.192</strong>（<strong>&#x2F;26</strong>）</li>
+<li><strong>子网地址：192.168.10.0&#x2F;26</strong></li>
+<li><strong>可用地址范围：192.168.10.1 - 192.168.10.62</strong></li>
+<li><strong>广播地址: 192.168.10.63</strong><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-49.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>第一个给 Perth 使用，剩下的用作保留未使用的</li>
+</ul>
+<h3 id="3-2-第二步：为吉隆坡划分子网（需求第二）"><a href="#3-2-第二步：为吉隆坡划分子网（需求第二）" class="headerlink" title="3.2 第二步：为吉隆坡划分子网（需求第二）"></a>3.2 第二步：为吉隆坡划分子网（需求第二）</h3><ol>
+<li>吉隆坡需要28个主机<ul>
+<li>下一个可用地址是192.168.10.64&#x2F;26。</li>
+<li><strong>01</strong>00 0000</li>
+</ul>
+</li>
+<li>由于需要28个主机，<strong>5位</strong>将用于主机地址，2^5 - 2 &#x3D; 30个可用主机地址。</li>
+<li>因此，<strong>5位用于表示主机</strong>，<strong>3位用于表示扩展网络前缀&#x2F;27</strong>。</li>
+<li>在地址 192.168.10.64&#x2F;26 上应用VLSM可得到<ul>
+<li>子网掩码：255.255.255.<strong>224（&#x2F;27）</strong><ul>
+<li>1110 0000</li>
+</ul>
+</li>
+<li><strong>子网地址：192.168.10.64&#x2F;27</strong><ul>
+<li>192.168.10.<strong>010 hhhhh</strong> &#x2F;27</li>
+</ul>
+</li>
+<li><strong>可用地址范围：192.168.10.65 - 192.168.10.94</strong></li>
+<li><strong>广播地址：192.168.10.95</strong><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-50.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<h3 id="3-3-第三步：为悉尼和新加坡进行分配地址（需求第三）"><a href="#3-3-第三步：为悉尼和新加坡进行分配地址（需求第三）" class="headerlink" title="3.3 第三步：为悉尼和新加坡进行分配地址（需求第三）"></a>3.3 第三步：为悉尼和新加坡进行分配地址（需求第三）</h3><ol>
+<li>悉尼和新加坡各需要12个主机：<ul>
+<li>下一个可用地址是192.168.10.96&#x2F;27。</li>
+</ul>
+</li>
+<li>由于需要12个主机，<strong>4位</strong>将用于主机地址，2^4 &#x3D; 16，16 - 2 &#x3D; 14个可用主机地址。</li>
+<li>因此，<strong>4位用于表示主机</strong>，4位用于表示扩展<strong>网络前缀&#x2F;28</strong>。</li>
+<li>在地址 192.168.10.96&#x2F;27 上应用 VLSM 可得到：<ul>
+<li>子网掩码：255.255.255.<strong>240（&#x2F;28）</strong><ul>
+<li>1111 0000</li>
+</ul>
+</li>
+<li><strong>子网地址：192.168.10.96&#x2F;28</strong><ul>
+<li>192.168.10.<strong>0110 hhhh</strong>&#x2F;28</li>
+</ul>
+</li>
+<li><strong>可用地址范围：192.168.10.97 - 192.168.10.110</strong></li>
+<li><strong>广播地址：192.168.10.111</strong></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>新加坡同理（12个主机）：<ul>
+<li>下一个可用地址是192.168.10.112&#x2F;28</li>
+<li>需要12个主机——4位表示主机，4位表示扩展网络前缀</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>在地址192.168.10.112&#x2F;28上应用VLSM得到：<ul>
+<li>子网掩码：255.255.255.<strong>240（&#x2F;28）</strong><ul>
+<li>1111 0000</li>
+</ul>
+</li>
+<li>子网地址：192.168.10.112&#x2F;28<ul>
+<li>192.168.10.<strong>0111</strong> hhhh&#x2F;28</li>
+</ul>
+</li>
+<li>可用地址范围：192.168.10.113 - 192.168.10.126</li>
+<li>广播地址：192.168.10.127<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-51.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ol>
+<h3 id="3-4-第四步：为之间的路由地址进行划分"><a href="#3-4-第四步：为之间的路由地址进行划分" class="headerlink" title="3.4 第四步：为之间的路由地址进行划分"></a>3.4 第四步：为之间的路由地址进行划分</h3><ol>
+<li>现在为 WAN 连接分配地址。请记住，<strong>每个 WAN 连接都需要两个 IP 地址</strong>。<ul>
+<li>下一个可用的子网是 192.168.10.128&#x2F;28。</li>
+</ul>
+</li>
+<li>由于每个 WAN 链路需要 2 个网络地址，因此主机地址需要 2 位，即 2^2 -2 &#x3D; 2 个可用地址。</li>
+<li>因此，2位用于表示链接，6位用于表示扩展网络前缀&#x2F;30。</li>
+<li>在 192.168.10.128&#x2F;28 上应用 VLSM 可得到：<ul>
+<li>子网掩码：255.255.255.252（&#x2F;30）<ul>
+<li>1111 1100</li>
+</ul>
+</li>
+<li>子网地址：192.168.10.128&#x2F;30<ul>
+<li>192.168.10.<strong>011000</strong> hh &#x2F;30</li>
+</ul>
+</li>
+<li>可用地址范围：192.168.10.129 - 192.168.10.130</li>
+<li>广播地址：192.168.10.131<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-52.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-53.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+<li><strong>下一个WAN链接</strong>：<ul>
+<li>子网地址：192.168.10.132&#x2F;30</li>
+<li>可用地址范围：192.168.10.133 - 192.168.10.134</li>
+<li>广播地址：192.168.10.135</li>
+</ul>
+</li>
+<li><strong>下一个WAN链接</strong>：<ul>
+<li>子网地址：192.168.10.136&#x2F;30</li>
+<li>可用地址范围：192.168.10.137 - 192.168.10.138</li>
+<li>广播地址：192.168.10.139</li>
+</ul>
+</li>
+</ol>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ul>
+<li><strong>重要的是要记住，只有未使用的子网才能进一步子网划分。</strong></li>
+<li>如果子网中的任何地址已被使用，则该子网不能进一步子网划分。</li>
+<li>一般是从<strong>主机多到主机少</strong>（路由间网络）进行划分</li>
+<li>最后<strong>不要忘了路由地址的划分</strong></li>
+</ul>
+<h2 id="4-Route-Aggregation-路由聚合"><a href="#4-Route-Aggregation-路由聚合" class="headerlink" title="4. Route Aggregation 路由聚合"></a>4. Route Aggregation 路由聚合</h2><ol>
+<li>使用<strong>无类域间路由</strong>(<strong>CIDR</strong>，Classless InterDomain Routing)和<strong>VLSM</strong>不仅可以防止地址浪费，而且还可以促进路由聚合或汇总。</li>
+<li>路由聚合（也称为路由汇总）是一种将<strong>多个连续的IP地址块</strong>合并为<strong>一个单一的路由条目</strong>的技术。<ul>
+<li>通过路由聚合，可以减少路由表中的条目数量，从而简化路由器的处理和提高网络效率。</li>
+</ul>
+</li>
+<li>优点：<ol>
+<li>减少<strong>路由表</strong>条目的数量。</li>
+<li>可用于<strong>隔离拓扑更改</strong><ul>
+<li>当网络拓扑发生变化时，路由聚合可以帮助隔离这些变化，减少对整个网络的影响。</li>
 </ul>
 </li>
 </ol>
 </li>
-<li>问题：网络上的设备<strong>要发送数据但不知道目标地址</strong>时。<ul>
-<li>向网络上的<strong>所有设备</strong>发送<strong>广播</strong>。因为希望数据帧能够发送到全网，尽可能到达目的地</li>
-<li>由于网络上的每个设备都必须注意此类广播，因此网桥<strong>始终会转发这些广播</strong>。</li>
-</ul>
-</li>
-<li>广播过多会导致广播风暴，并且可能导致：<ul>
-<li>网络延时(network time-outs)</li>
-<li>交通减速(traffic slowdowns)</li>
-<li>低于可接受的性能</li>
-</ul>
-</li>
+<li>为了使路由聚合正常工作，需要以<strong>层次化</strong>的方式仔细分配地址，以确保<strong>汇总地址能够共享相同的高阶位</strong>（高位部分）。</li>
+<li>VLSM可以通过基于地址的**高阶位（左边高位部分）**来实现路由的汇总和灵活性，即使网络地址不一定是连续的。</li>
 </ol>
-<h3 id="2-2-源路由网桥-Source-Route-Bridge"><a href="#2-2-源路由网桥-Source-Route-Bridge" class="headerlink" title="2.2 源路由网桥 Source Route Bridge"></a>2.2 源路由网桥 Source Route Bridge</h3><ul>
-<li>透明网桥容易安装，但网络资源的利用不充分</li>
-<li>源路由(source route)网桥在<strong>发送帧</strong>时将<strong>详细的路由信息放在帧的首部</strong>中</li>
-<li>原理<ul>
-<li>源站以<strong>广播方式</strong>向欲通信的<strong>目的站</strong>发送一个<strong>发现帧</strong>，每个发现帧都<strong>记录所经过的路由</strong></li>
-<li>发现帧<em>到达目的站时就沿各自的路由返回源站</em></li>
-<li>源站在<strong>得知这些路由后</strong>，从所有可能的路由中<strong>选择出一个最佳路由</strong></li>
-<li>凡从该源站向该目的站发送的帧的首部，都必须<em>携带源站所确定的这一路由信息</em></li>
+<ul>
+<li>比如下图：3个&#x2F;24的子网合并成一个&#x2F;16的网络高速远端<br><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-54.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
 </ul>
-</li>
-<li>在令牌环网络中被广泛使用</li>
+<h3 id="4-0-例子"><a href="#4-0-例子" class="headerlink" title="4.0 例子"></a>4.0 例子</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-55.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="4-1-如何进行路由聚合"><a href="#4-1-如何进行路由聚合" class="headerlink" title="4.1 如何进行路由聚合"></a>4.1 如何进行路由聚合</h3><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-56.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ul>
+<li>将尽可能多的位进行聚集，将之后的不通过的位置，作为 Host 位，就得到了上图的结果</li>
 </ul>
-<h2 id="3-交换机-Switches"><a href="#3-交换机-Switches" class="headerlink" title="3. 交换机(Switches)"></a>3. 交换机(Switches)</h2><ol>
-<li>执行两个基本操作：<ul>
-<li><strong>切换数据帧</strong>（switching data frames）：<ul>
-<li>在输入介质(medium)上接收帧，然后将其传输到输出<strong>介质</strong></li>
-</ul>
-</li>
-<li><strong>维护交换操作</strong>（maintenance of switching operations）：<ul>
-<li>交换器<strong>建立和维护交换表</strong>并<strong>搜索循环</strong>。 路由器构建并维护路由表和交换表。(STB协议避免回路)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>交换是一项通过<strong>减少流量</strong>（<strong>reduce traffic</strong>）和<strong>增加带宽</strong>（<strong>increasing bandwidth</strong>）来缓解以太网LAN拥塞(alleviates congestion)的技术.<ul>
-<li>交换机创建<em>专用的网络段或点对点连接</em>，并在交换机内连接这些段形成虚拟网络。</li>
-<li>这被称为<strong>虚拟电路</strong>，因为它仅在两个节点需要通信时存在，并在交换机内建立。</li>
-<li>可以将<em>每个交换端口</em>视为一个<em>微型网桥</em>；这个过程称为<strong>微分段</strong>（microsegmentation）。</li>
-<li>每个交换端口为每个主机提供介质的全部带宽。</li>
-<li>大多数现代交换机支持<em>全双工通信</em></li>
-</ul>
-</li>
-<li>局域网交换机可<strong>减少冲突域的大小</strong></li>
-<li>但是，连接到交换机的所有主机仍<strong>位于同一广播域</strong>中。<ul>
-<li>也就是说，通过LAN交换机连接的所有其他节点仍将看到来自一个节点的广播。</li>
-</ul>
-</li>
+<hr>
+<h1 id="八、ICMP-因特网控制报文协议"><a href="#八、ICMP-因特网控制报文协议" class="headerlink" title="八、ICMP 因特网控制报文协议"></a>八、ICMP 因特网控制报文协议</h1><ol>
+<li>ICMP (<strong>Internet Control Message Protocol</strong>)：为了提高<br>IP 数据报交付成功的机会</li>
+<li>ICMP 允许主机或路由器<strong>报告差错情况</strong>和提供有关异常情况<br>的报告</li>
+<li>ICMP 只是IP 层的协议</li>
+<li>ICMP 报文作为IP 层数据报的数据，加上数据报的首部，组成IP 数据报发送出去</li>
 </ol>
-<h2 id="4-冲突域的分段方式"><a href="#4-冲突域的分段方式" class="headerlink" title="4. 冲突域的分段方式"></a>4. 冲突域的分段方式</h2><h3 id="4-1-网桥对冲突域的分段"><a href="#4-1-网桥对冲突域的分段" class="headerlink" title="4.1 网桥对冲突域的分段"></a>4.1 网桥对冲突域的分段</h3><ul>
-<li>使用网桥对以太网局域网（LAN）进行分段，可以为<strong>每个用户提供更多带宽</strong>，因为每个网段上的用户更少。</li>
-<li>网桥会<strong>增加网络的延迟（latency）</strong>（10%到30%），因为在转发数据之前需要进行<strong>决策过程</strong>。</li>
-<li>网桥被认为是<strong>存储转发设备（store-and-forward device）</strong>，因为它必须先<strong>接收完整的帧</strong>并**验证循环冗余校验（CRC）**后才能进行转发。</li>
-</ul>
-<h3 id="4-2-交换机对冲突域的分段"><a href="#4-2-交换机对冲突域的分段" class="headerlink" title="4.2 交换机对冲突域的分段"></a>4.2 交换机对冲突域的分段</h3><ol>
-<li>交换机转发的<strong>速度明显快于</strong>网桥，因为交换机在<strong>硬件</strong>中进行切换，而<strong>网桥</strong>在<strong>软件</strong>中进行切换。</li>
-<li>可以使用交换机连接10 Mbps以太网LAN 和 100 Mbps以太网LAN。</li>
-<li>在交换式以太网实现中，可用带宽接近100％。</li>
-<li>共享以太网网络的容量不足其全部容量的30％至40％时，其<strong>性能最佳</strong>。(因为CSMA&#x2F;CD)</li>
-<li>一些交换机<strong>支持直通交换cut-through switching</strong>，这减少了延迟和延迟，而网桥仅支持<strong>存储转发交换store-and-forward switching</strong>(存储转发，存下来检验转发)。<ul>
-<li>直通交换:快速转发，不做校验，只看前6字节的MAC地址。</li>
-<li>局域网:网速比较快，传输速率高，网线比较短，可以认为是基本没有错误的，所以可以进行直通转发</li>
+<h2 id="1-ICMP-报文的格式"><a href="#1-ICMP-报文的格式" class="headerlink" title="1. ICMP 报文的格式"></a>1. ICMP 报文的格式</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-57.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>前4个字节和普通数据报的格式一样<ul>
+<li>类型</li>
+<li>代码</li>
+<li>检验和</li>
 </ul>
 </li>
+<li>后面都是要根据类型</li>
 </ol>
-<h3 id="4-3-路由器对冲突域的分段"><a href="#4-3-路由器对冲突域的分段" class="headerlink" title="4.3 路由器对冲突域的分段"></a>4.3 路由器对冲突域的分段</h3><ul>
-<li>路由器可以<strong>创建最高级别的分段</strong>：<ul>
-<li><strong>创建更小的冲突域</strong>。</li>
-<li><strong>创建更小的广播域</strong>：路由器<strong>不会转发广播</strong>，除非被编程为这样做。</li>
-</ul>
+<h2 id="2-两种ICMP报文"><a href="#2-两种ICMP报文" class="headerlink" title="2. 两种ICMP报文"></a>2. 两种ICMP报文</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-58.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>查询报文：一般这种情况不是很多</li>
+<li>差错报告报文：一般这种类型会多一些</li>
+</ol>
+<h2 id="3-目的站不可到达"><a href="#3-目的站不可到达" class="headerlink" title="3. 目的站不可到达"></a>3. 目的站不可到达</h2><ul>
+<li><p>网络不可到达（net unreachable）</p>
 </li>
-<li>路由器通过<strong>检查数据包上的目标逻辑地址</strong>，并在其<strong>路由表中查找转发指令</strong>来<strong>完成数据包的转发</strong>。</li>
-<li>由于路由器执行的功能比网桥更多，它们的<strong>操作延迟率更高</strong>。</li>
-<li>路由器可以作为<strong>网关</strong>：<ul>
-<li>用于连接不同的网络介质和不同的局域网技术。</li>
-</ul>
+<li><p>主机不可到达（host unreachable）</p>
 </li>
+<li><p>协议不可到达（protocol unreachable）</p>
+</li>
+<li><p>端口不可到达（port unreachable）</p>
+</li>
+<li><p>源路由选择不能完成（source route failed）</p>
+</li>
+<li><p>目的网络不可知（unknown destination network）</p>
+</li>
+<li><p>目的主机不可知（unknown destination host）</p>
+</li>
+<li><p>注：不可知是完全不可以解析，不可达是可以解析但是不可以到达</p>
+</li>
+</ul>
+<h2 id="4-ICMP-差错报告报文的数据字段的内容"><a href="#4-ICMP-差错报告报文的数据字段的内容" class="headerlink" title="4. ICMP 差错报告报文的数据字段的内容"></a>4. ICMP 差错报告报文的数据字段的内容</h2><p><img src="/2025/02/24/%E5%9B%9B%E3%80%81NetworkLayer/image-59.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>一般会把原始的 IP 数据报文的数据报首部 + 8 字节（数据的，可能会包含端口信息）作为 ICMP 的数据部分</li>
+<li>ICMP 的前 8 个字节的是确定的（前 4 个字节是类型，校验位，后面四个字节是确定的）</li>
+<li>然后添加一个首部作为 IP 数据报进行发送。</li>
+</ol>
+<h2 id="5-不应发生ICMP差错报告报文的几种情况"><a href="#5-不应发生ICMP差错报告报文的几种情况" class="headerlink" title="5. 不应发生ICMP差错报告报文的几种情况"></a>5. 不应发生ICMP差错报告报文的几种情况</h2><ol>
+<li>对 ICMP 差错报告报文不再发送 ICMP 差错报告报文</li>
+<li>对第一个分片的数据报片的所有后续数据报片都不发送 ICMP 差错报告报文</li>
+<li>对具有多播地址的数据报都不发送 ICMP 差错报告报文</li>
+<li>对具有特殊地址（如127.0.0.0或0.0.0.0）的数据报不发送 ICMP 差错报告报文</li>
+</ol>
+<h2 id="6-PING（Packet-InterNet-Groper）"><a href="#6-PING（Packet-InterNet-Groper）" class="headerlink" title="6. PING（Packet InterNet Groper）"></a>6. PING（Packet InterNet Groper）</h2><ul>
+<li>PING 是用**ICMP的”Echo request”和”Echo reply”**消息来实现的</li>
+<li>PING 用来<strong>测试两个主机之间的连通性</strong></li>
+<li>PING 使用了ICMP 回送请求与回送回答报文</li>
+<li>PING 是<strong>应用层直接使用网络层 ICMP 的例子</strong>，它没有通过运输层的TCP或UDP</li>
 </ul>
 ]]></content>
       <categories>
