@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="OSI第一层：物理层一、网络连接类型  多路复用共享机制   多个主机可以访问同一介质 它们都使用相同的传输介质—即使这个传输介质是非屏蔽双绞线（UTP），它也包含四对线来传输数据。   点对点网络   一个设备通过链路连接到另一个设备 最广泛地应用于拨号网络连接，也是你最熟悉的一种。使用电信号来完成传输。  二、LAN Media局域网介质  功能是传输数据 光信号、无线信号等传输过程称为编码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二、OSI第一层：物理层">
+<meta property="og:url" content="http://example.com/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="OSI第一层：物理层一、网络连接类型  多路复用共享机制   多个主机可以访问同一介质 它们都使用相同的传输介质—即使这个传输介质是非屏蔽双绞线（UTP），它也包含四对线来传输数据。   点对点网络   一个设备通过链路连接到另一个设备 最广泛地应用于拨号网络连接，也是你最熟悉的一种。使用电信号来完成传输。  二、LAN Media局域网介质  功能是传输数据 光信号、无线信号等传输过程称为编码">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2025-02-24T09:26:11.934Z">
+<meta property="article:modified_time" content="2025-02-24T09:28:23.390Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >二、OSI第一层：物理层</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-24 17:28:23"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            二、OSI第一层：物理层
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            17:26
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="OSI第一层：物理层"><a href="#OSI第一层：物理层" class="headerlink" title="OSI第一层：物理层"></a>OSI第一层：物理层</h1><h1 id="一、网络连接类型"><a href="#一、网络连接类型" class="headerlink" title="一、网络连接类型"></a>一、网络连接类型</h1><p><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-4.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li><strong>多路复用共享机制</strong></li>
+</ol>
+<ul>
+<li><strong>多个主机可以访问同一介质</strong></li>
+<li>它们都使用相同的传输介质—即使这个传输介质是<strong>非屏蔽双绞线（UTP）</strong>，它也包含四对线来传输数据。</li>
+</ul>
+<ol start="2">
+<li><strong>点对点网络</strong></li>
+</ol>
+<ul>
+<li><strong>一个设备通过链路连接到另一个设备</strong></li>
+<li>最广泛地应用于拨号网络连接，也是你最熟悉的一种。使用电信号来完成传输。</li>
+</ul>
+<h1 id="二、LAN-Media局域网介质"><a href="#二、LAN-Media局域网介质" class="headerlink" title="二、LAN Media局域网介质"></a>二、LAN Media局域网介质</h1><p><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-5.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<ol>
+<li>功能是<strong>传输数据</strong></li>
+<li>光信号、无线信号等传输过程称为<strong>编码</strong></li>
+<li><strong>电缆类型</strong>包括<strong>STP(有屏蔽双绞线)、UTP(无屏蔽双绞线)、同轴电缆、光纤</strong></li>
+<li>调节频率、电压、相位等方式来实现不同01编码</li>
+</ol>
+<h2 id="1-STP和ScTP-屏蔽双绞线-抗干扰能力强"><a href="#1-STP和ScTP-屏蔽双绞线-抗干扰能力强" class="headerlink" title="1. STP和ScTP: 屏蔽双绞线, 抗干扰能力强"></a>1. STP和ScTP: 屏蔽双绞线, 抗干扰能力强</h2><ul>
+<li>STP:<code>Shielded Twisted Pair</code></li>
+</ul>
+<ol>
+<li>4对线布线，结合了屏蔽和通过线缆扭绞实现的消除效应。</li>
+<li>通常是一种150欧姆的电缆</li>
+<li>能够减少串扰、EMI（电磁干扰）和RFI（射频干扰）</li>
+<li>比UTP（非屏蔽双绞线）提供更好的<strong>对所有类型外部干扰的保护</strong>。</li>
+</ol>
+<ul>
+<li>ScTP：<code>Screened Twisted Pair</code></li>
+</ul>
+<ol>
+<li>包裹在金属箔屏蔽层或屏蔽网中</li>
+<li>通常是100或120欧姆的电缆。</li>
+<li>STP和ScTP都能防止外来的电磁波在数据线上产生噪声，并且还能最大限度地减少向外辐射的电磁波。</li>
+</ol>
+<ul>
+<li>缺点: <ol>
+<li>信号不被中继的情况下, 传输距离较近</li>
+<li>绝缘大大增加了电缆的尺寸、重量和成本</li>
+<li>屏蔽材料使端接更加困难，并且容易受到工艺不良的影响</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-UTP-非屏蔽双绞线-Unshielded-Twisted-Pair"><a href="#2-UTP-非屏蔽双绞线-Unshielded-Twisted-Pair" class="headerlink" title="2. UTP (非屏蔽双绞线 Unshielded Twisted Pair)"></a>2. UTP (非屏蔽双绞线 Unshielded Twisted Pair)</h2><ul>
+<li>由<strong>八根子线</strong>组成,<strong>两个线组合成一组</strong>，<strong>共四组</strong>，可以保证每一组电流抵消电磁波干扰（抗干扰能力有限）</li>
+</ul>
+<ol>
+<li>仅（solely）依赖于消除效应，由双绞线对产生，以限制由 EMI 和 RFI 引起的信号退化</li>
+<li>有四对铜线，阻抗（impedance）为 100 欧姆，频率低、接口小、布线更加方便</li>
+<li>一般认为有效范围为 100m</li>
+</ol>
+<ul>
+<li>优点<ul>
+<li><em>易于安装且成本较低</em>，线薄接口小</li>
+<li>每米成本低于任何其他类型的局域网布线</li>
+<li>较小的外径不能像其他类型的电缆那样迅速地填满布线管道（duct）</li>
+<li>使用 RJ 连接器安装，因此可以大大减少潜在的网络噪声源，并确保良好的可靠连接</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>与其他类型的网络媒体相比，电缆更容易产生电噪声和干扰</li>
+<li>双绞线的信号增强距离比同轴电缆（Coaxial）和光纤（Fiber-Optic）短</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-同轴电缆-Coaxial-Cable"><a href="#3-同轴电缆-Coaxial-Cable" class="headerlink" title="3. 同轴电缆 Coaxial Cable"></a>3. 同轴电缆 Coaxial Cable</h2><ol>
+<li><em>Thinnet&#x2F;thicknet</em></li>
+<li>与双绞线twisted-pair相比，不使用中继器的网络运行时间更长</li>
+<li>比光纤便宜但比双绞线贵</li>
+</ol>
+<h2 id="4-光纤-Fiber-Optic-Cable"><a href="#4-光纤-Fiber-Optic-Cable" class="headerlink" title="4. 光纤 Fiber Optic Cable"></a>4. 光纤 Fiber Optic Cable</h2><ol>
+<li>传导调制（modulated）光传输</li>
+<li>不易受到电磁干扰或射频干扰，并且能够比其他网络媒体更高的数据速率</li>
+<li>电磁波（electromagnetic wave）通过光纤被引导</li>
+<li>比较可靠，中间是二氧化硅（光导体），外面是塑料套，两个接口一个接收一个发送</li>
+<li>成本比较高</li>
+</ol>
+<h3 id="模式1：单模光纤（Single-Mode-Fiber-SMF）"><a href="#模式1：单模光纤（Single-Mode-Fiber-SMF）" class="headerlink" title="模式1：单模光纤（Single-Mode Fiber, SMF）"></a>模式1：单模光纤（Single-Mode Fiber, SMF）</h3><ul>
+<li>也称为轴向光纤axial：光沿着光纤的轴线传播。</li>
+<li>比多模光纤更快：因为多模光纤中存在色散</li>
+<li>通常用于<strong>广域网（WANs）</strong>：单模光纤常用于需要<strong>长距离、高速传输的广域网</strong>。</li>
+<li>直径比多模光纤小：色散较少，因此信号传输更稳定。</li>
+<li>使用激光二极管（ILD）最常见，但也使用发光二极管（LED）</li>
+</ul>
+<h3 id="模式2：多模光纤（Multi-Mode-Fiber-MMF）"><a href="#模式2：多模光纤（Multi-Mode-Fiber-MMF）" class="headerlink" title="模式2：多模光纤（Multi-Mode Fiber, MMF）"></a>模式2：多模光纤（Multi-Mode Fiber, MMF）</h3><ul>
+<li>非轴向传播：光以不同角度进入玻璃管</li>
+<li>直径比单模光纤大：多模光纤的直径比单模光纤大，通常用于<strong>局域网（LANs）</strong>。</li>
+<li>更容易受到色散的影响</li>
+</ul>
+<h2 id="5-无线通信（Wireless-Communication）"><a href="#5-无线通信（Wireless-Communication）" class="headerlink" title="5. 无线通信（Wireless Communication）"></a>5. 无线通信（Wireless Communication）</h2><ul>
+<li>区分不同电磁波的主要方法是通过它们的<strong>频率</strong>。（频率多路复用）</li>
+<li>把信号编码成为电磁波的方式<ul>
+<li>不同设备使用不同频段，可以互不干扰</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-无线传输手段（Wireless-Transmission-Methods）"><a href="#6-无线传输手段（Wireless-Transmission-Methods）" class="headerlink" title="6. 无线传输手段（Wireless Transmission Methods）"></a>6. 无线传输手段（Wireless Transmission Methods）</h2><ol>
+<li>激光：<ul>
+<li>输出相干（coherent）电磁场：所有波的频率相同且相位对齐。</li>
+</ul>
+</li>
+<li>红外线（Infrared）：激光通常使用红外线。<ul>
+<li>通常是视距技术：激光通常需要视距传输，但可以通过反射或重定向来传输。</li>
+<li>不能穿透不透明物体。</li>
+</ul>
+</li>
+<li>无线电（Radio）：<ul>
+<li>传输数据信号：无线电可以传输数据信号，并且这些信号可以穿透墙壁。</li>
+<li>地面和卫星无线电技术：无线电技术包括地面无线电和卫星无线电两种。</li>
+</ul>
+</li>
+</ol>
+<h1 id="三、UTP-for-Ethernet-以太网中的非屏蔽双绞线"><a href="#三、UTP-for-Ethernet-以太网中的非屏蔽双绞线" class="headerlink" title="三、UTP for Ethernet 以太网中的非屏蔽双绞线"></a>三、UTP for Ethernet 以太网中的非屏蔽双绞线</h1><h2 id="1-非屏蔽双绞线的分类"><a href="#1-非屏蔽双绞线的分类" class="headerlink" title="1. 非屏蔽双绞线的分类"></a>1. 非屏蔽双绞线的分类</h2><ol>
+<li>一类线：主要用于语音传输，不用于数据传输</li>
+<li>二类线：传输频率1MHz，用于语音和最高4Mbps的数据传输，常见于令牌网</li>
+<li><strong>三类线</strong>：EIA&#x2F;TIA568标准指定电缆，传输频率16MHz，用于语音传输及最高传输速率为10Mbps的数据传输，主要用于10BASE-T</li>
+<li>四类线：传输频率为20MHz，用于语音传输和最高传输速率16Mbps的数据传输，主要用于令牌网和10BASE-T&#x2F;100BASE-T</li>
+<li><strong>五类线</strong>：增加了绕线密度，外套高质量绝缘材料，用于语音和数据传输(主要为100&#x2F;1000BASE-T)，是最常用的以太网电缆</li>
+<li><strong>超五类线</strong>：衰减小，串扰少，具有更高的衰减&#x2F;串扰比和信噪比、更小的时延误差，主要用于1000BASE-T</li>
+<li><strong>六类线</strong>：传输频率为1MHz～250MHz，性能远高于超五类标准，适用于高于1Gbps的应用</li>
+<li>七类线：带宽为600MHz，可能用于今后的10G比特以太网</li>
+</ol>
+<h2 id="2-Type-of-Cable-线的类型"><a href="#2-Type-of-Cable-线的类型" class="headerlink" title="2. Type of Cable 线的类型"></a>2. Type of Cable 线的类型</h2><ul>
+<li><strong>直通线 Straight Cable</strong><ol>
+<li><strong>用途</strong>：用于连接<strong>不同类型的设备</strong>，如计算机和交换机、计算机和路由器。</li>
+<li>连接方式：直通电缆的两端使用<em>相同的线序标准</em>进行连接，常见的标准有T568A和T568B。</li>
+</ol>
+</li>
+<li><strong>反转线 Rollover Cable</strong><ol>
+<li><strong>用途</strong>：用于连接<strong>终端设备和控制台端口</strong>，通常用于配置路由器或交换机。</li>
+<li><strong>连接方式</strong>：一端的线序完全反转，即1对8、2对7、3对6、4对5。</li>
+</ol>
+</li>
+<li><strong>交叉线Crossover Cable</strong><ol>
+<li><strong>用途</strong>：用于连接<strong>相同类型的设备</strong>，如计算机和计算机、交换机和交换机。</li>
+<li><strong>连接方式</strong>：两端的线序<em>不同</em>，一端使用T568A标准，另一端使用T568B标准。</li>
+</ol>
+</li>
+</ul>
+<h1 id="四、Media-and-signal-Problems介质和信号问题"><a href="#四、Media-and-signal-Problems介质和信号问题" class="headerlink" title="四、Media and signal Problems介质和信号问题"></a>四、Media and signal Problems介质和信号问题</h1><h2 id="1-Collisions-and-Collision-Domains-碰撞和碰撞域"><a href="#1-Collisions-and-Collision-Domains-碰撞和碰撞域" class="headerlink" title="1. Collisions and Collision Domains 碰撞和碰撞域"></a>1. Collisions and Collision Domains 碰撞和碰撞域</h2><ol>
+<li><strong>碰撞（Collisions）</strong><ul>
+<li>在网络中，碰撞是指两个或多个设备<strong>同时尝试发送数据</strong>时，<strong>数据包在网络介质上相互干扰的现象</strong>。</li>
+</ul>
+</li>
+<li><strong>碰撞域（Collision Domains）</strong><ul>
+<li>碰撞域是指在网络中，数据包碰撞可能发生的范围或区域。在同一个碰撞域内，所有设备共享同一个通信介质，因此它们可能会发生碰撞。</li>
+<li><strong>拓展碰撞域</strong>：添加<strong>中继器（repeaters）和集线器（hubs）</strong></li>
+<li><strong>限制碰撞域</strong>：通过添加智能设备如<strong>网桥（bridges）、交换机（switches）和路由器（routers）</strong>，可以对网络进行<em>分段</em>。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>当网络中的延迟超过一定限制时，<em>晚碰撞</em>的数量会显著增加。</li>
+<li>晚碰撞（<code>Late Collision</code>）：是指在帧的前64字节传输之后发生的碰撞。</li>
+<li>消耗延迟（<code>Consumption Delay</code>）：这些晚碰撞帧会增加一种称为消耗延迟的延迟。<br>网络性能：</li>
+<li>随着消耗延迟和延迟（Latency）的增加，网络性能会下降。</li>
+</ul>
+<h2 id="2-5-4-3-2-1规则"><a href="#2-5-4-3-2-1规则" class="headerlink" title="2. 5-4-3-2-1规则"></a>2. 5-4-3-2-1规则</h2><ul>
+<li>5-4-3-2-1规则是以太网网络设计中的一个指导原则，用于确保网络性能和减少冲突。具体内容如下：</li>
+</ul>
+<ol>
+<li><strong>5个网段</strong>：在一个以太网网络中，最多可以有5个网段。</li>
+<li><strong>4个中继器&#x2F;集线器</strong>：在这5个网段之间，最多可以有4个repeaters或hubs。</li>
+<li><strong>3个有源网段</strong>：在这5个网段中，最多可以有3个”mixing” sections（即连接了计算机或其他设备）。</li>
+<li><strong>2个无源网段</strong>：其余的2个网段必须是link sections（即只用于信号传输，不连接任何设备）。</li>
+<li><strong>1个冲突域</strong>：整个网络必须在一个冲突域内，确保所有设备都能检测到冲突。</li>
+</ol>
+<h1 id="五、-Basic-Knowledge-of-Data-Communication数据通信基本知识"><a href="#五、-Basic-Knowledge-of-Data-Communication数据通信基本知识" class="headerlink" title="五、 Basic Knowledge of Data Communication数据通信基本知识"></a>五、 Basic Knowledge of Data Communication数据通信基本知识</h1><h2 id="1-数据通信的理论基础"><a href="#1-数据通信的理论基础" class="headerlink" title="1. 数据通信的理论基础"></a>1. 数据通信的理论基础</h2><h3 id="1-1-基本术语"><a href="#1-1-基本术语" class="headerlink" title="1.1 基本术语"></a>1.1 基本术语</h3><ul>
+<li>信号(signal)——数据的电气的或电磁的表现<ol>
+<li>模拟的(analogous)——消息的参数的取值是连续的<ul>
+<li>模拟信号是随时间变化而平稳变化的连续波形式</li>
+</ul>
+</li>
+<li>数字的(digital)——消息的参数的取值是离散的<ul>
+<li>数字信号是离散信号，可能包含有限的几个预定值</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>码元(code)——在使用时间域（或简称为时域）的波形表示数字信号时，代表不同离散数值的基本波形</li>
+</ul>
+<h3 id="1-2-信号处理"><a href="#1-2-信号处理" class="headerlink" title="1.2 信号处理"></a>1.2 信号处理</h3><h3 id="1-3-波特率和比特率"><a href="#1-3-波特率和比特率" class="headerlink" title="1.3 波特率和比特率"></a>1.3 波特率和比特率</h3><ul>
+<li>波特率（baud）和比特率（bit）<ul>
+<li>波特率（调制速率）：信号每秒钟变化的次数</li>
+<li>比特率：每秒钟传送的二进制位数</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-数据通信技术"><a href="#2-数据通信技术" class="headerlink" title="2. 数据通信技术"></a>2. 数据通信技术</h2><h3 id="2-1-数据通信系统的模型"><a href="#2-1-数据通信系统的模型" class="headerlink" title="2.1 数据通信系统的模型"></a>2.1 数据通信系统的模型</h3><p><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-6.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h3 id="2-3-数字数据编码"><a href="#2-3-数字数据编码" class="headerlink" title="2.3 数字数据编码"></a>2.3 数字数据编码</h3><ul>
+<li>将数字数据转换到模拟信号：调制</li>
+<li>将数字数据转换到数字信号：线路编码, 线路编码是指将二进制数据转换为可以在物理通信链路上传播的形式，例如电线上的电脉冲、光纤上的光脉冲或太空中的电磁波</li>
+</ul>
+<h3 id="2-4-编码方式"><a href="#2-4-编码方式" class="headerlink" title="2.4 编码方式"></a>2.4 编码方式</h3><ul>
+<li>可以分为三类</li>
+</ul>
+<ol>
+<li>单极性编码<ul>
+<li>用0电平表示”0”，正电平表示”1”</li>
+</ul>
+</li>
+<li>极化编码<ol>
+<li>不归零制码(NRZ: Non-Return to Zero)<ul>
+<li>不归零电平编码：用负电平表示“0”，正电平表示“1”（或相反）</li>
+<li>不归零反相编码：信号电平的一次翻转代表比特1，无电平变化代表0</li>
+</ul>
+</li>
+<li>归零制码（RZ: Return to Zero）<ul>
+<li>原理：用负电平表示“0”，正电平表示“1”（或相反），比特中位跳变到零电平，从而提供同步</li>
+</ul>
+</li>
+<li></li>
+</ol>
+</li>
+<li>双极性编码</li>
+</ol>
+<h3 id="2-5-数据通信技术：多路复用"><a href="#2-5-数据通信技术：多路复用" class="headerlink" title="2.5 数据通信技术：多路复用"></a>2.5 数据通信技术：多路复用</h3><ul>
+<li>多路复用技术<ul>
+<li>由于一条传输线路的能力远远超过传输一个用户信号所需的能力，为了提高线路利用率，经常让多个信号共用一条物理线路</li>
+</ul>
+</li>
+</ul>
+<h4 id="a-时分复用-TDM-（Time-Division-Multiplexing）"><a href="#a-时分复用-TDM-（Time-Division-Multiplexing）" class="headerlink" title="a. 时分复用 TDM （Time Division Multiplexing）"></a>a. 时分复用 TDM （Time Division Multiplexing）</h4><ul>
+<li>时分复用是将时间划分为一段段等长的<strong>时分复用（TDM ）帧</strong>，每个时分复用的用户在每个TDM 帧中占用固定序号的时隙。</li>
+<li>每一个用户所占用的时隙是周期性地出现</li>
+<li>TDM 信号也称为<strong>等时(isochronous)信号</strong></li>
+<li><strong>时分复用的所有用户在不同的时间占用同样的带宽资源</strong></li>
+<li>可能会造成线路资源的浪费<br><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-7.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h4 id="b-频分复用-FDM（Frequency-Division-Multiplexing）"><a href="#b-频分复用-FDM（Frequency-Division-Multiplexing）" class="headerlink" title="b. 频分复用 FDM（Frequency Division Multiplexing）"></a>b. 频分复用 FDM（Frequency Division Multiplexing）</h4><ul>
+<li>用户在分配到一定的频带后，在通信过程中自始至终都占用这个频带</li>
+<li><strong>频分复用的所有用户在同样的时间占用不同的带宽资源</strong><br><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-1.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h4 id="c-波分复用-WDM-Wavelength-Division-Multiplexing"><a href="#c-波分复用-WDM-Wavelength-Division-Multiplexing" class="headerlink" title="c. 波分复用 WDM (Wavelength Division Multiplexing)"></a>c. 波分复用 WDM (Wavelength Division Multiplexing)</h4><ul>
+<li>就是<strong>光的频分复用</strong><br><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-2.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'><br><img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-3.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+<h4 id="d-码分复用-CDM-Code-Division-Multiplexing"><a href="#d-码分复用-CDM-Code-Division-Multiplexing" class="headerlink" title="d. 码分复用 CDM (Code Division Multiplexing)"></a>d. 码分复用 CDM (Code Division Multiplexing)</h4><ul>
+<li>更常用的名词是<strong>码分多址 CDMA</strong> (Code Division<br>Multiple Access)</li>
+<li>各用户使用经过特殊挑选的<strong>不同码型</strong>，因此<strong>各用户之间不会造成干扰</strong></li>
+<li>有很强的<strong>抗干扰能力</strong>，其频谱类似于白噪声，不易被敌人发现</li>
+</ul>
+<h2 id="2-6-数据通信技术：通信方式"><a href="#2-6-数据通信技术：通信方式" class="headerlink" title="2.6 数据通信技术：通信方式"></a>2.6 数据通信技术：通信方式</h2><ul>
+<li>分类：<ul>
+<li>单工Simplex Transmission<ul>
+<li>信号只能在一个方向传播</li>
+</ul>
+</li>
+<li>半双工Half-Duplex Transmission<ul>
+<li>可以双向传播，但不能同时</li>
+</ul>
+</li>
+<li>全双工Full-Duplex Transmission<ul>
+<li>可以双向同时传播</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>并行传输与串行传输<ul>
+<li>并行传输：0、1组成的二进制数据。组成每组n比特的位组，同时发送这种位组（8根线一次发送01010101）</li>
+<li>串行传输：每次传输1位比特（一根线8次发送01010101）<br>  <img src="/2025/02/24/%E4%BA%8C%E3%80%81OSI%E7%AC%AC%E4%B8%80%E5%B1%82%20%E7%89%A9%E7%90%86%E5%B1%82/image-8.png" alt="alt text"  data-tag='post-image' onload='this.onload=null;this.style.opacity=1;' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></li>
+</ul>
+</li>
+</ul>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/3.%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" class="trm-anima-link">
+                    三、OSI第二层：数据链路层
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:28</li>
+                
+                    <li>8.3k</li>
+                
+                
+                    <li>30</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/22/%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/22/%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E5%8F%82%E8%80%83%E6%A8%A1%E5%9E%8B/" class="trm-anima-link">
+                    一、计算机网络及其参考模型
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/22</li>
+                <li>16:07</li>
+                
+                    <li>5.9k</li>
+                
+                
+                    <li>22</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="OSI第一层：物理层"><a rel="nofollow" class="trm-toc-link" href="#OSI第一层：物理层"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">OSI第一层：物理层</span></a></li><li class="trm-toc-item trm-toc-level-1" title="一、网络连接类型"><a rel="nofollow" class="trm-toc-link" href="#一、网络连接类型"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">一、网络连接类型</span></a></li><li class="trm-toc-item trm-toc-level-1" title="二、LAN Media局域网介质"><a rel="nofollow" class="trm-toc-link" href="#二、LAN-Media局域网介质"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">二、LAN Media局域网介质</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. STP和ScTP: 屏蔽双绞线, 抗干扰能力强"><a rel="nofollow" class="trm-toc-link" href="#1-STP和ScTP-屏蔽双绞线-抗干扰能力强"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">1. STP和ScTP: 屏蔽双绞线, 抗干扰能力强</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. UTP (非屏蔽双绞线 Unshielded Twisted Pair)"><a rel="nofollow" class="trm-toc-link" href="#2-UTP-非屏蔽双绞线-Unshielded-Twisted-Pair"><span class="trm-toc-number">3.2.</span> <span class="trm-toc-text">2. UTP (非屏蔽双绞线 Unshielded Twisted Pair)</span></a></li><li class="trm-toc-item trm-toc-level-2" title="3. 同轴电缆 Coaxial Cable"><a rel="nofollow" class="trm-toc-link" href="#3-同轴电缆-Coaxial-Cable"><span class="trm-toc-number">3.3.</span> <span class="trm-toc-text">3. 同轴电缆 Coaxial Cable</span></a></li><li class="trm-toc-item trm-toc-level-2" title="4. 光纤 Fiber Optic Cable"><a rel="nofollow" class="trm-toc-link" href="#4-光纤-Fiber-Optic-Cable"><span class="trm-toc-number">3.4.</span> <span class="trm-toc-text">4. 光纤 Fiber Optic Cable</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="模式1：单模光纤（Single-Mode Fiber, SMF）"><a rel="nofollow" class="trm-toc-link" href="#模式1：单模光纤（Single-Mode-Fiber-SMF）"><span class="trm-toc-number">3.4.1.</span> <span class="trm-toc-text">模式1：单模光纤（Single-Mode Fiber, SMF）</span></a></li><li class="trm-toc-item trm-toc-level-3" title="模式2：多模光纤（Multi-Mode Fiber, MMF）"><a rel="nofollow" class="trm-toc-link" href="#模式2：多模光纤（Multi-Mode-Fiber-MMF）"><span class="trm-toc-number">3.4.2.</span> <span class="trm-toc-text">模式2：多模光纤（Multi-Mode Fiber, MMF）</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="5. 无线通信（Wireless Communication）"><a rel="nofollow" class="trm-toc-link" href="#5-无线通信（Wireless-Communication）"><span class="trm-toc-number">3.5.</span> <span class="trm-toc-text">5. 无线通信（Wireless Communication）</span></a></li><li class="trm-toc-item trm-toc-level-2" title="6. 无线传输手段（Wireless Transmission Methods）"><a rel="nofollow" class="trm-toc-link" href="#6-无线传输手段（Wireless-Transmission-Methods）"><span class="trm-toc-number">3.6.</span> <span class="trm-toc-text">6. 无线传输手段（Wireless Transmission Methods）</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="三、UTP for Ethernet 以太网中的非屏蔽双绞线"><a rel="nofollow" class="trm-toc-link" href="#三、UTP-for-Ethernet-以太网中的非屏蔽双绞线"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">三、UTP for Ethernet 以太网中的非屏蔽双绞线</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 非屏蔽双绞线的分类"><a rel="nofollow" class="trm-toc-link" href="#1-非屏蔽双绞线的分类"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">1. 非屏蔽双绞线的分类</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. Type of Cable 线的类型"><a rel="nofollow" class="trm-toc-link" href="#2-Type-of-Cable-线的类型"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">2. Type of Cable 线的类型</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="四、Media and signal Problems介质和信号问题"><a rel="nofollow" class="trm-toc-link" href="#四、Media-and-signal-Problems介质和信号问题"><span class="trm-toc-number">5.</span> <span class="trm-toc-text">四、Media and signal Problems介质和信号问题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. Collisions and Collision Domains 碰撞和碰撞域"><a rel="nofollow" class="trm-toc-link" href="#1-Collisions-and-Collision-Domains-碰撞和碰撞域"><span class="trm-toc-number">5.1.</span> <span class="trm-toc-text">1. Collisions and Collision Domains 碰撞和碰撞域</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2. 5-4-3-2-1规则"><a rel="nofollow" class="trm-toc-link" href="#2-5-4-3-2-1规则"><span class="trm-toc-number">5.2.</span> <span class="trm-toc-text">2. 5-4-3-2-1规则</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="五、 Basic Knowledge of Data Communication数据通信基本知识"><a rel="nofollow" class="trm-toc-link" href="#五、-Basic-Knowledge-of-Data-Communication数据通信基本知识"><span class="trm-toc-number">6.</span> <span class="trm-toc-text">五、 Basic Knowledge of Data Communication数据通信基本知识</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="1. 数据通信的理论基础"><a rel="nofollow" class="trm-toc-link" href="#1-数据通信的理论基础"><span class="trm-toc-number">6.1.</span> <span class="trm-toc-text">1. 数据通信的理论基础</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1.1 基本术语"><a rel="nofollow" class="trm-toc-link" href="#1-1-基本术语"><span class="trm-toc-number">6.1.1.</span> <span class="trm-toc-text">1.1 基本术语</span></a></li><li class="trm-toc-item trm-toc-level-3" title="1.2 信号处理"><a rel="nofollow" class="trm-toc-link" href="#1-2-信号处理"><span class="trm-toc-number">6.1.2.</span> <span class="trm-toc-text">1.2 信号处理</span></a></li><li class="trm-toc-item trm-toc-level-3" title="1.3 波特率和比特率"><a rel="nofollow" class="trm-toc-link" href="#1-3-波特率和比特率"><span class="trm-toc-number">6.1.3.</span> <span class="trm-toc-text">1.3 波特率和比特率</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2. 数据通信技术"><a rel="nofollow" class="trm-toc-link" href="#2-数据通信技术"><span class="trm-toc-number">6.2.</span> <span class="trm-toc-text">2. 数据通信技术</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="2.1 数据通信系统的模型"><a rel="nofollow" class="trm-toc-link" href="#2-1-数据通信系统的模型"><span class="trm-toc-number">6.2.1.</span> <span class="trm-toc-text">2.1 数据通信系统的模型</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.3 数字数据编码"><a rel="nofollow" class="trm-toc-link" href="#2-3-数字数据编码"><span class="trm-toc-number">6.2.2.</span> <span class="trm-toc-text">2.3 数字数据编码</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.4 编码方式"><a rel="nofollow" class="trm-toc-link" href="#2-4-编码方式"><span class="trm-toc-number">6.2.3.</span> <span class="trm-toc-text">2.4 编码方式</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2.5 数据通信技术：多路复用"><a rel="nofollow" class="trm-toc-link" href="#2-5-数据通信技术：多路复用"><span class="trm-toc-number">6.2.4.</span> <span class="trm-toc-text">2.5 数据通信技术：多路复用</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2.6 数据通信技术：通信方式"><a rel="nofollow" class="trm-toc-link" href="#2-6-数据通信技术：通信方式"><span class="trm-toc-number">6.3.</span> <span class="trm-toc-text">2.6 数据通信技术：通信方式</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>
