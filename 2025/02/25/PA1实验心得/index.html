@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="PA1 实验报告2024.9.13开始PA1之旅！首先试着玩了超级玛丽，测试了按键，一切ok！ ccache： 配置：在.bashrc中设置环境变量：export PATH&#x3D;&#x2F;user&#x2F;lib&#x2F;ccache:$PATH,然后重新打开终端 刚开始失败了，发现问题是我在ccache后面又加了&#x2F;ggc 先清除编译结果, 然后重新编译并统计时间。你会发现这次编译时间反而比之前要更长一些, 这是因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PA1实验记录">
+<meta property="og:url" content="http://example.com/2025/02/25/PA1%E5%AE%9E%E9%AA%8C%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="PA1 实验报告2024.9.13开始PA1之旅！首先试着玩了超级玛丽，测试了按键，一切ok！ ccache： 配置：在.bashrc中设置环境变量：export PATH&#x3D;&#x2F;user&#x2F;lib&#x2F;ccache:$PATH,然后重新打开终端 刚开始失败了，发现问题是我在ccache后面又加了&#x2F;ggc 先清除编译结果, 然后重新编译并统计时间。你会发现这次编译时间反而比之前要更长一些, 这是因">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-25T14:49:00.000Z">
+<meta property="article:modified_time" content="2025-02-25T14:49:08.292Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="PA">
+<meta name="twitter:card" content="summary">
+
+
+<title >PA1实验记录</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-25 22:49:08"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/assets/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            ^_^
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            PA1实验记录
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/25
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            22:49
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="PA1-实验报告"><a href="#PA1-实验报告" class="headerlink" title="PA1 实验报告"></a>PA1 实验报告</h1><h2 id="2024-9-13"><a href="#2024-9-13" class="headerlink" title="2024.9.13"></a>2024.9.13</h2><h1 id="开始PA1之旅！"><a href="#开始PA1之旅！" class="headerlink" title="开始PA1之旅！"></a>开始PA1之旅！</h1><p>首先试着玩了超级玛丽，测试了按键，一切ok！</p>
+<h3 id="ccache："><a href="#ccache：" class="headerlink" title="ccache："></a>ccache：</h3><ul>
+<li>配置：在.bashrc中设置环境变量：<code>export PATH=/user/lib/ccache:$PATH</code>,然后重新打开终端</li>
+<li>刚开始失败了，发现问题是我在ccache后面又加了&#x2F;ggc</li>
+<li>先清除编译结果, 然后重新编译并统计时间。你会发现这次编译时间反而比之前要更长一些, 这是因为除了需要开展正常的编译工作之外, ccache还需要花时间把目标文件存起来. 接下来再次清除编辑结果, 重新编译并统计时间, 你会发现第二次编译的速度有了非常明显的提升! 这说明ccache确实跳过了完全重复的编译过程, 发挥了加速的作用. 如果和多线程编译共同使用, 编译速度还能进一步加快!</li>
+<li>时间变化：<code>58s——14s</code></li>
+</ul>
+<h3 id="NEMU是什么"><a href="#NEMU是什么" class="headerlink" title="NEMU是什么"></a>NEMU是什么</h3><p>我们可以把实现NEMU的过程看成是开发一个支付宝APP. 不同的是, 支付宝具备的是真实ATM机的功能, 是用来交易的; 而NEMU具备的是物理计算机系统的功能, 是用来执行程序的. 因此我们说, NEMU是一个<strong>用来执行其它程序的程序</strong>.</p>
+<h3 id="ISA是什么"><a href="#ISA是什么" class="headerlink" title="ISA是什么"></a>ISA是什么</h3><ul>
+<li>螺母和螺钉的例子（同规格才能匹配，使用）</li>
+<li>程序&amp;计算机同理：如果一个程序要在特定架构的计算机上运行, 那么这个程序和计算机就必须符合同一套规范。</li>
+</ul>
+<p>因此, ISA的本质就是类似这样的规范. 所以ISA的存在形式既不是硬件电路, 也不是软件代码, 而是一本<strong>规范手册</strong>。</p>
+<ul>
+<li>选了<code>riscv32</code></li>
+</ul>
+<h2 id="2024-9-14"><a href="#2024-9-14" class="headerlink" title="2024.9.14"></a>2024.9.14</h2><h1 id="开天辟地的篇章"><a href="#开天辟地的篇章" class="headerlink" title="开天辟地的篇章"></a>开天辟地的篇章</h1><h3 id="什么是编程模型"><a href="#什么是编程模型" class="headerlink" title="什么是编程模型"></a>什么是编程模型</h3><p>编程模型是用于描述和组织计算机程序的一种抽象概念。它是指编程语言和相关工具的组合，用于表示程序的结构、行为和数据。编程模型提供了一种方式，使程序员能够实现特定的功能和逻辑，并将其转化为可执行的计算机程序。</p>
+<p>常见的几种编程模型：<br> 1、并发模型，2、面向对象模型，3、函数式模型，4、逻辑编程模型</p>
+<h3 id="最简单的计算机"><a href="#最简单的计算机" class="headerlink" title="最简单的计算机"></a>最简单的计算机</h3><ul>
+<li>存储器-&gt;CPU（运行程序）-&gt;寄存器（暂时存储处理的数据）</li>
+<li>PC程序计数器（指示要执行的指令的位置）-&gt; 指令（指示CPU工作）</li>
+</ul>
+<h3 id="必做：尝试理解计算机如何计算"><a href="#必做：尝试理解计算机如何计算" class="headerlink" title="必做：尝试理解计算机如何计算"></a>必做：尝试理解计算机如何计算</h3><ul>
+<li>r1和r2是寄存器</li>
+<li>r1用来存放加后的结果（当前和）</li>
+<li>r2用来存放当前的加数（1——100逐个递增）</li>
+<li>当r2&#x3D;100时已经加完，进入pc5,死循环</li>
+</ul>
+<h3 id="计算机是个状态机"><a href="#计算机是个状态机" class="headerlink" title="计算机是个状态机"></a>计算机是个状态机</h3><ul>
+<li>一部分由所有<strong>时序逻辑部件(存储器, 计数器, 寄存器)</strong> 构成</li>
+<li>另一部分则是剩余的<strong>组合逻辑部件(如加法器等)</strong></li>
+<li>从状态机模型的视角来理解计算机的工作过程: 在每个时钟周期到来的时候, 计算机根据当前时序逻辑部件的状态, 在组合逻辑部件的作用下, 计算出并转移到下一时钟周期的新状态.</li>
+</ul>
+<p>那么程序呢？</p>
+<h3 id="必做：从状态机视角理解程序运行"><a href="#必做：从状态机视角理解程序运行" class="headerlink" title="必做：从状态机视角理解程序运行"></a>必做：从状态机视角理解程序运行</h3><p>(0,x,x)-&gt;(1,0,x)-&gt;(2,0,0)-&gt;(3,0,1)-&gt;(4,1,1)-&gt;(3,1,2)-&gt;(4,3,2)-&gt;(3,3,3)-&gt;(4,6,3)-&gt;…-&gt;(3,4851,99)-&gt;(4,4950,99)-&gt;(3,4950,100)-&gt;(3,5050,100)</p>
+<h2 id="2024-9-16"><a href="#2024-9-16" class="headerlink" title="2024.9.16"></a>2024.9.16</h2><h1 id="RTFSC"><a href="#RTFSC" class="headerlink" title="RTFSC"></a>RTFSC</h1><p>开始初探框架代码了，小紧张和好奇中</p>
+<p>只关心和当前进度相关的模块！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ics2024</span><br><span class="line">├── abstract-machine   # 抽象计算机</span><br><span class="line">├── am-kernels         # 基于抽象计算机开发的应用程序</span><br><span class="line">├── fceux-am           # 红白机模拟器</span><br><span class="line">├── init.sh            # 初始化脚本</span><br><span class="line">├── Makefile           # 用于工程打包提交</span><br><span class="line">├── nemu               # NEMU</span><br><span class="line">└── README.md</span><br></pre></td></tr></table></figure>
+<p>目前只关注nemu子项目内容即可</p>
+<p>NEMU主要由4模块组成：monitor, CPU, memory, 设备。</p>
+<p>Monitor(监视器)模块</p>
+<ul>
+<li>是为了方便地监控客户计算机的运行状态而引入的. </li>
+<li>它除了负责与GNU&#x2F;Linux进行交互(例如读入客户程序)之外, 还带有调试器的功能, 为NEMU的调试提供了方便的途径. </li>
+<li>从概念上来说, monitor并不属于一个计算机的必要组成部分, 但对NEMU来说, 它是必要的基础设施.</li>
+</ul>
+<p>为了支持不同的ISA, 框架代码把NEMU分成两部分: </p>
+<ul>
+<li>NEMU把<code>ISA相关的代码</code>专门放在<code>nemu/src/isa/</code>目录下, 并通过nemu&#x2F;include&#x2F;isa.h提供ISA相关API的声明. (抽象的思想)</li>
+<li>这样以后, nemu&#x2F;src&#x2F;isa&#x2F;之外的其它代码就展示了<code>NEMU的基本框架</code>.</li>
+</ul>
+<h2 id="配置系统和项目构建"><a href="#配置系统和项目构建" class="headerlink" title="配置系统和项目构建"></a>配置系统和项目构建</h2><h3 id="配置系统kconfig"><a href="#配置系统kconfig" class="headerlink" title="配置系统kconfig"></a>配置系统kconfig</h3><ul>
+<li>位于<code>nemu/tools/kconfig</code>, 它来源于GNU&#x2F;Linux项目中的kconfig</li>
+<li>定义了一套简单的语言，可以用来编写“配置描述文件”（文件名都为<code>Kconfig</code>）<ul>
+<li>配置选项的属性（eg类型、默认值）</li>
+<li>不同配置选项之间的关系</li>
+<li>配置选项的层次关系</li>
+</ul>
+</li>
+<li>目前只需要关注：<ul>
+<li><code>nemu/include/generated/autoconf.h</code>, 阅读C代码时使用</li>
+<li><code>nemu/include/config/auto.conf</code>, 阅读Makefile时使用</li>
+</ul>
+</li>
+</ul>
+<h3 id="项目构建和Makefile"><a href="#项目构建和Makefile" class="headerlink" title="项目构建和Makefile"></a>项目构建和Makefile</h3><p>NEMU的Makefile具备功能：</p>
+<ul>
+<li>与配置系统进行关联<ul>
+<li>由于包含<code>nemu/include/config/auto.conf</code>, 与kconfig生成的变量进行关联. </li>
+<li>所以当<code>make menuconfig</code>更改配置选项后，Makefile也可能变化</li>
+</ul>
+</li>
+<li>文件列表（filelist）<br>通过文件列表 (filelist) 决定最终参与编译的源文件</li>
+</ul>
+<ol>
+<li>定义变量：<ul>
+<li>SRCS-y：候选的源文件集合。</li>
+<li>SRCS-BLACKLIST-y：不参与编译的源文件黑名单集合。</li>
+<li>DIRS-y：参与编译的目录集合，该目录下的所有文件都会被加入到 SRCS-y 中。</li>
+<li>DIRS-BLACKLIST-y：不参与编译的目录集合，该目录下的所有文件都会被加入到 SRCS-BLACKLIST-y 中。</li>
+</ul>
+</li>
+<li>filelist.mk 文件：<ul>
+<li>在 nemu&#x2F;src 及其子目录下存在</li>
+<li>这些文件会根据 menuconfig 的配置对上述 4 个变量进行维护。</li>
+</ul>
+</li>
+<li>Makefile 包含所有 filelist.mk 文件：<ul>
+<li>Makefile 会包含项目中的所有 filelist.mk 文件。</li>
+<li>对上述 4 个变量的追加定义进行汇总。</li>
+</ul>
+</li>
+<li>过滤源文件：<br>最终会过滤出<strong>在 SRCS-y 中但不在 SRCS-BLACKLIST-y 中的源文件</strong>，作为最终参与编译的源文件集合。</li>
+<li>与 menuconfig 配置关联：<ul>
+<li>这些变量还可以与    menuconfig 的配置结果中的布尔选项进行关联。</li>
+<li>实现效果：在 menuconfig 中选中 TARGET_AM 时，nemu&#x2F;src&#x2F;monitor&#x2F;sdb 目录下的所有文件都不会参与编译。</li>
+</ul>
+</li>
+</ol>
+<h3 id="编译和链接"><a href="#编译和链接" class="headerlink" title="编译和链接"></a>编译和链接</h3><p>Makefile的编译规则在nemu&#x2F;scripts&#x2F;build.mk中定义:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(OBJ_DIR)/%.o: %.c</span><br><span class="line">  @echo + CC $&lt;</span><br><span class="line">  @mkdir -p $(dir $@)</span><br><span class="line">  @$(CC) $(CFLAGS) -c -o $@ $&lt;</span><br><span class="line">  $(call call_fixdep, $(@:.o=.d), $@)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>其中关于<code>$@</code>和<code>$&lt;</code>等符号的含义：<br>在 Makefile 中，<code>$@</code> 和 <code>$&lt;</code> 是<strong>自动变量</strong>，用于表示规则中的<strong>目标和依赖文件</strong>。具体含义如下：</p>
+<ul>
+<li><code>$@</code>：表示规则中的目标文件。eg, <code>$@</code> 表示 <code>$(OBJ_DIR)/%.o</code>，即目标对象文件。</li>
+<li><code>$&lt;</code>：表示规则中的第一个依赖文件。eg，<code>$&lt; </code>表示<code> %.c</code>，即源文件。</li>
+</ul>
+</li>
+<li><p>键入<code>make -nB</code>, 它会让make程序以”只输出命令但不执行”的方式强制构建目标. </p>
+</li>
+<li><p>由输出内容反推得到</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(CC) -&gt; gcc</span><br><span class="line">$@ -&gt; /home/user/ics2024/nemu/build/obj-riscv32-nemu-interpreter/src/utils/timer.o</span><br><span class="line">$&lt; -&gt; src/utils/timer.c</span><br><span class="line">$(CFLAGS) -&gt; 剩下的内容</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>$(CFLAGS)</code>的值：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-O2 -MMD -Wall -Werror -I/home/user/ics2024/nemu/include</span><br><span class="line">-I/home/user/ics2024/nemu/src/engine/interpreter </span><br><span class="line">-I/home/user/ics2024/nemu/src/isa/riscv32/include -O2    </span><br><span class="line">-D__GUEST_ISA__</span><br><span class="line">=riscv32</span><br></pre></td></tr></table></figure>
+<pre><code>- 总结： $(CFLAGS) 的值是通过在 Makefile 中逐步添加各种编译选项、包含路径和宏定义等形成的。是一个在C编译过程中使用的变量，定义了编译器的选项和标志
+</code></pre>
+<h2 id="准备第一个客户程序"><a href="#准备第一个客户程序" class="headerlink" title="准备第一个客户程序"></a>准备第一个客户程序</h2><p>首先要用minitor把客户程序读入客户计算机中</p>
+<h4 id="NEMU开始运行时："><a href="#NEMU开始运行时：" class="headerlink" title="NEMU开始运行时："></a>NEMU开始运行时：</h4><ul>
+<li>调用<code>init_monitor()</code>函数</li>
+<li>宏：一种预处理指令，它允许程序员定义一个名称，该名称可以代表一段代码或一个值。<ul>
+<li><code>#define 宏名 替换文本</code></li>
+</ul>
+</li>
+<li>在init_monitor()中使用函数调用的好处：<ul>
+<li>代码可读性+代码复用+模块化+调试和维护+抽象和封装+减少代码耦合</li>
+</ul>
+</li>
+<li>参数的处理过程<ul>
+<li><code>parse_args()</code>中调用了一个你也许不太熟悉的函数<code>getopt_long()</code>。</li>
+<li>框架代码通过它来对参数进行解析, 具体的行为可以查阅<code>man 3 getopt_long</code>.</li>
+<li>getopt_long() 是一个用于<code>解析命令行选项</code>的函数，支持长选项和短选项。</li>
+</ul>
+</li>
+<li>这些参数从哪来？<ul>
+<li>参数是<code>从命令行传递给程序</code>的。</li>
+<li>在 main 函数中，通过 argc 和 argv 获取这些参数。</li>
+<li>使用 getopt_long 函数解析这些参数，并根据选项表 table 处理每个选项。</li>
+</ul>
+</li>
+</ul>
+<h4 id="接下来"><a href="#接下来" class="headerlink" title="接下来"></a>接下来</h4><p>monitor会调用<code>init_isa()</code>函数(在<code>nemu/src/isa/$ISA/init.c</code>中定义), 来进行一些<strong>ISA相关的初始化工作</strong>.</p>
+<ol>
+<li>将一个内置的客户程序读入到内存<br>BIOS（Basic Input&#x2F;Output System，基本输入输出系统）</li>
+<li>初始化寄存器：restart()函数<br>把寄存器结构体CPU_state的定义放在nemu&#x2F;src&#x2F;isa&#x2F;$ISA&#x2F;include&#x2F;isa-def.h中, 并在nemu&#x2F;src&#x2F;cpu&#x2F;cpu-exec.c中定义一个全局变量cpu. 初始化寄存器的一个重要工作就是设置cpu.pc的初值, 我们需要将它设置成刚才加载客户程序的内存位置, 这样就可以让CPU从我们约定的内存位置开始执行客户程序了. 对于mips32和riscv32, 它们的0号寄存器总是存放0, 因此我们也需要对其进行初始化.</li>
+</ol>
+<ul>
+<li>地址映射：mips32和riscv32的物理地址均从0x80000000开始. 因此对于mips32和riscv32, 其CONFIG_MBASE将会被定义成0x80000000.</li>
+</ul>
+<ol start="3">
+<li>在nemu&#x2F;目录下编译并运行NEMU：<code>make run</code></li>
+</ol>
+<h4 id="练习：解决错误信息"><a href="#练习：解决错误信息" class="headerlink" title="练习：解决错误信息"></a>练习：解决错误信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">riscv32-nemu-interpreter: src/monitor/monitor.c:36: welcome: Assertion `0&#x27; failed.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除或注释掉 src&#x2F;monitor&#x2F;monitor.c 文件中 welcome 函数中的 <code>assert(0); </code>这一行代码，并保存修改后的文件</li>
+<li>回到nemu&#x2F;，重新编译NEMU<code>make</code></li>
+<li><code>make run</code>运行NEMU</li>
+</ul>
+<h2 id="运行第一个客户程序"><a href="#运行第一个客户程序" class="headerlink" title="运行第一个客户程序"></a>运行第一个客户程序</h2><ol>
+<li>在cmd_c()函数中, 调用cpu_exec()的时候传入了参数-1, 你知道这是什么意思吗?<ul>
+<li>传入的参数 -1 通常表示让 CPU 执行无限多的指令，直到遇到某个停止条件（如断点或程序结束）。这是在模拟器中常见的一种用法，用于启动 CPU 并让其持续运行。</li>
+</ul>
+</li>
+<li>NEMU将不断执行指令, 直到遇到以下情况之一, 才会退出指令执行的循环:<ul>
+<li>达到要求的循环次数.</li>
+<li>客户程序执行了<code>nemu_trap</code>指令。 riscv32的手册中, NEMU选择了<code>ebreak</code>指令来充当nemu_trap.</li>
+</ul>
+</li>
+<li>为了表示客户程序是否成功结束, nemu_trap指令还会接收一个表示结束状态的参数，主要包括:<ul>
+<li><code>HIT GOOD TRAP</code> - 客户程序正确地结束执行</li>
+<li><code>HIT BAD TRAP</code> - 客户程序错误地结束执行</li>
+<li><code>ABORT</code> - 客户程序意外终止, 并未结束执行</li>
+</ul>
+</li>
+<li>当你看到NEMU输出类似以下的内容时(不同ISA的pc输出值会有所不同):</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nemu: HIT GOOD TRAP at pc = 0x8000000c</span><br></pre></td></tr></table></figure>
+<p>说明客户程序已经成功地结束运行.<br>NEMU会在cpu_exec()函数的最后打印<code>执行的指令数目</code>和<code>花费的时间</code>, 并计算出<code>指令执行的频率</code>.</p>
+<ol start="5">
+<li><p>思考：谁来指示程序的结束?</p>
+<p> 在程序设计课上老师告诉你, 当程序执行到main()函数返回处的时候, 程序就退出了, 你对此深信不疑. 但你是否怀疑过, 凭什么程序执行到main()函数的返回处就结束了? 如果有人告诉你, 程序设计课上老师的说法是错的, 你有办法来证明&#x2F;反驳吗?</p>
+<ul>
+<li>当 main() 函数返回时，实际上会<strong>调用 exit() 函数</strong>，exit() 函数会执行一些清理工作并通知操作系统程序已经完成。<strong>操作系统</strong>会进行一些清理工作，例如释放进程占用的资源，并将返回值传递给父进程（通常是 shell）。</li>
+<li>(证明&#x2F;反驳) 通过查看标准库实现、使用调试器和编写自定义 exit() 函数，可以更深入地理解程序退出的机制。</li>
+<li>返回值传递——&gt;调用exit()函数——&gt;操作系统接管</li>
+</ul>
+</li>
+<li><p>代码中一些值得注意的地方</p>
+</li>
+</ol>
+<ul>
+<li>三个对调试有用的宏（在<code>nemu/include/debug.h</code>中定义）<ul>
+<li><code>Log()</code>,是<code>printf()</code>的升级版。<strong>输出调试信息</strong>, 同时还会输出使用<strong>Log()所在的源文件, 行号和函数</strong>. 当输出的调试信息过多的时候, 可以很方便地<strong>定位</strong>到代码中的相关位置</li>
+<li><code>Assert()</code>是<code>assert()</code>的升级版, 当<strong>测试条件为假</strong>时, 在assertion fail之前可以输出一些信息</li>
+<li><code>panic()</code>用于<strong>输出信息并结束程序</strong>, 相当于无条件的assertion fail</li>
+</ul>
+</li>
+<li>从现在开始<strong>保持接口的一致性</strong>可以在将来避免一些不必要的麻烦.<ul>
+<li>内存通过在<code>nemu/src/memory/paddr.c</code>中定义的大数组pmem来模拟. 在客户程序运行的过程中, 总是使用<code>vaddr_read()</code>和<code>vaddr_write() </code>(在n<code>emu/src/memory/vaddr.c</code>中定义)来访问模拟的内存.</li>
+</ul>
+</li>
+</ul>
+<h4 id="必做题：优美地退出"><a href="#必做题：优美地退出" class="headerlink" title="必做题：优美地退出"></a>必做题：优美地退出</h4><p>如果在运行NEMU之后直接键入q退出, 你会发现终端输出了一些错误信息. 请分析这个错误信息是什么原因造成的, 然后尝试在NEMU中修复它.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(nemu) q</span><br><span class="line">make: *** [/home/xiaoyao/ics2024/nemu/scripts/native.mk:38：run] 错误 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>可能原因</strong>：</li>
+</ul>
+<ol>
+<li><p>退出状态未正确设置：</p>
+<p> 在处理 q 命令时，可能没有正确设置退出状态，导致程序没有正常退出。</p>
+</li>
+<li><p>资源未正确释放：</p>
+<p> 在退出时，可能有一些资源（如内存、文件句柄等）未正确释放，导致程序异常退出。</p>
+</li>
+<li><p>退出处理函数中的错误：</p>
+<p> 在处理 q 命令的函数中，可能存在一些未处理的错误或异常。</p>
+</li>
+</ol>
+<ul>
+<li><strong>解决（1）</strong>：</li>
+</ul>
+<ol>
+<li>先检查<code>cmd-q</code>函数：<ul>
+<li>在哪？用<code>grep -rnw &#39;/home/xiaoyao/ics2024/nemu/&#39; -e &#39;cmd_q&#39;</code>找到</li>
+</ul>
+</li>
+<li>发现为</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_q</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>根据经验猜测，改为</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_q</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尝试，变成了按q无法退出！！</p>
+<ol start="4">
+<li>分析，原本是返回-1<br>在主循环<code>sdb_mainloop()</code>中，处理退出部分为</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; NR_CMD; i ++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">strcmp</span>(cmd, cmd_table[i].name) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (cmd_table[i].handler(args) &lt; <span class="number">0</span>) &#123; <span class="keyword">return</span>; &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i == NR_CMD) &#123; <span class="built_in">printf</span>(<span class="string">&quot;Unknown command &#x27;%s&#x27;\n&quot;</span>, cmd); &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>故发现当输入q，cmd_q函数被调用，如果返回0,则不会结束，循环继续执行；如果返回小于0的数（比如-1），循环会退出，从而结束程序。</p>
+<p>所以不是<code>return -1</code>的错！</p>
+<p><strong>解决（2）</strong></p>
+<ul>
+<li>决定用<strong>gdb</strong>调试</li>
+<li>用<code>find . -type f -executable -exec ls -l &#123;&#125; \;</code>找了一下可执行文件，gdb它是<code>gdb ./build/riscv32-nemu-interpreter</code></li>
+</ul>
+<ol>
+<li><code>gdb ./build/riscv32-nemu-interpreter</code></li>
+<li>设置断点<code>(gdb) break cmd_q</code></li>
+<li>运行程序： 启动NEMU并运行到断点处。<code>(gdb) run</code></li>
+<li>在NEMU界面，输入q，触发cmd_q函数</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Breakpoint 1, cmd_q (args=0x0) at src/monitor/sdb/sdb.c:51</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">51	static int cmd_q(char *args) &#123;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>查看返回值：在cmd_q函数里单步执行，并查看返回值</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) step  # 进入cmd_q函数</span><br><span class="line">(gdb) next  # 执行到返回语句</span><br><span class="line">53	  return -1;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li><code>(gdb) finish  # 执行完cmd_q函数并返回调用点</code></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Run till exit from #0  cmd_q (args=0x0) at src/monitor/sdb/sdb.c:53</span><br><span class="line">0x0000555555557f41 in sdb_mainloop () at src/monitor/sdb/sdb.c:129</span><br><span class="line">129	        if (cmd_table[i].handler(args) &lt; 0) &#123; return; &#125;</span><br><span class="line">Value returned is $1 = -1</span><br></pre></td></tr></table></figure>
+<p>发现调用处是<code>sdb_mainloop () at src/monitor/sdb/sdb.c:129</code></p>
+<ol start="7">
+<li>设置断点： 在 cmd_q 函数和 sdb_mainloop 函数的第 129 行设置断点。<br><code>(gdb) break src/monitor/sdb/sdb.c:129</code><br>再次run和q查看</li>
+<li>查看调用栈</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) backtrace</span><br><span class="line">#0  sdb_mainloop () at src/monitor/sdb/sdb.c:129</span><br><span class="line">#1  0x00005555555565c1 in engine_start () at src/engine/interpreter/init.c:25</span><br><span class="line">#2  0x00005555555565a0 in main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;)</span><br><span class="line">    at src/nemu-main.c:32</span><br></pre></td></tr></table></figure>
+<p>发现在sdb_mainloop函数退出后，控制转移到<strong>main函数</strong>，<br>9. 对main.c:32断点，再run，输入q，然后几个next后发现<code>is_exit_status_bad()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) next</span><br><span class="line">main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;) at src/nemu-main.c:34</span><br><span class="line">34	  return is_exit_status_bad();</span><br></pre></td></tr></table></figure>
+<ol start="10">
+<li>查看</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">list</span> is_exit_status_bad</span><br><span class="line"><span class="number">15</span>	</span><br><span class="line"><span class="number">16</span>	<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utils.h&gt;</span></span></span><br><span class="line"><span class="number">17</span>	</span><br><span class="line"><span class="number">18</span>	NEMUState nemu_state = &#123; .state = NEMU_STOP &#125;;</span><br><span class="line"><span class="number">19</span>	</span><br><span class="line"><span class="number">20</span>	<span class="type">int</span> <span class="title function_">is_exit_status_bad</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="number">21</span>	  <span class="type">int</span> good = (nemu_state.state == NEMU_END &amp;&amp; nemu_state.halt_ret == <span class="number">0</span>) ||</span><br><span class="line"><span class="number">22</span>	    (nemu_state.state == NEMU_QUIT);</span><br><span class="line"><span class="number">23</span>	  <span class="keyword">return</span> !good;</span><br><span class="line"><span class="number">24</span>	&#125;</span><br></pre></td></tr></table></figure>
+<p>！good应该为0才能正确退出，根据报错知道这里返回的是1,即good为0,说明无条件为真；而cmd_q并没有改变nemu_state.state，为STOP，所以加一行在cmd_q，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nemu_state.state = NEMU_QUIT;</span><br></pre></td></tr></table></figure>
+<p>现在就能正常退出啦！！</p>
+<h4 id="多认识GDB的一些命令和操作"><a href="#多认识GDB的一些命令和操作" class="headerlink" title="多认识GDB的一些命令和操作"></a>多认识GDB的一些命令和操作</h4><p>比如:</p>
+<ul>
+<li>单步执行进入你感兴趣的函数<code>(gdb) step</code></li>
+<li>单步执行跳过你不感兴趣的函数(例如库函数)<code>(gdb) next</code></li>
+<li>运行到函数末尾<code>(gdb) finish</code></li>
+<li>打印变量或寄存器的值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) print variable_name</span><br><span class="line">(gdb) info registers</span><br></pre></td></tr></table></figure>
+<ul>
+<li>扫描内存<code>(gdb) x /Nfu address</code></li>
+<li>查看调用栈<code>(gdb) backtrace</code></li>
+<li>设置断点<code>(gdb) break</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) break filename:line_number</span><br><span class="line">(gdb) break function_name</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置监视点<code>(gdb) watch variable_name</code></li>
+</ul>
+<h2 id="2024-9-22"><a href="#2024-9-22" class="headerlink" title="2024.9.22"></a>2024.9.22</h2><h1 id="基础设施：简易调试器"><a href="#基础设施：简易调试器" class="headerlink" title="基础设施：简易调试器"></a>基础设施：简易调试器</h1><ul>
+<li>基础设施-<strong>提高项目开发的效率</strong><ul>
+<li>在PA中, 基础设施是指支撑项目开发的各种工具和手段.</li>
+<li>比如：我们的框架代码已经提供了Makefile来对NEMU进行一键编译. 假设我们并没有提供一键编译的功能, 你需要通过手动键入gcc命令的方式来编译源文件。</li>
+</ul>
+</li>
+<li>需要在monitor中实现一个具有如下功能(表格中)的简易调试器 (相关部分的代码在<code>nemu/src/monitor/sdb/</code>目录下)</li>
+</ul>
+<p>哇要开始写代码了，紧张中</p>
+<h2 id="解析命令"><a href="#解析命令" class="headerlink" title="解析命令"></a>解析命令</h2><ol>
+<li>从键盘上读入命令：为了让简易调试器易于使用, NEMU通过<code>readline</code>库与用户交互, 使用<code>readline()</code>函数从键盘上读入命令. </li>
+<li>解析该命令，然后执行相关的操作：</li>
+</ol>
+<ul>
+<li>目的：识别命令中的参数</li>
+<li>通过一系列的字符串处理函数来完成<ul>
+<li>eg.<code>strtok()</code></li>
+<li>strtok的工作原理是通过指定的分割符将字符串分割开来，并返回每个标记的指针</li>
+<li><code>cmd_help()</code>函数中有使用<code>strtok（）</code>的例子</li>
+</ul>
+</li>
+<li>事实上, 字符串处理函数有很多, 键入以下内容:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man 3 str&lt;TAB&gt;&lt;TAB&gt;</span><br></pre></td></tr></table></figure>
+<p>其中<TAB>代表键盘上的TAB键；看到很多以str开头的函数！</TAB></p>
+<ul>
+<li>推荐的字符串处理函数：<code>sscanf()</code><ul>
+<li>功能和<code>scanf()</code>很类似, 但 <code>sscanf </code>从字符串而不是标准输入读取数据。它的定义在<code> &lt;stdio.h&gt;</code> 头文件中。</li>
+<li>函数原型：</li>
+</ul>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sscanf</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">const</span> <span class="type">char</span> *format, ...)</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>参数<ul>
+<li><code>str</code>：要读取的字符串。</li>
+<li><code>format</code>：格式控制字符串，指定如何解析输入。</li>
+<li><code>...</code>：指向存储读取值的变量的指针。</li>
+</ul>
+</li>
+<li>返回值：成功读取并赋值的项数。如果没有匹配项或发生读取错误，则返回 EOF。</li>
+</ul>
+</li>
+</ul>
+<h2 id="要实现："><a href="#要实现：" class="headerlink" title="要实现："></a>要实现：</h2><p><del>1. 帮助<br>2. 继续运行<br>3. 退出</del></p>
+<ol start="4">
+<li><p>单步执行 	si [N] 	si 10 	让程序单步执行N条指令后暂停执行,<br>当N没有给出时, 缺省为1</p>
+</li>
+<li><p>打印程序状态 	info SUBCMD 	info r<br>info w 	打印寄存器状态<br>打印监视点信息</p>
+</li>
+<li><p>扫描内存(2) 	x N EXPR 	x 10 $esp 	求出表达式EXPR的值, 将结果作为起始内存<br>地址, 以十六进制形式输出连续的N个4字节</p>
+</li>
+<li><p>表达式求值 	p EXPR 	p $eax + 1 	求出表达式EXPR的值, EXPR支持的<br>运算请见调试中的表达式求值小节</p>
+</li>
+<li><p>设置监视点 	w EXPR 	w *0x2000 	当表达式EXPR的值发生变化时, 暂停程序执行</p>
+</li>
+<li><p>删除监视点 	d N 	d 2 	删除序号为N的监视点</p>
+</li>
+</ol>
+<h2 id="单步执行"><a href="#单步执行" class="headerlink" title="单步执行"></a>单步执行</h2><p>单步执行的功能十分简单, 而且框架代码中已经给出了模拟CPU执行方式的函数, 你只要使用相应的参数去调用它就可以了. 如果你仍然不知道要怎么做, RTFSC.</p>
+<p>(用了下sscanf)</p>
+<h2 id="打印寄存器"><a href="#打印寄存器" class="headerlink" title="打印寄存器"></a>打印寄存器</h2><ul>
+<li><code>info SUBCMD</code></li>
+<li>例子：<ul>
+<li><code>info r</code>打印寄存器状态</li>
+</ul>
+</li>
+<li>寄存器结构是ISA相关的</li>
+<li>去看框架代码准备的api：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// nemu/src/isa/$ISA/reg.c</span><br><span class="line">void isa_reg_display(void);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行info r之后, 就调用isa_reg_display(), 在里面直接通过printf()输出所有寄存器的值即可. </li>
+<li>打印完之后还打印了特殊寄存器——程序计数器（PC）</li>
+</ul>
+<h2 id="扫描内存"><a href="#扫描内存" class="headerlink" title="扫描内存"></a>扫描内存</h2><ol>
+<li>对命令进行解析</li>
+<li>求出表达式的值（下一节来实现，目前先实现一个简单版本！）<ul>
+<li>规定表达式EXPR中只能是一个十六进制数, 例如</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>如何访问计算机的内存数据？<br>  -通过虚拟地址读取函数 <code>vaddr_read</code> 来实现。这个函数可以读取指定地址的内存数据，并返回相应的值。</li>
+</ul>
+<ol start="3">
+<li>解析出待扫描内存的起始地址之后, 就可以使用循环将指定长度的内存数据通过十六进制打印出来. </li>
+<li>检验：打印0x80000000的内存, 你应该会看到程序的代码, 和内置客户程序的内容进行对比。</li>
+</ol>
+<h2 id="debug记录"><a href="#debug记录" class="headerlink" title="debug记录"></a>debug记录</h2><p>(特别好笑)</p>
+<ul>
+<li>原代码：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//单步执行</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_si</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="type">char</span> *arg = strtok(<span class="literal">NULL</span>, <span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="type">int</span> step;</span><br><span class="line">  <span class="keyword">if</span>(arg==<span class="literal">NULL</span>)&#123;</span><br><span class="line">    step=<span class="number">1</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    step=<span class="built_in">sscanf</span>(arg,<span class="string">&quot;%d&quot;</span>,&amp;step);</span><br><span class="line">    Log(<span class="string">&quot;step=%d&quot;</span>,step);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  cpu_exec(step);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>检验：<br><code>si 5</code>，但step&#x3D;1,原因是这一行</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">step=<span class="built_in">sscanf</span>(arg,<span class="string">&quot;%d&quot;</span>,&amp;step);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>纠错：<br>因为 sscanf 函数的使用不当。sscanf 函数<strong>返回的是成功读取的项目数</strong>，<strong>而不是读取的值</strong>。因此，当输入 <code>si 5 </code>时，<code>sscanf(arg, &quot;%d&quot;, &amp;step)</code> 返回的是 1（表示成功读取了一个整数），而不是 5。</li>
+<li>改正：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sscanf(arg,&quot;%d&quot;,&amp;step);</span><br></pre></td></tr></table></figure>
+
+<h1 id="表达式求值"><a href="#表达式求值" class="headerlink" title="表达式求值"></a>表达式求值</h1><h2 id="数学表达式求值"><a href="#数学表达式求值" class="headerlink" title="数学表达式求值"></a>数学表达式求值</h2><ol>
+<li>识别表达式中的单元</li>
+<li>根据表达式的归纳定义进行<strong>递归</strong>求值</li>
+</ol>
+<h3 id="词法分析（识别出表达式中的单元）"><a href="#词法分析（识别出表达式中的单元）" class="headerlink" title="词法分析（识别出表达式中的单元）"></a>词法分析（识别出表达式中的单元）</h3><ul>
+<li>单元：<strong>token</strong></li>
+<li><code>&quot;0x80100000+   ($a0 +5)*4 - *(  $t1 + 8) + number&quot;</code><br>它包含更多的功能, 例如十六进制整数(0x80100000), 小括号, 访问寄存器($a0), 指针解引用(第二个*), 访问变量(number). 事实上, 这种复杂的表达式在调试过程中经常用到, 而且你需要在<code>空格数目不固定(0个或多个)</code>的情况下仍然能正确识别出其中的token. <ul>
+<li>用<strong>正则表达式</strong></li>
+</ul>
+</li>
+<li>sdb.c中调用了<code>init_regex()</code>，来自<code>./expr.c</code></li>
+</ul>
+<ol>
+<li>定义更多的 token 类型：例如数字、操作符、括号等。</li>
+<li>编写正则表达式规则：为每种 token 类型编写相应的正则表达式。</li>
+<li>记录 token 信息：在成功识别出 token 后，将其信息记录到 tokens 数组中。</li>
+</ol>
+<h4 id="调试检查"><a href="#调试检查" class="headerlink" title="调试检查"></a>调试检查</h4><ol>
+<li>使用 assert() 设置检查点：确保关键变量和指针的有效性。</li>
+<li>使用 printf() 查看程序执行情况：检查代码的可达性和变量的值。</li>
+<li>使用 GDB 观察程序的状态和行为：设置断点、打印变量、监视点和函数调用栈。</li>
+</ol>
+<ul>
+<li>我的方法是在sdb.c里添加命令</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">cmd_expr</span><span class="params">(<span class="type">char</span> *args)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (args == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Usage: expr &lt;expression&gt;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="type">bool</span> success;</span><br><span class="line">  <span class="type">word_t</span> result = expr(args, &amp;success);</span><br><span class="line">  <span class="keyword">if</span> (success) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Result: %u\n&quot;</span>, result);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Expression evaluation failed.\n&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后<code>make run</code>，再<code>expr 1+2-3</code>之类的，发现有Log，说明成功了。</p>
+<h4 id="assert-0-的作用"><a href="#assert-0-的作用" class="headerlink" title="assert(0)的作用"></a><code>assert(0)</code>的作用</h4><ol>
+<li>预防性的错误检查</li>
+</ol>
+<ul>
+<li>assert是判断括号内的内容是否为真，为假就报错。<ul>
+<li>0为假，所以<code>assert(0)</code>永远都报错</li>
+</ul>
+</li>
+<li>在认为<strong>不可能</strong>执行到的情况下加一句<strong>assert(0)</strong>,如果运行到此，则代码<strong>逻辑或条件</strong>就可能有问题。</li>
+</ul>
+<ol start="2">
+<li>没写完，放个assert（0），调试运行到此时报错中断，好知道成员函数还没写完。</li>
+<li>设置断言</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = SomeFunc(y);</span><br><span class="line">ASSERT(x&gt;=<span class="number">0</span>);<span class="comment">//如果x为负，则断言失败</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>可将断言用于<ul>
+<li>捕捉逻辑错误：在程序逻辑必须为真的条件上设置断言，无影响除非错；</li>
+<li>检查操作结果</li>
+<li>测试错误类型</li>
+</ul>
+</li>
+</ul>
+<h3 id="递归求值"><a href="#递归求值" class="headerlink" title="递归求值"></a>递归求值</h3><h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<li>BNF定义</li>
+<li>长表达式是由短表达式构成的</li>
+<li>先对短表达式求值，再对长表达式求值（分治法）</li>
+</ul>
+<h4 id="如何在一个token表达式中寻找主运算符"><a href="#如何在一个token表达式中寻找主运算符" class="headerlink" title="如何在一个token表达式中寻找主运算符:"></a>如何在一个token表达式中寻找主运算符:</h4><ul>
+<li><strong>非运算符的token</strong>不是主运算符.</li>
+<li><strong>出现在一对括号中的token</strong>不是主运算符. 注意到这里不会出现有括号包围整个表达式的情况, 因为这种情况已经在check_parentheses()相应的if块中被处理了.</li>
+<li><strong>主运算符的优先级在表达式中是最低的.</strong> 这是因为主运算符是最后一步才进行的运算符.</li>
+<li>当有<strong>多个</strong>运算符的优先级都是最低时, 根据结合性, <strong>最后</strong>被结合的运算符才是主运算符. 一个例子是1 + 2 + 3, 它的主运算符应该是右边的+.</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>需要注意的是, 上述框架中并没有进行错误处理, 在求值过程中发现表达式不合法的时候, 应该给上层函数返回一个表示出错的标识, 告诉上层函数”求值的结果是无效的”. </li>
+<li>为了方便统一, 我们认为所有结果都是<code>uint32_t</code>类型.</li>
+</ul>
+<h4 id="想法心得"><a href="#想法心得" class="headerlink" title="想法心得"></a>想法心得</h4><ul>
+<li>可能出错的地方用了assert来处理，退出并输出错误信息</li>
+<li>把加减法和乘除法的优先级搞反了，同时存在时，加减法为主</li>
+<li>除法，除数为0要注意！</li>
+</ul>
+<h3 id="实现带有负数的算术表达式的求值"><a href="#实现带有负数的算术表达式的求值" class="headerlink" title="实现带有负数的算术表达式的求值"></a>实现带有负数的算术表达式的求值</h3><p>在上述实现中, 我们并没有考虑负数的问题, 例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;1 + -1&quot;</span><br><span class="line">&quot;--1&quot;    /* 我们不实现自减运算, 这里应该解释成 -(-1) = 1 */</span><br></pre></td></tr></table></figure>
+<ul>
+<li>它们会被判定为不合法的表达式. 为了实现负数的功能, 你需要考虑两个问题:<ul>
+<li>负号和减号都是-, 如何区分它们?</li>
+<li>负号是个单目运算符, 分裂的时候需要注意什么?</li>
+</ul>
+</li>
+</ul>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><ul>
+<li>4294967295（-1）<br>因为现在还是无符号数阶段，所以计算结果不会小于0，先不考虑计算结果小于0了</li>
+</ul>
+<h3 id="9-24"><a href="#9-24" class="headerlink" title="9.24"></a>9.24</h3><h3 id="如何测试你的代码——随机测试"><a href="#如何测试你的代码——随机测试" class="headerlink" title="如何测试你的代码——随机测试"></a>如何测试你的代码——随机测试</h3><ul>
+<li>生成表达式的框架</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">gen_rand_expr</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">switch</span> (choose(<span class="number">3</span>)) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>: gen_num(); <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: gen(<span class="string">&#x27;(&#x27;</span>); gen_rand_expr(); gen(<span class="string">&#x27;)&#x27;</span>); <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>- ``uint32_t choose(uint32_t n)``：生成一个小于0的随机数
+</code></pre>
+<ul>
+<li>生成表达式的结果：<ul>
+<li>进行的都是无符号运算</li>
+<li>数据宽度都是32bit</li>
+<li>溢出后不处理</li>
+</ul>
+</li>
+<li>把这些表达式塞到如下C程序的源文件里面:</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">unsigned</span> result = ???; <span class="comment">// 把???替换成表达式</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%u&quot;</span>, result);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后用gcc编译它并执行, 让它输出表达式的结果, 这不就是我们想要的”计算器”吗?<ul>
+<li>框架代码(在nemu&#x2F;tools&#x2F;gen-expr&#x2F;gen-expr.c中). </li>
+<li>你需要实现其中的void gen_rand_expr()函数, 将随机生成的表达式输出到缓冲区buf中. main函数中的代码会调用你实现的gen_rand_expr(), 然后把buf中的随机表达式放入上述C程序的代码中. </li>
+<li>剩下的事情就是编译运行这个C程序了, 代码中使用了system()和popen()等库函数来实现这一功能. </li>
+<li>最后, 框架代码将这个C程序的打印结果和之前随机生成的表达式一同输出, 这样就生成了一组测试用例.</li>
+</ul>
+</li>
+</ul>
+<h2 id="实现表达式生成器"><a href="#实现表达式生成器" class="headerlink" title="实现表达式生成器"></a>实现表达式生成器</h2><h4 id="生成随机表达式——gen-rand-expr-函数"><a href="#生成随机表达式——gen-rand-expr-函数" class="headerlink" title="生成随机表达式——gen_rand_expr()函数"></a>生成随机表达式——gen_rand_expr()函数</h4><h4 id="将表达式插入到-C-程序模板中"><a href="#将表达式插入到-C-程序模板中" class="headerlink" title="将表达式插入到 C 程序模板中"></a>将表达式插入到 C 程序模板中</h4><p>使用 sprintf 将生成的表达式插入到 C 程序模板中。</p>
+<h4 id="编译和运行-C-程序"><a href="#编译和运行-C-程序" class="headerlink" title="编译和运行 C 程序"></a>编译和运行 C 程序</h4><p>使用 system() 函数编译生成的 C 程序，并使用 popen() 函数运行该程序以获取计算结果。</p>
+<h4 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h4><p>将计算结果和生成的表达式一起输出。</p>
+<ul>
+<li>表达式生成器如何获得C程序的打印结果?<ul>
+<li>生成随机表达式：gen_rand_expr(0) 函数生成随机表达式，并将其存储在缓冲区 buf 中。</li>
+<li>将表达式插入到 C 程序模板中：使用 sprintf(code_buf, code_format, buf) 将生成的表达式插入到 C 程序模板中，并将结果存储在 code_buf 中。</li>
+<li>写入临时文件：将生成的 C 程序写入到临时文件 &#x2F;tmp&#x2F;.code.c 中。</li>
+<li>编译生成的 C 程序：使用 system(“gcc &#x2F;tmp&#x2F;.code.c -o &#x2F;tmp&#x2F;.expr”) 命令编译生成的 C 程序。</li>
+<li>运行生成的程序并获取结果：使用 popen(“&#x2F;tmp&#x2F;.expr”, “r”) 运行生成的程序，并通过 fscanf(fp, “%u”, &amp;result) 从程序的输出中读取计算结果。</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何过滤求值过程中有除0行为的表达式"><a href="#如何过滤求值过程中有除0行为的表达式" class="headerlink" title="如何过滤求值过程中有除0行为的表达式?"></a>如何过滤求值过程中有除0行为的表达式?</h3><ul>
+<li>采用了：若’&#x2F;‘下一个是0,则删掉重新生成</li>
+<li>但是还是会有warning：当被除的式子值为0时。怎么办？</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/tmp/.code.c:2:46: warning: division by zero [-Wdiv-by-zero]</span><br><span class="line">    2 | int main() &#123;   unsigned result = (53/ (88+(32/  (12/ 47 )/71  ))  -(10*17 + 86/  8  +(31/ 82  )  ) )/46;   printf(&quot;%u&quot;, result);   return 0; &#125;</span><br><span class="line">      |                                              ^</span><br></pre></td></tr></table></figure>
+<ul>
+<li>为什么要用无符号整数：<ul>
+<li>避免溢出问题：无符号整数在溢出时会回绕到零，而有符号整数在溢出时可能会导致未定义行为。使用无符号整数可以避免这种未定义行为。</li>
+<li>一致性：无符号整数的行为在所有平台上都是一致的，而有符号整数的行为可能会因平台而异。</li>
+<li>简化处理：无符号整数的处理相对简单，不需要考虑负数的情况。</li>
+</ul>
+</li>
+<li>除0的确切行为:<br>如果生成的表达式有除0行为, 你编写的表达式生成器的行为又会怎么样呢?</li>
+<li>过滤除0行为的表达式:<br>乍看之下这个问题不好解决, 因为框架代码只负责生成表达式, 而检测除0行为至少要对表达式进行求值. 结合前两个蓝框题的回答(前提是你对它们的理解都足够深入了), 你就会找到解决方案了, 而且解决方案不唯一喔!</li>
+</ul>
+<h3 id="改造NEMU的main（）函数"><a href="#改造NEMU的main（）函数" class="headerlink" title="改造NEMU的main（）函数"></a>改造NEMU的main（）函数</h3><ul>
+<li>读取输入文件中的测试表达式。</li>
+<li>调用 expr() 函数对表达式进行求值。</li>
+<li>与预期结果进行比较。</li>
+<li>修改 tokens 数组的大小以容纳长表达式。<ul>
+<li>#define MAX_TOKENS 65536</li>
+<li>expr.c里面<ul>
+<li>static Token tokens[65536] <strong>attribute</strong>((used)) &#x3D; {};</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//读取input文件中的测试表达式</span></span><br><span class="line">FILE *input_fp = fopen(<span class="string">&quot;/home/xiaoyao/ics2024/nemu/tools/gen-expr/input&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(input_fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;No input file found\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> line_buf[MAX_TOKENS + <span class="number">128</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (fgets(line_buf, <span class="keyword">sizeof</span>(line_buf), input_fp) != <span class="literal">NULL</span>) &#123;</span><br><span class="line">  <span class="comment">// 去掉换行符</span></span><br><span class="line">  <span class="type">size_t</span> len = <span class="built_in">strlen</span>(line_buf);</span><br><span class="line">  <span class="keyword">if</span> (len &gt; <span class="number">0</span> &amp;&amp; line_buf[len - <span class="number">1</span>] == <span class="string">&#x27;\n&#x27;</span>) &#123;</span><br><span class="line">    line_buf[len - <span class="number">1</span>] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 找到数字后的第一个空格</span></span><br><span class="line">  <span class="type">char</span> *space_pos = <span class="built_in">strchr</span>(line_buf, <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">  <span class="keyword">if</span> (space_pos == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;Invalid input format: %s\n&quot;</span>, line_buf);</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 分割结果和表达式</span></span><br><span class="line">  *space_pos = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">  <span class="type">char</span> *expr_str = space_pos + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 解析表达式的预期结果</span></span><br><span class="line">  <span class="type">uint32_t</span> expected_result = strtoul(line_buf, <span class="literal">NULL</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调试信息</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Parsed expression: %s\n&quot;</span>, expr_str);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调用expr函数计算表达式的值</span></span><br><span class="line">  <span class="type">bool</span> success = <span class="literal">true</span>;</span><br><span class="line">  <span class="type">word_t</span> ans = expr(expr_str, &amp;success);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 与预期结果比较</span></span><br><span class="line">  <span class="keyword">if</span> (success) &#123;</span><br><span class="line">    <span class="keyword">if</span> (ans == expected_result) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;PASS: %s = %u\n&quot;</span>, expr_str, ans);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;FAIL: %s = %u (expected %u)\n&quot;</span>, expr_str, ans, expected_result);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR: Failed to evaluate expression: %s\n&quot;</span>, expr_str);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fclose(input_fp);</span><br></pre></td></tr></table></figure>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul>
+<li>先测试，再启动engine，否则就无法测试，直接进入交互模式啦</li>
+<li>分割是按照第一个数字后的空格</li>
+<li>token数组大小，其实是改expr.c处</li>
+</ul>
+<h4 id="1-2结束！"><a href="#1-2结束！" class="headerlink" title="1.2结束！"></a>1.2结束！</h4><h1 id="监视点"><a href="#监视点" class="headerlink" title="监视点"></a>监视点</h1><p>（9.30）</p>
+<ul>
+<li>监视点的功能是监视一个表达式的值何时发生变化. 如果你从来没有使用过监视点, 请在GDB中体验一下它的作用.</li>
+</ul>
+<h2 id="扩展表达式求值的功能"><a href="#扩展表达式求值的功能" class="headerlink" title="扩展表达式求值的功能"></a>扩展表达式求值的功能</h2><ul>
+<li>我们用BNF来说明需要扩展哪些功能:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;expr&gt; ::= &lt;decimal-number&gt;</span><br><span class="line">  | &lt;hexadecimal-number&gt;    # 以&quot;0x&quot;开头</span><br><span class="line">  | &lt;reg_name&gt;              # 以&quot;$&quot;开头</span><br><span class="line">  | &quot;(&quot; &lt;expr&gt; &quot;)&quot;</span><br><span class="line">  | &lt;expr&gt; &quot;+&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;-&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;*&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;/&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;==&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;!=&quot; &lt;expr&gt;</span><br><span class="line">  | &lt;expr&gt; &quot;&amp;&amp;&quot; &lt;expr&gt;</span><br><span class="line">  | &quot;*&quot; &lt;expr&gt;              # 指针解引用</span><br></pre></td></tr></table></figure>
+<p>它们的功能和C语言中运算符的功能是一致的, 包括优先级和结合性, 如有疑问, 请查阅相关资料.</p>
+<ul>
+<li>关于获取寄存器的值, 这显然是一个ISA相关的功能. 框架代码已经准备了如下的API:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// nemu/src/isa/$ISA/reg.c</span><br><span class="line">word_t isa_reg_str2val(const char *s, bool *success);</span><br></pre></td></tr></table></figure>
+<p>它用于返回名字为s的寄存器的值, 并设置success指示是否成功.</p>
+<ul>
+<li>注意：指针解引用的识别<ul>
+<li>区分乘法和指针解引用<code>*</code></li>
+<li>实际上, 我们只要看<code>*</code>前一个token的类型, 我们就可以决定这个<code>*</code>是乘法还是指针解引用了</li>
+<li>思考<code>certain type</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (!make_token(e)) &#123;</span><br><span class="line">  *success = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* <span class="doctag">TODO:</span> Implement code to evaluate the expression. */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nr_token; i ++) &#123;</span><br><span class="line">  <span class="keyword">if</span> (tokens[i].type == <span class="string">&#x27;*&#x27;</span> &amp;&amp; (i == <span class="number">0</span> || tokens[i - <span class="number">1</span>].type == certain type) ) &#123;</span><br><span class="line">    tokens[i].type = DEREF;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> eval(?, ?);</span><br></pre></td></tr></table></figure>
+<p>ps:此框架也可以处理负数</p>
+<h4 id="额外说明："><a href="#额外说明：" class="headerlink" title="额外说明："></a>额外说明：</h4><ul>
+<li>所有结果都是uint32_t类型.</li>
+<li>指针也没有类型, 进行指针解引用的时候, 我们总是从客户计算机的内存中读出一个uint32_t类型的整数.</li>
+</ul>
+<h3 id="必做-扩展表达式求值的功能"><a href="#必做-扩展表达式求值的功能" class="headerlink" title="必做:扩展表达式求值的功能"></a>必做:扩展表达式求值的功能</h3><ul>
+<li>要做：<ol>
+<li>获取寄存器的值</li>
+<li>&#x3D;&#x3D;、！&#x3D;、&amp;&amp;、&lt;&#x3D;</li>
+<li>十六进制常数</li>
+<li>指针解引用</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>获取寄存器的值</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// nemu/src/isa/$ISA/reg.c</span><br><span class="line">word_t isa_reg_str2val(const char *s, bool *success);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">word_t</span> <span class="title function_">isa_reg_str2val</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *s, <span class="type">bool</span> *success)</span> &#123;</span><br><span class="line">  <span class="comment">//遍历所有寄存器</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">32</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(s,regs[i])==<span class="number">0</span>)&#123;</span><br><span class="line">      *success=<span class="literal">true</span>;</span><br><span class="line">      <span class="keyword">return</span> cpu.gpr[i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//检查是否是PC</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">strcmp</span>(s,<span class="string">&quot;pc&quot;</span>)==<span class="number">0</span>)&#123;</span><br><span class="line">    *success=<span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> cpu.pc;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//没有找到</span></span><br><span class="line">  *success=<span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>&#x3D;&#x3D;,!&#x3D;,&amp;&amp;<ol>
+<li>扩展正则表达式规则</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot; +&quot;, TK_NOTYPE&#125;,    // spaces</span><br><span class="line">&#123;&quot;\\+&quot;, &#x27;+&#x27;&#125;,     // plus</span><br><span class="line">&#123;&quot;==&quot;, TK_EQ&#125;,        // equal</span><br><span class="line">&#123;&quot;!=&quot;, TK_NEG&#125;,       // not equal</span><br><span class="line">&#123;&quot;-&quot;, &#x27;-&#x27;&#125;,      // minus</span><br><span class="line">&#123;&quot;\\*&quot;, &#x27;*&#x27;&#125;,      // multiply</span><br><span class="line">&#123;&quot;/&quot;, &#x27;/&#x27;&#125;,        // divide</span><br><span class="line">&#123;&quot;\\(&quot;, &#x27;(&#x27;&#125;,   // left parenthesis</span><br><span class="line">&#123;&quot;\\)&quot;, &#x27;)&#x27;&#125;,   // right parenthesis</span><br><span class="line">&#123;&quot;[0-9]+&quot;, TK_NUM&#125;,   // number</span><br><span class="line">&#123;&quot;0[xX][0-9a-fA-F]+&quot;, TK_HEX&#125;, // hexadecimal number</span><br><span class="line">&#123;&quot;\\$[a-zA-Z0-9]+&quot;, TK_REG&#125;, // register name</span><br><span class="line">&#123;&quot;&amp;&amp;&quot;, TK_AND&#125; // and</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>改优先级</li>
+<li>改计算处eval</li>
+</ol>
+</li>
+<li>十六进制常数（2中已经解决）</li>
+<li>指针解引用<ol>
+<li>在eval中</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (tokens[op].type == TK_DEREF) &#123;</span><br><span class="line">word_t val = eval(op + 1, q);</span><br><span class="line">return *(word_t *)val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>expr修改</li>
+<li>发现不对，报错</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src/monitor/sdb/expr.c: In function ‘eval’:</span><br><span class="line">src/monitor/sdb/expr.c:260:16: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]</span><br><span class="line">260 |       return *((word_t *)val);</span><br><span class="line">    |                ^</span><br><span class="line">cc1: all warnings being treated as errors</span><br><span class="line">make: *** [/home/xiaoyao/ics2024/nemu/scripts/build.mk:34：/home/xiaoyao/ics2024/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/expr.o] 错误 1</span><br></pre></td></tr></table></figure>
+<p> 类型不匹配，改成了用<code>eturn paddr_read((paddr_t)val, sizeof(word_t));</code></p>
+</li>
+</ol>
+<ul>
+<li>make run时发现计算突然出错了，上次还是没完全弄好<ul>
+<li>原来是这次添加新的优先级时搞错了</li>
+</ul>
+</li>
+</ul>
+<h2 id="实现监视点"><a href="#实现监视点" class="headerlink" title="实现监视点"></a>实现监视点</h2><ul>
+<li>最好使用链表将监视点的信息组织起来. </li>
+<li>框架代码中已经定义好了监视点的结构体(在<code>nemu/src/monitor/sdb/watchpoint.c</code>中):</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">watchpoint</span> &#123;</span></span><br><span class="line">  <span class="type">int</span> NO;<span class="comment">//表示监视点的序号</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">watchpoint</span> *<span class="title">next</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* <span class="doctag">TODO:</span> Add more members if necessary */</span></span><br><span class="line"></span><br><span class="line">&#125; WP;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>要做：根据对监视点工作原理的理解<strong>在结构体中增加必要的成员</strong>.</li>
+<li>“池”：管理监视点结构体</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> WP wp_pool[NR_WP] = &#123;&#125;;</span><br><span class="line"><span class="type">static</span> WP *head = <span class="literal">NULL</span>, *free_ = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>代码中定义了监视点结构的池<code>wp_pool</code>, 还有两个链表<code>head</code>和<code>free_</code><ul>
+<li>其中<code>head</code>用于组织<strong>使用中</strong>的监视点结构,</li>
+<li><code>free_</code>用于组织<strong>空闲</strong>的监视点结构,</li>
+<li><code>init_wp_pool()</code>函数会对两个链表进行<strong>初始化</strong>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="必做：实现监视点的管理"><a href="#必做：实现监视点的管理" class="headerlink" title="必做：实现监视点的管理"></a>必做：实现监视点的管理</h3><ul>
+<li>需要编写以下两个函数(你可以根据你的需要修改函数的参数和返回值):</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WP* <span class="title function_">new_wp</span><span class="params">()</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">free_wp</span><span class="params">(WP *wp)</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>其中<code>new_wp</code>()从<code>free_链表</code>中返回一个<strong>空闲的</strong>监视点结构, <code>free_wp()</code>将<code>wp</code><strong>归还到free_链表</strong>中, 这两个函数会作为监视点池的<strong>接口被其它函数调用</strong>. </li>
+<li>需要注意的是, 调用new_wp()时可能会出现<strong>没有空闲监视点结构</strong>的情况, 为了简单起见, 此时可以<strong>通过<code>assert(0)</code>马上终止程序</strong>. 框架代码中定义了32个监视点结构, 一般情况下应该足够使用, 如果你需要更多的监视点结构, 你可以修改NR_WP宏的值.</li>
+<li>这两个函数里面都需要执行一些<strong>链表</strong>插入, 删除的操作, 对链表操作不熟悉的同学来说, 这可以作为一次链表的练习.</li>
+</ol>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ol>
+<li><p>修改watchpoint结构体</p>
+</li>
+<li><p>实现new_wp函数</p>
+<ul>
+<li>new_wp 函数从 free_ 链表中返回一个空闲的监视点结构，并将其从 free_ 链表中移除，添加到 head 链表中。</li>
+</ul>
+<ol>
+<li><code>if (free_ == NULL) &#123; assert(0 &amp;&amp; &quot;No free watchpoints available&quot;); &#125;</code> 检查是否有空闲的监视点，如果没有则终止程序。</li>
+<li><code>WP *wp = free_;</code> 从空闲链表中取出第一个监视点。</li>
+<li><code>free_ = free_-&gt;next;</code> 更新空闲链表<strong>头指针</strong>，<strong>指向下一个</strong>空闲监视点。</li>
+<li><code>wp-&gt;next = head;</code> 将<strong>新</strong>分配的监视点的<code>next</code><strong>指针指向当前使用中的链表头</strong>。</li>
+<li><code>head = wp;</code> 更新<strong>使用中的链表头指针</strong>，指向新分配的监视点。</li>
+<li><code>return wp;</code> 返回新分配的监视点。</li>
+</ol>
+</li>
+<li><p>实现free_up函数：</p>
+<ul>
+<li>free_wp 函数将一个<strong>使用中的监视点</strong>从<code>head</code>链表中<strong>移除</strong>，并将其<strong>添加到空闲链表</strong><code>free_</code>中。</li>
+</ul>
+<ol>
+<li><code>if (head == NULL || wp == NULL) &#123; assert(0 &amp;&amp; &quot;No watchpoints busy&quot;); &#125; </code>检查<strong>是否有使用中的监视点</strong>，如果没有则终止程序。</li>
+<li><code>if (wp == head) &#123; head = head-&gt;next; &#125; </code>如果要释放的监视点是使用中的链表头，则<strong>更新链表头指针</strong>。</li>
+<li></li>
+</ol>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> &#123; </span><br><span class="line">    WP *prev = head; </span><br><span class="line">    <span class="keyword">while</span> (prev-&gt;next != <span class="literal">NULL</span> &amp;&amp; prev-&gt;next != wp) &#123; </span><br><span class="line">        prev = prev-&gt;next; </span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">if</span> (prev-&gt;next == wp) &#123; </span><br><span class="line">        prev-&gt;next = wp-&gt;next; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 否则，<strong>遍历使用中的链表</strong>，<strong>找到</strong>要释放的监视点，并将其从链表中<strong>移除</strong>。<br> 4. <code>wp-&gt;next = free_; free_ = wp;</code> 将释放的监视点<strong>添加到空闲链表头</strong>。</p>
+</li>
+</ol>
+<h4 id="温故而知新"><a href="#温故而知新" class="headerlink" title="温故而知新"></a>温故而知新</h4><ul>
+<li>框架代码中定义wp_pool等变量的时候使用了关键字static, static在此处的含义是什么? 为什么要在此处使用它?</li>
+<li>——静态全局变量，作用域仅限于当前文件</li>
+<li>static 关键字的含义<ol>
+<li>文件作用域：当 static 关键字用于全局变量或函数时，它会将这些变量或函数的作<strong>用域限制在定义它们的源文件</strong>中。</li>
+<li>静态存储期：static 变量具有静态存储期，这意味着它们在程序的整个生命周期内都存在，并且在程序启动时初始化。</li>
+</ol>
+</li>
+<li>为什么要在此处使用 static<ul>
+<li>在 watchpoint.c 文件中使用 static 关键字有以下几个原因：</li>
+</ul>
+<ol>
+<li>封装：将 wp_pool、head 和 free_ 变量的作用域限制在 watchpoint.c 文件中，可以防止它们被其他源文件意外访问或修改。</li>
+<li>避免命名冲突：使用 static 关键字可以避免与其他源文件中定义的同名变量或函数发生命名冲突。</li>
+</ol>
+</li>
+</ul>
+<h3 id="必做：实现监视点"><a href="#必做：实现监视点" class="headerlink" title="必做：实现监视点"></a>必做：实现监视点</h3><p>由于监视点的功能需要在cpu_exec()的每次循环中都进行检查, 这会对NEMU的性能带来较为明显的开销. 我们可以把监视点的检查放在trace_and_difftest()中, 并用一个新的宏 CONFIG_WATCHPOINT把检查监视点的代码包起来; 然后在nemu&#x2F;Kconfig中为监视点添加一个开关选项, 最后通过menuconfig打开这个选项, 从而激活监视点的功能. 当你不需要使用监视点时, 可以在menuconfig中关闭这个开关选项来提高NEMU的性能.</p>
+<h4 id="要实现的功能："><a href="#要实现的功能：" class="headerlink" title="要实现的功能："></a>要实现的功能：</h4><ol>
+<li>当用户给出一个待监视表达式时<ul>
+<li>通过new_wp()申请一个空闲的监视点结构, 并将表达式记录下来. </li>
+<li>然后在<code>trace_and_difftest()函数</code>(在<code>nemu/src/cpu/cpu-exec.c</code>中定义)的最后<strong>扫描所有的监视点</strong>, 每当<code>cpu_exec()</code>的循环<strong>执行完一条指令</strong>, 都会<strong>调用一次</strong>trace_and_difftest()函数. </li>
+<li>在扫描监视点的过程中, 你需要对监视点的相应表达式进行<strong>求值</strong>(你之前已经实现表达式求值的功能了), 并<strong>比较</strong>它们的值有没有发生变化; 若发生了变化, 程序就因触发了监视点而<strong>暂停</strong>下来, 你需要将<code>nemu_state.state变量</code>设置为<code>NEMU_STOP</code>来达到暂停的效果. </li>
+<li>最后<strong>输出一句话提示用户触发了监视点</strong>, 并<strong>返回</strong>到<code>sdb_mainloop()</code>循环中等待用户的命令.</li>
+</ul>
+</li>
+<li>使用<code>info w</code>命令来<strong>打印使用中的监视点信息</strong>, 至于要打印什么, 你可以参考GDB中<code>info watchpoints</code>的运行结果.</li>
+<li>使用<strong>d命令</strong>来<strong>删除监视点</strong>, 你只需要<strong>释放</strong>相应的监视点结构即可.</li>
+</ol>
+<h4 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h4><ol>
+<li>设置监视点<ul>
+<li><code>watchpoint.c</code></li>
+<li>调用<code>new_wp</code>函数</li>
+</ul>
+</li>
+<li>实现d命令删除监视点<ul>
+<li><code>watchpoint.c</code></li>
+<li>调用<code>free_wp</code>函数</li>
+<li>在<code>watchpoint.c</code>中添加<code>cmd_d</code>命令</li>
+<li>并将<code>cmd_d</code>添加到<code>cmd_table</code>中：</li>
+</ul>
+</li>
+<li>实现<code>info w</code>命令打印监视点信息<ul>
+<li>在&#96;&#96;&#96;watchpoint.c<code>中添加</code>info_watchpoints&#96;&#96;</li>
+<li>在<code>cmd_info</code>中调用<code>info_watchpoints</code></li>
+</ul>
+</li>
+<li>在<code>cpu-exec.c/</code>添加检查监视点的代码：<ul>
+<li>在<code>watchpoint.c</code>添加<code>check_watchpoints</code>函数（注意nemu_state.state&#x3D;NEMU_STOP）</li>
+<li><code>cpu-exec.c/trace_and_difftest</code>添加<code>IFDEF(CONFIG_WATCHPOINT, check_watchpoints());</code></li>
+</ul>
+</li>
+<li>在<code>nemu/Kconfig</code>中添加监视点开关选项 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config WATCHPOINT</span><br><span class="line"><span class="type">bool</span> <span class="string">&quot;Enable watchpoint&quot;</span></span><br><span class="line"><span class="keyword">default</span> y</span><br><span class="line">help</span><br><span class="line">Enable watchpoint functionality. This will allow you to <span class="built_in">set</span> watchpoints</span><br><span class="line">and monitor changes to expressions during execution.</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="调试-1"><a href="#调试-1" class="headerlink" title="调试"></a>调试</h4><ol>
+<li>第一个：</li>
+</ol>
+<ul>
+<li>我发现只剩一个监视点时，删除就会产生</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(nemu) d 0</span><br><span class="line">Deleting watchpoint 0</span><br><span class="line">riscv32-nemu-interpreter: src/monitor/sdb/watchpoint.c:58: free_wp: Assertion `0 &amp;&amp; &quot;No watchpoints busy&quot;&#x27; failed.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>多个监视点时，删除就可以正常进行<ul>
+<li>问题可能出在 free_wp 函数在处理链表时没有正确处理只有一个监视点的情况。我们需要确保在删除最后一个监视点时，链表头部和尾部都被正确更新。</li>
+</ul>
+</li>
+<li>解决：当删除最后一个监视点时，head 变为 NULL。把free_wp的“检查head是否为NULL”从和“wp是否为NULL”一样改为如下：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">free_wp</span><span class="params">(WP *wp)</span> &#123; <span class="comment">// 把wp放回free_链表</span></span><br><span class="line">  <span class="keyword">if</span> (wp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    assert(<span class="number">0</span> &amp;&amp; <span class="string">&quot;No watchpoints busy&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (head == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Freeing watchpoint %d\n&quot;</span>, wp-&gt;NO);</span><br><span class="line">    wp-&gt;next = free_;</span><br><span class="line">    free_ = wp;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (wp == head) &#123;</span><br><span class="line">    head = head-&gt;next;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    WP *prev = head;</span><br><span class="line">    <span class="keyword">while</span> (prev-&gt;next != <span class="literal">NULL</span> &amp;&amp; prev-&gt;next != wp) &#123;</span><br><span class="line">      prev = prev-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (prev-&gt;next == wp) &#123;</span><br><span class="line">      prev-&gt;next = wp-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Freeing watchpoint %d\n&quot;</span>, wp-&gt;NO);</span><br><span class="line">  wp-&gt;next = free_;</span><br><span class="line">  free_ = wp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>无法监视$pc、$0、ra等寄存器</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(nemu) w $pc</span><br><span class="line">riscv32-nemu-interpreter: src/monitor/sdb/expr.c:236: eval: Assertion `0&amp;&amp;&quot;Invalid register name&quot;&#x27; failed.</span><br><span class="line">make: *** [/home/xiaoyao/ics2024/nemu/scripts/native.mk:38: run] 已中止</span><br></pre></td></tr></table></figure>
+<ul>
+<li>正则表达式出错<ul>
+<li>原本：{“\$[a-zA-Z0-9]+”, TK_REG}, &#x2F;&#x2F; register name</li>
+<li>改后：{“\$?[a-zA-Z0-9]+”, TK_REG}, &#x2F;&#x2F; register name（加了个？表示不一定有$）</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>没有正确输出old value，初始值设置出错</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Executed instruction at pc = 0x80000000, next pc = 0x80000004</span><br><span class="line">0x80000000: 00 00 02 97 auipc	t0, 0</span><br><span class="line">Watchpoint 0 triggered: $pc</span><br><span class="line">Old value = 4(应该是2147483648)</span><br><span class="line">New value = 2147483652</span><br></pre></td></tr></table></figure>
+<ul>
+<li>改正：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">set_watchpoint</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *exprression,<span class="type">word_t</span> value)</span>&#123;<span class="comment">//设置监视点</span></span><br><span class="line">  WP *wp=new_wp();</span><br><span class="line">  <span class="built_in">strncpy</span>(wp-&gt;expr,exprression,<span class="keyword">sizeof</span>(wp-&gt;expr)<span class="number">-1</span>);</span><br><span class="line">  wp-&gt;expr[<span class="keyword">sizeof</span>(wp-&gt;expr)<span class="number">-1</span>]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">bool</span> success=<span class="literal">false</span>;</span><br><span class="line">  wp-&gt;value=expr((<span class="type">char</span> *)exprression,&amp;success);</span><br><span class="line">  assert(success);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// wp-&gt;value=value;</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Watchpoint %d: %s\n&quot;</span>, wp-&gt;NO, wp-&gt;expr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="调试工具与原理"><a href="#调试工具与原理" class="headerlink" title="调试工具与原理"></a>调试工具与原理</h3><p>10.7</p>
+<ul>
+<li>可能会碰到段错误：</li>
+<li>一些软件工程相关的概念:<ul>
+<li>Fault: 实现错误的代码, 例如if (p &#x3D; NULL)</li>
+<li>Error: 程序执行时不符合预期的状态, 例如p被错误地赋值成NULL</li>
+<li>Failure: 能直接观测到的错误, 例如程序触发了段错误</li>
+</ul>
+</li>
+<li>调试：从failure一步一步回溯寻找fault的过程</li>
+<li>调试之所以不容易：<ul>
+<li>fault不一定马上触发error</li>
+<li>触发了error也不一定马上转变成可观测的failure</li>
+<li>error会像滚雪球一般越积越多, 当我们观测到failure的时候, 其实已经距离fault非常遥远了</li>
+</ul>
+</li>
+<li>相应的策略:<ul>
+<li>尽可能<strong>把fault转变成error</strong>. 这其实就是<strong>测试</strong>做的事情, 所以我们在上一节中加入了表达式生成器的内容, 来帮助大家进行测试, 后面的实验内容也会提供丰富的测试用例. 但并不是有了测试用例就能把所有fault都转变成error了, 因为这取决于<strong>测试的覆盖度</strong>. 要设计出一套全覆盖的测试并不是一件简单的事情, 越是复杂的系统, 全覆盖的测试就越难设计. 但是, 如何提高测试的覆盖度, 是学术界一直以来都在关注的问题.</li>
+</ul>
+</li>
+</ul>
+<h4 id="你会如何测试你的监视点实现"><a href="#你会如何测试你的监视点实现" class="headerlink" title="你会如何测试你的监视点实现?"></a>你会如何测试你的监视点实现?</h4><ul>
+<li>见“必做：实现监视点”的“调试”部分</li>
+<li>一些有用的调试工具：<ul>
+<li><code>-Wall</code>,<code>-Werror</code></li>
+<li><code>assert()</code>:在运行时刻把error直接转变成failure</li>
+<li><code>prontf()</code></li>
+<li>GDB</li>
+</ul>
+</li>
+</ul>
+<h4 id="强大的GDB"><a href="#强大的GDB" class="headerlink" title="强大的GDB"></a>强大的GDB</h4><p>如果你遇到了段错误, 你很可能会想知道究竟是哪一行代码触发了段错误. 尝试编写一个触发段错误的程序, 然后在GDB中运行它. 你发现GDB能为你提供哪些有用的信息吗?</p>
+<ol>
+<li>编写一个触发段错误的程序。例如尝试访问一个空指针：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">int</span> *ptr = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="comment">// 访问空指针，触发段错误</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, *ptr);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述代码保存为segfault.c。</li>
+</ul>
+<ol start="2">
+<li>编译程序</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o segfault segfault.c</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>使用GDB调试</li>
+<li>启动 GDB：<br>  <code>gdb ./segfault</code></li>
+<li>运行程序：在 GDB 提示符下，输入 run 命令运行程序：<br>  <code>(gdb) run</code></li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gdb) run</span><br><span class="line">Starting program: /home/xiaoyao/Desktop/segfault </span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">0x0000555555555161 in main () at segfault.c:5</span><br><span class="line">5	    printf(&quot;%d\n&quot;, *p);//访问空指针，触发段错误</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>查看段错误信息：当程序触发段错误时，GDB 会停止执行，并显示段错误发生的位置。你可以使用 backtrace 命令查看调用堆栈：<br>  <code>(gdb) backtrace</code>显示调用堆栈中的所有函数，帮助确定段错误发生的确切位置。</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) backtrace</span><br><span class="line">#0  0x0000555555555161 in main () at segfault.c:5</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>查看代码行：<br>  <code>(gdb) list</code>使用 list 命令查看段错误发生的代码行：</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gdb) list</span><br><span class="line">1	#include&lt;stdio.h&gt;</span><br><span class="line">2	</span><br><span class="line">3	int main() &#123;</span><br><span class="line">4	    int *p = NULL;</span><br><span class="line">5	    printf(&quot;%d\n&quot;, *p);//访问空指针，触发段错误</span><br><span class="line">6	    return 0;</span><br><span class="line">7	&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>检查变量：<br>  <code>(gdb) print p</code>使用 print 命令检查变量的值。例如，检查指针p的值：</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gdb) print p</span><br><span class="line">$1 = (int *) 0x0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>总结：GDB调试段错误可提供的有用信息：<ol>
+<li><strong>段错误发生的位置</strong>：</li>
+</ol>
+<ul>
+<li>GDB 会在段错误发生时停止程序执行，并显示段错误发生的确切位置，包括文件名和行号。</li>
+</ul>
+<ol start="2">
+<li><strong>调用堆栈</strong>：</li>
+</ol>
+<ul>
+<li>使用 <code>backtrace</code> 命令可以查看调用堆栈，显示函数调用的层次结构，帮助你确定段错误发生时的调用路径。</li>
+</ul>
+<ol start="3">
+<li><strong>变量的值</strong>：</li>
+</ol>
+<ul>
+<li>使用 <code>print</code> 命令可以查看变量的值，帮助你检查指针是否为空或变量是否有异常值。</li>
+</ul>
+<ol start="4">
+<li><strong>代码上下文</strong>：</li>
+</ol>
+<ul>
+<li>使用 <code>list</code> 命令可以查看段错误发生的代码行及其上下文，帮助你理解代码的执行逻辑。</li>
+</ul>
+<ol start="5">
+<li><strong>寄存器状态</strong>：</li>
+</ol>
+<ul>
+<li>使用 <code>info registers</code> 命令可以查看 CPU 寄存器的当前状态，帮助你检查寄存器的值是否正确。</li>
+</ul>
+<ol start="6">
+<li><strong>内存内容</strong>：</li>
+</ol>
+<ul>
+<li>使用 <code>x</code> 命令可以查看内存内容，帮助你检查内存地址是否有效或内存内容是否正确。</li>
+</ul>
+</li>
+</ul>
+<h4 id="sanitizer-一种底层的assert"><a href="#sanitizer-一种底层的assert" class="headerlink" title="sanitizer - 一种底层的assert"></a>sanitizer - 一种底层的assert</h4><ul>
+<li>手动在这些访问（非法访存）之前添加assert(), 太麻烦了. </li>
+<li>让编译器支持这个功能的是一个叫<code>Address Sanitizer</code>的工具, 它可以自动地在指针和数组的访问之前插入用来检查是否越界的代码. <code>GCC</code>提供了一个<code>-fsanitize=address</code>的编译选项来启用它<code>. menuconfig</code>已经为大家准备好相应选项了, 你只需要打开它:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Build Options</span><br><span class="line">  [*] Enable address sanitizer</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后清除编译结果并重新编译即可.<br>-对每一次访存进行检查会带来额外的性能开销.可以在无需调试的时候将其关闭.</li>
+<li>事实上, 除了地址越界的错误之外, <code>Address Sanitizer还</code>能检查<code>use-after-free</code>的错误 (即”释放从堆区申请的空间后仍然继续使用”的错误), 你知道它是如何实现这一功能的吗?<ul>
+<li>AddressSanitizer 通过在内存分配和释放操作中插入钩子函数、使用影子内存记录内存状态、在每次内存访问时检查内存状态等机制，有效地检测 use-after-free 错误。</li>
+</ul>
+</li>
+</ul>
+<h5 id="让Address-Sanitizer输出更精确的出错位置"><a href="#让Address-Sanitizer输出更精确的出错位置" class="headerlink" title="让Address Sanitizer输出更精确的出错位置"></a>让Address Sanitizer输出更精确的出错位置</h5><p>如果在添加GDB调试信息的情况下打开Address Sanitizer, 其报错信息还会指出发生错误的具体代码位置, 为问题的定位提供便利.</p>
+<h5 id="更多的sanitizer"><a href="#更多的sanitizer" class="headerlink" title="更多的sanitizer"></a>更多的sanitizer</h5><p>事实上, GCC还支持更多的sanitizer, 它们可以检查各种不同的错误, 你可以在man gcc中查阅-fsanitize相关的选项. 如果你的程序在各种sanitizer开启的情况下仍然能正确工作, 就说明你的程序还是有一定质量的.</p>
+<h4 id="总结：关于调试"><a href="#总结：关于调试" class="headerlink" title="总结：关于调试"></a>总结：关于调试</h4><ul>
+<li>总是使用-Wall和-Werror</li>
+<li>尽可能多地在代码中插入assert()</li>
+<li>调试时先启用sanitizer</li>
+<li>assert()无法捕捉到error时, 通过printf()输出可疑的变量, 期望能观测到error</li>
+<li>printf()不易观测error时, 通过GDB理解程序的精确行为</li>
+</ul>
+<h3 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h3><ul>
+<li>断点的功能是让程序暂停下来, 从而方便查看程序某一时刻的状态。</li>
+<li>事实上, 我们可以很容易地用监视点来模拟断点的功能:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w $pc == ADDR</span><br></pre></td></tr></table></figure>
+<p>其中ADDR为设置断点的地址. 这样程序执行到ADDR的位置时就会暂停下来.</p>
+<ul>
+<li>断点机制的工作原理<br>在调试器中设置断点的典型步骤如下：<ul>
+<li>保存原始指令：调试器保存断点位置的原始指令。</li>
+<li>插入断点指令：调试器在断点位置插入 int3 指令。</li>
+<li>执行程序：程序运行到断点位置时，会触发 int3 指令，导致程序中断并转到调试器。</li>
+<li>恢复原始指令：调试器在断点位置恢复原始指令，并调整程序计数器（PC）以继续执行。</li>
+</ul>
+</li>
+</ul>
+<h4 id="一点也不能长"><a href="#一点也不能长" class="headerlink" title="一点也不能长?"></a>一点也不能长?</h4><ul>
+<li>x86的int3指令不带任何操作数, 操作码为1个字节, 因此指令的长度是1个字节. 这是必须的吗? 假设有一种x86体系结构的变种my-x86, 除了int3指令的长度变成了2个字节之外, 其余指令和x86相同. 在my-x86中, 上述文章中的断点机制还可以正常工作吗? 为什么?</li>
+<li>在 x86 架构中，int3 指令是一个单字节的指令，操作码为 0xCC。它通常用于设置断点，因为它的长度为 1 字节，可以方便地插入到代码中而不会影响其他指令的执行。</li>
+<li>假设在一种变种架构 my-x86 中，int3 指令的长度变成了 2 个字节，而其他指令和 x86 相同，那么断点机制可能会受到影响。</li>
+<li>在 my-x86 中的影响<br>在 my-x86 中，int3 指令的长度变成了 2 个字节，这会对上述断点机制产生以下影响：<ol>
+<li>指令长度的变化：</li>
+</ol>
+<ul>
+<li>在 x86 中，int3 指令是 1 个字节，可以方便地插入到任何位置。</li>
+<li>在 my-x86 中，int3 指令是 2 个字节，这意味着插入断点时需要考虑指令对齐和覆盖的问题。</li>
+</ul>
+<ol start="2">
+<li>覆盖原始指令：</li>
+</ol>
+<ul>
+<li>在 x86 中，插入 1 字节的 int3 指令通常不会覆盖多条指令。</li>
+<li>在 my-x86 中，插入 2 字节的 int3 指令可能会覆盖部分原始指令，导致恢复原始指令时出现问题。</li>
+</ul>
+<ol start="3">
+<li>程序计数器的调整：</li>
+</ol>
+<ul>
+<li>在 x86 中，恢复原始指令后，程序计数器（PC）只需调整 1 字节。</li>
+<li>在 my-x86 中，恢复原始指令后，程序计数器（PC）需要调整 2 字节，这可能需要额外的处理逻辑。</li>
+</ul>
+</li>
+<li>解决方案<br>为了在 my-x86 中正确实现断点机制，可以考虑以下解决方案：<ol>
+<li>调整断点插入逻辑：</li>
+</ol>
+<ul>
+<li>在插入断点时，确保 int3 指令不会覆盖多条原始指令。如果覆盖了多条指令，需要保存所有被覆盖的指令，并在恢复时正确恢复。</li>
+</ul>
+<ol start="2">
+<li>调整程序计数器：</li>
+</ol>
+<ul>
+<li>在恢复原始指令后，正确调整程序计数器（PC），使其跳过 2 字节的 int3 指令。</li>
+</ul>
+</li>
+</ul>
+<h4 id="随心所欲的断点"><a href="#随心所欲的断点" class="headerlink" title="随心所欲的断点"></a>随心所欲的断点</h4><ul>
+<li>如果把断点设置在指令的非首字节(中间或末尾), 会发生什么? 你可以在GDB中尝试一下, 然后思考并解释其中的缘由.</li>
+<li>当程序运行到断点位置时，GDB 会暂停程序执行，并显示断点位置的汇编代码。然而，<strong>由于断点设置在指令的中间或末尾，CPU 将无法正确解码该指令</strong>，可能会导致以下几种情况：<ol>
+<li>非法指令异常：</li>
+</ol>
+<ul>
+<li>CPU 尝试解码<strong>从中间开始</strong>的指令时，可能会<strong>将其解释为非法指令</strong>，从而触发非法指令异常。</li>
+</ul>
+<ol start="2">
+<li>错误的指令执行：</li>
+</ol>
+<ul>
+<li>CPU 可能会<strong>错误地解码和执行部分指令</strong>，导致程序行为异常或崩溃。</li>
+</ul>
+<ol start="3">
+<li>程序崩溃：</li>
+</ol>
+<ul>
+<li>由于指令解码错误，程序可能会崩溃，并显示段错误或其他异常。</li>
+</ul>
+</li>
+</ul>
+<h4 id="NEMU的前世今生"><a href="#NEMU的前世今生" class="headerlink" title="NEMU的前世今生"></a>NEMU的前世今生</h4><ul>
+<li>你已经对NEMU的工作方式有所了解了. 事实上在NEMU诞生之前, NEMU曾经有一段时间并不叫NEMU, 而是叫NDB(NJU Debugger), 后来由于某种原因才改名为NEMU. 如果你想知道这一段史前的秘密, 你首先需要了解这样一个问题: 模拟器(Emulator)和调试器(Debugger)有什么不同? 更具体地, 和NEMU相比, GDB到底是如何调试程序的?</li>
+<li>模拟器（如 NEMU）和调试器（如 GDB）在功能和用途上有显著的不同。<ul>
+<li>NEMU 作为模拟器，主要用于模拟目标硬件的行为。</li>
+<li>GDB 作为调试器，主要用于调试和分析程序的运行。</li>
+</ul>
+</li>
+<li>GDB 通过操作系统提供的调试接口控制程序的执行，而 NEMU 通过软件模拟目标硬件的行为。</li>
+</ul>
+<h1 id="如何阅读手册"><a href="#如何阅读手册" class="headerlink" title="如何阅读手册"></a>如何阅读手册</h1><h2 id="学会使用目录-逐步细化搜索范围"><a href="#学会使用目录-逐步细化搜索范围" class="headerlink" title="学会使用目录+逐步细化搜索范围"></a>学会使用目录+逐步细化搜索范围</h2><h3 id="必做：尝试通过目录定位关注的问题"><a href="#必做：尝试通过目录定位关注的问题" class="headerlink" title="必做：尝试通过目录定位关注的问题"></a>必做：尝试通过目录定位关注的问题</h3><ul>
+<li>假设你现在需要了解一个叫selector的概念, 请通过i386手册的目录确定你需要阅读手册中的哪些地方. 即使你选择的ISA并不是x86, 也可以尝试去查阅这个概念.</li>
+</ul>
+<h2 id="必答题"><a href="#必答题" class="headerlink" title="必答题"></a>必答题</h2><ul>
+<li><p>程序是个状态机（1）</p>
+</li>
+<li><p>理解基础设施</p>
+<ul>
+<li>花75小时<ul>
+<li>450 次调试 * 600 秒&#x2F;次 &#x3D; 270000 秒 &#x3D; 75小时</li>
+</ul>
+</li>
+<li>简易调试器可以帮助节省50小时<ul>
+<li>450次调试 * 200 秒&#x2F;次 &#x3D; 90000 秒 &#x3D; 25小时</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>RTFM</code> 理解了科学查阅手册的方法之后, 请你尝试在你选择的ISA手册中查阅以下问题所在的位置, 把需要阅读的范围写到你的实验报告里面:<code>riscv32</code></p>
+<ul>
+<li>riscv32有哪几种指令格式?<ul>
+<li>2.2 Instruction Formats（基本指令格式）</li>
+<li>四种，R&#x2F;I&#x2F;S&#x2F;U</li>
+</ul>
+</li>
+<li>LUI指令的行为是什么?<ul>
+<li>2.4: Integer Computational Instructions 中的 LUI (Load Upper Immediate) 子章节。</li>
+</ul>
+</li>
+<li>mstatus寄存器的结构是怎么样的?<ul>
+<li>3.1: Control and Status Registers (CSRs) 中的 mstatus Register 子章节。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>shell</code>命令 </p>
+<ul>
+<li>完成PA1的内容之后, nemu&#x2F;目录下的所有.c和.h和文件总共有多少行代码?<ul>
+<li><strong>296394</strong> 总计</li>
+<li>debug之后<strong>296412</strong></li>
+</ul>
+</li>
+<li>你是使用什么命令得到这个结果的?<ul>
+<li><code>find nemu/ -name &quot;*.c&quot; -o -name &quot;*.h&quot; | xargs wc -l</code></li>
+</ul>
+</li>
+<li>和框架代码相比, 你在PA1中编写了多少行代码? (Hint: 目前pa0分支中记录的正好是做PA1之前的状态, 思考一下应该如何回到”过去”?) <ul>
+<li><code>git checkout pa0</code>切换到pa0分支</li>
+<li><code>find nemu/ -name &quot;*.c&quot; -o -name &quot;*.h&quot; | xargs wc -l</code></li>
+<li>295794（pa0）</li>
+<li>所以<strong>600行</strong>！</li>
+</ul>
+</li>
+<li>你可以把这条命令写入Makefile中, 随着实验进度的推进, 你可以很方便地统计工程的代码行数, 例如敲入make count就会自动运行统计代码行数的命令. <ul>
+<li>make count却报错【缺少分割符】，改了默认的“空格：2”为“制表符长度：4”，ok</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 统计代码行数</span><br><span class="line">count:</span><br><span class="line">@echo &quot;Total lines of code:&quot;</span><br><span class="line">@find . -name &quot;*.c&quot; -o -name &quot;*.h&quot; | xargs cat | wc -l</span><br><span class="line">@echo &quot;Total lines of code (excluding empty lines):&quot;</span><br><span class="line">@find . -name &quot;*.c&quot; -o -name &quot;*.h&quot; | xargs grep -v &#x27;^\s*$$&#x27; | wc -l</span><br></pre></td></tr></table></figure></li>
+<li>再来个难一点的, 除去空行之外, nemu&#x2F;目录下的所有.c和.h文件总共有多少行代码?<ul>
+<li><strong>259683</strong>（debug之后<strong>259700</strong>）</li>
+<li><code>find nemu/ -name &quot;*.c&quot; -o -name &quot;*.h&quot; | xargs grep -v &#39;^\s*$&#39; | wc -l</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>RTFM</code> 打开<code>nemu/scripters/build.mk</code>文件, 你会在CFLAGS变量中看到gcc的一些编译选项. 请解释gcc中的-Wall和-Werror有什么作用? 为什么要使用-Wall和-Werror?<br><code>CFLAGS  := -O2 -MMD -Wall -Werror $(INCLUDES) $(CFLAGS)</code></p>
+<ul>
+<li><code>man gcc</code>可知：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Wall</span><br><span class="line">  This enables all the warnings about constructions that some users consider questionable, and that are easy to avoid (or modify to prevent the warning), even in conjunction with macros.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Werror</span><br><span class="line">    Make all warnings into errors.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-Wall</code>作用：<code>-Wall</code>选项用于启用所有常见的警告。这些警告可以帮助开发者发现代码中的潜在问题和不良实践。启用<code>-Wall</code>后，编译器会报告以下类型的警告（但不限于）：<ul>
+<li>未使用的变量</li>
+<li>未使用的函数</li>
+<li>未初始化的变量</li>
+<li>可疑的类型转换</li>
+<li>可能的数组越界</li>
+<li>其他潜在的编程错误</li>
+</ul>
+</li>
+<li><code>-Werror`作用：</code>-Werror&#96;&#96;选项将所有警告视为错误。这意味着如果编译过程中出现任何警告，编译器将停止编译，并报告这些警告为错误。这样可以确保代码在编译时没有任何警告，从而提高代码的质量和可靠性。</li>
+<li>为什么要使用 -Wall 和 -Werror<ol>
+<li>提高代码质量：启用 -Wall 可以帮助开发者发现代码中的潜在问题和不良实践，从而提高代码的质量。</li>
+<li>强制修复警告：使用 -Werror 可以确保所有警告都被视为错误，强制开发者在提交代码之前修复所有警告。这有助于保持代码库的整洁和高质量。</li>
+<li>减少潜在错误：许多警告可能会导致运行时错误或难以调试的问题。通过修复这些警告，可以减少潜在的运行时错误。</li>
+<li>一致性：在团队开发中，使用 -Wall 和 -Werror 可以确保所有开发者都遵循相同的编码标准，保持代码的一致性。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>10.9凌晨，终于Accepted，PA1花了45h左右，收获良多，继续加油！</p>
+</li>
+</ul>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/25/PA2%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C/">
+                    计算机系统基础实验
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/25/PA2%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" class="trm-anima-link">
+                    PA2实验记录
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/25</li>
+                <li>22:48</li>
+                
+                    <li>33.4k</li>
+                
+                
+                    <li>140</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="PA1 实验报告"><a rel="nofollow" class="trm-toc-link" href="#PA1-实验报告"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">PA1 实验报告</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="2024.9.13"><a rel="nofollow" class="trm-toc-link" href="#2024-9-13"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">2024.9.13</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="开始PA1之旅！"><a rel="nofollow" class="trm-toc-link" href="#开始PA1之旅！"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">开始PA1之旅！</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="ccache："><a rel="nofollow" class="trm-toc-link" href="#ccache："><span class="trm-toc-number">2.0.1.</span> <span class="trm-toc-text">ccache：</span></a></li><li class="trm-toc-item trm-toc-level-3" title="NEMU是什么"><a rel="nofollow" class="trm-toc-link" href="#NEMU是什么"><span class="trm-toc-number">2.0.2.</span> <span class="trm-toc-text">NEMU是什么</span></a></li><li class="trm-toc-item trm-toc-level-3" title="ISA是什么"><a rel="nofollow" class="trm-toc-link" href="#ISA是什么"><span class="trm-toc-number">2.0.3.</span> <span class="trm-toc-text">ISA是什么</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2024.9.14"><a rel="nofollow" class="trm-toc-link" href="#2024-9-14"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">2024.9.14</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="开天辟地的篇章"><a rel="nofollow" class="trm-toc-link" href="#开天辟地的篇章"><span class="trm-toc-number">3.</span> <span class="trm-toc-text">开天辟地的篇章</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="什么是编程模型"><a rel="nofollow" class="trm-toc-link" href="#什么是编程模型"><span class="trm-toc-number">3.0.1.</span> <span class="trm-toc-text">什么是编程模型</span></a></li><li class="trm-toc-item trm-toc-level-3" title="最简单的计算机"><a rel="nofollow" class="trm-toc-link" href="#最简单的计算机"><span class="trm-toc-number">3.0.2.</span> <span class="trm-toc-text">最简单的计算机</span></a></li><li class="trm-toc-item trm-toc-level-3" title="必做：尝试理解计算机如何计算"><a rel="nofollow" class="trm-toc-link" href="#必做：尝试理解计算机如何计算"><span class="trm-toc-number">3.0.3.</span> <span class="trm-toc-text">必做：尝试理解计算机如何计算</span></a></li><li class="trm-toc-item trm-toc-level-3" title="计算机是个状态机"><a rel="nofollow" class="trm-toc-link" href="#计算机是个状态机"><span class="trm-toc-number">3.0.4.</span> <span class="trm-toc-text">计算机是个状态机</span></a></li><li class="trm-toc-item trm-toc-level-3" title="必做：从状态机视角理解程序运行"><a rel="nofollow" class="trm-toc-link" href="#必做：从状态机视角理解程序运行"><span class="trm-toc-number">3.0.5.</span> <span class="trm-toc-text">必做：从状态机视角理解程序运行</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="2024.9.16"><a rel="nofollow" class="trm-toc-link" href="#2024-9-16"><span class="trm-toc-number">3.1.</span> <span class="trm-toc-text">2024.9.16</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="RTFSC"><a rel="nofollow" class="trm-toc-link" href="#RTFSC"><span class="trm-toc-number">4.</span> <span class="trm-toc-text">RTFSC</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="配置系统和项目构建"><a rel="nofollow" class="trm-toc-link" href="#配置系统和项目构建"><span class="trm-toc-number">4.1.</span> <span class="trm-toc-text">配置系统和项目构建</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="配置系统kconfig"><a rel="nofollow" class="trm-toc-link" href="#配置系统kconfig"><span class="trm-toc-number">4.1.1.</span> <span class="trm-toc-text">配置系统kconfig</span></a></li><li class="trm-toc-item trm-toc-level-3" title="项目构建和Makefile"><a rel="nofollow" class="trm-toc-link" href="#项目构建和Makefile"><span class="trm-toc-number">4.1.2.</span> <span class="trm-toc-text">项目构建和Makefile</span></a></li><li class="trm-toc-item trm-toc-level-3" title="编译和链接"><a rel="nofollow" class="trm-toc-link" href="#编译和链接"><span class="trm-toc-number">4.1.3.</span> <span class="trm-toc-text">编译和链接</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="准备第一个客户程序"><a rel="nofollow" class="trm-toc-link" href="#准备第一个客户程序"><span class="trm-toc-number">4.2.</span> <span class="trm-toc-text">准备第一个客户程序</span></a></li><li class="trm-toc-item trm-toc-level-2" title="运行第一个客户程序"><a rel="nofollow" class="trm-toc-link" href="#运行第一个客户程序"><span class="trm-toc-number">4.3.</span> <span class="trm-toc-text">运行第一个客户程序</span></a></li><li class="trm-toc-item trm-toc-level-2" title="2024.9.22"><a rel="nofollow" class="trm-toc-link" href="#2024-9-22"><span class="trm-toc-number">4.4.</span> <span class="trm-toc-text">2024.9.22</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="基础设施：简易调试器"><a rel="nofollow" class="trm-toc-link" href="#基础设施：简易调试器"><span class="trm-toc-number">5.</span> <span class="trm-toc-text">基础设施：简易调试器</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="解析命令"><a rel="nofollow" class="trm-toc-link" href="#解析命令"><span class="trm-toc-number">5.1.</span> <span class="trm-toc-text">解析命令</span></a></li><li class="trm-toc-item trm-toc-level-2" title="要实现："><a rel="nofollow" class="trm-toc-link" href="#要实现："><span class="trm-toc-number">5.2.</span> <span class="trm-toc-text">要实现：</span></a></li><li class="trm-toc-item trm-toc-level-2" title="单步执行"><a rel="nofollow" class="trm-toc-link" href="#单步执行"><span class="trm-toc-number">5.3.</span> <span class="trm-toc-text">单步执行</span></a></li><li class="trm-toc-item trm-toc-level-2" title="打印寄存器"><a rel="nofollow" class="trm-toc-link" href="#打印寄存器"><span class="trm-toc-number">5.4.</span> <span class="trm-toc-text">打印寄存器</span></a></li><li class="trm-toc-item trm-toc-level-2" title="扫描内存"><a rel="nofollow" class="trm-toc-link" href="#扫描内存"><span class="trm-toc-number">5.5.</span> <span class="trm-toc-text">扫描内存</span></a></li><li class="trm-toc-item trm-toc-level-2" title="debug记录"><a rel="nofollow" class="trm-toc-link" href="#debug记录"><span class="trm-toc-number">5.6.</span> <span class="trm-toc-text">debug记录</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="表达式求值"><a rel="nofollow" class="trm-toc-link" href="#表达式求值"><span class="trm-toc-number">6.</span> <span class="trm-toc-text">表达式求值</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="数学表达式求值"><a rel="nofollow" class="trm-toc-link" href="#数学表达式求值"><span class="trm-toc-number">6.1.</span> <span class="trm-toc-text">数学表达式求值</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="词法分析（识别出表达式中的单元）"><a rel="nofollow" class="trm-toc-link" href="#词法分析（识别出表达式中的单元）"><span class="trm-toc-number">6.1.1.</span> <span class="trm-toc-text">词法分析（识别出表达式中的单元）</span></a></li><li class="trm-toc-item trm-toc-level-3" title="递归求值"><a rel="nofollow" class="trm-toc-link" href="#递归求值"><span class="trm-toc-number">6.1.2.</span> <span class="trm-toc-text">递归求值</span></a></li><li class="trm-toc-item trm-toc-level-3" title="实现带有负数的算术表达式的求值"><a rel="nofollow" class="trm-toc-link" href="#实现带有负数的算术表达式的求值"><span class="trm-toc-number">6.1.3.</span> <span class="trm-toc-text">实现带有负数的算术表达式的求值</span></a></li><li class="trm-toc-item trm-toc-level-3" title="9.24"><a rel="nofollow" class="trm-toc-link" href="#9-24"><span class="trm-toc-number">6.1.4.</span> <span class="trm-toc-text">9.24</span></a></li><li class="trm-toc-item trm-toc-level-3" title="如何测试你的代码——随机测试"><a rel="nofollow" class="trm-toc-link" href="#如何测试你的代码——随机测试"><span class="trm-toc-number">6.1.5.</span> <span class="trm-toc-text">如何测试你的代码——随机测试</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="实现表达式生成器"><a rel="nofollow" class="trm-toc-link" href="#实现表达式生成器"><span class="trm-toc-number">6.2.</span> <span class="trm-toc-text">实现表达式生成器</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="如何过滤求值过程中有除0行为的表达式?"><a rel="nofollow" class="trm-toc-link" href="#如何过滤求值过程中有除0行为的表达式"><span class="trm-toc-number">6.2.1.</span> <span class="trm-toc-text">如何过滤求值过程中有除0行为的表达式?</span></a></li><li class="trm-toc-item trm-toc-level-3" title="改造NEMU的main（）函数"><a rel="nofollow" class="trm-toc-link" href="#改造NEMU的main（）函数"><span class="trm-toc-number">6.2.2.</span> <span class="trm-toc-text">改造NEMU的main（）函数</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="监视点"><a rel="nofollow" class="trm-toc-link" href="#监视点"><span class="trm-toc-number">7.</span> <span class="trm-toc-text">监视点</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="扩展表达式求值的功能"><a rel="nofollow" class="trm-toc-link" href="#扩展表达式求值的功能"><span class="trm-toc-number">7.1.</span> <span class="trm-toc-text">扩展表达式求值的功能</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="必做:扩展表达式求值的功能"><a rel="nofollow" class="trm-toc-link" href="#必做-扩展表达式求值的功能"><span class="trm-toc-number">7.1.1.</span> <span class="trm-toc-text">必做:扩展表达式求值的功能</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="实现监视点"><a rel="nofollow" class="trm-toc-link" href="#实现监视点"><span class="trm-toc-number">7.2.</span> <span class="trm-toc-text">实现监视点</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="必做：实现监视点的管理"><a rel="nofollow" class="trm-toc-link" href="#必做：实现监视点的管理"><span class="trm-toc-number">7.2.1.</span> <span class="trm-toc-text">必做：实现监视点的管理</span></a></li><li class="trm-toc-item trm-toc-level-3" title="必做：实现监视点"><a rel="nofollow" class="trm-toc-link" href="#必做：实现监视点"><span class="trm-toc-number">7.2.2.</span> <span class="trm-toc-text">必做：实现监视点</span></a></li><li class="trm-toc-item trm-toc-level-3" title="调试工具与原理"><a rel="nofollow" class="trm-toc-link" href="#调试工具与原理"><span class="trm-toc-number">7.2.3.</span> <span class="trm-toc-text">调试工具与原理</span></a></li><li class="trm-toc-item trm-toc-level-3" title="断点"><a rel="nofollow" class="trm-toc-link" href="#断点"><span class="trm-toc-number">7.2.4.</span> <span class="trm-toc-text">断点</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="如何阅读手册"><a rel="nofollow" class="trm-toc-link" href="#如何阅读手册"><span class="trm-toc-number">8.</span> <span class="trm-toc-text">如何阅读手册</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="学会使用目录+逐步细化搜索范围"><a rel="nofollow" class="trm-toc-link" href="#学会使用目录-逐步细化搜索范围"><span class="trm-toc-number">8.1.</span> <span class="trm-toc-text">学会使用目录+逐步细化搜索范围</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="必做：尝试通过目录定位关注的问题"><a rel="nofollow" class="trm-toc-link" href="#必做：尝试通过目录定位关注的问题"><span class="trm-toc-number">8.1.1.</span> <span class="trm-toc-text">必做：尝试通过目录定位关注的问题</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="必答题"><a rel="nofollow" class="trm-toc-link" href="#必答题"><span class="trm-toc-number">8.2.</span> <span class="trm-toc-text">必答题</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

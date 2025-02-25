@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="PA4 - 虚实交错的魔法: 分时多任务 首先进行分支整理 task PA4.1: 实现基本的多道程序系统, 支持带参数的仙剑奇侠传与Hello内核线程的分时运行 task PA4.2: 实现支持虚存管理的多道程序系统 task PA4.3: 实现抢占式分时多任务系统, 并提交完整的实验报告  PA4.1一、多道程序 多道程序(multiprogramming)系统的基本思想： 批处理系统的一个缺">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PA4实验记录">
+<meta property="og:url" content="http://example.com/2025/02/25/PA4%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Universe Hamster">
+<meta property="og:description" content="PA4 - 虚实交错的魔法: 分时多任务 首先进行分支整理 task PA4.1: 实现基本的多道程序系统, 支持带参数的仙剑奇侠传与Hello内核线程的分时运行 task PA4.2: 实现支持虚存管理的多道程序系统 task PA4.3: 实现抢占式分时多任务系统, 并提交完整的实验报告  PA4.1一、多道程序 多道程序(multiprogramming)系统的基本思想： 批处理系统的一个缺">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-25T14:45:00.000Z">
+<meta property="article:modified_time" content="2025-02-25T14:46:24.655Z">
+<meta property="article:author" content="Zhang Keyaoo">
+<meta property="article:tag" content="PA">
+<meta name="twitter:card" content="summary">
+
+
+<title >PA4实验记录</title>
+
+<!-- Favicon -->
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/assets/favicon.png?v=2.2.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Zhang Keyaoo","root":"/","typed_text":null,"theme_version":"2.2.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/assets/favicon.svg","icon16":"/assets/favicon.png","icon32":"/assets/favicon.png","apple_touch_icon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":false},"live_time":{"start_time":"02/20/2025 00:00:00","prefix":"The blog has been lovely to run undefined day"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-02-25 22:46:24"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/assets/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Zhang<span>Keyaoo</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    主页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/assets/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            ^_^
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            PA4实验记录
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2025
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div class="trm-page-sidebar col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    <div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card"> 
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/assets/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Universe Hamster
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/zhangkeyaoo" title="github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="https://space.bilibili.com/28526670?spm_id_from=333.1007.0.0" title="bilibili" rel="nofollow" target="_blank">
+            <i class="iconfont fas fa-bold"></i>
+        </a>
+    
+        <a href="/assets/wechat.png" title="wechat" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-weixin"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                school:
+            </div>
+            <div class="trm-label trm-label-light">
+                Nanjing University
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                birth:
+            </div>
+            <div class="trm-label trm-label-light">
+                2005.06.15
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                email:
+            </div>
+            <div class="trm-label trm-label-light">
+                231250159@smail.nju.edu.cn
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                qq:
+            </div>
+            <div class="trm-label trm-label-light">
+                3313720023
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:231250159@smail.nju.edu.cn" class="trm-btn">
+            Contact Me
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div class="trm-page-content col-lg-8">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/25
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            22:45
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Zhang Keyaoo
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="PA4-虚实交错的魔法-分时多任务"><a href="#PA4-虚实交错的魔法-分时多任务" class="headerlink" title="PA4 - 虚实交错的魔法: 分时多任务"></a>PA4 - 虚实交错的魔法: 分时多任务</h1><ul>
+<li>首先进行分支整理</li>
+<li>task PA4.1: 实现基本的多道程序系统, 支持带参数的仙剑奇侠传与Hello内核线程的分时运行</li>
+<li>task PA4.2: 实现支持虚存管理的多道程序系统</li>
+<li>task PA4.3: 实现抢占式分时多任务系统, 并提交完整的实验报告</li>
+</ul>
+<h1 id="PA4-1"><a href="#PA4-1" class="headerlink" title="PA4.1"></a>PA4.1</h1><h2 id="一、多道程序"><a href="#一、多道程序" class="headerlink" title="一、多道程序"></a>一、多道程序</h2><ol>
+<li><strong>多道程序(multiprogramming)系统的基本思想</strong>：<ul>
+<li>批处理系统的一个缺陷: 如果当前程序正在等待输入输出, 那么整个系统都会因此而停顿. <ul>
+<li>不如用这些时间来进行一些有意义的工作</li>
+</ul>
+</li>
+<li>在系统一开始的时候加载多个程序</li>
+<li>然后运行第一个; </li>
+<li>当第一个程序需要等待输入输出的时候, 就切换到第二个程序来运行;</li>
+<li>当第二个程序也需要等待的时候, 就继续切换到下一个程序来运行</li>
+<li>如此类推.</li>
+</ul>
+</li>
+<li>实现一个多道程序操作系统<ul>
+<li>在<strong>内存中</strong>可以<strong>同时存在多个进程</strong></li>
+<li>在<strong>满足某些条件</strong>的情况下, 可以让<strong>执行流在这些进程之间切换</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="（一）上下文切换"><a href="#（一）上下文切换" class="headerlink" title="（一）上下文切换"></a>（一）上下文切换</h3><ol>
+<li>“上下文”的概念: 上下文的本质就是<strong>进程的状态</strong>. <ul>
+<li>现在需要考虑的是, 如何在多个用户进程之间进行上下文切换.</li>
+</ul>
+</li>
+<li><code>am-kernels</code>中准备了一个约30行的操作系统<code>yield-os</code>, 它创建了两个执行流, 在<strong>CTE</strong>的支撑下<strong>交替输出A和B</strong>. 你可以在<code>native</code>上运行<code>yield-os</code>来查看它的行为</li>
+</ol>
+<h4 id="1-基本原理"><a href="#1-基本原理" class="headerlink" title="1. 基本原理"></a>1. 基本原理</h4><ol>
+<li><strong>上下文切换的实现</strong>：<ul>
+<li>当进程 A 运行过程中触发系统调用时，通过自陷指令进入内核。</li>
+<li>在内核中，<code>__am_asm_trap()</code> 函数会将进程 A 的上下文结构保存到 A 的栈上。</li>
+<li>系统调用处理完毕后，<code>__am_asm_trap()</code> 会根据栈上保存的上下文结构恢复 A 的上下文。</li>
+</ul>
+</li>
+<li><strong>进程切换的巧妙方式</strong>：<ul>
+<li>如果在恢复 A 的上下文之前，将栈顶指针切换到另一个进程 B 的栈上。</li>
+<li>由于 B 的栈上存放了之前 B 保存的上下文结构，接下来的操作会根据这一结构恢复 B 的上下文。</li>
+<li>从 <code>__am_asm_trap()</code> 返回后，系统将开始运行进程 B。</li>
+</ul>
+</li>
+<li><strong>进程挂起和唤醒</strong>：<ul>
+<li>进程 A 并没有消失，而是被暂时挂起了。</li>
+<li>在被挂起之前，A 已经将上下文结构保存到自己的栈上。</li>
+<li>当某一时刻栈顶指针切换回 A 的栈上时，代码会根据栈上的上下文结构恢复 A 的上下文，A 将被唤醒并继续执行。</li>
+</ul>
+</li>
+<li><strong>总结</strong>：<ul>
+<li>上下文切换实际上就是不同进程之间的栈切换。</li>
+<li>通过切换栈顶指针，操作系统可以在多个进程之间切换执行，确保每个进程都能得到公平的执行机会。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-进程控制块"><a href="#2-进程控制块" class="headerlink" title="2. 进程控制块"></a>2. 进程控制块</h4><ul>
+<li>为了找到其他进程的上下文结构，我们需要使用一个**上下文指针（cp）**来记录上下文结构的位置。由于上下文结构保存在栈上，而栈空间受到函数调用形成的栈帧影响，每次保存的位置并不固定，因此需要 cp 指针来定位上下文结构。</li>
+<li>操作系统使用**进程控制块（PCB）**来管理进程相关的信息。PCB 包含了上下文指针（cp）和栈空间等信息。以下是 <code>yield-os</code> 中定义的 PCB 结构：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">  <span class="type">uint8_t</span> <span class="built_in">stack</span>[STACK_SIZE];</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    Context *cp;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125; PCB;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这个联合体将进程堆栈和上下文指针放在一起。每个进程分配了一个 32KB 的堆栈，足够使用且不会出现栈溢出。在进行上下文切换时，只需<strong>将 PCB 中的 cp 指针返回给 CTE</strong>的 <code>__am_irq_handle()</code> 函数，剩余部分的代码会根据上下文结构恢复上下文。</li>
+</ul>
+<h4 id="3-内核线程"><a href="#3-内核线程" class="headerlink" title="3. 内核线程"></a>3. 内核线程</h4><h5 id="a-创建内核线程上下文"><a href="#a-创建内核线程上下文" class="headerlink" title="a. 创建内核线程上下文"></a>a. 创建内核线程上下文</h5><ul>
+<li>对于刚刚加载完的进程, 我们要怎么切换到它来让它运行起来呢?<ul>
+<li><strong>在进程的栈上人工创建一个上下文结构</strong>, 使得将来切换的时候可以根据这个结构来正确地恢复上下文即可.</li>
+</ul>
+</li>
+<li><code>yield-os</code>提供了一个测试函数<code>f()</code>, 我们接下来的任务就是<strong>为它创建一个上下文, 然后切换到它来执行</strong>. 这样的执行流有一个专门的名称, 叫”<strong>内核线程</strong>“(kernel thread).</li>
+<li>创建内核线程的上下文是通过<strong>CTE</strong>提供的<code>kcontext()</code>函数 (在<code>abstract-machine/am/src/$ISA/nemu/cte.c</code>中定义)来实现的, 其中的”k”代表内核. kcontext()的原型是</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Context* <span class="title function_">kcontext</span><span class="params">(Area kstack, <span class="type">void</span> (*entry)(<span class="type">void</span> *), <span class="type">void</span> *arg)</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中<ul>
+<li>kstack是栈的范围</li>
+<li>entry是内核线程的入口</li>
+<li>arg则是内核线程的参数.</li>
+</ul>
+</li>
+<li>此外, kcontext()要求<strong>内核线程不能从entry返回, 否则其行为是未定义的</strong>. 你需要<strong>在kstack的底部创建一个以entry为入口的上下文结构(目前你可以先忽略arg参数), 然后返回这一结构的指针.</strong></li>
+</ul>
+<h5 id="b-线程-进程调度"><a href="#b-线程-进程调度" class="headerlink" title="b. 线程&#x2F;进程调度"></a>b. 线程&#x2F;进程调度</h5><ul>
+<li>上下文的创建和切换是由 CTE 负责的，而具体切换到哪个上下文则由操作系统决定，这项任务称为<strong>进程调度</strong>。进程调度由 <code>schedule()</code> 函数完成，它返回将要调度的进程上下文。</li>
+<li>为了实现多任务调度，需要记录当前正在运行的进程，这通过 <code>current</code> 指针实现，它指向当前运行进程的 PCB。在 <code>schedule()</code> 中，通过 <code>current</code> 指针决定接下来要调度的进程。</li>
+<li>在调度之前，需要将当前进程的上下文指针保存在 PCB 中：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// save the context pointer</span></span><br><span class="line">current-&gt;cp = prev;</span><br><span class="line"></span><br><span class="line"><span class="comment">// switch between pcb[0] and pcb[1]</span></span><br><span class="line">current = (current == &amp;pcb[<span class="number">0</span>] ? &amp;pcb[<span class="number">1</span>] : &amp;pcb[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// then return the new context</span></span><br><span class="line"><span class="keyword">return</span> current-&gt;cp;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>目前 <code>schedule()</code> 总是切换到另一个进程。所选进程的上下文通过 <code>kcontext()</code> 创建，在 <code>schedule()</code> 中决定切换到它，并在 CTE 的 <code>__am_asm_trap()</code> 中真正恢复这一上下文。</li>
+</ul>
+<h4 id="必做：实现上下文切换"><a href="#必做：实现上下文切换" class="headerlink" title="必做：实现上下文切换"></a>必做：实现上下文切换</h4><ul>
+<li>根据讲义的上述内容, 实现以下功能:<ul>
+<li>CTE的<code>kcontext()</code>函数</li>
+<li>修改CTE中_<code>_am_asm_trap()</code>的实现, 使得从<code>__am_irq_handle()</code>返回后, 先将栈顶指针切换到新进程的上下文结构, 然后才恢复上下文, 从而完成上下文切换的本质操作</li>
+</ul>
+</li>
+<li>正确实现后, 你将看到<code>yield-os</code>不断输出 <code>?</code> , 这是因为我们还没有为<code>kcontext()</code>实现参数功能, 不过这些输出的 <code>?</code> 至少说明了CTE目前可以正确地从<code>yield-os</code>的<code>main()</code>函数切换到其中一个内核线程.</li>
+</ul>
+<ol>
+<li>在kstack底部创建一个上下文结构(返回地址是entry)，然后返回这个上下文结构的指针</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Context *<span class="title function_">kcontext</span><span class="params">(Area kstack, <span class="type">void</span> (*entry)(<span class="type">void</span> *), <span class="type">void</span> *arg)</span> &#123;</span><br><span class="line">  <span class="comment">// return NULL;</span></span><br><span class="line">  Context *ctx = (Context *)(kstack.end - <span class="keyword">sizeof</span>(Context));</span><br><span class="line">  ctx-&gt;mepc = (<span class="type">uintptr_t</span>)entry;</span><br><span class="line">  <span class="keyword">return</span> ctx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改CTE中<code>__am_asm_trap()</code></li>
+</ol>
+<ul>
+<li>从<code>__am_irq_handle()</code>返回后, 先将栈顶指针切换到新进程的上下文结构, 然后才恢复上下文</li>
+<li><code>abstract-machine/am/src/riscv/nemu/trap.S</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">.align 3</span><br><span class="line">.globl __am_asm_trap</span><br><span class="line">__am_asm_trap:</span><br><span class="line">  addi sp, sp, -CONTEXT_SIZE</span><br><span class="line"></span><br><span class="line">  MAP(REGS, PUSH)</span><br><span class="line"></span><br><span class="line">  csrr t0, mcause</span><br><span class="line">  csrr t1, mstatus</span><br><span class="line">  csrr t2, mepc</span><br><span class="line"></span><br><span class="line">  STORE t0, OFFSET_CAUSE(sp)</span><br><span class="line">  STORE t1, OFFSET_STATUS(sp)</span><br><span class="line">  STORE t2, OFFSET_EPC(sp)</span><br><span class="line"></span><br><span class="line">  # set mstatus.MPRV to pass difftest</span><br><span class="line">  li a0, (1 &lt;&lt; 17)</span><br><span class="line">  or t1, t1, a0</span><br><span class="line">  csrw mstatus, t1</span><br><span class="line"></span><br><span class="line">  mv a0, sp</span><br><span class="line">  jal __am_irq_handle</span><br><span class="line"></span><br><span class="line">  # 切换到新进程的上下文结构</span><br><span class="line">  mv sp, a0</span><br><span class="line"></span><br><span class="line">  LOAD t1, OFFSET_STATUS(sp)</span><br><span class="line">  LOAD t2, OFFSET_EPC(sp)</span><br><span class="line">  csrw mstatus, t1</span><br><span class="line">  csrw mepc, t2</span><br><span class="line"></span><br><span class="line">  MAP(REGS, POP)</span><br><span class="line"></span><br><span class="line">  addi sp, sp, CONTEXT_SIZE</span><br><span class="line">  mret</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在<code>/ics2024/am-kernels/kernels/yield-os</code>目录下<code>make run ARCH=riscv32-nemu</code></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Welcome to riscv32-NEMU!</span><br><span class="line">For help, type &quot;help&quot;</span><br><span class="line">[src/monitor/monitor.c:36 welcome] Exercise: Please remove me in the source code and compile NEMU again.</span><br><span class="line">??????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????[src/cpu/cpu-exec.c:147 statistic] host time spent = 10,105,245 us</span><br><span class="line">[src/cpu/cpu-exec.c:148 statistic] total guest instructions = 105,536,449</span><br><span class="line">[src/cpu/cpu-exec.c:149 statistic] simulation frequency = 10,443,729 inst/s</span><br><span class="line">make: *** [/home/xiaoyao/ics2024/abstract-machine/scripts/platform/nemu.mk:32: run] 中断</span><br></pre></td></tr></table></figure>
+<ul>
+<li>成功！</li>
+</ul>
+<hr>
+<h5 id="c-内核线程的参数"><a href="#c-内核线程的参数" class="headerlink" title="c. 内核线程的参数"></a>c. 内核线程的参数</h5><ul>
+<li>为了让<code>yield-os</code>的内核线程可以正确输出字符, 我们需要通过 <code>kcontext()</code> 给 <code>f()</code> <strong>传参</strong>. </li>
+<li>只需要让<code>kcontext()</code>按照<strong>调用约定</strong>将 <code>arg</code> 放置在<strong>正确的位置</strong>, 将来f()执行的时候就可以获取正确的参数了.</li>
+</ul>
+<h4 id="必做：实现上下文切换-2"><a href="#必做：实现上下文切换-2" class="headerlink" title="必做：实现上下文切换(2)"></a>必做：实现上下文切换(2)</h4><ul>
+<li>根据讲义的上述内容, 修改CTE的<code>kcontext()</code>函数, 使其<strong>支持参数arg的传递</strong>.</li>
+<li>因为<code>f()</code>中每次输出完信息都会调用<code>yield()</code>, 因此只要我们正确实现内核线程的参数传递, 就可以观察到yield-os在两个内核线程之间来回切换的现象.</li>
+</ul>
+<ol>
+<li>RISC-V调用约定:<ul>
+<li>函数参数传递<ul>
+<li>前 8 个函数参数通过寄存器 a0 到 a7 传递。</li>
+<li>如果参数超过 8 个，多余的参数通过栈传递。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">x0 (zero): 常数 0</span><br><span class="line">x1 (ra): 返回地址</span><br><span class="line">x2 (sp): 栈指针</span><br><span class="line">x3 (gp): 全局指针</span><br><span class="line">x4 (tp): 线程指针</span><br><span class="line">x5-x7 (t0-t2): 临时寄存器</span><br><span class="line">x8 (s0/fp): 保存寄存器/帧指针</span><br><span class="line">x9 (s1): 保存寄存器</span><br><span class="line">x10-x11 (a0-a1): 函数返回值/函数参数</span><br><span class="line">x12-x17 (a2-a7): 函数参数</span><br><span class="line">x18-x27 (s2-s11): 保存寄存器</span><br><span class="line">x28-x31 (t3-t6): 临时寄存器</span><br></pre></td></tr></table></figure>
+<ul>
+<li>根据调用约定，把arg放到<strong>a0寄存器</strong></li>
+</ul>
+<ol start="2">
+<li>在CTE的<code>kcontext()</code>函数添加</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctx-&gt;gpr[<span class="number">10</span>] = (<span class="type">uintptr_t</span>)arg;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>成功！</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Welcome to riscv32-NEMU!</span><br><span class="line">For help, type &quot;help&quot;</span><br><span class="line">[src/monitor/monitor.c:36 welcome] Exercise: Please remove me in the source code and compile NEMU again.</span><br><span class="line">ABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABA[src/cpu/cpu-exec.c:147 statistic] host time spent = 4,025,540 us</span><br><span class="line">[src/cpu/cpu-exec.c:148 statistic] total guest instructions = 42,032,479</span><br><span class="line">[src/cpu/cpu-exec.c:149 statistic] simulation frequency = 10,441,451 inst/s</span><br><span class="line">make[1]: 离开目录“/home/xiaoyao/ics2024/nemu”</span><br></pre></td></tr></table></figure>
+
+<h3 id="（二）OS中的上下文切换"><a href="#（二）OS中的上下文切换" class="headerlink" title="（二）OS中的上下文切换"></a>（二）OS中的上下文切换</h3><h4 id="Nanos-lite"><a href="#Nanos-lite" class="headerlink" title="Nanos-lite"></a>Nanos-lite</h4><ul>
+<li>Nanos-lite<strong>上下文切换需要用到的函数和数据结构</strong>和yield-os非常类似, 只不过由于Nanos-lite的代码规模更大, 它们分散在不同的文件中, 你需要<strong>RTFSC</strong>找到它们. 此外, Nanos-lite的框架代码已经定义了PCB结构体, 其中还包含其他目前暂不使用的成员, 我们会在将来介绍它们.</li>
+</ul>
+<h4 id="必做：在Nanos-lite中实现上下文切换"><a href="#必做：在Nanos-lite中实现上下文切换" class="headerlink" title="必做：在Nanos-lite中实现上下文切换"></a>必做：在Nanos-lite中实现上下文切换</h4><ul>
+<li>实现以下功能:<ul>
+<li>Nanos-lite的<code>context_kload()</code>函数(框架代码<em>未给出该函数的原型</em>), 它进一步封装了创建内核上下文的过程: <strong>调用kcontext()来创建上下文, 并把返回的指针记录到PCB的cp中</strong></li>
+<li>Nanos-lite的<code>schedule()</code>函数</li>
+<li>在Nanos-lite<strong>收到EVENT_YIELD事件后, 调用schedule()并返回新的上下文</strong></li>
+</ul>
+</li>
+<li>Nanos-lite提供了一个<code>测试函数 hello_fun()</code>(在<code>nanos-lite/src/proc.c</code>中定义), 你需要在<code>init_proc()</code>中<strong>创建两个以hello_fun为入口的上下文</strong>:</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">init_proc</span><span class="params">()</span> &#123;</span><br><span class="line">  context_kload(&amp;pcb[<span class="number">0</span>], hello_fun, ???);</span><br><span class="line">  context_kload(&amp;pcb[<span class="number">1</span>], hello_fun, ???);</span><br><span class="line">  switch_boot_pcb();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中调用<code>switch_boot_pcb()</code>是为了初始化current指针. 你可以自行约定用何种类型来解析参数arg(整数, 字符, 字符串, 指针等皆可), 然后修改hello_fun()中的输出代码, 来按照你约定的方式解析arg. 如果你的实现正确, 你将会看到hello_fun()会轮流输出不同参数的信息.</li>
+</ul>
+<ol>
+<li><code>/ics2024/nanos-lite/src/proc.c</code>中实现 <strong>context_kload()</strong> 函数</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现 context_kload() 函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">context_kload</span><span class="params">(PCB *pcb, <span class="type">void</span> (*entry)(<span class="type">void</span> *), <span class="type">void</span> *arg)</span> &#123;</span><br><span class="line">  Area kstack = (Area)&#123;.start = pcb-&gt;<span class="built_in">stack</span>, .end = pcb-&gt;<span class="built_in">stack</span> + <span class="keyword">sizeof</span>(pcb-&gt;<span class="built_in">stack</span>)&#125;;</span><br><span class="line">  pcb-&gt;cp = kcontext(kstack, entry, arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>实现**schedule()**函数</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Context* <span class="title function_">schedule</span><span class="params">(Context *prev)</span> &#123;</span><br><span class="line">  <span class="comment">// return NULL;</span></span><br><span class="line">  current-&gt;cp = prev;</span><br><span class="line">  current = (current == &amp;pcb[<span class="number">0</span>] ? &amp;pcb[<span class="number">1</span>] : &amp;pcb[<span class="number">0</span>]);</span><br><span class="line">  <span class="keyword">return</span> current-&gt;cp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在<code>init_proc()</code>中创建两个<strong>以hello_fun为入口的上下文</strong>:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">init_proc</span><span class="params">()</span> &#123;</span><br><span class="line">  switch_boot_pcb();</span><br><span class="line"></span><br><span class="line">  Log(<span class="string">&quot;Initializing processes...&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// load program here</span></span><br><span class="line">  <span class="comment">// naive_uload(NULL, NULL);</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//创建两个以hello_fun为入口的上下文:</span></span><br><span class="line">  context_kload(&amp;pcb[<span class="number">0</span>], hello_fun, <span class="string">&quot; QAQ &quot;</span>);</span><br><span class="line">  context_kload(&amp;pcb[<span class="number">1</span>], hello_fun, <span class="string">&quot; TWT &quot;</span>);</span><br><span class="line">  switch_boot_pcb();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>在Nanos-lite<strong>收到EVENT_YIELD事件后, 调用schedule()并返回新的上下文</strong></li>
+</ol>
+<ul>
+<li><p>报错<code>system panic: Unhandled event ID = 4</code></p>
+</li>
+<li><p>去把pa3做完了，继续看一下</p>
+</li>
+<li><p>后面准备不做了</p>
+</li>
+</ul>
+
+</article>
+    
+    <div class="trm-reward">
+        
+            <span class="trm-reward-btn trm-glow" onclick='var qr = document.getElementById("qr"); qr.style.display = (qr.style.display === "none") ? "block" : "none";'>
+                <i class="iconfont fas fa-hand-holding-usd"></i>
+            </span>
+        
+        <p class="trm-reward-comment">If you like my blog, you can approve me by scanning the QR code below.</p>
+        <div id="qr" style="display:none;">
+            
+                <div style="display:inline-block">
+                    <a rel="noopener noreferrer" href='/assets/reward.jpg' target='_blank' >
+                       <img src="/assets/reward.jpg" alt="微信" loading="lazy">
+                    </a>
+                    <p>微信</p>
+                </div>
+            
+        </div>
+    </div>
+
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/25/PA3%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C/">
+                    计算机系统基础实验
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/25/PA3%E5%AE%9E%E9%AA%8C%E8%AE%B0%E5%BD%95/" class="trm-anima-link">
+                    PA3实验记录
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/25</li>
+                <li>22:46</li>
+                
+                    <li>23.9k</li>
+                
+                
+                    <li>98</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">
+                    互联网计算
+                </a>
+            </div>
+            <h5>
+                <a href="/2025/02/24/%E4%B9%9D.%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E5%92%8CVLAN/" class="trm-anima-link">
+                    九、局域网交换和VLAN
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>25/02/24</li>
+                <li>17:41</li>
+                
+                    <li>588</li>
+                
+                
+                    <li>2</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+    
+        <div class="trm-footer-item">
+            你走过的弯路，都是通向正轨的必经之路。
+        </div>
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="PA4 - 虚实交错的魔法: 分时多任务"><a rel="nofollow" class="trm-toc-link" href="#PA4-虚实交错的魔法-分时多任务"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">PA4 - 虚实交错的魔法: 分时多任务</span></a></li><li class="trm-toc-item trm-toc-level-1" title="PA4.1"><a rel="nofollow" class="trm-toc-link" href="#PA4-1"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">PA4.1</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="一、多道程序"><a rel="nofollow" class="trm-toc-link" href="#一、多道程序"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">一、多道程序</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="（一）上下文切换"><a rel="nofollow" class="trm-toc-link" href="#（一）上下文切换"><span class="trm-toc-number">2.1.1.</span> <span class="trm-toc-text">（一）上下文切换</span></a></li><li class="trm-toc-item trm-toc-level-3" title="（二）OS中的上下文切换"><a rel="nofollow" class="trm-toc-link" href="#（二）OS中的上下文切换"><span class="trm-toc-number">2.1.2.</span> <span class="trm-toc-text">（二）OS中的上下文切换</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.2.4"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>
